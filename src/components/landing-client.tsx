@@ -5,7 +5,25 @@ import Link from "next/link"
 import { motion } from "framer-motion"
 import { AnimateSection, AnimateStagger, AnimateItem } from "@/components/animate-section"
 
-export function LandingClient() {
+interface LandingClientProps {
+  session: {
+    user?: {
+      role?: string
+    }
+  } | null
+}
+
+export function LandingClient({ session }: LandingClientProps) {
+  const getDashboardHref = () => {
+    if (!session?.user?.role) return "/login"
+    const role = session.user.role
+    if (role === "ADMIN") return "/admin"
+    if (role === "SEKRETARIS") return "/sekretaris"
+    if (role === "KETUA") return "/ketua"
+    if (role === "SELLER") return "/seller"
+    return "/catalog"
+  }
+
   return (
     <>
       <motion.header
@@ -24,9 +42,15 @@ export function LandingClient() {
           <Link className="text-on-surface-variant hover:text-primary transition-colors text-body-md" href="#location">Contact</Link>
         </nav>
         <div className="flex items-center gap-md">
-          <Link href="/login" className="flex items-center gap-2 px-4 py-2 bg-primary text-on-primary rounded-full hover:opacity-90 transition-all text-label-md">
-            <span>Login</span>
-          </Link>
+          {session?.user ? (
+            <Link href={getDashboardHref()} className="flex items-center gap-2 px-4 py-2 bg-primary text-on-primary rounded-full hover:opacity-90 transition-all text-label-md">
+              <span>Dashboard</span>
+            </Link>
+          ) : (
+            <Link href="/login" className="flex items-center gap-2 px-4 py-2 bg-primary text-on-primary rounded-full hover:opacity-90 transition-all text-label-md">
+              <span>Login</span>
+            </Link>
+          )}
         </div>
       </motion.header>
 

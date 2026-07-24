@@ -1,7 +1,7 @@
 # Graph Report - m2a-co-biz  (2026-07-24)
 
 ## Corpus Check
-- 60 files · ~475,468 words
+- 61 files · ~475,703 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
@@ -10,7 +10,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `18dc2382`
+- Built from commit: `797f4924`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 

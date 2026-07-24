@@ -2,6 +2,7 @@ import { Search, SlidersHorizontal, ArrowUpDown, Heart, ChevronLeft, ChevronRigh
 import Link from "next/link"
 import { prisma } from "@/lib/db"
 import { formatRupiah } from "@/lib/utils"
+import { auth } from "@/lib/auth"
 
 const FALLBACK_CATEGORIES = [
   "All Categories", "Food & Beverages", "Handicraft", "Professional Services", "Apparel",
@@ -47,6 +48,18 @@ async function CatalogPage({
 
   const totalPages = Math.max(1, Math.ceil(total / ITEMS_PER_PAGE))
 
+  const session = await auth()
+
+  const getDashboardHref = () => {
+    if (!session?.user?.role) return "/login"
+    const role = session.user.role
+    if (role === "ADMIN") return "/admin"
+    if (role === "SEKRETARIS") return "/sekretaris"
+    if (role === "KETUA") return "/ketua"
+    if (role === "SELLER") return "/seller"
+    return "/catalog"
+  }
+
   return (
     <>
       <header className="fixed top-0 w-full z-50 flex justify-between items-center px-lg h-16 bg-surface shadow-sm">
@@ -64,12 +77,21 @@ async function CatalogPage({
           </form>
         </div>
         <div className="flex items-center gap-md">
-          <Link
-            href="/login"
-            className="flex items-center gap-2 px-4 py-2 bg-primary text-on-primary rounded-full hover:opacity-90 transition-all text-label-md"
-          >
-            Login
-          </Link>
+          {session?.user ? (
+            <Link
+              href={getDashboardHref()}
+              className="flex items-center gap-2 px-4 py-2 bg-primary text-on-primary rounded-full hover:opacity-90 transition-all text-label-md"
+            >
+              Dashboard
+            </Link>
+          ) : (
+            <Link
+              href="/login"
+              className="flex items-center gap-2 px-4 py-2 bg-primary text-on-primary rounded-full hover:opacity-90 transition-all text-label-md"
+            >
+              Login
+            </Link>
+          )}
         </div>
       </header>
 
@@ -132,8 +154,9 @@ async function CatalogPage({
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-gutter">
             {products.map((product) => (
-              <div
+              <Link
                 key={product.id}
+                href={`/catalog/${product.id}`}
                 className="group bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 flex flex-col"
               >
                 <div className="relative h-48 overflow-hidden bg-surface-container-high flex items-center justify-center">
@@ -162,13 +185,13 @@ async function CatalogPage({
                     </p>
                     <div className="flex items-center justify-between">
                       <span className="text-headline-lg text-primary">{formatRupiah(product.priceRupiah)}</span>
-                      <button className="bg-primary-container text-on-primary-container px-md py-2 rounded-lg text-label-md hover:opacity-90 transition-opacity">
+                      <span className="bg-primary-container text-on-primary-container px-md py-2 rounded-lg text-label-md hover:opacity-90 transition-opacity">
                         View Details
-                      </button>
+                      </span>
                     </div>
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         )}

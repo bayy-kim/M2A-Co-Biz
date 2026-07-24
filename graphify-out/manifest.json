@@ -60,9 +60,9 @@
     "semantic_hash": "4fd2ef07bac610538e224bc8d70426a4"
   },
   "src/app/catalog/page.tsx": {
-    "mtime": 1784877942.2633903,
-    "ast_hash": "ac315f04907767092fca7677f74a1619",
-    "semantic_hash": "ac315f04907767092fca7677f74a1619"
+    "mtime": 1784887793.9130993,
+    "ast_hash": "5eecabca04e0634333881afee61fc81a",
+    "semantic_hash": ""
   },
   "src/app/checkout/actions.ts": {
     "mtime": 1784884495.8453302,
@@ -95,9 +95,9 @@
     "semantic_hash": ""
   },
   "src/app/page.tsx": {
-    "mtime": 1784879437.08121,
-    "ast_hash": "271e7a47644d2bcc08b5246411557799",
-    "semantic_hash": "271e7a47644d2bcc08b5246411557799"
+    "mtime": 1784887774.374696,
+    "ast_hash": "16ec0f182e40f02eb6fec3dd00be0041",
+    "semantic_hash": ""
   },
   "src/app/register/actions.ts": {
     "mtime": 1784877806.2675352,
@@ -105,9 +105,9 @@
     "semantic_hash": "1ba92bac6cee0738474023eb08194913"
   },
   "src/app/register/page.tsx": {
-    "mtime": 1784877826.4523666,
-    "ast_hash": "79130a0a0d19943b442f7c836c9b2cee",
-    "semantic_hash": "79130a0a0d19943b442f7c836c9b2cee"
+    "mtime": 1784887749.243373,
+    "ast_hash": "422c05c91aa7b38b608bfda94ce6e89c",
+    "semantic_hash": ""
   },
   "src/app/sekretaris/actions.ts": {
     "mtime": 1784884527.3023076,
@@ -155,9 +155,9 @@
     "semantic_hash": "83222be7e90e924d72180a828350364b"
   },
   "src/components/landing-client.tsx": {
-    "mtime": 1784879433.952134,
-    "ast_hash": "e05b8a72ca8c705191ad6427d8a1c18a",
-    "semantic_hash": "e05b8a72ca8c705191ad6427d8a1c18a"
+    "mtime": 1784887785.7584767,
+    "ast_hash": "6ba1f0e626cde5b3cd657c07a32c505c",
+    "semantic_hash": ""
   },
   "src/components/line-chart.tsx": {
     "mtime": 1784879251.7301443,
@@ -220,9 +220,9 @@
     "semantic_hash": "ee17fd1c97c735e9f3564e3f5251f125"
   },
   "vercel.json": {
-    "mtime": 1784882187.673774,
-    "ast_hash": "f59351d5cf78c5a7013e25882e4a69b1",
-    "semantic_hash": "f59351d5cf78c5a7013e25882e4a69b1"
+    "mtime": 1784887756.7280416,
+    "ast_hash": "79a2d883d3e2e30cd690adf93164b3f3",
+    "semantic_hash": ""
   },
   "AGENTS.md": {
     "mtime": 1784879014.1177592,
