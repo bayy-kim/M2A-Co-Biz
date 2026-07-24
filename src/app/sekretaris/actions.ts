@@ -30,6 +30,7 @@ export async function setCommissionRule(prevState: CommissionState, formData: Fo
 
   await prisma.commissionRule.create({
     data: {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       scope: result.data.scope as any,
       refId: result.data.refId || null,
       percent: result.data.percent,

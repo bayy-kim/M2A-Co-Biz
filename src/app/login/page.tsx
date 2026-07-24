@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useRef, useActionState, type KeyboardEvent } from "react"
+import { useState, useRef, type KeyboardEvent, FormEvent } from "react"
 import { Lock, Mail, Key, ArrowRight, ArrowLeft, ShieldCheck, Verified, HelpCircle, FileText, Loader2 } from "lucide-react"
 import Link from "next/link"
 import { signIn } from "next-auth/react"
@@ -9,11 +9,11 @@ import { useRouter } from "next/navigation"
 export default function LoginPage() {
   const router = useRouter()
   const [step, setStep] = useState(1)
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
   const [code, setCode] = useState(["", "", "", "", "", ""])
   const [error, setError] = useState("")
   const [pending, setPending] = useState(false)
-  const emailRef = useRef<HTMLInputElement>(null)
-  const passwordRef = useRef<HTMLInputElement>(null)
   const inputRefs = useRef<(HTMLInputElement | null)[]>([])
 
   const handleCodeChange = (index: number, value: string) => {
@@ -28,21 +28,65 @@ export default function LoginPage() {
     if (e.key === "Backspace" && !code[index] && index > 0) inputRefs.current[index - 1]?.focus()
   }
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleLogin = async (e: FormEvent) => {
     e.preventDefault()
     setError("")
     setPending(true)
 
     const result = await signIn("credentials", {
-      email: emailRef.current?.value,
-      password: passwordRef.current?.value,
+      email,
+      password,
       redirect: false,
     })
 
     setPending(false)
 
     if (result?.error) {
-      setError("Invalid email or password")
+      const res = await fetch("/api/auth/can-totp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      })
+      const data = await res.json()
+      if (data.totp) {
+        setStep(2)
+      } else {
+        setError("Invalid email or password")
+      }
+      return
+    }
+
+    if (result?.ok) {
+      router.push("/")
+      router.refresh()
+    }
+  }
+
+  const handleTotpSubmit = async (e: FormEvent) => {
+    e.preventDefault()
+    setError("")
+    setPending(true)
+
+    const totp = code.join("")
+    if (totp.length !== 6) {
+      setError("Please enter the complete 6-digit code")
+      setPending(false)
+      return
+    }
+
+    const result = await signIn("credentials", {
+      email,
+      password,
+      totp,
+      redirect: false,
+    })
+
+    setPending(false)
+
+    if (result?.error) {
+      setError("Invalid verification code. Please try again.")
+      setCode(["", "", "", "", "", ""])
+      inputRefs.current[0]?.focus()
       return
     }
 
@@ -80,7 +124,15 @@ export default function LoginPage() {
                   <label className="text-label-md text-on-surface-variant px-1" htmlFor="email">Email Address</label>
                   <div className="relative group">
                     <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-outline group-focus-within:text-primary transition-colors" />
-                    <input ref={emailRef} className="w-full pl-10 pr-4 py-3 rounded-lg border border-outline-variant bg-surface-bright focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-body-md" id="email" placeholder="name@business.com" required type="email" />
+                    <input
+                      className="w-full pl-10 pr-4 py-3 rounded-lg border border-outline-variant bg-surface-bright focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-body-md"
+                      id="email"
+                      placeholder="name@business.com"
+                      required
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                    />
                   </div>
                 </div>
                 <div className="space-y-xs">
@@ -90,7 +142,15 @@ export default function LoginPage() {
                   </div>
                   <div className="relative group">
                     <Key className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-outline group-focus-within:text-primary transition-colors" />
-                    <input ref={passwordRef} className="w-full pl-10 pr-4 py-3 rounded-lg border border-outline-variant bg-surface-bright focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-body-md" id="password" placeholder="••••••••" required type="password" />
+                    <input
+                      className="w-full pl-10 pr-4 py-3 rounded-lg border border-outline-variant bg-surface-bright focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-body-md"
+                      id="password"
+                      placeholder="••••••••"
+                      required
+                      type="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
                   </div>
                 </div>
                 <button className="w-full py-3.5 bg-primary-container text-on-primary-container rounded-lg text-headline-md shadow-md hover:shadow-lg active:scale-[0.98] transition-all flex items-center justify-center gap-sm disabled:opacity-50" disabled={pending} type="submit">
@@ -111,7 +171,10 @@ export default function LoginPage() {
                 <h2 className="text-headline-md text-on-surface">Staff Verification</h2>
               </div>
               <p className="text-body-md text-on-surface-variant mb-xl">A security code has been sent to your registered device. Please enter the 6-digit code below to verify your identity.</p>
-              <form className="space-y-xl">
+              {error && (
+                <div className="mb-lg p-md bg-error-container text-on-error-container rounded-lg text-label-sm">{error}</div>
+              )}
+              <form className="space-y-xl" onSubmit={handleTotpSubmit}>
                 <div className="flex justify-between gap-sm">
                   {code.map((digit, i) => (
                     <input
@@ -126,9 +189,10 @@ export default function LoginPage() {
                   ))}
                 </div>
                 <div className="flex flex-col gap-md">
-                  <button className="w-full py-3.5 bg-accent-gold text-on-primary-fixed text-headline-md rounded-lg shadow-md hover:shadow-lg active:scale-[0.98] transition-all flex items-center justify-center gap-sm">
-                    Verify & Enter
-                    <Verified className="w-5 h-5" />
+                  <button className="w-full py-3.5 bg-accent-gold text-on-primary-fixed text-headline-md rounded-lg shadow-md hover:shadow-lg active:scale-[0.98] transition-all flex items-center justify-center gap-sm disabled:opacity-50" disabled={pending} type="submit">
+                    {pending ? <Loader2 className="w-5 h-5 animate-spin" /> : null}
+                    {pending ? "Verifying..." : "Verify & Enter"}
+                    {!pending && <Verified className="w-5 h-5" />}
                   </button>
                   <button className="text-label-md text-on-surface-variant hover:text-primary py-2 transition-colors" type="button">
                     Didn&apos;t receive a code? <span className="font-bold">Resend</span>

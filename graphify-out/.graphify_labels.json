@@ -26,5 +26,9 @@
   "24": "postcss.config.mjs",
   "25": "login/page.tsx",
   "26": "revenue-chart.tsx",
-  "27": "{ GET, POST }"
+  "27": "{ GET, POST }",
+  "28": "DESIGN.md — M2A Co-Biz",
+  "29": "scripts",
+  "30": "seed.ts",
+  "31": "vitest.config.ts"
 }

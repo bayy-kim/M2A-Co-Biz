@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server"
-import type { NextRequest } from "next/server"
 import { auth } from "@/lib/auth"
 
 const roleRoutes: Record<string, string[]> = {
@@ -11,6 +10,7 @@ const roleRoutes: Record<string, string[]> = {
   "/register": [],
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default auth((req: any) => {
   const { pathname } = req.nextUrl
   const session = req.auth
@@ -20,7 +20,7 @@ export default auth((req: any) => {
   )
 
   if (matchedRoute) {
-    const [_, allowedRoles] = matchedRoute
+    const allowedRoles = matchedRoute[1]
 
     if (allowedRoles.length > 0) {
       if (!session?.user) {
