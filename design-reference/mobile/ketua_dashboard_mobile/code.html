@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>M2A Co-Biz Ketua Dashboard</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols for Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary": "#ffffff",
+                        "on-surface-variant": "#3f4948",
+                        "tertiary-fixed-dim": "#ffb693",
+                        "secondary-fixed-dim": "#b5c8e2",
+                        "surface-variant": "#e1e3e2",
+                        "on-secondary-container": "#53667d",
+                        "primary": "#004343",
+                        "surface-dim": "#d8dada",
+                        "on-primary-fixed-variant": "#004f50",
+                        "on-background": "#191c1c",
+                        "surface-bright": "#f8faf9",
+                        "primary-container": "#0f5c5c",
+                        "inverse-on-surface": "#eff1f0",
+                        "inverse-surface": "#2e3131",
+                        "on-tertiary-fixed": "#351000",
+                        "surface-container-low": "#f2f4f3",
+                        "error": "#ba1a1a",
+                        "secondary-container": "#d0e4ff",
+                        "error-container": "#ffdad6",
+                        "danger": "#EF4444",
+                        "secondary-fixed": "#d0e4ff",
+                        "success": "#22C55E",
+                        "inverse-primary": "#90d2d1",
+                        "primary-fixed": "#aceeee",
+                        "surface-container-high": "#e6e9e8",
+                        "secondary": "#4d6076",
+                        "surface-tint": "#216868",
+                        "accent-gold": "#D9A441",
+                        "on-error": "#ffffff",
+                        "on-primary-container": "#90d2d1",
+                        "on-secondary-fixed-variant": "#35485e",
+                        "on-tertiary-fixed-variant": "#6c391f",
+                        "background-neutral": "#F7F7F5",
+                        "tertiary-container": "#7a452a",
+                        "on-surface": "#191c1c",
+                        "on-primary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "primary-fixed-dim": "#90d2d1",
+                        "on-secondary": "#ffffff",
+                        "surface-container-highest": "#e1e3e2",
+                        "on-secondary-fixed": "#071d30",
+                        "tertiary": "#5e2f16",
+                        "on-tertiary-container": "#ffb693",
+                        "tertiary-fixed": "#ffdbcc",
+                        "outline": "#6f7978",
+                        "surface-container": "#eceeed",
+                        "background": "#f8faf9",
+                        "outline-variant": "#bfc8c8",
+                        "on-primary-fixed": "#002020",
+                        "surface-container-lowest": "#ffffff",
+                        "surface": "#f8faf9",
+                        "warning": "#F59E0B"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xs": "4px",
+                        "sm": "8px",
+                        "md": "12px",
+                        "margin": "24px",
+                        "xxl": "32px",
+                        "xl": "24px",
+                        "gutter": "16px",
+                        "lg": "16px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "display-md": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "body-lg": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                        "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "display-md": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "display-lg": ["40px", {"lineHeight": "48px", "fontWeight": "700"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #f8faf9;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .bento-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface">
+<!-- Top Navigation Bar -->
+<header class="bg-surface docked full-width top-0 sticky z-50 shadow-sm flex justify-between items-center w-full px-margin h-16">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary-container">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a middle-aged male community leader with a warm, confident expression. He is wearing a professional deep teal business shirt. The background is a clean, modern office with soft natural light and minimal decor, adhering to a professional and trustworthy corporate aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDS3ifrCiDl7NK3JcTsH6hVT82AFbckwV-IGWHOYUYtqAm5ZOLR7HsaXErmOl64JUYMe2YKR4eAd9tKL39_UzqQyVT6YCPNPXDRRLowFyBm0JE4tqe7hKa9AsPAV7U4gUY4vTzt4SEgzfENkRilTW9AtCeEOtfqUH1_BmgguLi7FQNg3_-x_IPtf2rcriBaRPw-snycgfj1ZE_PyO5mM4bqw-3FyLSU5XRKWSLjihs4WenRAZsvue9kkO8A47hZ4Unnqjq49LeY_cnb"/>
+</div>
+<div class="flex flex-col">
+<span class="text-primary font-bold font-headline-md text-[18px]">M2A Co-Biz</span>
+<span class="text-on-surface-variant font-label-sm text-[10px] uppercase tracking-wider">Ketua Dashboard</span>
+</div>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-high transition-colors active:scale-95 duration-150">
+<span class="material-symbols-outlined text-primary">notifications</span>
+</button>
+</header>
+<main class="px-margin pt-6 pb-32 space-y-8">
+<!-- Welcome Section -->
+<section class="space-y-1">
+<h1 class="font-headline-lg text-primary text-headline-lg">Halo, Pak Ketua!</h1>
+<p class="text-on-surface-variant font-body-md">Berikut ringkasan performa koperasi hari ini.</p>
+</section>
+<!-- Overview Cards - Stacked Layout -->
+<section class="bento-grid">
+<!-- Total Sales Card -->
+<div class="glass-card rounded-xl p-xl shadow-sm border-l-4 border-primary overflow-hidden relative group transition-all duration-300">
+<div class="flex justify-between items-start">
+<div class="space-y-1">
+<span class="text-on-surface-variant font-label-md">Total Sales</span>
+<h3 class="text-display-md text-primary font-display-md">Rp 45.2M</h3>
+</div>
+<div class="p-sm bg-primary-container/10 rounded-lg">
+<span class="material-symbols-outlined text-primary-container">payments</span>
+</div>
+</div>
+<div class="mt-4 flex items-center gap-2">
+<span class="text-success font-label-sm flex items-center">
+<span class="material-symbols-outlined text-[16px] mr-1">trending_up</span> +12.4%
+                    </span>
+<span class="text-on-surface-variant/60 font-label-sm">since last month</span>
+</div>
+<!-- Subtle Decorative Background -->
+<div class="absolute -right-4 -bottom-4 opacity-5 group-hover:scale-110 transition-transform duration-500">
+<span class="material-symbols-outlined text-[100px]">finance</span>
+</div>
+</div>
+<!-- Active Sellers Card -->
+<div class="glass-card rounded-xl p-xl shadow-sm border-l-4 border-accent-gold overflow-hidden relative group transition-all duration-300">
+<div class="flex justify-between items-start">
+<div class="space-y-1">
+<span class="text-on-surface-variant font-label-md">Active Sellers</span>
+<h3 class="text-display-md text-primary font-display-md">1,284</h3>
+</div>
+<div class="p-sm bg-accent-gold/10 rounded-lg">
+<span class="material-symbols-outlined text-accent-gold" style="font-variation-settings: 'FILL' 1;">storefront</span>
+</div>
+</div>
+<div class="mt-4 flex items-center gap-2">
+<span class="text-success font-label-sm flex items-center">
+<span class="material-symbols-outlined text-[16px] mr-1">person_add</span> +48 new
+                    </span>
+<span class="text-on-surface-variant/60 font-label-sm">this week</span>
+</div>
+<div class="absolute -right-4 -bottom-4 opacity-5 group-hover:scale-110 transition-transform duration-500">
+<span class="material-symbols-outlined text-[100px]">groups</span>
+</div>
+</div>
+<!-- Pending Approvals Card -->
+<div class="glass-card rounded-xl p-xl shadow-sm border-l-4 border-secondary overflow-hidden relative group transition-all duration-300">
+<div class="flex justify-between items-start">
+<div class="space-y-1">
+<span class="text-on-surface-variant font-label-md">Approvals</span>
+<h3 class="text-display-md text-primary font-display-md">24</h3>
+</div>
+<div class="p-sm bg-secondary-container/30 rounded-lg">
+<span class="material-symbols-outlined text-secondary">verified_user</span>
+</div>
+</div>
+<div class="mt-4">
+<button class="w-full py-2 bg-primary text-white rounded-lg font-label-md active:scale-95 transition-all shadow-md shadow-primary/20">Review Requests</button>
+</div>
+</div>
+</section>
+<!-- Growth Metrics Chart - Full Width -->
+<section class="space-y-md">
+<div class="flex justify-between items-end px-1">
+<h2 class="font-headline-md text-primary">Growth Metrics</h2>
+<div class="flex gap-2">
+<span class="text-label-sm text-on-surface-variant font-medium">Daily</span>
+<span class="text-label-sm text-primary font-bold border-b-2 border-primary">Weekly</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-xl p-gutter shadow-sm border border-outline-variant/30 h-64 relative overflow-hidden flex flex-col justify-between">
+<div class="flex justify-between items-start z-10">
+<div class="flex gap-4">
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-primary"></div>
+<span class="text-label-sm text-on-surface-variant">Revenue</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-accent-gold"></div>
+<span class="text-label-sm text-on-surface-variant">Target</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]">more_vert</span>
+</div>
+<!-- Mock Chart using flexbox and divs -->
+<div class="flex items-end justify-between h-32 px-2 gap-2">
+<div class="w-full bg-primary-container/20 rounded-t-sm relative group h-[40%]">
+<div class="absolute bottom-0 w-full bg-primary rounded-t-sm h-[70%] transition-all duration-700"></div>
+</div>
+<div class="w-full bg-primary-container/20 rounded-t-sm relative h-[60%]">
+<div class="absolute bottom-0 w-full bg-primary rounded-t-sm h-[85%] transition-all duration-700"></div>
+</div>
+<div class="w-full bg-primary-container/20 rounded-t-sm relative h-[50%]">
+<div class="absolute bottom-0 w-full bg-primary rounded-t-sm h-[60%] transition-all duration-700"></div>
+</div>
+<div class="w-full bg-primary-container/20 rounded-t-sm relative h-[80%]">
+<div class="absolute bottom-0 w-full bg-primary rounded-t-sm h-[90%] transition-all duration-700"></div>
+</div>
+<div class="w-full bg-primary-container/20 rounded-t-sm relative h-[70%]">
+<div class="absolute bottom-0 w-full bg-primary rounded-t-sm h-[75%] transition-all duration-700"></div>
+</div>
+<div class="w-full bg-primary-container/20 rounded-t-sm relative h-[95%]">
+<div class="absolute bottom-0 w-full bg-primary rounded-t-sm h-[80%] transition-all duration-700"></div>
+</div>
+<div class="w-full bg-primary-container/20 rounded-t-sm relative h-[65%]">
+<div class="absolute bottom-0 w-full bg-primary rounded-t-sm h-[95%] transition-all duration-700"></div>
+</div>
+</div>
+<div class="flex justify-between px-2 pt-2 border-t border-outline-variant/20">
+<span class="text-[10px] text-on-surface-variant/60 font-medium">MON</span>
+<span class="text-[10px] text-on-surface-variant/60 font-medium">TUE</span>
+<span class="text-[10px] text-on-surface-variant/60 font-medium">WED</span>
+<span class="text-[10px] text-on-surface-variant/60 font-medium">THU</span>
+<span class="text-[10px] text-on-surface-variant/60 font-medium">FRI</span>
+<span class="text-[10px] text-on-surface-variant/60 font-medium">SAT</span>
+<span class="text-[10px] text-on-surface-variant/60 font-medium">SUN</span>
+</div>
+</div>
+</section>
+<!-- Activity Feed Timeline -->
+<section class="space-y-md">
+<div class="flex justify-between items-center">
+<h2 class="font-headline-md text-primary">Activity Feed</h2>
+<button class="text-primary font-label-sm flex items-center">View all <span class="material-symbols-outlined text-[14px] ml-1">arrow_forward</span></button>
+</div>
+<div class="relative space-y-6 before:absolute before:left-[19px] before:top-2 before:bottom-2 before:w-[2px] before:bg-outline-variant/30">
+<!-- Activity Item 1 -->
+<div class="flex gap-4 relative z-10">
+<div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center border-4 border-background shrink-0">
+<span class="material-symbols-outlined text-white text-[18px]">verified</span>
+</div>
+<div class="bg-surface-container-lowest p-md rounded-xl shadow-sm border border-outline-variant/20 flex-1">
+<div class="flex justify-between">
+<p class="font-label-md text-on-surface"><span class="font-bold text-primary">Ahmad Fauzi</span> was approved as a Gold Seller.</p>
+<span class="text-[10px] text-on-surface-variant/60 shrink-0">2m ago</span>
+</div>
+<div class="mt-2 text-label-sm text-on-surface-variant bg-surface-container-low px-2 py-1 rounded inline-block">Category: Electronics</div>
+</div>
+</div>
+<!-- Activity Item 2 -->
+<div class="flex gap-4 relative z-10">
+<div class="w-10 h-10 rounded-full bg-accent-gold flex items-center justify-center border-4 border-background shrink-0">
+<span class="material-symbols-outlined text-white text-[18px]">shopping_cart</span>
+</div>
+<div class="bg-surface-container-lowest p-md rounded-xl shadow-sm border border-outline-variant/20 flex-1">
+<div class="flex justify-between">
+<p class="font-label-md text-on-surface">Bulk order payout of <span class="font-bold text-primary">Rp 12.5M</span> processed.</p>
+<span class="text-[10px] text-on-surface-variant/60 shrink-0">45m ago</span>
+</div>
+</div>
+</div>
+<!-- Activity Item 3 -->
+<div class="flex gap-4 relative z-10">
+<div class="w-10 h-10 rounded-full bg-secondary flex items-center justify-center border-4 border-background shrink-0">
+<span class="material-symbols-outlined text-white text-[18px]">campaign</span>
+</div>
+<div class="bg-surface-container-lowest p-md rounded-xl shadow-sm border border-outline-variant/20 flex-1">
+<div class="flex justify-between">
+<p class="font-label-md text-on-surface">System maintenance scheduled for <span class="font-bold text-primary">Sunday, 02:00 AM</span>.</p>
+<span class="text-[10px] text-on-surface-variant/60 shrink-0">3h ago</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-2 py-2 bg-surface dark:bg-surface-container z-50 rounded-t-xl shadow-[0_-4px_10px_-2px_rgba(0,0,0,0.1)]">
+<!-- Dashboard (Active) -->
+<a class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-xl px-3 py-1 transition-all active:scale-95" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="font-plus-jakarta-sans text-label-sm font-label-sm">Dashboard</span>
+</a>
+<!-- Catalog -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/50 px-3 py-1 rounded-xl transition-all active:scale-95" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-plus-jakarta-sans text-label-sm font-label-sm">Catalog</span>
+</a>
+<!-- Orders -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/50 px-3 py-1 rounded-xl transition-all active:scale-95" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="font-plus-jakarta-sans text-label-sm font-label-sm">Orders</span>
+</a>
+<!-- Analytics -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/50 px-3 py-1 rounded-xl transition-all active:scale-95" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-plus-jakarta-sans text-label-sm font-label-sm">Analytics</span>
+</a>
+<!-- Settings -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/50 px-3 py-1 rounded-xl transition-all active:scale-95" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-plus-jakarta-sans text-label-sm font-label-sm">Settings</span>
+</a>
+</nav>
+<!-- Floating Action Button (FAB) - Suppression Logic ignored as per prompt asking for Dashboard -->
+<div class="fixed bottom-24 right-6">
+<button class="w-14 h-14 bg-accent-gold text-white rounded-full shadow-lg flex items-center justify-center active:scale-90 transition-transform duration-150">
+<span class="material-symbols-outlined text-[28px]">add</span>
+</button>
+</div>
+<script>
+        // Micro-interaction for cards
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.addEventListener('touchstart', () => {
+                card.style.transform = 'scale(0.98)';
+            });
+            card.addEventListener('touchend', () => {
+                card.style.transform = 'scale(1)';
+            });
+        });
+
+        // Simple Chart Animation Simulation
+        window.addEventListener('load', () => {
+            const bars = document.querySelectorAll('.absolute.bottom-0.bg-primary');
+            bars.forEach((bar, index) => {
+                const originalHeight = bar.style.height;
+                bar.style.height = '0%';
+                setTimeout(() => {
+                    bar.style.height = originalHeight;
+                }, 200 + (index * 100));
+            });
+        });
+    </script>
+</body></html>

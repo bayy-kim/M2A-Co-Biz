@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>M2A Co-Biz Seller Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #bfc8c8;
+            border-radius: 10px;
+        }
+        @media (max-width: 768px) {
+            .main-content { margin-left: 0 !important; margin-bottom: 64px; }
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                "on-error-container": "#93000a",
+                "on-secondary-container": "#53667d",
+                "on-primary-fixed-variant": "#004f50",
+                "surface-container-highest": "#e1e3e2",
+                "surface-variant": "#e1e3e2",
+                "on-background": "#191c1c",
+                "tertiary-container": "#7a452a",
+                "on-surface": "#191c1c",
+                "on-tertiary-fixed": "#351000",
+                "outline-variant": "#bfc8c8",
+                "secondary-container": "#d0e4ff",
+                "surface-dim": "#d8dada",
+                "secondary-fixed": "#d0e4ff",
+                "outline": "#6f7978",
+                "background": "#f8faf9",
+                "on-tertiary-container": "#ffb693",
+                "success": "#22C55E",
+                "accent-gold": "#D9A441",
+                "primary-container": "#0f5c5c",
+                "surface-container-lowest": "#ffffff",
+                "error": "#ba1a1a",
+                "inverse-surface": "#2e3131",
+                "on-primary-container": "#90d2d1",
+                "danger": "#EF4444",
+                "inverse-on-surface": "#eff1f0",
+                "on-secondary-fixed": "#071d30",
+                "error-container": "#ffdad6",
+                "surface-container": "#eceeed",
+                "surface-container-high": "#e6e9e8",
+                "on-primary-fixed": "#002020",
+                "inverse-primary": "#90d2d1",
+                "primary": "#004343",
+                "background-neutral": "#F7F7F5",
+                "surface-container-low": "#f2f4f3",
+                "on-surface-variant": "#3f4948",
+                "tertiary": "#5e2f16",
+                "on-error": "#ffffff",
+                "on-tertiary": "#ffffff",
+                "surface-tint": "#216868",
+                "surface-bright": "#f8faf9",
+                "surface": "#f8faf9",
+                "warning": "#F59E0B",
+                "on-secondary": "#ffffff",
+                "tertiary-fixed-dim": "#ffb693",
+                "on-secondary-fixed-variant": "#35485e",
+                "secondary-fixed-dim": "#b5c8e2",
+                "on-tertiary-fixed-variant": "#6c391f",
+                "primary-fixed": "#aceeee",
+                "tertiary-fixed": "#ffdbcc",
+                "primary-fixed-dim": "#90d2d1",
+                "secondary": "#4d6076",
+                "on-primary": "#ffffff"
+              },
+              "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+              },
+              "spacing": {
+                "lg": "16px",
+                "gutter": "16px",
+                "md": "12px",
+                "sm": "8px",
+                "xxl": "32px",
+                "xl": "24px",
+                "margin": "24px",
+                "xs": "4px"
+              },
+              "fontFamily": {
+                "display-lg": ["Plus Jakarta Sans"],
+                "display-md": ["Plus Jakarta Sans"],
+                "body-lg": ["Plus Jakarta Sans"],
+                "headline-md": ["Plus Jakarta Sans"],
+                "body-md": ["Plus Jakarta Sans"],
+                "label-sm": ["Inter"],
+                "headline-lg": ["Plus Jakarta Sans"],
+                "label-md": ["Inter"]
+              },
+              "fontSize": {
+                "display-lg": ["40px", {"lineHeight": "48px", "fontWeight": "700"}],
+                "display-md": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "500"}]
+              }
+            },
+          },
+        }
+    </script>
+</head>
+<body class="bg-background font-body-md text-on-background min-h-screen">
+<!-- Desktop SideNavBar -->
+<aside class="fixed left-0 top-0 h-full flex flex-col py-xl bg-primary dark:bg-on-primary-fixed-variant text-on-primary dark:text-primary-fixed shadow-lg w-64 hidden md:flex z-40" id="sidebar">
+<div class="px-lg mb-xxl flex items-center gap-md">
+<div class="w-10 h-10 rounded-lg bg-on-primary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary text-display-md">storefront</span>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-on-primary leading-tight">M2A Co-Biz</h1>
+<p class="font-label-sm text-label-sm text-on-primary/70">Business Hub</p>
+</div>
+</div>
+<nav class="flex-1 flex flex-col gap-xs custom-scrollbar overflow-y-auto">
+<!-- Active: Dashboard -->
+<a class="bg-primary-container text-on-primary-container rounded-lg mx-2 px-4 py-3 flex items-center gap-md transition-all" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="text-on-primary/80 hover:bg-on-primary/10 mx-2 px-4 py-3 flex items-center gap-md transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-label-md text-label-md">Catalog</span>
+</a>
+<a class="text-on-primary/80 hover:bg-on-primary/10 mx-2 px-4 py-3 flex items-center gap-md transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="font-label-md text-label-md">Orders</span>
+</a>
+<a class="text-on-primary/80 hover:bg-on-primary/10 mx-2 px-4 py-3 flex items-center gap-md transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined">leaderboard</span>
+<span class="font-label-md text-label-md">Analytics</span>
+</a>
+<a class="text-on-primary/80 hover:bg-on-primary/10 mx-2 px-4 py-3 flex items-center gap-md transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+<span class="font-label-md text-label-md">Payouts</span>
+</a>
+<a class="text-on-primary/80 hover:bg-on-primary/10 mx-2 px-4 py-3 flex items-center gap-md transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</nav>
+<div class="mt-auto px-2">
+<a class="text-on-primary/80 hover:bg-on-primary/10 px-4 py-3 flex items-center gap-md transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-md text-label-md">Logout</span>
+</a>
+</div>
+</aside>
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-30 flex justify-between items-center px-lg h-16 bg-surface shadow-sm md:pl-[17rem]">
+<div class="flex items-center gap-md">
+<button class="md:hidden p-2 text-on-surface-variant">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h2 class="font-headline-lg text-headline-lg font-bold text-primary">Seller Dashboard</h2>
+<span class="hidden sm:inline-flex bg-tertiary-container text-on-tertiary-container px-3 py-1 rounded-full text-label-sm font-bold uppercase tracking-wider">Seller Role</span>
+</div>
+<div class="flex items-center gap-lg">
+<div class="hidden lg:flex items-center bg-surface-container rounded-full px-4 py-1.5 border border-outline-variant">
+<span class="material-symbols-outlined text-on-surface-variant text-body-md mr-2">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-md w-48" placeholder="Search orders, products..." type="text"/>
+</div>
+<button class="text-on-surface-variant hover:text-primary transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-danger rounded-full"></span>
+</button>
+<div class="flex items-center gap-sm cursor-pointer group">
+<div class="text-right hidden sm:block">
+<p class="font-label-md text-label-md text-on-surface font-bold">Ahmad Fauzi</p>
+<p class="text-[10px] text-on-surface-variant">Fresh Produce Co.</p>
+</div>
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary-container">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a smiling male entrepreneur in a modern office setting. He is wearing a clean, navy business shirt. The background is softly blurred with warm lighting and minimalist architectural elements, conveying trustworthiness and business acumen." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAfoW-Co4vyAKDJ2CCcMMRDuM841vNeciRKVchqifmc2mB_vzvuHKQ-zEYobXaNFxaUak3WRDGu5dAnFucqwvc6pL7fPk-UIwU2TqxYcfBAlH-9M9-CuosQQ9ve0SXchAFdj80PoUvsFft9WYpoOSLmSebRLhdccb9KKo4ysWqxQYVpDT-ETZ5SiRA9Cm0Mom7_K-5rh4SOwUlVcl5IKjA54YbLjoY1s9HU1aV1fT4AbCYi2XBQACtBEl01rvdijQHN_TR2ROH6FdFy"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="main-content pt-24 pb-12 px-lg md:ml-64 transition-all duration-300">
+<div class="max-w-7xl mx-auto space-y-xxl">
+<!-- Quick Stats / Bento Grid Start -->
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-lg">
+<!-- Payout Balance Card -->
+<div class="glass-card rounded-xl p-lg shadow-sm border-l-4 border-accent-gold flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start mb-sm">
+<span class="text-label-md font-bold text-on-surface-variant uppercase tracking-tighter">Current Balance</span>
+<span class="material-symbols-outlined text-accent-gold">account_balance_wallet</span>
+</div>
+<h3 class="font-display-md text-display-md text-on-surface">Rp 4.250.000</h3>
+</div>
+<div class="mt-md flex items-center text-success text-label-sm font-bold">
+<span class="material-symbols-outlined text-sm mr-1">trending_up</span>
+<span>+12.5% from last week</span>
+</div>
+</div>
+<!-- Pending Payout Card -->
+<div class="glass-card rounded-xl p-lg shadow-sm border-l-4 border-primary flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start mb-sm">
+<span class="text-label-md font-bold text-on-surface-variant uppercase tracking-tighter">Pending Payout</span>
+<span class="material-symbols-outlined text-primary">history</span>
+</div>
+<h3 class="font-headline-lg text-headline-lg text-on-surface">Rp 1.120.000</h3>
+</div>
+<button class="mt-md w-full bg-primary text-on-primary py-2 rounded-lg text-label-md font-bold hover:bg-primary-container transition-all">Withdraw</button>
+</div>
+<!-- Daily Sales Chart Placeholder -->
+<div class="lg:col-span-2 glass-card rounded-xl p-lg shadow-sm relative overflow-hidden flex flex-col">
+<div class="flex justify-between items-center mb-md">
+<span class="text-label-md font-bold text-on-surface-variant uppercase tracking-tighter">Daily Sales Performance</span>
+<select class="bg-surface-container border-none text-label-sm rounded-lg focus:ring-0 py-1">
+<option>Last 7 Days</option>
+<option>Last 30 Days</option>
+</select>
+</div>
+<div class="flex-1 min-h-[120px] flex items-end gap-2 px-2">
+<!-- Simplified bar chart -->
+<div class="flex-1 bg-primary/20 rounded-t-sm h-[40%] hover:bg-primary transition-all duration-300 group relative">
+<span class="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] opacity-0 group-hover:opacity-100 font-bold">Rp 400k</span>
+</div>
+<div class="flex-1 bg-primary/20 rounded-t-sm h-[65%] hover:bg-primary transition-all duration-300 group relative">
+<span class="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] opacity-0 group-hover:opacity-100 font-bold">Rp 650k</span>
+</div>
+<div class="flex-1 bg-primary/20 rounded-t-sm h-[50%] hover:bg-primary transition-all duration-300 group relative">
+<span class="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] opacity-0 group-hover:opacity-100 font-bold">Rp 500k</span>
+</div>
+<div class="flex-1 bg-primary/20 rounded-t-sm h-[85%] hover:bg-primary transition-all duration-300 group relative">
+<span class="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] opacity-0 group-hover:opacity-100 font-bold">Rp 850k</span>
+</div>
+<div class="flex-1 bg-primary/20 rounded-t-sm h-[70%] hover:bg-primary transition-all duration-300 group relative">
+<span class="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] opacity-0 group-hover:opacity-100 font-bold">Rp 700k</span>
+</div>
+<div class="flex-1 bg-primary/20 rounded-t-sm h-[95%] hover:bg-primary transition-all duration-300 group relative">
+<span class="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] opacity-0 group-hover:opacity-100 font-bold">Rp 950k</span>
+</div>
+<div class="flex-1 bg-primary rounded-t-sm h-[60%] relative">
+<span class="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] font-bold text-primary">Rp 600k</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Product Management Section -->
+<section class="space-y-lg">
+<div class="flex justify-between items-end">
+<div>
+<h4 class="font-headline-md text-headline-md text-on-surface">Product Catalog</h4>
+<p class="text-body-md text-on-surface-variant">Manage your inventory and pricing</p>
+</div>
+<button class="bg-primary text-on-primary px-lg py-2.5 rounded-xl font-bold flex items-center gap-sm shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all" onclick="document.getElementById('add-product-modal').classList.remove('hidden')">
+<span class="material-symbols-outlined">add</span>
+                        Add New Product
+                    </button>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-lg">
+<!-- Product Card 1 -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm group border border-transparent hover:border-primary/20 transition-all">
+<div class="h-48 relative overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="High-quality commercial photograph of organic red apples in a rustic wooden crate. The lighting is bright and natural, highlighting the glossy texture of the fruit. The setting is a clean, modern kitchen workspace with soft neutral tones, perfect for an e-commerce catalog." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDrCgwB3d4Bx-uKDcqyX13t508PHJxLWYCvFnG8KRwUrkByssMRtF8XiIOdpQkC42HohKrwLvnQyL2IJovS6bJuelucXVGquz2VRMGxKjkDIWGua4h3imZXFTPwMKT8gxIhVzyMimc4lIJoeBDcK98VvePH4oz2bCkp5vmOG32VV9HUkDPcxZNXVYaYtRC3neeHxPtM6yb6Y0e9QFmc3eGsxqz8nOocK4j7motmdb5yZ22BDAqZttNEF6zfS98-yxpXOWksauRk1tyx"/>
+<div class="absolute top-2 right-2 bg-success/90 text-white text-[10px] px-2 py-1 rounded font-bold uppercase">In Stock</div>
+</div>
+<div class="p-md space-y-xs">
+<h5 class="font-headline-md text-headline-md text-on-surface leading-tight">Organic Red Apples</h5>
+<div class="flex justify-between items-center">
+<p class="text-label-md text-on-surface-variant">Qty: 45kg</p>
+<p class="font-bold text-primary text-body-lg">Rp 25.000/kg</p>
+</div>
+<div class="pt-sm flex gap-2">
+<button class="flex-1 bg-surface-container-high py-1.5 rounded-lg text-label-sm font-bold text-on-surface hover:bg-surface-variant">Edit</button>
+<button class="p-1.5 text-on-surface-variant hover:text-danger"><span class="material-symbols-outlined text-[20px]">delete</span></button>
+</div>
+</div>
+</div>
+<!-- Product Card 2 -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm group border border-transparent hover:border-primary/20 transition-all">
+<div class="h-48 relative overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A macro photograph of premium Arabica coffee beans, some whole and some ground, resting on a burlap textile surface. The scene is lit with warm, atmospheric side-lighting that emphasizes the rich texture and deep brown colors of the beans. The background is a dark, minimalist cafe setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD7aBGDbjVB8rdv2nE9x238bYEsn_x7UuzkajmM6EGiLXwFyRVF47QUVuV3r-qLRWV0JZNRuFh4KEdpzXgXUT3csCIaj6jrbBHmsoV29baCb0dea-eGLI_HyZwIVS7gGDuDoRBbfi57-DP_Bvs7W35RXD9YgaBlpHIwqaPiCUqz40ukegctX3Gn9qXUD8I0kN-Gf1xZ0o3Eo06JRodkn2WktWTcGl1J5rpLVWZTQ111rWaUoc_YDGbbF833MLwbfueUjAY-ZmlEFxZE"/>
+<div class="absolute top-2 right-2 bg-warning/90 text-white text-[10px] px-2 py-1 rounded font-bold uppercase">Low Stock</div>
+</div>
+<div class="p-md space-y-xs">
+<h5 class="font-headline-md text-headline-md text-on-surface leading-tight">Premium Coffee Beans</h5>
+<div class="flex justify-between items-center">
+<p class="text-label-md text-on-surface-variant">Qty: 8kg</p>
+<p class="font-bold text-primary text-body-lg">Rp 120.000/bag</p>
+</div>
+<div class="pt-sm flex gap-2">
+<button class="flex-1 bg-surface-container-high py-1.5 rounded-lg text-label-sm font-bold text-on-surface hover:bg-surface-variant">Edit</button>
+<button class="p-1.5 text-on-surface-variant hover:text-danger"><span class="material-symbols-outlined text-[20px]">delete</span></button>
+</div>
+</div>
+</div>
+<!-- Product Card 3 -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm group border border-transparent hover:border-primary/20 transition-all">
+<div class="h-48 relative overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A clean, minimalist product shot of a clear glass jar filled with golden, organic honey. A wooden honey dipper rests against the jar. The lighting is soft and high-key, with a pure white background that creates a fresh and healthy food product aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1junv71AXuHQ-PNODb3YX23psvOJdsB14EOOm6JKk3TX1f9evTdCz4kMyV8dV6bSHxJKx8lvQU_RpvKprgaVGVhRBLdHeGYSVIxPK4POesfFOAA-9-PLzqvOwkuY4E9nNqB1_QNTFmh4L6SqTyTIgm_39yiUResXp0xc6ccPcPFvbv215OZv_d9KwzsX2Xy0qU0tZPU1SY_tpDyq74GskemRvkc7g2UI98sjHq58qxVUlnSZVV6QrIPxHYCARcwl31AqPvierXBRY"/>
+<div class="absolute top-2 right-2 bg-success/90 text-white text-[10px] px-2 py-1 rounded font-bold uppercase">In Stock</div>
+</div>
+<div class="p-md space-y-xs">
+<h5 class="font-headline-md text-headline-md text-on-surface leading-tight">Wild Forest Honey</h5>
+<div class="flex justify-between items-center">
+<p class="text-label-md text-on-surface-variant">Qty: 120 jars</p>
+<p class="font-bold text-primary text-body-lg">Rp 85.000/jar</p>
+</div>
+<div class="pt-sm flex gap-2">
+<button class="flex-1 bg-surface-container-high py-1.5 rounded-lg text-label-sm font-bold text-on-surface hover:bg-surface-variant">Edit</button>
+<button class="p-1.5 text-on-surface-variant hover:text-danger"><span class="material-symbols-outlined text-[20px]">delete</span></button>
+</div>
+</div>
+</div>
+<!-- Add New Card Placeholder -->
+<button class="border-2 border-dashed border-outline-variant rounded-xl flex flex-col items-center justify-center p-lg group hover:border-primary hover:bg-primary/5 transition-all" onclick="document.getElementById('add-product-modal').classList.remove('hidden')">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center group-hover:bg-primary group-hover:text-on-primary transition-all mb-md">
+<span class="material-symbols-outlined">add</span>
+</div>
+<span class="font-bold text-on-surface-variant group-hover:text-primary">Add Another Product</span>
+</button>
+</div>
+</section>
+<!-- Sales Table Section -->
+<section class="space-y-lg">
+<div>
+<h4 class="font-headline-md text-headline-md text-on-surface">Recent Orders</h4>
+<p class="text-body-md text-on-surface-variant">Track your latest transactions</p>
+</div>
+<div class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden border border-surface-container-high">
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="bg-surface-container-low border-b border-surface-container-high">
+<tr>
+<th class="px-lg py-md text-label-sm font-bold text-on-surface-variant uppercase">Order ID</th>
+<th class="px-lg py-md text-label-sm font-bold text-on-surface-variant uppercase">Product</th>
+<th class="px-lg py-md text-label-sm font-bold text-on-surface-variant uppercase">Date</th>
+<th class="px-lg py-md text-label-sm font-bold text-on-surface-variant uppercase">Amount</th>
+<th class="px-lg py-md text-label-sm font-bold text-on-surface-variant uppercase">Status</th>
+<th class="px-lg py-md text-label-sm font-bold text-on-surface-variant uppercase">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container-high">
+<tr class="hover:bg-surface-container-lowest transition-colors">
+<td class="px-lg py-md font-label-md text-on-surface">#ORD-8821</td>
+<td class="px-lg py-md text-body-md">Organic Red Apples (5kg)</td>
+<td class="px-lg py-md text-body-md text-on-surface-variant">Oct 12, 2023</td>
+<td class="px-lg py-md font-bold text-on-surface">Rp 125.000</td>
+<td class="px-lg py-md">
+<span class="px-3 py-1 rounded-full text-[10px] font-bold uppercase bg-primary-container text-on-primary-container">Shipped</span>
+</td>
+<td class="px-lg py-md">
+<button class="text-primary font-bold text-label-sm hover:underline">Details</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-lowest transition-colors">
+<td class="px-lg py-md font-label-md text-on-surface">#ORD-8820</td>
+<td class="px-lg py-md text-body-md">Wild Forest Honey (2 jars)</td>
+<td class="px-lg py-md text-body-md text-on-surface-variant">Oct 11, 2023</td>
+<td class="px-lg py-md font-bold text-on-surface">Rp 170.000</td>
+<td class="px-lg py-md">
+<span class="px-3 py-1 rounded-full text-[10px] font-bold uppercase bg-surface-container-highest text-on-surface-variant">Pending</span>
+</td>
+<td class="px-lg py-md">
+<button class="text-primary font-bold text-label-sm hover:underline">Details</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-lowest transition-colors">
+<td class="px-lg py-md font-label-md text-on-surface">#ORD-8819</td>
+<td class="px-lg py-md text-body-md">Premium Coffee Beans (1 bag)</td>
+<td class="px-lg py-md text-body-md text-on-surface-variant">Oct 10, 2023</td>
+<td class="px-lg py-md font-bold text-on-surface">Rp 120.000</td>
+<td class="px-lg py-md">
+<span class="px-3 py-1 rounded-full text-[10px] font-bold uppercase bg-success/20 text-success">Completed</span>
+</td>
+<td class="px-lg py-md">
+<button class="text-primary font-bold text-label-sm hover:underline">Details</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-md bg-surface-container-low flex justify-center">
+<button class="text-label-md font-bold text-primary hover:text-primary-container transition-colors">View All Orders</button>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="fixed bottom-0 w-full z-50 flex justify-around items-center h-16 pb-safe bg-surface shadow-[0_-2px_10px_rgba(0,0,0,0.05)] md:hidden border-t border-outline-variant">
+<a class="flex flex-col items-center justify-center text-primary" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-label-sm text-[10px]">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-label-sm text-[10px]">Catalog</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="font-label-sm text-[10px]">Orders</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-sm text-[10px]">Profile</span>
+</a>
+</nav>
+<!-- Add Product Modal -->
+<div class="fixed inset-0 z-[60] hidden" id="add-product-modal">
+<div class="absolute inset-0 bg-inverse-surface/40 backdrop-blur-sm" onclick="document.getElementById('add-product-modal').classList.add('hidden')"></div>
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl px-lg">
+<div class="bg-surface-container-lowest rounded-xxl shadow-2xl overflow-hidden flex flex-col max-h-[921px]">
+<div class="p-xl border-b border-outline-variant flex justify-between items-center">
+<h3 class="font-headline-lg text-headline-lg text-on-surface">Add New Product</h3>
+<button class="p-2 hover:bg-surface-container rounded-full text-on-surface-variant transition-colors" onclick="document.getElementById('add-product-modal').classList.add('hidden')">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<form class="p-xl space-y-lg custom-scrollbar overflow-y-auto">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-lg">
+<div class="space-y-sm">
+<label class="font-label-md text-on-surface font-bold">Product Name</label>
+<input class="w-full rounded-xl border-outline-variant focus:border-primary focus:ring-primary bg-surface-container-low" placeholder="e.g. Fresh Red Apples" type="text"/>
+</div>
+<div class="space-y-sm">
+<label class="font-label-md text-on-surface font-bold">Category</label>
+<select class="w-full rounded-xl border-outline-variant focus:border-primary focus:ring-primary bg-surface-container-low">
+<option>Fresh Produce</option>
+<option>Dairy &amp; Eggs</option>
+<option>Beverages</option>
+<option>Dry Goods</option>
+</select>
+</div>
+</div>
+<div class="space-y-sm">
+<label class="font-label-md text-on-surface font-bold">Description</label>
+<textarea class="w-full rounded-xl border-outline-variant focus:border-primary focus:ring-primary bg-surface-container-low" placeholder="Tell buyers more about your product..." rows="3"></textarea>
+</div>
+<div class="grid grid-cols-2 gap-lg">
+<div class="space-y-sm">
+<label class="font-label-md text-on-surface font-bold">Price (Rp)</label>
+<input class="w-full rounded-xl border-outline-variant focus:border-primary focus:ring-primary bg-surface-container-low" placeholder="25000" type="number"/>
+</div>
+<div class="space-y-sm">
+<label class="font-label-md text-on-surface font-bold">Stock Quantity</label>
+<input class="w-full rounded-xl border-outline-variant focus:border-primary focus:ring-primary bg-surface-container-low" placeholder="100" type="number"/>
+</div>
+</div>
+<div class="space-y-sm">
+<label class="font-label-md text-on-surface font-bold">Product Photos</label>
+<div class="grid grid-cols-4 gap-md">
+<div class="aspect-square rounded-xl border-2 border-dashed border-outline-variant flex flex-col items-center justify-center bg-surface-container cursor-pointer hover:border-primary hover:bg-primary/5 transition-all group">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary">add_a_photo</span>
+<span class="text-[10px] font-bold text-on-surface-variant uppercase mt-1">Upload</span>
+</div>
+<!-- Mock Uploaded Image -->
+<div class="aspect-square rounded-xl overflow-hidden relative group">
+<img class="w-full h-full object-cover" data-alt="A clean top-down photograph of shiny organic apples on a minimalist gray background, professionally shot for a web store catalog with balanced lighting and sharp focus." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDJUVuzo_2JeHAvPpkaTzDiL3YZsb266924eviS6vsLMz2lLh6gQg3irOud9AQL1rnSpansUARd3fBDi98Uoi9oUhCg6mW46uL7kQS-HroGieLNtJsbo26AnenR7mMspI8iUo3HgbXIMYHSLjWdwpaKOjGBJkwoszlfsBTzBw8HLUC4dmuPb7155KYlkbAVyEWEwX5zB0BeKavnCk05dHHJjjg41Khkqj4HWeaPV6oCbtOOCfTq2gH1pOPLMAW6KIdI3kiYNzxU8w7r"/>
+<button class="absolute top-1 right-1 bg-danger/80 text-white rounded-full p-0.5 opacity-0 group-hover:opacity-100 transition-opacity"><span class="material-symbols-outlined text-sm">close</span></button>
+</div>
+</div>
+<p class="text-[10px] text-on-surface-variant">Maximum 5 photos. JPG/PNG only. Max 2MB per file.</p>
+</div>
+<div class="pt-xl flex gap-md">
+<button class="flex-1 bg-surface-container-high py-3 rounded-xl font-bold text-on-surface hover:bg-surface-variant transition-colors" onclick="document.getElementById('add-product-modal').classList.add('hidden')" type="button">Cancel</button>
+<button class="flex-1 bg-primary text-on-primary py-3 rounded-xl font-bold hover:bg-primary-container shadow-md hover:scale-[1.01] active:scale-[0.98] transition-all" type="submit">Publish Product</button>
+</div>
+</form>
+</div>
+</div>
+</div>
+<script>
+        // Simple animations with Framer Motion (via standard JS approach)
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.glass-card, .bg-surface-container-lowest');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    card.style.transition = 'all 0.5s ease-out';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+
+        // Close modal on Esc
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                document.getElementById('add-product-modal').classList.add('hidden');
+            }
+        });
+    </script>
+</body></html>

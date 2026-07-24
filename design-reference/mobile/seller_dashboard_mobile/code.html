@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>M2A Co-Biz | Seller Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Plus+Jakarta+Sans:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary": "#ffffff",
+                    "on-surface-variant": "#3f4948",
+                    "tertiary-fixed-dim": "#ffb693",
+                    "secondary-fixed-dim": "#b5c8e2",
+                    "surface-variant": "#e1e3e2",
+                    "on-secondary-container": "#53667d",
+                    "primary": "#004343",
+                    "surface-dim": "#d8dada",
+                    "on-primary-fixed-variant": "#004f50",
+                    "on-background": "#191c1c",
+                    "surface-bright": "#f8faf9",
+                    "primary-container": "#0f5c5c",
+                    "inverse-on-surface": "#eff1f0",
+                    "inverse-surface": "#2e3131",
+                    "on-tertiary-fixed": "#351000",
+                    "surface-container-low": "#f2f4f3",
+                    "error": "#ba1a1a",
+                    "secondary-container": "#d0e4ff",
+                    "error-container": "#ffdad6",
+                    "danger": "#EF4444",
+                    "secondary-fixed": "#d0e4ff",
+                    "success": "#22C55E",
+                    "inverse-primary": "#90d2d1",
+                    "primary-fixed": "#aceeee",
+                    "surface-container-high": "#e6e9e8",
+                    "secondary": "#4d6076",
+                    "surface-tint": "#216868",
+                    "accent-gold": "#D9A441",
+                    "on-error": "#ffffff",
+                    "on-primary-container": "#90d2d1",
+                    "on-secondary-fixed-variant": "#35485e",
+                    "on-tertiary-fixed-variant": "#6c391f",
+                    "background-neutral": "#F7F7F5",
+                    "tertiary-container": "#7a452a",
+                    "on-surface": "#191c1c",
+                    "on-primary": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "primary-fixed-dim": "#90d2d1",
+                    "on-secondary": "#ffffff",
+                    "surface-container-highest": "#e1e3e2",
+                    "on-secondary-fixed": "#071d30",
+                    "tertiary": "#5e2f16",
+                    "on-tertiary-container": "#ffb693",
+                    "tertiary-fixed": "#ffdbcc",
+                    "outline": "#6f7978",
+                    "surface-container": "#eceeed",
+                    "background": "#f8faf9",
+                    "outline-variant": "#bfc8c8",
+                    "on-primary-fixed": "#002020",
+                    "surface-container-lowest": "#ffffff",
+                    "surface": "#f8faf9",
+                    "warning": "#F59E0B"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "xs": "4px",
+                    "sm": "8px",
+                    "md": "12px",
+                    "margin": "24px",
+                    "xxl": "32px",
+                    "xl": "24px",
+                    "gutter": "16px",
+                    "lg": "16px"
+            },
+            "fontFamily": {
+                    "label-sm": ["Inter"],
+                    "label-md": ["Inter"],
+                    "headline-lg": ["Plus Jakarta Sans"],
+                    "display-md": ["Plus Jakarta Sans"],
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "body-md": ["Plus Jakarta Sans"],
+                    "display-lg": ["Plus Jakarta Sans"],
+                    "body-lg": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                    "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "display-md": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "display-lg": ["40px", {"lineHeight": "48px", "fontWeight": "700"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+        }
+        body {
+            -webkit-tap-highlight-color: transparent;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body-md antialiased min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="bg-surface docked full-width top-0 sticky z-50 shadow-sm flex justify-between items-center w-full px-margin h-16">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary-container">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a friendly business seller in a modern office environment. The person is smiling, wearing smart casual attire. Soft, natural morning light creates a warm and trustworthy atmosphere, emphasizing a professional yet approachable identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDg8aQITcMvW39xz95TCwaQQ-fTQ_zrRKrJ_0fynjb53okCyD5EK_sOVPaNeDQc2fOqCJO53n5ANKfHjx7kQW_xL2pyP8z_l8SpTlyu922eOOe0vsoNR-Ju4BFD0PPbYLc3Li-dr5NWpJ6eZO6wcUpjeUKK-E6KnJ8KQVAA23AyaOIwOmOFoqyNHRKIqpg0cu0GnD09tWdyJZCJ5J7RcdrKc1oy-hh_5cImuVDnlsXMwfRmwUmHDDvDnbWYmcmHnpsUkQEuxVMp_7TH"/>
+</div>
+<div>
+<h1 class="text-headline-md font-headline-md font-bold text-primary">M2A Co-Biz</h1>
+<p class="text-label-sm font-label-sm text-on-surface-variant">Seller Dashboard</p>
+</div>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-high transition-colors text-primary">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+</header>
+<main class="px-margin pt-xl flex flex-col gap-xl">
+<!-- Summary Cards Section -->
+<section class="flex flex-col gap-lg">
+<div class="flex items-center justify-between">
+<h2 class="text-headline-md font-headline-md text-on-surface">Financial Overview</h2>
+<span class="text-label-sm font-label-sm text-primary font-bold">Details</span>
+</div>
+<!-- Balance Card -->
+<div class="bg-primary-container text-on-primary-container p-xl rounded-xl shadow-sm relative overflow-hidden group">
+<div class="relative z-10">
+<p class="text-label-md font-label-md opacity-80 mb-xs">Available Balance</p>
+<p class="text-display-md font-display-md mb-md">Rp 12.450.000</p>
+<div class="flex gap-sm">
+<button class="bg-on-primary-container text-primary-container px-lg py-sm rounded-lg font-label-md shadow-sm active:scale-95 transition-transform">
+                            Withdraw Payout
+                        </button>
+</div>
+</div>
+<!-- Decorative element -->
+<div class="absolute -right-8 -bottom-8 opacity-10 text-[120px] pointer-events-none">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">account_balance_wallet</span>
+</div>
+</div>
+<!-- Stat Grid (Secondary) -->
+<div class="grid grid-cols-2 gap-lg">
+<div class="bg-surface-container-low p-lg rounded-xl flex flex-col gap-xs">
+<span class="material-symbols-outlined text-accent-gold" style="font-variation-settings: 'FILL' 1;">trending_up</span>
+<p class="text-label-sm font-label-sm text-on-surface-variant">Total Sales</p>
+<p class="text-headline-md font-headline-md">152</p>
+</div>
+<div class="bg-surface-container-low p-lg rounded-xl flex flex-col gap-xs">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">pending_actions</span>
+<p class="text-label-sm font-label-sm text-on-surface-variant">Pending</p>
+<p class="text-headline-md font-headline-md">8</p>
+</div>
+</div>
+</section>
+<!-- Product Catalog Section -->
+<section class="flex flex-col gap-lg">
+<div class="flex items-center justify-between">
+<h2 class="text-headline-md font-headline-md text-on-surface">Product Catalog</h2>
+<button class="flex items-center gap-xs text-primary font-bold text-label-md">
+<span class="material-symbols-outlined text-[18px]">add</span> Add New
+                </button>
+</div>
+<div class="flex flex-col gap-md">
+<!-- Product Card 1 -->
+<div class="bg-surface-container-lowest p-md rounded-xl flex items-center gap-md shadow-sm border border-outline-variant/30">
+<div class="w-16 h-16 rounded-lg overflow-hidden bg-surface-variant flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="A high-quality product photo of premium artisanal coffee beans in a sleek, minimalist package. The packaging is a deep teal color with gold foil accents, sitting on a clean marble countertop. Natural side lighting highlights the texture of the bag and the professional, high-end branding of the M2A Co-Biz collective." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1XRLpO67hBDTF1UaCFDi10NkSnCa8wwZnIV-JytUtX5ZfdNHpZcHhmXMiSU0dPtOZCr5lgqT9kpxa_8LIgo6k2YRUqkLf5x9d1wPkjj70x7uePhzplZkl4fF_HIXfhCOzJISXec7CuxMtaDiWBkiN0qylXVVpWZUFU3GbjqvPbJFyhjtWEehLUHjy4vn3yE_UTOKa9lrx7P9AfF9EGIpXceeqiWG7KGRw7Zgzn0qPY-CFVXvZhQs3oVvn3tLHKvTDKAD2BT_5GbTP"/>
+</div>
+<div class="flex-grow">
+<p class="text-label-md font-headline-md text-on-surface line-clamp-1">Premium Arabica Coffee</p>
+<p class="text-primary font-bold">Rp 85.000</p>
+<div class="flex items-center gap-xs mt-xs">
+<span class="text-[14px] text-success material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">42 in stock</span>
+</div>
+</div>
+<button class="w-8 h-8 flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<!-- Product Card 2 -->
+<div class="bg-surface-container-lowest p-md rounded-xl flex items-center gap-md shadow-sm border border-outline-variant/30">
+<div class="w-16 h-16 rounded-lg overflow-hidden bg-surface-variant flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="A macro photograph of handcrafted organic honey jars. The jars are clear glass with simple, elegant labels in a corporate-modern style. The golden honey is illuminated by warm, diffused backlight, creating a glowing effect that signifies purity and quality. Part of a boutique seller's collection on a clean, professional digital marketplace." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA3P6TmA_3Q22I8YJaMNAxahvUJtLrnixWejs35DSlFUBKNShTPmeCqHRDZu9JJ9JvmUe1u6z8GX2Pyvtt7jwb46aMgaszfwkd-N4FeVkGG05ZOWLkokyfkhIc1cy-bOngXDI3Cc3LR6XsTY6RIKAZhlGsV_g9wC7thq8gg2JPyhMIkKHFNEH2J-BMd_-PKizUHgoAf1arz_FHieu5ZIKlMysWUu9UXzeJfeFtFbwLaBrxcZNcPPsTnPEvJZOSWtjoq3ExtJAlzC647"/>
+</div>
+<div class="flex-grow">
+<p class="text-label-md font-headline-md text-on-surface line-clamp-1">Organic Wildflower Honey</p>
+<p class="text-primary font-bold">Rp 120.000</p>
+<div class="flex items-center gap-xs mt-xs">
+<span class="text-[14px] text-success material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">15 in stock</span>
+</div>
+</div>
+<button class="w-8 h-8 flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Recent Orders Section -->
+<section class="flex flex-col gap-lg">
+<div class="flex items-center justify-between">
+<h2 class="text-headline-md font-headline-md text-on-surface">Recent Orders</h2>
+<span class="text-label-sm font-label-sm text-primary font-bold">View All</span>
+</div>
+<div class="flex flex-col gap-md">
+<!-- Order Card 1 -->
+<div class="bg-surface-container-low p-lg rounded-xl border-l-4 border-accent-gold shadow-sm">
+<div class="flex justify-between items-start mb-sm">
+<div>
+<p class="text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider">Order #88214</p>
+<p class="font-bold text-on-surface">Sarah Johnson</p>
+</div>
+<span class="bg-secondary-container text-on-secondary-container px-sm py-xs rounded-md text-label-sm">Processing</span>
+</div>
+<div class="flex justify-between items-end">
+<div class="text-label-sm font-label-sm text-on-surface-variant">
+<p>2 items • Today, 10:45 AM</p>
+</div>
+<p class="text-headline-md font-headline-md text-primary">Rp 245.000</p>
+</div>
+</div>
+<!-- Order Card 2 -->
+<div class="bg-surface-container-low p-lg rounded-xl border-l-4 border-success shadow-sm">
+<div class="flex justify-between items-start mb-sm">
+<div>
+<p class="text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider">Order #88210</p>
+<p class="font-bold text-on-surface">Michael Chen</p>
+</div>
+<span class="bg-surface-container-high text-on-surface-variant px-sm py-xs rounded-md text-label-sm">Shipped</span>
+</div>
+<div class="flex justify-between items-end">
+<div class="text-label-sm font-label-sm text-on-surface-variant">
+<p>1 item • Yesterday, 04:20 PM</p>
+</div>
+<p class="text-headline-md font-headline-md text-primary">Rp 85.000</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full bg-surface shadow-[0_-4px_10px_-2px_rgba(0,0,0,0.1)] flex justify-around items-center px-2 py-2 z-50 rounded-t-xl">
+<!-- Dashboard (Active) -->
+<a class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-xl px-3 py-1 transition-all active:scale-95" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="text-label-sm font-label-sm">Dashboard</span>
+</a>
+<!-- Catalog -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/50 rounded-xl px-3 py-1 transition-all active:scale-95" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="text-label-sm font-label-sm">Catalog</span>
+</a>
+<!-- Orders -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/50 rounded-xl px-3 py-1 transition-all active:scale-95" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="text-label-sm font-label-sm">Orders</span>
+</a>
+<!-- Analytics -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/50 rounded-xl px-3 py-1 transition-all active:scale-95" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="text-label-sm font-label-sm">Analytics</span>
+</a>
+<!-- Settings -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/50 rounded-xl px-3 py-1 transition-all active:scale-95" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-label-sm font-label-sm">Settings</span>
+</a>
+</nav>
+<script>
+        // Micro-interactions for interactive elements
+        document.querySelectorAll('a, button').forEach(el => {
+            el.addEventListener('click', function(e) {
+                // Check if it's not a link that navigates
+                if (this.tagName === 'BUTTON' || this.getAttribute('href') === '#') {
+                    // Prevent default to simulate dynamic UI
+                    e.preventDefault();
+                }
+            });
+        });
+
+        // Subtle header shadow on scroll
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 10) {
+                header.classList.add('shadow-md');
+                header.classList.remove('shadow-sm');
+            } else {
+                header.classList.add('shadow-sm');
+                header.classList.remove('shadow-md');
+            }
+        });
+    </script>
+</body></html>

@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>M2A Co-Biz Admin Dashboard</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<!-- Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary": "#ffffff",
+                        "on-surface-variant": "#3f4948",
+                        "tertiary-fixed-dim": "#ffb693",
+                        "secondary-fixed-dim": "#b5c8e2",
+                        "surface-variant": "#e1e3e2",
+                        "on-secondary-container": "#53667d",
+                        "primary": "#004343",
+                        "surface-dim": "#d8dada",
+                        "on-primary-fixed-variant": "#004f50",
+                        "on-background": "#191c1c",
+                        "surface-bright": "#f8faf9",
+                        "primary-container": "#0f5c5c",
+                        "inverse-on-surface": "#eff1f0",
+                        "inverse-surface": "#2e3131",
+                        "on-tertiary-fixed": "#351000",
+                        "surface-container-low": "#f2f4f3",
+                        "error": "#ba1a1a",
+                        "secondary-container": "#d0e4ff",
+                        "error-container": "#ffdad6",
+                        "danger": "#EF4444",
+                        "secondary-fixed": "#d0e4ff",
+                        "success": "#22C55E",
+                        "inverse-primary": "#90d2d1",
+                        "primary-fixed": "#aceeee",
+                        "surface-container-high": "#e6e9e8",
+                        "secondary": "#4d6076",
+                        "surface-tint": "#216868",
+                        "accent-gold": "#D9A441",
+                        "on-error": "#ffffff",
+                        "on-primary-container": "#90d2d1",
+                        "on-secondary-fixed-variant": "#35485e",
+                        "on-tertiary-fixed-variant": "#6c391f",
+                        "background-neutral": "#F7F7F5",
+                        "tertiary-container": "#7a452a",
+                        "on-surface": "#191c1c",
+                        "on-primary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "primary-fixed-dim": "#90d2d1",
+                        "on-secondary": "#ffffff",
+                        "surface-container-highest": "#e1e3e2",
+                        "on-secondary-fixed": "#071d30",
+                        "tertiary": "#5e2f16",
+                        "on-tertiary-container": "#ffb693",
+                        "tertiary-fixed": "#ffdbcc",
+                        "outline": "#6f7978",
+                        "surface-container": "#eceeed",
+                        "background": "#f8faf9",
+                        "outline-variant": "#bfc8c8",
+                        "on-primary-fixed": "#002020",
+                        "surface-container-lowest": "#ffffff",
+                        "surface": "#f8faf9",
+                        "warning": "#F59E0B"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xs": "4px",
+                        "sm": "8px",
+                        "md": "12px",
+                        "margin": "24px",
+                        "xxl": "32px",
+                        "xl": "24px",
+                        "gutter": "16px",
+                        "lg": "16px"
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen pb-32">
+<!-- Top App Bar -->
+<header class="bg-surface sticky top-0 z-50 shadow-sm px-margin h-16 flex justify-between items-center w-full">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full overflow-hidden bg-primary-container flex items-center justify-center text-white">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a business administrator in a modern office setting. The lighting is soft and natural, emphasizing a trustworthy and approachable personality. The background is a clean, minimalist workspace with deep teal accents, maintaining the brand's corporate and warm aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAM9xA7iSuOZenZt3LveW20EabvvsGWMXC8HVhdn2iAbDOLYoE3rwwwaBclx0OIknxRIcsw8J2giVz3Lzx1Xy8ILfCw0BZiFQd3OglYEiyTxp1MCvNrbVFoiagThDeGJmpXqfmQiIoSFp1IAW9yvU-kEA5cb-_Tu6qa5djxhJbgbtlP1Tj8Sil77z6hwiceHkMFmeyW8nY2yB_yGeHB9z9tGk5o4-YviHQSHK40rR_C2-iX-GI0FTU-EMxxeoT7oss4-DkW1lGJ14b-"/>
+</div>
+<h1 class="text-headline-md font-headline-md font-bold text-primary">M2A Co-Biz</h1>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-primary" data-icon="notifications">notifications</span>
+</button>
+</header>
+<main class="p-margin space-y-xl">
+<!-- Dashboard Greeting -->
+<section class="space-y-xs">
+<h2 class="text-headline-lg font-headline-lg text-on-surface">Welcome, Admin</h2>
+<p class="text-body-md text-on-surface-variant">Here is your daily business overview.</p>
+</section>
+<!-- Summary Metrics Stacked -->
+<section class="flex flex-col gap-gutter">
+<!-- Metric Card 1 -->
+<div class="glass-card p-xl rounded-xl shadow-sm flex items-center justify-between group active:scale-[0.98] transition-transform">
+<div class="space-y-xs">
+<p class="text-label-md font-label-md text-on-surface-variant">Total Revenue</p>
+<h3 class="text-display-md font-display-md text-primary">$42,950.00</h3>
+<div class="flex items-center gap-xs text-success text-label-sm">
+<span class="material-symbols-outlined text-[16px]" data-icon="trending_up">trending_up</span>
+<span>12.5% from last month</span>
+</div>
+</div>
+<div class="w-14 h-14 rounded-full bg-primary-container/10 flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined text-3xl" data-icon="payments">payments</span>
+</div>
+</div>
+<!-- Metric Card 2 -->
+<div class="glass-card p-xl rounded-xl shadow-sm flex items-center justify-between group active:scale-[0.98] transition-transform">
+<div class="space-y-xs">
+<p class="text-label-md font-label-md text-on-surface-variant">Active Sellers</p>
+<h3 class="text-display-md font-display-md text-primary">1,284</h3>
+<div class="flex items-center gap-xs text-success text-label-sm">
+<span class="material-symbols-outlined text-[16px]" data-icon="person_add">person_add</span>
+<span>+48 new this week</span>
+</div>
+</div>
+<div class="w-14 h-14 rounded-full bg-secondary-container/30 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-3xl" data-icon="store">store</span>
+</div>
+</div>
+<!-- Metric Card 3 -->
+<div class="glass-card p-xl rounded-xl shadow-sm flex items-center justify-between group active:scale-[0.98] transition-transform border-l-4 border-accent-gold">
+<div class="space-y-xs">
+<p class="text-label-md font-label-md text-on-surface-variant">Pending Approvals</p>
+<h3 class="text-display-md font-display-md text-accent-gold">14</h3>
+<p class="text-label-sm text-warning italic font-medium">Requires immediate action</p>
+</div>
+<div class="w-14 h-14 rounded-full bg-tertiary-fixed/30 flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined text-3xl" data-icon="pending_actions">pending_actions</span>
+</div>
+</div>
+</section>
+<!-- Seller Approval Queue -->
+<section class="space-y-lg">
+<div class="flex justify-between items-center">
+<h2 class="text-headline-md font-headline-md text-on-surface">Seller Approval Queue</h2>
+<button class="text-primary text-label-md font-bold">View All</button>
+</div>
+<!-- Approval Card List -->
+<div class="space-y-gutter">
+<!-- Card 1 -->
+<div class="bg-surface-container-low rounded-xl p-lg border border-outline-variant/30 flex flex-col gap-md">
+<div class="flex gap-md items-center">
+<div class="w-12 h-12 rounded-lg bg-surface-container-highest overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A sophisticated boutique storefront with a modern glass facade and minimalist signage. The shop displays high-quality leather goods and artisanal accessories. Warm golden lighting emanates from the interior, creating a luxurious and welcoming atmosphere in a clean, professional retail setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAqQTKgJWmVlfgJozbE0KQCRALIJcBYC0c7IryD1HnTZeMPsKTjjjHpsnjTWtp-9Vnq_jidc17k2fEislbwTT3ICWBH_30uPdEU6Abb4aYicf15_E02_-b4cb1ssAKR_4_epcpdsSqQ-6IvTgDBMWvRuLQiyzKQj_X38Tsxcgeutcojtl4l1pcPIETCHGaILSkifz4dkXR5xe09C1WGEAusTNyj7CQju7uKVnLGYDVQD2CMtB5VX26n2l3q7666Los1GBDf1KaasMOx"/>
+</div>
+<div class="flex-1">
+<h4 class="text-body-lg font-bold text-on-surface">Urban Artisan Goods</h4>
+<p class="text-label-sm text-on-surface-variant">Leather Crafts &amp; Accessories</p>
+</div>
+<div class="px-2 py-1 bg-secondary-container text-on-secondary-fixed-variant text-[10px] uppercase font-bold rounded">New</div>
+</div>
+<div class="grid grid-cols-2 gap-sm text-label-md bg-white/50 p-sm rounded-lg">
+<div>
+<p class="text-on-surface-variant text-[11px]">Owner</p>
+<p class="text-on-surface font-medium">Sarah Jenkins</p>
+</div>
+<div>
+<p class="text-on-surface-variant text-[11px]">Applied</p>
+<p class="text-on-surface font-medium">2 hours ago</p>
+</div>
+</div>
+<div class="flex gap-sm">
+<button class="flex-1 py-md bg-primary text-white rounded-lg font-bold text-label-md hover:bg-primary-container transition-all active:scale-[0.97]">Approve</button>
+<button class="flex-1 py-md border border-outline text-on-surface-variant rounded-lg font-bold text-label-md hover:bg-surface-variant transition-all active:scale-[0.97]">Review</button>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container-low rounded-xl p-lg border border-outline-variant/30 flex flex-col gap-md">
+<div class="flex gap-md items-center">
+<div class="w-12 h-12 rounded-lg bg-surface-container-highest overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A high-end electronics repair shop with a futuristic, clean lab-like aesthetic. Tech experts work at organized stations with precision tools and glowing digital displays. The lighting is crisp and cool with subtle deep teal accents, reflecting a professional and technologically advanced business environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAV6Sp4gsDqnCKUw6XhiLoA_kXibhac5--EAD9KPfW5XaVJ_Y33YIDsFL-YUhndxyJvS4wVcNoutXmygQT9IINSs-V4ri9kiepjTaPSKXc3b80EcLDdyQPZwx87mSwSLH19_8K9xUVGMtD-ktcZUgB4bwqPOZuU0mHauOAOohP6_58TqQ-XX9I5PNDR75N8N3H1QG6iPsXKekt1ygqHdJWtiMQsM_3JdwtZQSQAqYj9GFgQFPvi2F2_4EajVPyt0IZ--GPFg9udMtYs"/>
+</div>
+<div class="flex-1">
+<h4 class="text-body-lg font-bold text-on-surface">TechFix Solutions</h4>
+<p class="text-label-sm text-on-surface-variant">Repair &amp; Tech Support</p>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-sm text-label-md bg-white/50 p-sm rounded-lg">
+<div>
+<p class="text-on-surface-variant text-[11px]">Owner</p>
+<p class="text-on-surface font-medium">Marcus Chen</p>
+</div>
+<div>
+<p class="text-on-surface-variant text-[11px]">Applied</p>
+<p class="text-on-surface font-medium">Yesterday</p>
+</div>
+</div>
+<div class="flex gap-sm">
+<button class="flex-1 py-md bg-primary text-white rounded-lg font-bold text-label-md hover:bg-primary-container transition-all active:scale-[0.97]">Approve</button>
+<button class="flex-1 py-md border border-outline text-on-surface-variant rounded-lg font-bold text-label-md hover:bg-surface-variant transition-all active:scale-[0.97]">Review</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Quick Actions Bento -->
+<section class="grid grid-cols-2 gap-sm">
+<button class="bg-primary-container/5 p-xl rounded-xl flex flex-col items-center justify-center gap-sm border border-primary-container/10 active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="add_business">add_business</span>
+<span class="text-label-md font-bold text-primary">Add Seller</span>
+</button>
+<button class="bg-accent-gold/5 p-xl rounded-xl flex flex-col items-center justify-center gap-sm border border-accent-gold/20 active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-accent-gold text-3xl" data-icon="assessment">assessment</span>
+<span class="text-label-md font-bold text-accent-gold">Reports</span>
+</button>
+</section>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-2 py-2 bg-surface dark:bg-surface-container shadow-[0_-4px_10px_-2px_rgba(0,0,0,0.1)] rounded-t-xl z-50">
+<a class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-xl px-3 py-1 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="text-label-sm font-label-sm">Dashboard</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/50 px-3 py-1 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="text-label-sm font-label-sm">Catalog</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/50 px-3 py-1 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+<span class="text-label-sm font-label-sm">Orders</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/50 px-3 py-1 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="text-label-sm font-label-sm">Analytics</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/50 px-3 py-1 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="text-label-sm font-label-sm">Settings</span>
+</a>
+</nav>
+<script>
+        // Micro-interactions for buttons
+        document.querySelectorAll('button, a').forEach(elem => {
+            elem.addEventListener('click', function(e) {
+                // Simple ripple effect or feedback can be added here
+                console.log('Interaction recorded on: ' + (this.innerText || 'Icon Button'));
+            });
+        });
+
+        // Add scroll shadow effect to top bar
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 10) {
+                header.classList.add('shadow-md');
+            } else {
+                header.classList.remove('shadow-md');
+            }
+        });
+    </script>
+</body></html>

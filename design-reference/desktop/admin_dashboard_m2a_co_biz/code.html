@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Admin Dashboard | M2A Co-Biz</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error-container": "#93000a",
+                        "on-secondary-container": "#53667d",
+                        "on-primary-fixed-variant": "#004f50",
+                        "surface-container-highest": "#e1e3e2",
+                        "surface-variant": "#e1e3e2",
+                        "on-background": "#191c1c",
+                        "tertiary-container": "#7a452a",
+                        "on-surface": "#191c1c",
+                        "on-tertiary-fixed": "#351000",
+                        "outline-variant": "#bfc8c8",
+                        "secondary-container": "#d0e4ff",
+                        "surface-dim": "#d8dada",
+                        "secondary-fixed": "#d0e4ff",
+                        "outline": "#6f7978",
+                        "background": "#f8faf9",
+                        "on-tertiary-container": "#ffb693",
+                        "success": "#22C55E",
+                        "accent-gold": "#D9A441",
+                        "primary-container": "#0f5c5c",
+                        "surface-container-lowest": "#ffffff",
+                        "error": "#ba1a1a",
+                        "inverse-surface": "#2e3131",
+                        "on-primary-container": "#90d2d1",
+                        "danger": "#EF4444",
+                        "inverse-on-surface": "#eff1f0",
+                        "on-secondary-fixed": "#071d30",
+                        "error-container": "#ffdad6",
+                        "surface-container": "#eceeed",
+                        "surface-container-high": "#e6e9e8",
+                        "on-primary-fixed": "#002020",
+                        "inverse-primary": "#90d2d1",
+                        "primary": "#004343",
+                        "background-neutral": "#F7F7F5",
+                        "surface-container-low": "#f2f4f3",
+                        "on-surface-variant": "#3f4948",
+                        "tertiary": "#5e2f16",
+                        "on-error": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "surface-tint": "#216868",
+                        "surface-bright": "#f8faf9",
+                        "surface": "#f8faf9",
+                        "warning": "#F59E0B",
+                        "on-secondary": "#ffffff",
+                        "tertiary-fixed-dim": "#ffb693",
+                        "on-secondary-fixed-variant": "#35485e",
+                        "secondary-fixed-dim": "#b5c8e2",
+                        "on-tertiary-fixed-variant": "#6c391f",
+                        "primary-fixed": "#aceeee",
+                        "tertiary-fixed": "#ffdbcc",
+                        "primary-fixed-dim": "#90d2d1",
+                        "secondary": "#4d6076",
+                        "on-primary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "lg": "16px",
+                        "gutter": "16px",
+                        "md": "12px",
+                        "sm": "8px",
+                        "xxl": "32px",
+                        "xl": "24px",
+                        "margin": "24px",
+                        "xs": "4px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "display-md": ["Plus Jakarta Sans"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "label-sm": ["Inter"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "label-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["40px", {"lineHeight": "48px", "fontWeight": "700"}],
+                        "display-md": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "500"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .sidebar-gradient {
+            background: linear-gradient(180deg, #12263A 0%, #004343 100%);
+        }
+        .backdrop-blur-custom {
+            backdrop-filter: blur(12px);
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #bfc8c8;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md overflow-x-hidden">
+<!-- Sidebar Navigation -->
+<aside class="fixed left-0 top-0 h-full flex flex-col py-xl sidebar-gradient w-64 hidden md:flex z-50 transition-all duration-300 shadow-lg border-r border-white/10">
+<div class="px-lg mb-xxl">
+<h1 class="font-display-md text-headline-md font-bold text-on-primary">M2A Co-Biz</h1>
+<p class="text-on-primary/60 font-label-md">Business Hub</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 text-on-primary/80 hover:bg-on-primary/10 mx-2 px-4 py-3 transition-all rounded-lg font-label-md group" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 bg-primary-container text-on-primary-container rounded-lg mx-2 px-4 py-3 transition-all font-label-md group" href="#">
+<span class="material-symbols-outlined" data-icon="storefront">storefront</span>
+<span>Seller Approval</span>
+<span class="ml-auto bg-accent-gold text-on-primary-fixed text-[10px] px-1.5 py-0.5 rounded-full font-bold">12</span>
+</a>
+<a class="flex items-center gap-3 text-on-primary/80 hover:bg-on-primary/10 mx-2 px-4 py-3 transition-all rounded-lg font-label-md group" href="#">
+<span class="material-symbols-outlined" data-icon="category">category</span>
+<span>Catalog Management</span>
+</a>
+<a class="flex items-center gap-3 text-on-primary/80 hover:bg-on-primary/10 mx-2 px-4 py-3 transition-all rounded-lg font-label-md group" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span>User Management</span>
+</a>
+<a class="flex items-center gap-3 text-on-primary/80 hover:bg-on-primary/10 mx-2 px-4 py-3 transition-all rounded-lg font-label-md group" href="#">
+<span class="material-symbols-outlined" data-icon="leaderboard">leaderboard</span>
+<span>Analytics</span>
+</a>
+<a class="flex items-center gap-3 text-on-primary/80 hover:bg-on-primary/10 mx-2 px-4 py-3 transition-all rounded-lg font-label-md group" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span>Settings</span>
+</a>
+</nav>
+<div class="mt-auto px-2">
+<button class="w-full flex items-center gap-3 text-on-primary/80 hover:bg-danger/20 hover:text-danger mx-2 px-4 py-3 transition-all rounded-lg font-label-md">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span>Logout</span>
+</button>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="md:ml-64 min-h-screen transition-all duration-300">
+<!-- TopAppBar -->
+<header class="sticky top-0 w-full z-40 flex justify-between items-center px-lg h-16 bg-surface shadow-sm border-b border-outline-variant/30 backdrop-blur-md">
+<div class="flex items-center gap-4">
+<h2 class="font-headline-md text-primary">Seller Approval Queue</h2>
+</div>
+<div class="flex items-center gap-xxl">
+<div class="hidden md:flex items-center bg-surface-container rounded-full px-4 py-2 gap-2 border border-outline-variant">
+<span class="material-symbols-outlined text-outline" data-icon="search">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-md w-64 outline-none" placeholder="Search sellers..." type="text"/>
+</div>
+<div class="flex items-center gap-lg">
+<button class="relative p-2 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-danger rounded-full border-2 border-surface"></span>
+</button>
+<div class="flex items-center gap-3 pl-4 border-l border-outline-variant">
+<div class="text-right hidden sm:block">
+<p class="font-label-md text-on-surface leading-none mb-1">Super Admin</p>
+<span class="inline-block bg-primary/10 text-primary px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider">Admin</span>
+</div>
+<img class="w-10 h-10 rounded-full border-2 border-primary-container object-cover" data-alt="A professional headshot of a female executive in her 40s, with a warm smile and approachable demeanor. She has styled hair and is wearing a sleek business suit. The lighting is soft and flattering, emphasizing a bright and clean corporate aesthetic against a neutral gray office background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPdHogEGbB1kFP6VCxcNffxjPrgWWxWzswvDu7CdLDF_y9lnGyj9CZXqtWa3g3Zgp7TIrTFbxC3nWhSyjiYvigiLZCnf7bMgdg-NM-VId98Yk06hFkjtL5U_fVS9a-pFNQ6QRVn9VeF28PsSfH4M7FeVJUFzK4QpC7oCoquqC2BlmPZvrfUDSicD_qWXX2awhfiOJkxUaLV2qTs1aFZSt7-alDvqbZ5tYwqeiXeComwamfh4li1xfCBY7Vklj-CCMgDgZe6pV3r4Ot"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Content Canvas -->
+<div class="p-lg md:p-xxl space-y-xl">
+<!-- Summary Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-lg">
+<div class="bg-surface-container-lowest p-xl rounded-xl shadow-sm border border-outline-variant/30 flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-primary bg-primary-fixed p-2 rounded-lg" data-icon="pending_actions">pending_actions</span>
+<span class="text-success font-label-sm flex items-center">+12% <span class="material-symbols-outlined text-sm" data-icon="arrow_upward">arrow_upward</span></span>
+</div>
+<div class="mt-4">
+<p class="text-on-surface-variant font-label-md">Pending Approvals</p>
+<h3 class="font-display-md text-primary mt-1">24</h3>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-xl rounded-xl shadow-sm border border-outline-variant/30 flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-accent-gold bg-accent-gold/10 p-2 rounded-lg" data-icon="hourglass_empty">hourglass_empty</span>
+<span class="text-on-surface-variant font-label-sm">Average Wait</span>
+</div>
+<div class="mt-4">
+<p class="text-on-surface-variant font-label-md">Approval Time</p>
+<h3 class="font-display-md text-primary mt-1">1.2d</h3>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-xl rounded-xl shadow-sm border border-outline-variant/30 flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-secondary bg-secondary-fixed p-2 rounded-lg" data-icon="verified">verified</span>
+<span class="text-on-surface-variant font-label-sm">This Month</span>
+</div>
+<div class="mt-4">
+<p class="text-on-surface-variant font-label-md">Total Approved</p>
+<h3 class="font-display-md text-primary mt-1">142</h3>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-xl rounded-xl shadow-sm border border-outline-variant/30 flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-danger bg-error-container p-2 rounded-lg" data-icon="cancel">cancel</span>
+<span class="text-danger font-label-sm">High Rejection</span>
+</div>
+<div class="mt-4">
+<p class="text-on-surface-variant font-label-md">Rejected Apps</p>
+<h3 class="font-display-md text-primary mt-1">08</h3>
+</div>
+</div>
+</div>
+<!-- Approval Queue Table -->
+<section class="bg-surface-container-lowest rounded-xl shadow-lg border border-outline-variant/30 overflow-hidden">
+<div class="p-lg border-b border-outline-variant/30 flex justify-between items-center bg-surface-container-low/30">
+<h4 class="font-headline-md text-on-surface">Queue (24)</h4>
+<div class="flex gap-md">
+<button class="flex items-center gap-2 px-4 py-2 border border-outline text-on-surface-variant rounded-lg hover:bg-surface-container transition-all font-label-md">
+<span class="material-symbols-outlined text-[18px]" data-icon="filter_alt">filter_alt</span> Filter
+                        </button>
+<button class="flex items-center gap-2 px-4 py-2 border border-outline text-on-surface-variant rounded-lg hover:bg-surface-container transition-all font-label-md">
+<span class="material-symbols-outlined text-[18px]" data-icon="download">download</span> Export
+                        </button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead class="bg-surface-container-low text-on-surface-variant font-label-md">
+<tr>
+<th class="px-lg py-4 border-b border-outline-variant">Seller Name</th>
+<th class="px-lg py-4 border-b border-outline-variant">Business Category</th>
+<th class="px-lg py-4 border-b border-outline-variant">Registration Date</th>
+<th class="px-lg py-4 border-b border-outline-variant">Status</th>
+<th class="px-lg py-4 border-b border-outline-variant text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/30">
+<tr class="hover:bg-surface-container-low/50 transition-colors cursor-pointer group" onclick="openReviewModal('Luxe Textiles Ltd', 'Fashion &amp; Apparel', 'Oct 24, 2023')">
+<td class="px-lg py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary font-bold">LT</div>
+<div>
+<p class="font-headline-md text-body-lg text-on-surface">Luxe Textiles Ltd</p>
+<p class="text-on-surface-variant text-[12px]">luxe@example.com</p>
+</div>
+</div>
+</td>
+<td class="px-lg py-4 text-on-surface-variant">Fashion &amp; Apparel</td>
+<td class="px-lg py-4 text-on-surface-variant">Oct 24, 2023</td>
+<td class="px-lg py-4">
+<span class="px-3 py-1 rounded-full bg-warning/10 text-warning font-label-sm border border-warning/20">Pending Review</span>
+</td>
+<td class="px-lg py-4 text-right">
+<button class="bg-primary text-on-primary px-4 py-2 rounded-lg font-label-md hover:shadow-md transition-all active:scale-95">Review Documents</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low/50 transition-colors cursor-pointer" onclick="openReviewModal('Green Grocers Co', 'Agriculture', 'Oct 23, 2023')">
+<td class="px-lg py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-tertiary/10 flex items-center justify-center text-tertiary font-bold">GG</div>
+<div>
+<p class="font-headline-md text-body-lg text-on-surface">Green Grocers Co</p>
+<p class="text-on-surface-variant text-[12px]">contact@greengrocers.org</p>
+</div>
+</div>
+</td>
+<td class="px-lg py-4 text-on-surface-variant">Agriculture</td>
+<td class="px-lg py-4 text-on-surface-variant">Oct 23, 2023</td>
+<td class="px-lg py-4">
+<span class="px-3 py-1 rounded-full bg-warning/10 text-warning font-label-sm border border-warning/20">Pending Review</span>
+</td>
+<td class="px-lg py-4 text-right">
+<button class="bg-primary text-on-primary px-4 py-2 rounded-lg font-label-md hover:shadow-md transition-all active:scale-95">Review Documents</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low/50 transition-colors cursor-pointer" onclick="openReviewModal('HomeHub Decor', 'Interior Design', 'Oct 22, 2023')">
+<td class="px-lg py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-secondary/10 flex items-center justify-center text-secondary font-bold">HD</div>
+<div>
+<p class="font-headline-md text-body-lg text-on-surface">HomeHub Decor</p>
+<p class="text-on-surface-variant text-[12px]">support@homehub.com</p>
+</div>
+</div>
+</td>
+<td class="px-lg py-4 text-on-surface-variant">Interior Design</td>
+<td class="px-lg py-4 text-on-surface-variant">Oct 22, 2023</td>
+<td class="px-lg py-4">
+<span class="px-3 py-1 rounded-full bg-info/10 text-primary font-label-sm border border-primary/20 bg-primary/10">In Progress</span>
+</td>
+<td class="px-lg py-4 text-right">
+<button class="bg-primary text-on-primary px-4 py-2 rounded-lg font-label-md hover:shadow-md transition-all active:scale-95">Review Documents</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-lg border-t border-outline-variant/30 flex justify-between items-center text-on-surface-variant font-label-sm">
+<span>Showing 3 of 24 applications</span>
+<div class="flex gap-xs">
+<button class="p-2 hover:bg-surface-container rounded-lg disabled:opacity-30" disabled="">
+<span class="material-symbols-outlined" data-icon="chevron_left">chevron_left</span>
+</button>
+<button class="px-3 py-1 bg-primary text-on-primary rounded-lg">1</button>
+<button class="px-3 py-1 hover:bg-surface-container rounded-lg">2</button>
+<button class="px-3 py-1 hover:bg-surface-container rounded-lg">3</button>
+<button class="p-2 hover:bg-surface-container rounded-lg">
+<span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Document Review Modal -->
+<div class="fixed inset-0 z-[100] hidden items-center justify-center px-4" id="reviewModal">
+<div class="absolute inset-0 bg-inverse-surface/40 backdrop-blur-sm" onclick="closeReviewModal()"></div>
+<div class="relative bg-surface w-full max-w-4xl rounded-xxl shadow-2xl overflow-hidden flex flex-col max-h-[921px] animate-in fade-in zoom-in duration-300">
+<!-- Modal Header -->
+<div class="px-xl py-lg border-b border-outline-variant/30 flex justify-between items-center bg-surface-container-low">
+<div>
+<h3 class="font-headline-lg text-primary" id="modalSellerName">Review Documents</h3>
+<p class="text-on-surface-variant font-label-md" id="modalSellerMeta">Application Reference: #SR-88219</p>
+</div>
+<button class="p-2 hover:bg-surface-container-high rounded-full transition-all" onclick="closeReviewModal()">
+<span class="material-symbols-outlined" data-icon="close">close</span>
+</button>
+</div>
+<!-- Modal Content -->
+<div class="flex-1 overflow-y-auto p-xl space-y-xl">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-xl">
+<div class="space-y-lg">
+<div class="bg-surface-container p-lg rounded-xl border border-outline-variant/30">
+<h4 class="font-headline-md text-on-surface mb-sm">Business License</h4>
+<div class="aspect-video bg-inverse-surface/10 rounded-lg flex items-center justify-center border-2 border-dashed border-outline relative overflow-hidden group">
+<img class="w-full h-full object-cover" data-alt="A clean, high-resolution scan of a business license document with a golden official seal and structured typography. The document is placed flat on a professional wooden desk surface with soft, directional lighting from the side, creating a realistic office atmosphere. The style is crisp and detailed, highlighting official textures and ink gradients." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBMsF7AlgbWUeF-pAuIo6Pk854XCFilubkolgi_oEP8qfhxs7ETlWqAmYUdhIcN8mYd3aR5EdWfmucY0KhNeJba2ijjLdUgjh_9a8xw0_6of3PFf3ymIfcv1ll47h_rZNBk9V7ToUhJzXJm28rF9-TepJSA-O-9SBNLulSCgv8ZWcWUtyH298AhhOMGbT_qKi6yozvlklnd-UzqnBLh_ZKXoMn2lemqm0_Dk-Y1pQAo6oBWbBGW2UsZQ4rmzYwz0PJJx2rqih55epLS"/>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all">
+<button class="bg-surface text-primary px-4 py-2 rounded-lg font-label-md flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]" data-icon="visibility">visibility</span> View Full
+                                    </button>
+</div>
+</div>
+</div>
+<div class="bg-surface-container p-lg rounded-xl border border-outline-variant/30">
+<h4 class="font-headline-md text-on-surface mb-sm">Identity Document (Director)</h4>
+<div class="aspect-video bg-inverse-surface/10 rounded-lg flex items-center justify-center border-2 border-dashed border-outline relative overflow-hidden group">
+<img class="w-full h-full object-cover" data-alt="A macro shot of a modern plastic identity card with secure holographic elements reflecting light. The card features a clear portrait photo and structured text fields. It is presented in a professional context, slightly tilted to show the depth of the holographic security features. Lighting is bright and neutral, emphasizing safety and verification." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDMv21uVrmw9cbKVJCwjfIRcCTV6f97IZAZPnQuYOaBYvINfg156etwwxasitHEDKyv9bwEeoz54xF5GQo4chkaH9W5YLpfr25vvRb8IrD71Jel6L61YuAuB0D2_cg99UjD3BaNmittxkMTwWzEgPFxdH0fLmDWj7r3pcEwtYHBPy5imE-2ZCcqR7zjvV5tylkNrlSeTPv45g2xKUUW42O86VNFt1K2_q_TYQvoISRMpI08wm44fjAX3K9OrsJLK4iWuNgU1_EPXWok"/>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all">
+<button class="bg-surface text-primary px-4 py-2 rounded-lg font-label-md flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]" data-icon="visibility">visibility</span> View Full
+                                    </button>
+</div>
+</div>
+</div>
+</div>
+<div class="space-y-lg">
+<div class="bg-surface-container-low p-lg rounded-xl">
+<h4 class="font-headline-md text-on-surface mb-md">Application Details</h4>
+<dl class="space-y-sm">
+<div class="flex justify-between border-b border-outline-variant/20 pb-2">
+<dt class="text-on-surface-variant font-label-md">Company Registered Name</dt>
+<dd class="text-on-surface font-label-md font-bold" id="detailName">Luxe Textiles Ltd</dd>
+</div>
+<div class="flex justify-between border-b border-outline-variant/20 pb-2 pt-2">
+<dt class="text-on-surface-variant font-label-md">Business Type</dt>
+<dd class="text-on-surface font-label-md">Manufacturer / Wholesaler</dd>
+</div>
+<div class="flex justify-between border-b border-outline-variant/20 pb-2 pt-2">
+<dt class="text-on-surface-variant font-label-md">Tax ID</dt>
+<dd class="text-on-surface font-label-md">TX-992-110-332</dd>
+</div>
+<div class="flex justify-between pt-2">
+<dt class="text-on-surface-variant font-label-md">Years in Operation</dt>
+<dd class="text-on-surface font-label-md">5 Years</dd>
+</div>
+</dl>
+</div>
+<div class="space-y-sm">
+<label class="font-label-md text-on-surface-variant">Reviewer Comments</label>
+<textarea class="w-full rounded-xl border-outline-variant bg-surface focus:ring-primary focus:border-primary min-h-[120px] text-body-md" placeholder="Type your observation here (visible to applicant if rejected)..."></textarea>
+</div>
+</div>
+</div>
+</div>
+<!-- Modal Footer Actions -->
+<div class="px-xl py-lg border-t border-outline-variant/30 flex flex-wrap gap-md justify-end bg-surface-container-low">
+<button class="px-lg py-2.5 text-on-surface-variant hover:bg-surface-container-high rounded-lg font-label-md transition-all" onclick="closeReviewModal()">Cancel</button>
+<button class="px-lg py-2.5 border border-primary text-primary hover:bg-primary/5 rounded-lg font-label-md transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span> Request Revision
+                </button>
+<button class="px-lg py-2.5 bg-danger text-on-error hover:bg-danger/90 rounded-lg font-label-md transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]" data-icon="block">block</span> Reject Application
+                </button>
+<button class="px-xl py-2.5 bg-success text-white hover:bg-success/90 rounded-lg font-label-md transition-all shadow-md flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]" data-icon="check_circle">check_circle</span> Approve Seller
+                </button>
+</div>
+</div>
+</div>
+<!-- Mobile Bottom Navigation (Platform-specific visibility per rules) -->
+<nav class="fixed bottom-0 w-full z-50 flex justify-around items-center h-16 pb-safe bg-surface md:hidden border-t border-outline-variant shadow-[0_-2px_10px_rgba(0,0,0,0.05)]">
+<a class="flex flex-col items-center justify-center text-on-surface-variant group" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="text-[10px] font-label-sm">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary group" href="#">
+<span class="material-symbols-outlined" data-icon="storefront">storefront</span>
+<span class="text-[10px] font-label-sm">Approval</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant group" href="#">
+<span class="material-symbols-outlined" data-icon="category">category</span>
+<span class="text-[10px] font-label-sm">Catalog</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant group" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="text-[10px] font-label-sm">Profile</span>
+</a>
+</nav>
+<script>
+        function openReviewModal(name, cat, date) {
+            const modal = document.getElementById('reviewModal');
+            document.getElementById('modalSellerName').textContent = name;
+            document.getElementById('detailName').textContent = name;
+            document.getElementById('modalSellerMeta').textContent = `Applied on ${date} • ${cat}`;
+            
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeReviewModal() {
+            const modal = document.getElementById('reviewModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Add small hover interaction for cards
+        const cards = document.querySelectorAll('.grid > div');
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.classList.add('-translate-y-1');
+                card.classList.add('shadow-md');
+            });
+            card.addEventListener('mouseleave', () => {
+                card.classList.remove('-translate-y-1');
+                card.classList.remove('shadow-md');
+            });
+            card.classList.add('transition-all', 'duration-300');
+        });
+    </script>
+</body></html>

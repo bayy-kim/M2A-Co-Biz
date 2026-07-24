@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+
+<html class="light" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>M2A Co-Biz | Pusat Bisnis &amp; UMKM Al-Mubarok II</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Scripts -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            vertical-align: middle;
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .scroll-reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+    </style>
+<!-- Shared Tailwind Config -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-error-container": "#93000a",
+                    "on-secondary-container": "#53667d",
+                    "on-primary-fixed-variant": "#004f50",
+                    "surface-container-highest": "#e1e3e2",
+                    "surface-variant": "#e1e3e2",
+                    "on-background": "#191c1c",
+                    "tertiary-container": "#7a452a",
+                    "on-surface": "#191c1c",
+                    "on-tertiary-fixed": "#351000",
+                    "outline-variant": "#bfc8c8",
+                    "secondary-container": "#d0e4ff",
+                    "surface-dim": "#d8dada",
+                    "secondary-fixed": "#d0e4ff",
+                    "outline": "#6f7978",
+                    "background": "#f8faf9",
+                    "on-tertiary-container": "#ffb693",
+                    "success": "#22C55E",
+                    "accent-gold": "#D9A441",
+                    "primary-container": "#0f5c5c",
+                    "surface-container-lowest": "#ffffff",
+                    "error": "#ba1a1a",
+                    "inverse-surface": "#2e3131",
+                    "on-primary-container": "#90d2d1",
+                    "danger": "#EF4444",
+                    "inverse-on-surface": "#eff1f0",
+                    "on-secondary-fixed": "#071d30",
+                    "error-container": "#ffdad6",
+                    "surface-container": "#eceeed",
+                    "surface-container-high": "#e6e9e8",
+                    "on-primary-fixed": "#002020",
+                    "inverse-primary": "#90d2d1",
+                    "primary": "#004343",
+                    "background-neutral": "#F7F7F5",
+                    "surface-container-low": "#f2f4f3",
+                    "on-surface-variant": "#3f4948",
+                    "tertiary": "#5e2f16",
+                    "on-error": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "surface-tint": "#216868",
+                    "surface-bright": "#f8faf9",
+                    "surface": "#f8faf9",
+                    "warning": "#F59E0B",
+                    "on-secondary": "#ffffff",
+                    "tertiary-fixed-dim": "#ffb693",
+                    "on-secondary-fixed-variant": "#35485e",
+                    "secondary-fixed-dim": "#b5c8e2",
+                    "on-tertiary-fixed-variant": "#6c391f",
+                    "primary-fixed": "#aceeee",
+                    "tertiary-fixed": "#ffdbcc",
+                    "primary-fixed-dim": "#90d2d1",
+                    "secondary": "#4d6076",
+                    "on-primary": "#ffffff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "lg": "16px",
+                    "gutter": "16px",
+                    "md": "12px",
+                    "sm": "8px",
+                    "xxl": "32px",
+                    "xl": "24px",
+                    "margin": "24px",
+                    "xs": "4px"
+            },
+            "fontFamily": {
+                    "display-lg": ["Plus Jakarta Sans"],
+                    "display-md": ["Plus Jakarta Sans"],
+                    "body-lg": ["Plus Jakarta Sans"],
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "body-md": ["Plus Jakarta Sans"],
+                    "label-sm": ["Inter"],
+                    "headline-lg": ["Plus Jakarta Sans"],
+                    "label-md": ["Inter"]
+            }
+          }
+        }
+      }
+    </script>
+</head>
+<body class="bg-background text-on-surface">
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-lg h-16 bg-surface shadow-sm">
+<div class="flex items-center gap-2">
+<span class="font-display-md text-headline-md font-bold text-primary">M2A Co-Biz</span>
+</div>
+<nav class="hidden md:flex items-center gap-xxl">
+<a class="text-primary font-bold border-b-2 border-primary font-body-md text-body-md hover:text-primary transition-colors" href="#">Home</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md" href="#products">Catalog</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md" href="#about">About</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md" href="#location">Contact</a>
+</nav>
+<div class="flex items-center gap-md">
+<button class="p-2 text-primary">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="flex items-center gap-2 px-4 py-2 bg-primary text-on-primary rounded-full hover:opacity-90 transition-all text-label-md font-label-md">
+<span>Login</span>
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</header>
+<!-- Hero Section -->
+<section class="relative min-h-screen flex items-center pt-16 overflow-hidden">
+
+<div class="container mx-auto px-margin relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-xxl items-center">
+<div class="space-y-xl max-w-2xl">
+<div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary-container/10 border border-primary-container/20 text-primary-container font-label-md text-label-md">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+                    Community-Led Commerce
+                </div>
+<h1 class="font-display-lg text-display-lg text-primary tracking-tight leading-tight">
+                    Pusat Bisnis &amp; UMKM <br/> <span class="text-accent-gold">Al-Mubarok II</span>
+</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant leading-relaxed">
+                    Memberdayakan potensi ekonomi lokal melalui ekosistem bisnis digital yang terintegrasi. Wadah bagi wirausaha muda untuk bertumbuh dan berinovasi di Banjarwaringin.
+                </p>
+<div class="flex flex-wrap gap-md pt-md">
+<a class="px-xxl py-4 bg-primary text-on-primary rounded-xl font-headline-md text-headline-md shadow-lg shadow-primary/20 hover:scale-[1.02] transition-transform flex items-center gap-3" href="#products">
+                        Jelajahi Produk
+                        <span class="material-symbols-outlined">arrow_forward</span>
+</a>
+<a class="px-xxl py-4 border-2 border-primary text-primary rounded-xl font-headline-md text-headline-md hover:bg-primary/5 transition-colors" href="#join">
+                        Mulai Berjualan
+                    </a>
+</div>
+</div>
+<div class="relative hidden lg:block">
+<div class="relative aspect-square rounded-3xl overflow-hidden shadow-2xl z-20">
+<img class="w-full h-full object-cover" data-alt="A professional, modern photograph of a vibrant Indonesian business community gathering. Young entrepreneurs are collaborating in a bright, contemporary workspace with traditional teak accents and modern glass windows. The lighting is warm and natural, highlighting a deep teal and gold color palette that feels trustworthy and inclusive. High-end lifestyle photography style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBI1p81coeDK0Qz2y56h6uWMDdKSnptGGfFV4G9O1lea8AspshankVz4yyiNjhwIt2mh8-COEkvJ2iJ2BQB4p4cfuz0lX_Yfbl-rAmp60eNcy5uZc4GQ64Ozk9GgP2GWnpEi0_OuBhEYGjZpeAn64nDhkvEUjUv_4kTLliqjoKflOxyH2ddImaBaKvqRbD7ZnU-LeIx-DTqqRdq5ijHZDomRIgKYPtDSquDAg7db90-bwhZH-LhfJFDJCmfDuy0NpjafUA2OJEx09pU"/>
+</div>
+<div class="absolute -bottom-6 -left-6 glass-card p-xl rounded-xl shadow-xl z-30 max-w-xs">
+<div class="flex items-center gap-lg">
+<div class="w-12 h-12 bg-accent-gold/20 rounded-full flex items-center justify-center text-accent-gold">
+<i data-lucide="trending-up"></i>
+</div>
+<div>
+<p class="text-on-surface font-bold">50+ UMKM Aktif</p>
+<p class="text-label-sm text-on-surface-variant">Tumbuh Bersama M2A</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Featured Products (Bento Grid) -->
+<section class="py-xxl bg-surface-container-low" id="products">
+<div class="container mx-auto px-margin">
+<div class="text-center max-w-3xl mx-auto mb-xxl scroll-reveal">
+<h2 class="font-display-md text-display-md text-primary mb-md">Produk Unggulan Kami</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Koleksi pilihan dari para pelaku UMKM binaan Al-Mubarok II, mulai dari kerajinan tangan hingga kuliner khas daerah.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-lg">
+<!-- Large Feature -->
+<div class="md:col-span-2 md:row-span-2 group relative overflow-hidden rounded-xl shadow-md bg-surface-container-lowest scroll-reveal">
+<div class="aspect-[4/5] md:aspect-auto md:h-full w-full">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="Close up high-quality food photography of traditional Indonesian snacks and delicacies. The lighting is professional and warm, showcasing intricate textures of bamboo basket packaging and vibrant natural ingredients. Deep teal accents in the styling maintain brand consistency. The mood is authentic yet premium." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDj4bhECIT5WW4_IdVqZPURa-BgpAZnQECYbDBVmf4p6KNj2s80eGZ7M2RnBKM2NcfRhhxtNYn7kxrYBDl2ygqH7T6pEA4rmFNl3rHXAcIgmTm-iK1pr_Bx92M1OEq0Cjzv4vxZ-A-adBK8PFm8DMOjCrZoBsiprRYSvWWgmUAdo8GWDSihDUr4yG1lRdW_m1tqrVOMLAl7oU_d4HshZww36ehL5YIDjvV4rlo7PG9jmlIP3oWYnDjstM5kh1SlVPospoFjzTOW8aVZ"/>
+</div>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/20 to-transparent p-xl flex flex-col justify-end">
+<span class="inline-block px-3 py-1 bg-accent-gold text-on-primary-fixed font-label-sm text-label-sm rounded-full mb-md w-fit">Kuliner Tradisional</span>
+<h3 class="text-display-md text-on-primary font-bold mb-sm">Keripik Pisang Salopa</h3>
+<p class="text-on-primary/80 mb-lg max-w-md">Olahan pisang pilihan dengan resep turun temurun yang kini hadir dengan kemasan modern.</p>
+<button class="w-fit px-lg py-2 bg-on-primary text-primary font-label-md rounded-lg hover:bg-primary-fixed transition-colors">Lihat Detail</button>
+</div>
+</div>
+<!-- Product Card 1 -->
+<div class="group bg-surface-container-lowest rounded-xl shadow-md overflow-hidden scroll-reveal">
+<div class="aspect-square relative overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Elegant handcrafted bamboo weaving products, such as bags and storage boxes, displayed in a minimalist studio setting. Soft directional light highlights the natural wood textures and craftsmanship. The style is modern-corporate Indonesian artisan, emphasizing clean lines and high-quality materials." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDteS3PmIf-p2g4q7v3UdyBwOoZ8QaORovBTfdhaBMj07gxHUz93qBiZxwHq3btK9wTlplTOVklzFWqExBkM6QkalCaBjdZpr7d8bmBSfZiStGJVlfZNz2AKgbMAfMaoRJAdDkiwHdfYYP2ImIkDxtSaa3b39Rk_SKCupZJH2cHgvFCopldq1sUk1Y7DLeN54hedWmB6yBDzMcQIUF5WySdljPw_UYiEQqjrMdjUm4Z-ubzAEvjveXLLzX77wfQAyDNNuXbf1JvUwZw"/>
+</div>
+<div class="p-lg">
+<h4 class="text-headline-md font-bold text-primary mb-xs">Anyaman Bambu Art</h4>
+<p class="text-label-md text-on-surface-variant mb-md">Kriya &amp; Dekorasi</p>
+<div class="flex items-center justify-between">
+<span class="text-primary-container font-bold">Rp 85.000</span>
+<button class="p-2 bg-primary/5 hover:bg-primary/10 text-primary rounded-full transition-colors">
+<span class="material-symbols-outlined">shopping_bag</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Product Card 2 -->
+<div class="group bg-surface-container-lowest rounded-xl shadow-md overflow-hidden scroll-reveal">
+<div class="aspect-square relative overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Artisanal local honey jars with premium minimalist labeling. The honey has a rich golden glow, back-lit to emphasize purity. The background is a soft-focus forest setting to imply organic origins. Product photography for a high-end wellness brand." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB25txjLq1rkDAmCz0-J42zAFUh8harCzVz7xys9szseZQGez6VIJ02trMIjQA8BoGhnpTAF-QIsdjCG9yoOk01M3SiTG1R0Bv1wfnLINukSnTeo6NiikXbbsONtxPrUE2upvVCMTbfKwN5HJR58CAa0n75bVGYXu7MYWTMCxCNyxqktcwVlvPeN6nUr2Rds-7XWGaWh8msZ_t2Iuz4NE2mO7W8ffh5D3_P4Z6n1G0ejIrq3kuXXtYY6pjQawWXdJ1E8TwWoM7GdiqF"/>
+</div>
+<div class="p-lg">
+<h4 class="text-headline-md font-bold text-primary mb-xs">Madu Hutan Murni</h4>
+<p class="text-label-md text-on-surface-variant mb-md">Kesehatan &amp; Herbal</p>
+<div class="flex items-center justify-between">
+<span class="text-primary-container font-bold">Rp 120.000</span>
+<button class="p-2 bg-primary/5 hover:bg-primary/10 text-primary rounded-full transition-colors">
+<span class="material-symbols-outlined">shopping_bag</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Small Grid Items -->
+<div class="group bg-surface-container-lowest rounded-xl shadow-md overflow-hidden scroll-reveal">
+<div class="aspect-square relative overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Modern textile design featuring traditional batik patterns from Tasikmalaya. The fabric is draped elegantly, showing off intricate patterns and a deep teal-green color palette. Professional fashion photography style, high-end commercial feel." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7Wmo25w-Rj9lwn2tcpkZe2DiSjQDaYuwFpMBSj2sgoWVszPWChHszgNP_9nd3z05wVDxNxI1LlOer7uu4Y27ng3O8l7X61FapkZP2eqt-W-D642zhzKByZVuUXpfEbzRtP2hc6AV6PQp6gZvKuMrUX-Lf8b4T6MHgaC1Hl_fzuup2kSFvkF5cgO8jJvBwRu_f_YCt5GhPVcTWQb33n1TZpOEfaXNF312qsxTV2vCUw_iawSs-Qrf2u-cGe90ESvFilmdrudZ7SNwN"/>
+</div>
+<div class="p-lg">
+<h4 class="text-headline-md font-bold text-primary mb-xs">Batik Mubarok</h4>
+<p class="text-label-md text-on-surface-variant mb-md">Fashion &amp; Tekstil</p>
+<div class="flex items-center justify-between">
+<span class="text-primary-container font-bold">Rp 250.000</span>
+<button class="p-2 bg-primary/5 hover:bg-primary/10 text-primary rounded-full transition-colors">
+<span class="material-symbols-outlined">shopping_bag</span>
+</button>
+</div>
+</div>
+</div>
+<div class="group bg-surface-container-lowest rounded-xl shadow-md overflow-hidden scroll-reveal">
+<div class="aspect-square relative overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A collection of handmade organic soaps with natural exfoliants like coffee and charcoal. The soaps are arranged in an aesthetic, minimalist grid on a marble surface. Soft, clean morning light creates a fresh, wellness-oriented mood. Corporate-modern Indonesian cosmetic brand aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBjcFJpeNIS_4b7c0fGU4mop1tSTO6IH6b9HtQPp9dlPVICBUrNmtCilOq38kN8GXNMe2N5UBWo0wTIF1qGF9erFbp6X50e2H1dniEbxHNorAuBmKZ8vkTQvBEtbnz4BnAsScP9xDQ53lNU9TAhUwLyMUfBbdcJjvnmoozX3VIax5IQd1AqS99kZEU1V5cQwV9AaC82y5YZWKOrZDz66zc6wNos0W65_-6dFv05vk0fhqK3qT7UEXC9Jhj-2YTKiPBEdx1aWlNCi40R"/>
+</div>
+<div class="p-lg">
+<h4 class="text-headline-md font-bold text-primary mb-xs">Sabun Organik</h4>
+<p class="text-label-md text-on-surface-variant mb-md">Perawatan Tubuh</p>
+<div class="flex items-center justify-between">
+<span class="text-primary-container font-bold">Rp 35.000</span>
+<button class="p-2 bg-primary/5 hover:bg-primary/10 text-primary rounded-full transition-colors">
+<span class="material-symbols-outlined">shopping_bag</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- About Section -->
+<section class="py-xxl bg-background overflow-hidden" id="about">
+<div class="container mx-auto px-margin">
+<div class="flex flex-col lg:flex-row gap-xxl items-center">
+<div class="lg:w-1/2 relative scroll-reveal">
+<div class="relative z-10 rounded-2xl overflow-hidden shadow-2xl border-8 border-surface">
+<img class="w-full h-auto" data-alt="A dynamic action shot of young Indonesian community leaders from an organization called Al-Mubarok II. They are standing in front of a modern community hub, holding tablets and looking towards the future with confidence and warmth. The setting is a clean, green suburban area of Tasikmalaya. Professional corporate-social responsibility style photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDUEDeknBzHEGZ2HD51HJZtPlXiw6HDybUO7CYF7dY3K1Du01X4q3fDHKYwqx5t7rgjIO0BB2_onhaD799IZtYHfLmKbZSw8NN_05EyXpnFqokh1Q1IwgsDYJdYMc5wY1bxq_Lib2tB-NYOfy4PQAoeDBOpNFwq8s8qI4fu4S_bosBU-XPCLUd2-SxtYaorCUVXp5U1O-LEBKCXasw7iQhtsa6I-atCM7uauenstPv1Mhxv9Zd0H1IJyYCsfc0joeUrlArEbfklcARl"/>
+</div>
+<div class="absolute -top-10 -right-10 w-40 h-40 bg-accent-gold/10 rounded-full blur-3xl"></div>
+<div class="absolute -bottom-10 -left-10 w-64 h-64 bg-primary/10 rounded-full blur-3xl"></div>
+</div>
+<div class="lg:w-1/2 space-y-xl scroll-reveal">
+<span class="text-accent-gold font-bold tracking-widest uppercase text-label-sm">Our Mission</span>
+<h2 class="font-display-md text-display-md text-primary">Memberdayakan UMKM, Membangun Kemandirian</h2>
+<p class="text-body-lg text-on-surface-variant leading-relaxed">
+                        M2A Co-Biz merupakan inisiatif strategis dari organisasi kepemudaan Al-Mubarok II untuk menjawab tantangan ekonomi digital bagi pelaku usaha lokal di Banjarwaringin.
+                    </p>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-lg">
+<div class="flex gap-md">
+<div class="flex-shrink-0 w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+<i class="w-5 h-5" data-lucide="shield-check"></i>
+</div>
+<div>
+<h5 class="font-bold text-on-surface">Legalitas Terjamin</h5>
+<p class="text-label-md text-on-surface-variant">Pendampingan perizinan dan sertifikasi produk.</p>
+</div>
+</div>
+<div class="flex gap-md">
+<div class="flex-shrink-0 w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+<i class="w-5 h-5" data-lucide="zap"></i>
+</div>
+<div>
+<h5 class="font-bold text-on-surface">Akses Pasar</h5>
+<p class="text-label-md text-on-surface-variant">Menghubungkan UMKM ke pasar nasional.</p>
+</div>
+</div>
+<div class="flex gap-md">
+<div class="flex-shrink-0 w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+<i class="w-5 h-5" data-lucide="users"></i>
+</div>
+<div>
+<h5 class="font-bold text-on-surface">Komunitas Support</h5>
+<p class="text-label-md text-on-surface-variant">Networking sesama pelaku usaha muda.</p>
+</div>
+</div>
+<div class="flex gap-md">
+<div class="flex-shrink-0 w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+<i class="w-5 h-5" data-lucide="bar-chart-3"></i>
+</div>
+<div>
+<h5 class="font-bold text-on-surface">Pelatihan Intensif</h5>
+<p class="text-label-md text-on-surface-variant">Digital marketing &amp; pengelolaan keuangan.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Location Section -->
+<section class="py-xxl bg-surface-container" id="location">
+<div class="container mx-auto px-margin">
+<div class="bg-surface-container-lowest rounded-3xl overflow-hidden shadow-xl flex flex-col lg:flex-row">
+<div class="lg:w-1/3 p-xxl space-y-xl bg-primary text-on-primary">
+<h2 class="font-display-md text-display-md">Kunjungi Kami</h2>
+<p class="text-on-primary/80">Kami terbuka untuk kolaborasi dan kunjungan langsung bagi Anda yang ingin melihat proses produksi UMKM kami.</p>
+<div class="space-y-lg pt-xl">
+<div class="flex items-start gap-lg">
+<i class="w-6 h-6 text-accent-gold" data-lucide="map-pin"></i>
+<div>
+<p class="font-bold">Alamat Pusat</p>
+<p class="text-on-primary/70">Banjarwaringin, Salopa, Tasikmalaya, Jawa Barat</p>
+</div>
+</div>
+<div class="flex items-start gap-lg">
+<i class="w-6 h-6 text-accent-gold" data-lucide="phone"></i>
+<div>
+<p class="font-bold">Telepon</p>
+<p class="text-on-primary/70">+62 812-3456-7890</p>
+</div>
+</div>
+<div class="flex items-start gap-lg">
+<i class="w-6 h-6 text-accent-gold" data-lucide="mail"></i>
+<div>
+<p class="font-bold">Email</p>
+<p class="text-on-primary/70">info@m2acobiz.com</p>
+</div>
+</div>
+</div>
+</div>
+<div class="lg:w-2/3 h-[400px] lg:h-auto min-h-[400px]">
+<!-- Google Maps Iframe placeholder -->
+<iframe allowfullscreen="" class="w-full h-full border-0" data-location="Banjarwaringin, Salopa, Tasikmalaya" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15833.682855908235!2d108.2882838!3d-7.7214959!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e65d83669a8b84d%3A0xe9813f01901b0f55!2sBanjarwaringin%2C%20Salopa%2C%20Tasikmalaya%20Regency%2C%20West%20Java!5e0!3m2!1sen!2sid!4v1700000000000!5m2!1sen!2sid">
+</iframe>
+</div>
+</div>
+</div>
+</section>
+<!-- Final CTA Section -->
+<section class="py-xxl relative overflow-hidden bg-primary" id="join">
+
+<div class="container mx-auto px-margin relative z-10 text-center text-on-primary">
+<h2 class="font-display-lg text-display-lg mb-xl max-w-4xl mx-auto">Siap Membangun Masa Depan Bisnis Anda?</h2>
+<p class="text-body-lg text-on-primary/80 mb-xxl max-w-2xl mx-auto">Bergabunglah dengan puluhan wirausaha muda lainnya dan nikmati fasilitas ekosistem M2A Co-Biz untuk meningkatkan skala bisnis Anda.</p>
+<div class="flex flex-col sm:flex-row gap-lg justify-center items-center">
+<a class="px-xxl py-4 bg-accent-gold text-on-primary-fixed font-bold rounded-xl shadow-lg hover:scale-105 transition-transform" href="#">Daftar sebagai UMKM</a>
+<a class="px-xxl py-4 bg-on-primary text-primary font-bold rounded-xl hover:bg-primary-fixed transition-colors" href="#">Konsultasi Bisnis</a>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="bg-surface py-xl border-t border-outline-variant">
+<div class="container mx-auto px-margin">
+<div class="flex flex-col md:flex-row justify-between items-center gap-xl">
+<div class="space-y-sm text-center md:text-left">
+<h3 class="font-display-md text-headline-md font-bold text-primary">M2A Co-Biz</h3>
+<p class="text-label-md text-on-surface-variant">© 2024 Al-Mubarok II. All rights reserved.</p>
+</div>
+<div class="flex gap-xxl">
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Instagram</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Facebook</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">WhatsApp</a>
+</div>
+<div class="flex gap-lg">
+<button class="p-2 rounded-full border border-outline hover:bg-surface-container transition-colors">
+<i class="w-5 h-5 text-on-surface" data-lucide="globe"></i>
+</button>
+<button class="p-2 rounded-full border border-outline hover:bg-surface-container transition-colors">
+<i class="w-5 h-5 text-on-surface" data-lucide="moon"></i>
+</button>
+</div>
+</div>
+</div>
+</footer>
+<!-- Bottom Nav for Mobile -->
+<nav class="fixed bottom-0 w-full z-50 flex justify-around items-center h-16 pb-safe bg-surface border-t border-outline-variant md:hidden">
+<a class="flex flex-col items-center justify-center text-primary" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-sm text-[10px]">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant" href="#products">
+<span class="material-symbols-outlined">search</span>
+<span class="font-label-sm text-[10px]">Catalog</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">shopping_bag</span>
+<span class="font-label-sm text-[10px]">Orders</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-sm text-[10px]">Profile</span>
+</a>
+</nav>
+<script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Scroll Reveal Animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
+
+        // Smooth Scroll Logic
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body></html>

@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>M2A Co-Biz | Mobile Landing Page</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://unpkg.com/lucide@latest"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary": "#ffffff",
+                        "on-surface-variant": "#3f4948",
+                        "tertiary-fixed-dim": "#ffb693",
+                        "secondary-fixed-dim": "#b5c8e2",
+                        "surface-variant": "#e1e3e2",
+                        "on-secondary-container": "#53667d",
+                        "primary": "#004343",
+                        "surface-dim": "#d8dada",
+                        "on-primary-fixed-variant": "#004f50",
+                        "on-background": "#191c1c",
+                        "surface-bright": "#f8faf9",
+                        "primary-container": "#0f5c5c",
+                        "inverse-on-surface": "#eff1f0",
+                        "inverse-surface": "#2e3131",
+                        "on-tertiary-fixed": "#351000",
+                        "surface-container-low": "#f2f4f3",
+                        "error": "#ba1a1a",
+                        "secondary-container": "#d0e4ff",
+                        "error-container": "#ffdad6",
+                        "danger": "#EF4444",
+                        "secondary-fixed": "#d0e4ff",
+                        "success": "#22C55E",
+                        "inverse-primary": "#90d2d1",
+                        "primary-fixed": "#aceeee",
+                        "surface-container-high": "#e6e9e8",
+                        "secondary": "#4d6076",
+                        "surface-tint": "#216868",
+                        "accent-gold": "#D9A441",
+                        "on-error": "#ffffff",
+                        "on-primary-container": "#90d2d1",
+                        "on-secondary-fixed-variant": "#35485e",
+                        "on-tertiary-fixed-variant": "#6c391f",
+                        "background-neutral": "#F7F7F5",
+                        "tertiary-container": "#7a452a",
+                        "on-surface": "#191c1c",
+                        "on-primary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "primary-fixed-dim": "#90d2d1",
+                        "on-secondary": "#ffffff",
+                        "surface-container-highest": "#e1e3e2",
+                        "on-secondary-fixed": "#071d30",
+                        "tertiary": "#5e2f16",
+                        "on-tertiary-container": "#ffb693",
+                        "tertiary-fixed": "#ffdbcc",
+                        "outline": "#6f7978",
+                        "surface-container": "#eceeed",
+                        "background": "#f8faf9",
+                        "outline-variant": "#bfc8c8",
+                        "on-primary-fixed": "#002020",
+                        "surface-container-lowest": "#ffffff",
+                        "surface": "#f8faf9",
+                        "warning": "#F59E0B"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xs": "4px",
+                        "sm": "8px",
+                        "md": "12px",
+                        "margin": "24px",
+                        "xxl": "32px",
+                        "xl": "24px",
+                        "gutter": "16px",
+                        "lg": "16px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "display-md": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "body-lg": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                        "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "display-md": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                        "display-md-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "display-lg": ["40px", {"lineHeight": "48px", "fontWeight": "700"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .hero-gradient {
+            background: linear-gradient(135deg, #004343 0%, #0f5c5c 100%);
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .animate-float { animation: float 4s ease-in-out infinite; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body-md overflow-x-hidden pb-20">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-surface-dim docked full-width top-0 sticky z-50 shadow-sm flex justify-between items-center w-full px-margin h-16">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center overflow-hidden border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="A professional close-up portrait of a diverse corporate leader smiling warmly, set against a clean, softly lit office environment. The image uses a professional color palette of deep teals and warm neutral tones, conveying trust and approachability for a business community platform." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCyLhMtxD9m8tDF9o3ZLriGHwwHgj2KH1nx-F4_HV5Odtm09IFMBohm2J3LllZF-JgyG6Xk_wVb-h6NROXCxb75gUEvh4tK82_9sIvrIOzJNSX3ASqK5h-25nFYg2JVEvYln9FFUAvQat4AHDOWKCTwsg_BnTaDrMheXRG-ybFYKsjcxRdIRMpB5kDLWI3OFJa-kTGcaa7RpszSLVu8WEYA3m-K4aTYO_zwdRPJdRsoBejUjUBozFJP3TlCWRdJlrPorgvlWuYkIkDa"/>
+</div>
+<span class="text-headline-md font-headline-md font-bold text-primary dark:text-primary-fixed">M2A Co-Biz</span>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-primary">notifications</span>
+</button>
+</header>
+<main class="space-y-xxl">
+<!-- Hero Section -->
+<section class="relative px-margin pt-xl">
+<div class="hero-gradient rounded-xl p-xl overflow-hidden relative min-h-[420px] flex flex-col justify-end">
+<div class="absolute top-0 right-0 p-lg opacity-20 animate-float">
+<i class="w-32 h-32 text-on-primary" data-lucide="briefcase"></i>
+</div>
+<div class="relative z-10 space-y-md">
+<h1 class="text-display-md-mobile font-display-md text-on-primary leading-tight">
+                        Empowering Your <br/><span class="text-accent-gold">Business Journey</span>
+</h1>
+<p class="text-body-lg text-primary-fixed/80 max-w-[85%]">
+                        Connect, collaborate, and grow with our professional business ecosystem designed for sustainable success.
+                    </p>
+<div class="flex flex-col gap-sm pt-md">
+<button class="w-full bg-accent-gold text-on-tertiary-fixed py-4 rounded-xl font-bold text-label-md flex items-center justify-center gap-2 active:scale-95 transition-transform">
+                            Join Community <i class="w-4 h-4" data-lucide="chevron-right"></i>
+</button>
+<button class="w-full bg-white/10 backdrop-blur-md text-white py-4 rounded-xl font-bold text-label-md flex items-center justify-center gap-2 active:scale-95 transition-transform border border-white/20">
+                            Explore Services
+                        </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Featured Products (Horizontal Scroll) -->
+<section class="space-y-lg">
+<div class="flex justify-between items-center px-margin">
+<h2 class="text-headline-lg-mobile font-headline-lg text-primary">Featured Products</h2>
+<button class="text-primary text-label-md font-bold flex items-center gap-1">
+                    See All <i class="w-4 h-4" data-lucide="arrow-right"></i>
+</button>
+</div>
+<div class="flex overflow-x-auto no-scrollbar gap-gutter px-margin pb-4">
+<!-- Product Card 1 -->
+<div class="flex-none w-[280px] bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant overflow-hidden group">
+<div class="h-40 overflow-hidden relative">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A premium executive leather-bound business planner lying on a polished walnut desk, accompanied by a high-end gold fountain pen. The setting is a minimalist, modern office with soft daylight filtering through large windows, creating a professional and focused atmosphere with deep teal and warm gold highlights." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAK3XH_By-ZoKQ0LbNhz8JCovGCvf7uQYhbjNJeHwlQUeOTyBiWMYY8c733IvGLvmSPuW515_dX8IxLcs6JFkyNrcT-2jorbviF7_HD6amNkqzCVj4V0EqTtUF-odfCdBI5WFzvvxdWZMY28GNyNMf9BvPc6ceImEuJs85BO_Ssdj5snekxzOCrpn5y7tR_ZKFaLCdsVYbh1TLyTgsTR1quYLFDfnX3zag3o2fdBsjGNoyJ9F37KEZ-cFyocmu3WxrmsKVfxGkreX2Q"/>
+<div class="absolute top-2 right-2 bg-primary text-white text-[10px] font-bold px-2 py-1 rounded-full">NEW</div>
+</div>
+<div class="p-lg space-y-xs">
+<span class="text-accent-gold font-bold text-[10px] tracking-wider uppercase">Leadership</span>
+<h3 class="font-bold text-body-lg text-on-surface">Strategic Executive Kit</h3>
+<div class="flex justify-between items-center mt-2">
+<span class="text-primary font-bold text-headline-md">$129.00</span>
+<button class="p-2 bg-secondary-container text-on-secondary-fixed rounded-lg active:scale-90 transition-transform">
+<i class="w-4 h-4" data-lucide="shopping-cart"></i>
+</button>
+</div>
+</div>
+</div>
+<!-- Product Card 2 -->
+<div class="flex-none w-[280px] bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant overflow-hidden group">
+<div class="h-40 overflow-hidden relative">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="An advanced ergonomic workplace setup featuring high-tech peripheral devices, a clean white surface, and a small green plant for freshness. The lighting is crisp and neutral-toned, reflecting a modern corporate productivity vibe. The color palette emphasizes professional whites, deep forest greens, and subtle metallic accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBwJN02jqjOuG-HoPBV-1G_aNpUV2zMZH1oc1d2y8JPo49WPM_1z855x-HjkirgK3cMoNfdYCAf5lkAM9uZC0VomnyeXZdUYo3bCe74aixWXzS5L496QWKJ3m3n8ljrfNSKb18_92R7h1KbEE2dW1huEd8J93V53v9dqTt_zPK-nHIUVXQtsHeQfvsM1jG0L0Mej1Sm76mvfql42jrZ4nNAeAaz48tDH4a91E8XXnhPluzZKPs4b-1V5aovnGeKxt55ZLK8Xswa0K6O"/>
+</div>
+<div class="p-lg space-y-xs">
+<span class="text-accent-gold font-bold text-[10px] tracking-wider uppercase">Workspace</span>
+<h3 class="font-bold text-body-lg text-on-surface">Digital Workspace Pro</h3>
+<div class="flex justify-between items-center mt-2">
+<span class="text-primary font-bold text-headline-md">$85.50</span>
+<button class="p-2 bg-secondary-container text-on-secondary-fixed rounded-lg active:scale-90 transition-transform">
+<i class="w-4 h-4" data-lucide="shopping-cart"></i>
+</button>
+</div>
+</div>
+</div>
+<!-- Product Card 3 -->
+<div class="flex-none w-[280px] bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant overflow-hidden group">
+<div class="h-40 overflow-hidden relative">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A set of premium glass and ceramic coffee brewing equipment on a minimalist kitchen island. Soft morning sunlight streams in, illuminating the steam rising from a cup of coffee. The aesthetic is clean, professional, and sophisticated, using warm wood tones and professional lighting to suggest high-quality lifestyle products for professionals." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDi7eudaZj1rqfGGpDCz9oJx3onAto-90VgNvcSFeq3adnjuiocOC4-ubE2H_pxUDjIcaQdSGpTi7P394fEhvHaEvNjLzlKg0kgXgjawPEQIYIv5dPmWv3o8lHhglHTchblKFRL_FKGxdYg45TARcRRJu6SPe47jWPzs-Wj-HuffCqifaiKLxrCHX-MbowIGw6aJ8RmRmm7n4hqC6IlO0EzoUk_a024_aC2Pw6Q8E_8yF5OMMIrzixo6GLRhj8fMxE--0vpc74JQv9t"/>
+</div>
+<div class="p-lg space-y-xs">
+<span class="text-accent-gold font-bold text-[10px] tracking-wider uppercase">Lifestyle</span>
+<h3 class="font-bold text-body-lg text-on-surface">Premium Artisan Coffee</h3>
+<div class="flex justify-between items-center mt-2">
+<span class="text-primary font-bold text-headline-md">$45.00</span>
+<button class="p-2 bg-secondary-container text-on-secondary-fixed rounded-lg active:scale-90 transition-transform">
+<i class="w-4 h-4" data-lucide="shopping-cart"></i>
+</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Our Mission (Vertical Stack) -->
+<section class="px-margin">
+<div class="bg-surface-container-low rounded-xl p-xl space-y-lg border border-outline-variant/30">
+<div class="space-y-sm">
+<div class="w-12 h-1 bg-accent-gold rounded-full"></div>
+<h2 class="text-headline-lg-mobile font-headline-lg text-primary">Our Mission</h2>
+</div>
+<div class="space-y-xl">
+<div class="flex gap-lg">
+<div class="flex-shrink-0 w-12 h-12 bg-primary rounded-xl flex items-center justify-center text-on-primary">
+<i class="w-6 h-6" data-lucide="shield-check"></i>
+</div>
+<div class="space-y-1">
+<h4 class="font-bold text-body-lg text-on-surface">Trust First</h4>
+<p class="text-on-surface-variant text-body-md">Building a foundation of reliability and integrity for every business transaction in our network.</p>
+</div>
+</div>
+<div class="flex gap-lg">
+<div class="flex-shrink-0 w-12 h-12 bg-primary rounded-xl flex items-center justify-center text-on-primary">
+<i class="w-6 h-6" data-lucide="users"></i>
+</div>
+<div class="space-y-1">
+<h4 class="font-bold text-body-lg text-on-surface">Community Growth</h4>
+<p class="text-on-surface-variant text-body-md">Creating shared opportunities that enable both collective and individual financial success.</p>
+</div>
+</div>
+<div class="flex gap-lg">
+<div class="flex-shrink-0 w-12 h-12 bg-primary rounded-xl flex items-center justify-center text-on-primary">
+<i class="w-6 h-6" data-lucide="trending-up"></i>
+</div>
+<div class="space-y-1">
+<h4 class="font-bold text-body-lg text-on-surface">Modern Management</h4>
+<p class="text-on-surface-variant text-body-md">Leveraging technology to streamline complex business processes for sustainable operations.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Location Section -->
+<section class="px-margin space-y-lg">
+<div class="space-y-sm">
+<h2 class="text-headline-lg-mobile font-headline-lg text-primary">Visit Our Hub</h2>
+<div class="p-lg bg-surface-container-highest rounded-xl flex items-start gap-md">
+<i class="w-6 h-6 text-accent-gold mt-1" data-lucide="map-pin"></i>
+<div>
+<p class="font-bold text-on-surface">Global Business Center</p>
+<p class="text-on-surface-variant text-body-md">Jl. Sudirman Kav. 52-53, District 8<br/>Jakarta Selatan, Indonesia 12190</p>
+</div>
+</div>
+</div>
+<div class="w-full h-[300px] rounded-xl overflow-hidden shadow-inner border border-outline-variant bg-surface-dim relative">
+<div class="w-full h-full bg-cover bg-center" data-location="Jakarta, Indonesia" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCpX4uBR2pFX0ufHidKgzZHHRb2jFsqWTnpGWNTxrmg1W6_ibe6pJ_-WBy8D3qIDxl89GHYMqm1oWF46SgKYsNRmC3E7_flrqWSRgfjqYYP3xhgpAikKv4YdeKKoV_2L1y2qq76hGdA1lGssfgNvWjIE_dCv4mKu5RSlQrjOyaYxNUd1y7QqAoeAahdUqY5_VIZ6sTKej6wXcpzKljep570_H9U7jGXa5XITuP0U1Y9jNut7WW5p5iS1LNZ-pBPhtUbtMxHJePeaAq5')"></div>
+<div class="absolute bottom-4 right-4 glass-card p-2 rounded-lg flex items-center gap-2">
+<i class="w-4 h-4 text-primary" data-lucide="navigation"></i>
+<span class="text-label-sm font-bold text-primary">Get Directions</span>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="px-margin pt-xl pb-32 border-t border-outline-variant">
+<div class="flex flex-col items-center text-center space-y-lg">
+<div class="text-headline-md font-headline-md font-bold text-primary">M2A Co-Biz</div>
+<div class="flex gap-xxl">
+<a class="text-on-surface-variant hover:text-primary" href="#"><i class="w-5 h-5" data-lucide="instagram"></i></a>
+<a class="text-on-surface-variant hover:text-primary" href="#"><i class="w-5 h-5" data-lucide="twitter"></i></a>
+<a class="text-on-surface-variant hover:text-primary" href="#"><i class="w-5 h-5" data-lucide="linkedin"></i></a>
+</div>
+<p class="text-label-sm text-on-surface-variant/70">
+                    © 2024 M2A Corporate Community. <br/>All rights reserved for a better business future.
+                </p>
+</div>
+</footer>
+</main>
+<!-- BottomNavBar (Home Active) -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 py-2 bg-surface dark:bg-surface-container z-50 rounded-t-xl shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
+<!-- Home Active -->
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-xl px-3 py-1 scale-105 transition-all" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-plus-jakarta-sans text-label-sm font-label-sm">Home</span>
+</a>
+<!-- Catalog Inactive -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/50 transition-all rounded-xl px-3 py-1" href="#">
+<span class="material-symbols-outlined">grid_view</span>
+<span class="font-plus-jakarta-sans text-label-sm font-label-sm">Catalog</span>
+</a>
+<!-- Orders Inactive -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/50 transition-all rounded-xl px-3 py-1" href="#">
+<span class="material-symbols-outlined">shopping_bag</span>
+<span class="font-plus-jakarta-sans text-label-sm font-label-sm">Orders</span>
+</a>
+<!-- Profile Inactive -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/50 transition-all rounded-xl px-3 py-1" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-plus-jakarta-sans text-label-sm font-label-sm">Profile</span>
+</a>
+</nav>
+<script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Simple interaction handling for buttons
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('touchstart', () => {
+                button.classList.add('scale-[0.97]');
+            });
+            button.addEventListener('touchend', () => {
+                button.classList.remove('scale-[0.97]');
+            });
+        });
+    </script>
+</body></html>

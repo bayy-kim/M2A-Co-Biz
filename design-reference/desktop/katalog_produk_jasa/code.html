@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Catalog | M2A Co-Biz</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "on-error-container": "#93000a",
+                "on-secondary-container": "#53667d",
+                "on-primary-fixed-variant": "#004f50",
+                "surface-container-highest": "#e1e3e2",
+                "surface-variant": "#e1e3e2",
+                "on-background": "#191c1c",
+                "tertiary-container": "#7a452a",
+                "on-surface": "#191c1c",
+                "on-tertiary-fixed": "#351000",
+                "outline-variant": "#bfc8c8",
+                "secondary-container": "#d0e4ff",
+                "surface-dim": "#d8dada",
+                "secondary-fixed": "#d0e4ff",
+                "outline": "#6f7978",
+                "background": "#f8faf9",
+                "on-tertiary-container": "#ffb693",
+                "success": "#22C55E",
+                "accent-gold": "#D9A441",
+                "primary-container": "#0f5c5c",
+                "surface-container-lowest": "#ffffff",
+                "error": "#ba1a1a",
+                "inverse-surface": "#2e3131",
+                "on-primary-container": "#90d2d1",
+                "danger": "#EF4444",
+                "inverse-on-surface": "#eff1f0",
+                "on-secondary-fixed": "#071d30",
+                "error-container": "#ffdad6",
+                "surface-container": "#eceeed",
+                "surface-container-high": "#e6e9e8",
+                "on-primary-fixed": "#002020",
+                "inverse-primary": "#90d2d1",
+                "primary": "#004343",
+                "background-neutral": "#F7F7F5",
+                "surface-container-low": "#f2f4f3",
+                "on-surface-variant": "#3f4948",
+                "tertiary": "#5e2f16",
+                "on-error": "#ffffff",
+                "on-tertiary": "#ffffff",
+                "surface-tint": "#216868",
+                "surface-bright": "#f8faf9",
+                "surface": "#f8faf9",
+                "warning": "#F59E0B",
+                "on-secondary": "#ffffff",
+                "tertiary-fixed-dim": "#ffb693",
+                "on-secondary-fixed-variant": "#35485e",
+                "secondary-fixed-dim": "#b5c8e2",
+                "on-tertiary-fixed-variant": "#6c391f",
+                "primary-fixed": "#aceeee",
+                "tertiary-fixed": "#ffdbcc",
+                "primary-fixed-dim": "#90d2d1",
+                "secondary": "#4d6076",
+                "on-primary": "#ffffff"
+            },
+            "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+            },
+            "spacing": {
+                "lg": "16px",
+                "gutter": "16px",
+                "md": "12px",
+                "sm": "8px",
+                "xxl": "32px",
+                "xl": "24px",
+                "margin": "24px",
+                "xs": "4px"
+            },
+            "fontFamily": {
+                "display-lg": ["Plus Jakarta Sans"],
+                "display-md": ["Plus Jakarta Sans"],
+                "body-lg": ["Plus Jakarta Sans"],
+                "headline-md": ["Plus Jakarta Sans"],
+                "body-md": ["Plus Jakarta Sans"],
+                "label-sm": ["Inter"],
+                "headline-lg": ["Plus Jakarta Sans"],
+                "label-md": ["Inter"]
+            },
+            "fontSize": {
+                "display-lg": ["40px", {"lineHeight": "48px", "fontWeight": "700"}],
+                "display-md": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "500"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #f8faf9;
+            color: #191c1c;
+            -webkit-font-smoothing: antialiased;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            height: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #bfc8c8;
+            border-radius: 10px;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md">
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-lg h-16 bg-surface shadow-sm">
+<div class="flex items-center gap-xl">
+<h1 class="font-display-md text-display-md font-bold text-primary">M2A Co-Biz</h1>
+<!-- Desktop Search Bar (on_left) -->
+<div class="hidden md:flex relative items-center w-96">
+<span class="material-symbols-outlined absolute left-3 text-outline">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-xl pl-10 pr-4 py-2 focus:ring-2 focus:ring-primary/20 transition-all text-body-md" placeholder="Search catalog..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="h-8 w-8 rounded-full overflow-hidden border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a middle-aged Asian businessman wearing a clean, modern suit. He has a friendly and trustworthy expression, set against a neutral, high-key studio background that matches a clean, professional corporate UI aesthetic. The lighting is soft and even, highlighting a polished and reliable personality." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCiW5cyN60cTgm_kmxECI95ANmLTh0cGZQINd8aJDEGgMtgdRrLadrZql7kf68E8zug9uXi_5GC3pk96qK-nP_A__ViDFvZK2LqxGXZ5CBHsVQZI1-b661DdWY1tH6DsLzokvmlCMbH9aHo616Z3VZAoIaeTW7O8M7WiH-Fg9320Ttzcgb5XMbsSwwI9krNtdGioziAX3mt70ieE_ZJHhqazptC_g-cNrMDe7Lz0Cfch1tVat6N5rvS2Ml8EqT9WuCnGkIYbSH0Xgsp"/>
+</div>
+</div>
+</header>
+<!-- SideNavBar (Desktop Only) -->
+<aside class="fixed left-0 top-0 h-full flex flex-col py-xl bg-primary dark:bg-on-primary-fixed-variant shadow-lg docked left-0 h-full w-64 hidden md:flex z-40 pt-20">
+<div class="px-lg mb-xl">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 bg-on-primary rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">business_center</span>
+</div>
+<div>
+<p class="font-headline-md text-headline-md font-bold text-on-primary">M2A Co-Biz</p>
+<p class="font-label-md text-label-md text-on-primary/70">Business Hub</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="text-on-primary/80 hover:bg-on-primary/10 mx-2 px-4 py-3 flex items-center gap-md transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="bg-primary-container text-on-primary-container rounded-lg mx-2 px-4 py-3 flex items-center gap-md" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">storefront</span>
+<span class="font-label-md text-label-md">Catalog</span>
+</a>
+<a class="text-on-primary/80 hover:bg-on-primary/10 mx-2 px-4 py-3 flex items-center gap-md transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="font-label-md text-label-md">Orders</span>
+</a>
+<a class="text-on-primary/80 hover:bg-on-primary/10 mx-2 px-4 py-3 flex items-center gap-md transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined">leaderboard</span>
+<span class="font-label-md text-label-md">Analytics</span>
+</a>
+<a class="text-on-primary/80 hover:bg-on-primary/10 mx-2 px-4 py-3 flex items-center gap-md transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</nav>
+<div class="px-2 mt-auto">
+<a class="text-on-primary/80 hover:bg-on-primary/10 px-4 py-3 flex items-center gap-md transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-md text-label-md">Logout</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="pt-20 pb-24 md:pb-8 md:pl-72 px-gutter min-h-screen">
+<!-- Mobile Search & Greeting -->
+<div class="md:hidden mb-lg">
+<h2 class="font-headline-lg text-headline-lg text-primary mb-sm">Catalog</h2>
+<div class="relative items-center flex">
+<span class="material-symbols-outlined absolute left-3 text-outline">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-xl pl-10 pr-4 py-3 focus:ring-2 focus:ring-primary/20 transition-all text-body-md" placeholder="Search products..." type="text"/>
+</div>
+</div>
+<!-- Catalog Header & Category Scroller -->
+<section class="mb-xxl">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-lg mb-lg">
+<div>
+<h2 class="hidden md:block font-display-md text-display-md text-on-surface mb-xs">Product Catalog</h2>
+<p class="text-on-surface-variant font-body-md text-body-md">Discover premium goods and services from our community.</p>
+</div>
+<div class="flex items-center gap-sm">
+<button class="flex items-center gap-xs px-md py-2 bg-surface-container border border-outline-variant rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+                        Filter
+                    </button>
+<button class="flex items-center gap-xs px-md py-2 bg-surface-container border border-outline-variant rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-[18px]">sort</span>
+                        Sort
+                    </button>
+</div>
+</div>
+<!-- Horizontal Category Scroll -->
+<div class="flex items-center gap-sm overflow-x-auto pb-4 custom-scrollbar no-scrollbar">
+<button class="whitespace-nowrap px-lg py-2 rounded-full bg-primary text-on-primary font-label-md text-label-md">All Categories</button>
+<button class="whitespace-nowrap px-lg py-2 rounded-full bg-surface-container border border-outline-variant text-on-surface-variant font-label-md text-label-md hover:border-primary transition-colors">Food &amp; Beverages</button>
+<button class="whitespace-nowrap px-lg py-2 rounded-full bg-surface-container border border-outline-variant text-on-surface-variant font-label-md text-label-md hover:border-primary transition-colors">Handicraft</button>
+<button class="whitespace-nowrap px-lg py-2 rounded-full bg-surface-container border border-outline-variant text-on-surface-variant font-label-md text-label-md hover:border-primary transition-colors">Professional Services</button>
+<button class="whitespace-nowrap px-lg py-2 rounded-full bg-surface-container border border-outline-variant text-on-surface-variant font-label-md text-label-md hover:border-primary transition-colors">Apparel</button>
+<button class="whitespace-nowrap px-lg py-2 rounded-full bg-surface-container border border-outline-variant text-on-surface-variant font-label-md text-label-md hover:border-primary transition-colors">Home Decor</button>
+<button class="whitespace-nowrap px-lg py-2 rounded-full bg-surface-container border border-outline-variant text-on-surface-variant font-label-md text-label-md hover:border-primary transition-colors">Digital Goods</button>
+</div>
+</section>
+<!-- Product Grid (Bento-style mixed sizes) -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-gutter">
+<!-- Product Card 1 (Service - No category tag mentioned) -->
+<div class="group bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 flex flex-col">
+<div class="relative h-48 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A clean and minimal workspace featuring a sleek laptop, a steaming cup of artisan coffee, and a small green plant. The lighting is bright and natural, coming from a nearby window, creating a modern and productive atmosphere. The color palette consists of soft whites, warm wood tones, and deep teal accents, reflecting a professional yet warm business service environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC82DlyOn-9S_s6AR1Cr_FBox4vOTy4mJAFI_2UrfhHBuk2sL0vTrMLqvpmyabvzITlUID4_bmmaci6pLolvcUWuSdVV4JuxfRFGJVVYYhL3g5GbRDvg8bKFoO28D1j0qq1m5sHKFOEaNQXrasVN4LVyyNCMxDJv8pJAXgafUaMHfmmIK5xbJwolskcH6w5Ryh-sQtlYQLm2V2qIvnBDKLTjuSt2annx9XiM0wpgBd-hZAvjxQgEYSG3uOiLhVkq9vTfJVATIg_yOn0"/>
+<div class="absolute top-3 right-3">
+<button class="w-8 h-8 rounded-full glass-card flex items-center justify-center text-on-surface hover:text-danger transition-colors">
+<span class="material-symbols-outlined text-[20px]">favorite</span>
+</button>
+</div>
+</div>
+<div class="p-lg flex flex-col flex-1">
+<div class="flex justify-between items-start mb-sm">
+<h3 class="font-headline-md text-headline-md text-on-surface leading-tight">Strategic Business Consulting</h3>
+</div>
+<div class="flex items-center gap-xs mb-md">
+<span class="material-symbols-outlined text-[16px] text-accent-gold" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">4.9 (124 reviews)</span>
+</div>
+<div class="mt-auto">
+<p class="text-on-surface-variant font-label-sm text-label-sm mb-xs">by <span class="text-primary font-bold">Elite Growth Partners</span></p>
+<div class="flex items-center justify-between">
+<span class="font-headline-lg text-headline-lg text-primary">$150.00<span class="text-label-sm font-normal text-on-surface-variant">/hr</span></span>
+<button class="bg-primary-container text-on-primary-container px-md py-2 rounded-lg font-label-md text-label-md hover:opacity-90 transition-opacity">View Details</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Product Card 2 (Food) -->
+<div class="group bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 flex flex-col">
+<div class="relative h-48 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A macro shot of beautifully packaged organic honey jars on a rustic wooden table. The honey is a rich golden color, catching the soft afternoon sunlight. Surrounding the jars are small wildflowers and honeycomb pieces. The scene is warm, inviting, and communicates a high-quality, craft-focused food product with a sophisticated and clean aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDudZhze3WYisPL0UdhJTM2P5Y5sGMXqcm1JPN8w1n43go_pBThTJYVtG_bD7_Pxh9RzOcFtqNhBGI6b-5DmHOQr9xhIWD9lNpSNLPI3sVIORWdJHwRrqRFl36HO75xmtVUdUFH0a-LRbC57-NMzNIGQouKgwgU2Df-h43JynSG2-Fh4ddHshoknhNiAnwRaEJHX1_nAxaraw6mvfADleqUgJRcuqn8uTezMCFKbG898q2ZXHVwA2k4_Ft2L6V-wHmhJnxlgqCE4vQA"/>
+<div class="absolute top-3 left-3">
+<span class="bg-tertiary text-on-tertiary px-sm py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider">Food</span>
+</div>
+<div class="absolute top-3 right-3">
+<button class="w-8 h-8 rounded-full glass-card flex items-center justify-center text-on-surface hover:text-danger transition-colors">
+<span class="material-symbols-outlined text-[20px]">favorite</span>
+</button>
+</div>
+</div>
+<div class="p-lg flex flex-col flex-1">
+<div class="flex justify-between items-start mb-sm">
+<h3 class="font-headline-md text-headline-md text-on-surface leading-tight">Wildflower Organic Honey</h3>
+</div>
+<div class="flex items-center gap-xs mb-md">
+<span class="material-symbols-outlined text-[16px] text-accent-gold" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">5.0 (86 reviews)</span>
+</div>
+<div class="mt-auto">
+<p class="text-on-surface-variant font-label-sm text-label-sm mb-xs">by <span class="text-primary font-bold">Nature's Best Co.</span></p>
+<div class="flex items-center justify-between">
+<span class="font-headline-lg text-headline-lg text-primary">$24.99</span>
+<button class="bg-primary-container text-on-primary-container px-md py-2 rounded-lg font-label-md text-label-md hover:opacity-90 transition-opacity">Add to Cart</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Product Card 3 (Craft) -->
+<div class="group bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 flex flex-col">
+<div class="relative h-48 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Close-up of a hand-stitched leather wallet in a deep navy blue, resting on a minimalist concrete surface. The stitching is impeccable and highlighted by clean, overhead gallery lighting. The image emphasizes the craftsmanship and premium quality of the material. The background is a soft neutral grey, ensuring the professional craft aesthetic is front and center." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJcqQ6kCuOluGTwh6C7c-cPzxDQrpHyS2CAZb8Xa64kf1gTizv4dXzLsxDgLVEL4VoLIlisqK1PCjGL8aXd5hy22AS75cXHHowYEuGthvqTtdGgoKTQVi9doX-a07zwI80aK48p6NB6dteoz9FgTNjwjseW-8en54I67hSAgB6B0RGBfaCiRr6KydPXwPfZ6RdsGqc15FtZeYJXKgX55iFeqRqkcSYa-wjZhGm7cSmp_-PGakwyoqL8YIcMEASPlWWczytsopNH3mg"/>
+<div class="absolute top-3 left-3">
+<span class="bg-primary-container text-on-primary-container px-sm py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider">Craft</span>
+</div>
+<div class="absolute top-3 right-3">
+<button class="w-8 h-8 rounded-full glass-card flex items-center justify-center text-on-surface hover:text-danger transition-colors">
+<span class="material-symbols-outlined text-[20px]">favorite</span>
+</button>
+</div>
+</div>
+<div class="p-lg flex flex-col flex-1">
+<div class="flex justify-between items-start mb-sm">
+<h3 class="font-headline-md text-headline-md text-on-surface leading-tight">Handmade Italian Leather Wallet</h3>
+</div>
+<div class="flex items-center gap-xs mb-md">
+<span class="material-symbols-outlined text-[16px] text-accent-gold" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">4.8 (56 reviews)</span>
+</div>
+<div class="mt-auto">
+<p class="text-on-surface-variant font-label-sm text-label-sm mb-xs">by <span class="text-primary font-bold">Artisan Stitch</span></p>
+<div class="flex items-center justify-between">
+<span class="font-headline-lg text-headline-lg text-primary">$85.00</span>
+<button class="bg-primary-container text-on-primary-container px-md py-2 rounded-lg font-label-md text-label-md hover:opacity-90 transition-opacity">Add to Cart</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Product Card 4 (Service) -->
+<div class="group bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 flex flex-col">
+<div class="relative h-48 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A professional architectural blueprint laid out on a clean white table, with a silver drafting pen and a minimalist architect's scale nearby. The shot is high-angle and clean, with bright, cool lighting that evokes a sense of precision and professional expertise. The composition is structured and architectural, perfectly fitting a professional service catalog." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCA5tX683t59eCmkliWgLlrTZ39GFn9_Iaq63NrgrZPNniTbgGepAqf6P8-J82g-nbym-pRPxAqJyPYF32CHSaqEYg8cv2UV4uyrwhJnhqSTNMO6yCy9J_wvVuSrpSebVroul38dOubCj-gNDO060HZX9sA0o-BPZvhFhjjdU84Xn_41XCv2Fc2G4gI6ICsuadnBCfDIromUmT_3SsNENvtWEwCWbSBQLI7AN1W1GDlIt4zqrMYRnDJ-sQ3q7WbMoafs9ij5YYcdHtK"/>
+<div class="absolute top-3 left-3">
+<span class="bg-secondary text-on-secondary px-sm py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider">Service</span>
+</div>
+<div class="absolute top-3 right-3">
+<button class="w-8 h-8 rounded-full glass-card flex items-center justify-center text-on-surface hover:text-danger transition-colors">
+<span class="material-symbols-outlined text-[20px]">favorite</span>
+</button>
+</div>
+</div>
+<div class="p-lg flex flex-col flex-1">
+<div class="flex justify-between items-start mb-sm">
+<h3 class="font-headline-md text-headline-md text-on-surface leading-tight">Architectural Design Review</h3>
+</div>
+<div class="flex items-center gap-xs mb-md">
+<span class="material-symbols-outlined text-[16px] text-accent-gold" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">4.7 (32 reviews)</span>
+</div>
+<div class="mt-auto">
+<p class="text-on-surface-variant font-label-sm text-label-sm mb-xs">by <span class="text-primary font-bold">Studio Blueprint</span></p>
+<div class="flex items-center justify-between">
+<span class="font-headline-lg text-headline-lg text-primary">$320.00</span>
+<button class="bg-primary-container text-on-primary-container px-md py-2 rounded-lg font-label-md text-label-md hover:opacity-90 transition-opacity">View Details</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Repeat Pattern for more items -->
+<!-- Product Card 5 -->
+<div class="group bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 flex flex-col">
+<div class="relative h-48 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A vibrant arrangement of exotic fruits in a modern ceramic bowl. Dragon fruit, mango, and passion fruit are sliced open to show their rich textures and colors. The background is a clean, off-white kitchen counter with soft morning light. The image is fresh, high-contrast, and appetizing, perfectly representing premium food products in a modern UI." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDqsaE08tlK81lXoeURhhM2aZxe89o6nTGTK_lFE8VaEVEWGU8N_etCfxZ9UZCSIyEGi5NkWKYrpbhOaoGY2bBq3Ny5YuEd9Vx7sc4Dy4a4mTkDQQ9YOMKUgY3YnKTvf1xWvTQU-QwBqfg4CeSoYLz-saDh2tsCNLLSzAi_uYbJZDdVAyyj9uwH07QOe2KUMHireUKw3rQg-Pz0o-R-qPGwVDYS9Ips05GT8mnmfUxmxdEbdoaRDl9iPd3_N4556FmzK3LAEAHJJ_a_"/>
+<div class="absolute top-3 left-3">
+<span class="bg-tertiary text-on-tertiary px-sm py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider">Food</span>
+</div>
+<div class="absolute top-3 right-3">
+<button class="w-8 h-8 rounded-full glass-card flex items-center justify-center text-on-surface hover:text-danger transition-colors">
+<span class="material-symbols-outlined text-[20px]">favorite</span>
+</button>
+</div>
+</div>
+<div class="p-lg flex flex-col flex-1">
+<div class="flex justify-between items-start mb-sm">
+<h3 class="font-headline-md text-headline-md text-on-surface leading-tight">Tropical Fruit Basket</h3>
+</div>
+<div class="flex items-center gap-xs mb-md">
+<span class="material-symbols-outlined text-[16px] text-accent-gold" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">4.9 (210 reviews)</span>
+</div>
+<div class="mt-auto">
+<p class="text-on-surface-variant font-label-sm text-label-sm mb-xs">by <span class="text-primary font-bold">Island Fresh</span></p>
+<div class="flex items-center justify-between">
+<span class="font-headline-lg text-headline-lg text-primary">$45.00</span>
+<button class="bg-primary-container text-on-primary-container px-md py-2 rounded-lg font-label-md text-label-md hover:opacity-90 transition-opacity">Add to Cart</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Product Card 6 (No category tag) -->
+<div class="group bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 flex flex-col">
+<div class="relative h-48 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A minimalist tech setup with a slim keyboard and mouse on a dark felt desk mat. The lighting is low-key with a soft blue ambient glow from a hidden monitor. The composition is clean and focused on high-end tech accessories. The overall mood is sophisticated and sleek, matching a professional digital workspace catalog theme." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDd-XVN3c6XruhX9ClBrN8ZTfKGB-ckodGVU8cpUpHN9tCUuLf-AaBrPaHSY68CdnuobkMc14LjabiTk4eQqyDN30G2ag-mXDoMgAREF1J4_X5gpElVfPjmLQbISCAi3BiBjNbEwk4QevkiRbWwbtAVGPQwtq6n4FxdWdEN8zBUS57VgDG-DNAayRBI4Rgh5RkRt2yet8flJBoJutQL19ioCxkXT1QBVG4VwmW76CAOWtoAqkhIS-qyWCa91z_JFqoyAXLvrwKHv61s"/>
+<div class="absolute top-3 right-3">
+<button class="w-8 h-8 rounded-full glass-card flex items-center justify-center text-on-surface hover:text-danger transition-colors">
+<span class="material-symbols-outlined text-[20px]">favorite</span>
+</button>
+</div>
+</div>
+<div class="p-lg flex flex-col flex-1">
+<div class="flex justify-between items-start mb-sm">
+<h3 class="font-headline-md text-headline-md text-on-surface leading-tight">Ergonomic Digital Workspace Kit</h3>
+</div>
+<div class="flex items-center gap-xs mb-md">
+<span class="material-symbols-outlined text-[16px] text-accent-gold" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">4.6 (42 reviews)</span>
+</div>
+<div class="mt-auto">
+<p class="text-on-surface-variant font-label-sm text-label-sm mb-xs">by <span class="text-primary font-bold">TechFlow Solutions</span></p>
+<div class="flex items-center justify-between">
+<span class="font-headline-lg text-headline-lg text-primary">$189.99</span>
+<button class="bg-primary-container text-on-primary-container px-md py-2 rounded-lg font-label-md text-label-md hover:opacity-90 transition-opacity">View Details</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Pagination -->
+<div class="mt-xxl flex items-center justify-center gap-sm">
+<button class="w-10 h-10 rounded-lg flex items-center justify-center border border-outline-variant text-on-surface-variant hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="w-10 h-10 rounded-lg flex items-center justify-center bg-primary text-on-primary font-label-md text-label-md">1</button>
+<button class="w-10 h-10 rounded-lg flex items-center justify-center border border-outline-variant text-on-surface-variant hover:bg-surface-container transition-colors font-label-md text-label-md">2</button>
+<button class="w-10 h-10 rounded-lg flex items-center justify-center border border-outline-variant text-on-surface-variant hover:bg-surface-container transition-colors font-label-md text-label-md">3</button>
+<span class="text-on-surface-variant mx-2">...</span>
+<button class="w-10 h-10 rounded-lg flex items-center justify-center border border-outline-variant text-on-surface-variant hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="fixed bottom-0 w-full z-50 flex justify-around items-center h-16 pb-safe bg-surface docked full-width bottom-0 md:hidden shadow-[0_-2px_10px_rgba(0,0,0,0.05)] border-t border-outline-variant">
+<a class="flex flex-col items-center justify-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">search</span>
+<span class="font-label-sm text-label-sm">Catalog</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">shopping_bag</span>
+<span class="font-label-sm text-label-sm">Orders</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-sm text-label-sm">Profile</span>
+</a>
+</nav>
+<!-- Floating Action Button (FAB) - For adding new product -->
+<button class="fixed bottom-20 md:bottom-10 right-6 w-14 h-14 bg-accent-gold text-on-primary rounded-full shadow-lg flex items-center justify-center transition-transform hover:scale-110 active:scale-95 z-40">
+<span class="material-symbols-outlined text-[28px]">add</span>
+</button>
+<script>
+        // Micro-interactions and effects
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('mousedown', () => {
+                btn.style.transform = 'scale(0.97)';
+            });
+            btn.addEventListener('mouseup', () => {
+                btn.style.transform = '';
+            });
+        });
+
+        // Simple smooth scroll for category scroller
+        const scroller = document.querySelector('.custom-scrollbar');
+        if(scroller) {
+            let isDown = false;
+            let startX;
+            let scrollLeft;
+
+            scroller.addEventListener('mousedown', (e) => {
+                isDown = true;
+                startX = e.pageX - scroller.offsetLeft;
+                scrollLeft = scroller.scrollLeft;
+            });
+            scroller.addEventListener('mouseleave', () => {
+                isDown = false;
+            });
+            scroller.addEventListener('mouseup', () => {
+                isDown = false;
+            });
+            scroller.addEventListener('mousemove', (e) => {
+                if (!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - scroller.offsetLeft;
+                const walk = (x - startX) * 2;
+                scroller.scrollLeft = scrollLeft - walk;
+            });
+        }
+    </script>
+</body></html>

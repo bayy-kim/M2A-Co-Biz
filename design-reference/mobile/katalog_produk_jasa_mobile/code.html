@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>M2A Co-Biz | Catalog</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary": "#ffffff",
+                        "on-surface-variant": "#3f4948",
+                        "tertiary-fixed-dim": "#ffb693",
+                        "secondary-fixed-dim": "#b5c8e2",
+                        "surface-variant": "#e1e3e2",
+                        "on-secondary-container": "#53667d",
+                        "primary": "#004343",
+                        "surface-dim": "#d8dada",
+                        "on-primary-fixed-variant": "#004f50",
+                        "on-background": "#191c1c",
+                        "surface-bright": "#f8faf9",
+                        "primary-container": "#0f5c5c",
+                        "inverse-on-surface": "#eff1f0",
+                        "inverse-surface": "#2e3131",
+                        "on-tertiary-fixed": "#351000",
+                        "surface-container-low": "#f2f4f3",
+                        "error": "#ba1a1a",
+                        "secondary-container": "#d0e4ff",
+                        "error-container": "#ffdad6",
+                        "danger": "#EF4444",
+                        "secondary-fixed": "#d0e4ff",
+                        "success": "#22C55E",
+                        "inverse-primary": "#90d2d1",
+                        "primary-fixed": "#aceeee",
+                        "surface-container-high": "#e6e9e8",
+                        "secondary": "#4d6076",
+                        "surface-tint": "#216868",
+                        "accent-gold": "#D9A441",
+                        "on-error": "#ffffff",
+                        "on-primary-container": "#90d2d1",
+                        "on-secondary-fixed-variant": "#35485e",
+                        "on-tertiary-fixed-variant": "#6c391f",
+                        "background-neutral": "#F7F7F5",
+                        "tertiary-container": "#7a452a",
+                        "on-surface": "#191c1c",
+                        "on-primary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "primary-fixed-dim": "#90d2d1",
+                        "on-secondary": "#ffffff",
+                        "surface-container-highest": "#e1e3e2",
+                        "on-secondary-fixed": "#071d30",
+                        "tertiary": "#5e2f16",
+                        "on-tertiary-container": "#ffb693",
+                        "tertiary-fixed": "#ffdbcc",
+                        "outline": "#6f7978",
+                        "surface-container": "#eceeed",
+                        "background": "#f8faf9",
+                        "outline-variant": "#bfc8c8",
+                        "on-primary-fixed": "#002020",
+                        "surface-container-lowest": "#ffffff",
+                        "surface": "#f8faf9",
+                        "warning": "#F59E0B"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xs": "4px",
+                        "sm": "8px",
+                        "md": "12px",
+                        "margin": "24px",
+                        "xxl": "32px",
+                        "xl": "24px",
+                        "gutter": "16px",
+                        "lg": "16px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "display-md": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "body-lg": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                        "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "display-md": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "display-lg": ["40px", {"lineHeight": "48px", "fontWeight": "700"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8faf9; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .product-card {
+            transition: transform 0.15s ease-out, box-shadow 0.15s ease-out;
+        }
+        .product-card:active {
+            transform: scale(0.97);
+        }
+        /* Bottom Sheet Animation */
+        #bottom-sheet {
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .sheet-hidden { transform: translateY(100%); }
+        .sheet-visible { transform: translateY(0); }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-surface-dim shadow-sm dark:bg-surface-container-low docked full-width top-0 sticky z-50 flex justify-between items-center w-full px-margin h-16">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary/10">
+<img class="w-full h-full object-cover" data-alt="A professional high-resolution headshot of a smiling female entrepreneur in her 30s. She is wearing a modern professional blazer. The background is a soft-focus minimalist office with warm lighting and deep teal accents, conveying a sense of corporate trustworthiness and warmth." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBFbSRfGhJ5NID340dnSO_ZYUuWGhY91OgNCTyFqt78WYV3fE_kb4elwPSug0rMI3UGMzXxK_35s5EjSUt24mW6Vt894SSr0KrHVLZmDcbDuLs9ICMqAIXz75KJEwPeR2XEPiHgWuaMIyBAJTBnNkFE-QfJq1iWY8XT794QqGGfgFXCcCmy28X8NRkeHr5tB9iNF0q6zzi8_NC5p7ZqMQQRrN2VguGpQ1QLOcY941e1HtGLxepjksqV8DQy5pv3IX1MujLCEP-23Hzp"/>
+</div>
+<span class="text-headline-md font-headline-md font-bold text-primary dark:text-primary-fixed">M2A Co-Biz</span>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-high transition-colors text-primary active:scale-95 duration-150">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+</header>
+<main class="pb-24 pt-4">
+<!-- Search Bar Section -->
+<div class="px-margin mb-6">
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-4 text-outline" data-icon="search">search</span>
+<input class="w-full pl-12 pr-4 py-3 bg-surface-container-low border-none rounded-xl focus:ring-2 focus:ring-primary/20 text-body-md font-body-md placeholder:text-on-surface-variant/60 shadow-sm" placeholder="Search products or services..." type="text"/>
+</div>
+</div>
+<!-- Filter & Chips Section -->
+<div class="flex items-center gap-3 px-margin mb-6 overflow-hidden">
+<button class="flex-shrink-0 flex items-center justify-center w-12 h-12 bg-primary-container text-on-primary-container rounded-xl shadow-md active:scale-95 transition-transform" onclick="toggleSheet()">
+<span class="material-symbols-outlined" data-icon="tune">tune</span>
+</button>
+<div class="flex gap-2 overflow-x-auto hide-scrollbar py-1">
+<span class="flex-shrink-0 px-4 py-2 bg-primary text-on-primary rounded-full font-label-md text-label-md">All</span>
+<span class="flex-shrink-0 px-4 py-2 bg-surface-container-high text-on-surface-variant rounded-full font-label-md text-label-md border border-outline-variant/30">Technology</span>
+<span class="flex-shrink-0 px-4 py-2 bg-surface-container-high text-on-surface-variant rounded-full font-label-md text-label-md border border-outline-variant/30">Finance</span>
+<span class="flex-shrink-0 px-4 py-2 bg-surface-container-high text-on-surface-variant rounded-full font-label-md text-label-md border border-outline-variant/30">Marketing</span>
+<span class="flex-shrink-0 px-4 py-2 bg-surface-container-high text-on-surface-variant rounded-full font-label-md text-label-md border border-outline-variant/30">Logistics</span>
+<span class="flex-shrink-0 px-4 py-2 bg-surface-container-high text-on-surface-variant rounded-full font-label-md text-label-md border border-outline-variant/30">Consulting</span>
+</div>
+</div>
+<!-- Product Grid -->
+<div class="px-margin grid grid-cols-2 gap-4">
+<!-- Card 1 -->
+<div class="product-card flex flex-col bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm border border-outline-variant/10">
+<div class="aspect-square relative">
+<img class="w-full h-full object-cover" data-alt="A sleek, modern enterprise software dashboard displayed on a clean tablet device. The interface shows professional charts and financial growth indicators in deep teal and gold. The background is a clean white marble surface with a professional, minimalist business vibe." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxwjmYuZg7NF8wPVYUy-9TE6UszL_NnE53Q0tw1j6Fw8yB1SC29vKVzBgIL0bnsvQ-jsgdFt68wvmm31oC5qQgjiR1tskO7SyyWrsnJunsCeI4S621lQKczU4XgAmfHuefQwf3p74W95i3kBBD_nphNOq5SSoTckFZ3tdSayZHnkxKvzhPTVEUp0qh6ZDGGSGiJGdMKCBNEkQbX_tE2gZ6cgbQ6tXAn8yLTRe23fn3sEoKyfVYP13SMOZvVn3pHOmexbsbR2uZmM5R"/>
+<span class="absolute top-2 right-2 bg-accent-gold text-on-tertiary text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">Service</span>
+</div>
+<div class="p-3 flex flex-col flex-grow">
+<h3 class="font-headline-md text-label-md text-on-surface line-clamp-1">Financial Audit</h3>
+<p class="text-on-surface-variant font-body-md text-[12px] line-clamp-2 mt-1">Professional annual auditing for small business units.</p>
+<div class="mt-auto pt-3 flex justify-between items-center">
+<span class="font-bold text-primary text-label-md">$250.00</span>
+<button class="w-8 h-8 flex items-center justify-center bg-secondary-container text-on-secondary-container rounded-lg">
+<span class="material-symbols-outlined text-[18px]" data-icon="add_shopping_cart">add_shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="product-card flex flex-col bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm border border-outline-variant/10">
+<div class="aspect-square relative">
+<img class="w-full h-full object-cover" data-alt="A premium collection of branded corporate stationery, including a deep teal notebook with a gold foil logo, a sleek metal pen, and minimalist business cards. The lighting is warm and professional, highlighting textures and reflecting a high-end corporate identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBzYs7qAPLkNCFUEGs7TpX6YLvWrUcj45N8FqjinNDECyTusdJvTfZoSZZ-CKqbiRx6naQg6BqAM_S1OIIURzyqTDEiFCcwXcZwUTJQHa5eYc283Z7OmHI-t2F1lQaql9LmkUFuPWcncVjv9KLDq0uZJmmOAOJDk0Fy8vbKaSpFwnzv9o1PjuAiw3XiAo2I9ztuN7VfRpXfHLpTuMnMJwZcHqYHBx213YwtXw8T9NvR48U18REZyQheYX49-3j5M3FSuoLGorvDz9E-"/>
+<span class="absolute top-2 right-2 bg-primary text-on-primary text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">Product</span>
+</div>
+<div class="p-3 flex flex-col flex-grow">
+<h3 class="font-headline-md text-label-md text-on-surface line-clamp-1">Corporate Kit</h3>
+<p class="text-on-surface-variant font-body-md text-[12px] line-clamp-2 mt-1">Premium welcome package for new organization members.</p>
+<div class="mt-auto pt-3 flex justify-between items-center">
+<span class="font-bold text-primary text-label-md">$45.00</span>
+<button class="w-8 h-8 flex items-center justify-center bg-secondary-container text-on-secondary-container rounded-lg">
+<span class="material-symbols-outlined text-[18px]" data-icon="add_shopping_cart">add_shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="product-card flex flex-col bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm border border-outline-variant/10">
+<div class="aspect-square relative">
+<img class="w-full h-full object-cover" data-alt="A high-tech digital connectivity concept showing glowing network lines connecting geometric nodes. The color scheme features deep teal, soft emerald, and gold accents. The style is abstract, professional, and represents cloud services or digital infrastructure for businesses." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAvzHTE5yGK3RijB4JERgGVhEsj7sHZCS3KRSHfsVYv2Tc10mrf6Vx2E7jF0cR4g_RuOdEP_ZAbsJx12RIu3ZnVQnPdn5wXVVkLwqnyKR-VHAqwmMJ2aKYBbyZJJMwCCnfdbo37ysWTFZQg0CHgAEofVrmGMiB67g5tjwyX3mt985kYUHryFPy1uEJrlEhLqOvESeGysineBNM3Zj1EzhRLIfBXnVpcXyQeDNosnjOZRc6atV9mGmMsCGyB1_i-abMcoSusRvrSTrDc"/>
+<span class="absolute top-2 right-2 bg-accent-gold text-on-tertiary text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">Service</span>
+</div>
+<div class="p-3 flex flex-col flex-grow">
+<h3 class="font-headline-md text-label-md text-on-surface line-clamp-1">Cloud Hosting</h3>
+<p class="text-on-surface-variant font-body-md text-[12px] line-clamp-2 mt-1">Secure and scalable cloud infrastructure for SMEs.</p>
+<div class="mt-auto pt-3 flex justify-between items-center">
+<span class="font-bold text-primary text-label-md">$12.99/mo</span>
+<button class="w-8 h-8 flex items-center justify-center bg-secondary-container text-on-secondary-container rounded-lg">
+<span class="material-symbols-outlined text-[18px]" data-icon="add_shopping_cart">add_shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="product-card flex flex-col bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm border border-outline-variant/10">
+<div class="aspect-square relative">
+<img class="w-full h-full object-cover" data-alt="A professional business workstation with multiple monitors, a mechanical keyboard, and a leather desk mat. The lighting is soft morning sun, creating a warm, productive atmosphere. Deep teal office accessories are arranged neatly on a dark wood desk, conveying efficiency and modern professionalism." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZcNHNt04fgGfGOP19icPuuGya6yI1x944GuUy0lOQ4zeXg10VP7DbY6bXh53eBxZ7WVsGkXFb8rEv4jizeVYQc0MA_soiNqulrh_kqUwt07A0Dj8WOl_vX3L8tlhiOyk2P371yzLQrLVdTY3Sc9Kpui1q4jw-DVnrvOhsemalJTQdUyGSm6tsqspAANonH6Lrvl9frfz73sEzUToy9ZANy1iHqLwpe-D7QYHx-jwivQIsAZF9y0pdZ6r9gt_3eQSgQ0zHciA9dJr6"/>
+<span class="absolute top-2 right-2 bg-primary text-on-primary text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">Product</span>
+</div>
+<div class="p-3 flex flex-col flex-grow">
+<h3 class="font-headline-md text-label-md text-on-surface line-clamp-1">Smart Desk Lamp</h3>
+<p class="text-on-surface-variant font-body-md text-[12px] line-clamp-2 mt-1">Adjustable LED lamp with integrated wireless charging pad.</p>
+<div class="mt-auto pt-3 flex justify-between items-center">
+<span class="font-bold text-primary text-label-md">$89.00</span>
+<button class="w-8 h-8 flex items-center justify-center bg-secondary-container text-on-secondary-container rounded-lg">
+<span class="material-symbols-outlined text-[18px]" data-icon="add_shopping_cart">add_shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 5 -->
+<div class="product-card flex flex-col bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm border border-outline-variant/10">
+<div class="aspect-square relative">
+<img class="w-full h-full object-cover" data-alt="An artistic representation of a marketing strategy meeting, featuring a clean white board with gold and teal sticky notes. Hands are pointing to a growth chart. The mood is collaborative, bright, and professional, focused on successful business expansion and community growth." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-A5_gY76VnG7Z9y0DwwLcJSNvFcGG3dNmawTdKj1mCWDdAfE-UZJG0BZYacjoME98XHNv7FOyubBfufrlj9GPoNqzG9WMxIFcO7LLVdxnsDkzsyrRG796oQ_LW_S1KZO0pcRh0k94m9_7rIskxmf97GlBJsBVHValLozmEz6CB-Sn0Auh6VxvIEYvE_uEzhb0LwuEhvd-Fg36unfHzgCou5wYCmbrSU2yicqU630nJyfhZ9Xb0L0h_r0vuMiZwSyFssVeN89ali6i"/>
+<span class="absolute top-2 right-2 bg-accent-gold text-on-tertiary text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">Service</span>
+</div>
+<div class="p-3 flex flex-col flex-grow">
+<h3 class="font-headline-md text-label-md text-on-surface line-clamp-1">SEO Strategy</h3>
+<p class="text-on-surface-variant font-body-md text-[12px] line-clamp-2 mt-1">Boost your local visibility with our expert SEO audit.</p>
+<div class="mt-auto pt-3 flex justify-between items-center">
+<span class="font-bold text-primary text-label-md">$150.00</span>
+<button class="w-8 h-8 flex items-center justify-center bg-secondary-container text-on-secondary-container rounded-lg">
+<span class="material-symbols-outlined text-[18px]" data-icon="add_shopping_cart">add_shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 6 -->
+<div class="product-card flex flex-col bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm border border-outline-variant/10">
+<div class="aspect-square relative">
+<img class="w-full h-full object-cover" data-alt="Close-up of high-quality, eco-friendly business folders made from recycled cardstock. The folders have a minimalist logo stamped in gold. They are stacked neatly on a white surface. The overall look is professional, sustainable, and reliable, using the brand's core teal and white colors." src="https://lh3.googleusercontent.com/aida-public/AB6AXuClok5dAG3dX2iBllVYiF7QKFSo4fXWms9rlS4TLGGk1xaWvEoiOqyN730z3c6fVfQfXU59S1ALjoPz9BkJniisgWoKKByJfLGfkzy1kvtOkcFbDuDfKz7A2K7R2CAKL5K2_5JFYrHjMGVjmw8Uf6PI8rzJsNwDm1OAl1xrglZPk3VZJpezO3ReA_AKH1Wv5ewiWWmryZdjAhVknsOc0Ng7iogmL_K44KvM_GGMlbfO8yZdGvbFgZTE6QeeBIoR8fUoruPb34wrsQNL"/>
+<span class="absolute top-2 right-2 bg-primary text-on-primary text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">Product</span>
+</div>
+<div class="p-3 flex flex-col flex-grow">
+<h3 class="font-headline-md text-label-md text-on-surface line-clamp-1">File Organizer</h3>
+<p class="text-on-surface-variant font-body-md text-[12px] line-clamp-2 mt-1">Premium durable folders for organizational record keeping.</p>
+<div class="mt-auto pt-3 flex justify-between items-center">
+<span class="font-bold text-primary text-label-md">$15.50</span>
+<button class="w-8 h-8 flex items-center justify-center bg-secondary-container text-on-secondary-container rounded-lg">
+<span class="material-symbols-outlined text-[18px]" data-icon="add_shopping_cart">add_shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Sheets / Overlay -->
+<div class="fixed inset-0 bg-black/40 backdrop-blur-[2px] z-[60] hidden opacity-0 transition-opacity duration-300" id="sheet-overlay" onclick="toggleSheet()"></div>
+<div class="fixed bottom-0 left-0 right-0 bg-surface rounded-t-[32px] z-[70] p-6 sheet-hidden shadow-[0_-10px_30px_rgba(0,0,0,0.15)] max-h-[707px] overflow-y-auto" id="bottom-sheet">
+<div class="w-12 h-1.5 bg-outline-variant/50 rounded-full mx-auto mb-6"></div>
+<div class="flex justify-between items-center mb-6">
+<h2 class="text-headline-md font-headline-md text-primary">Filter Options</h2>
+<button class="text-on-surface-variant" onclick="toggleSheet()">
+<span class="material-symbols-outlined" data-icon="close">close</span>
+</button>
+</div>
+<div class="space-y-6">
+<div>
+<label class="font-label-md text-label-md text-on-surface-variant block mb-3">Sort By</label>
+<div class="grid grid-cols-2 gap-2">
+<button class="px-4 py-2 rounded-xl bg-primary-container text-on-primary-container text-label-md font-medium text-center">Newest First</button>
+<button class="px-4 py-2 rounded-xl bg-surface-container-high text-on-surface-variant text-label-md font-medium text-center">Price: Low to High</button>
+<button class="px-4 py-2 rounded-xl bg-surface-container-high text-on-surface-variant text-label-md font-medium text-center">Price: High to Low</button>
+<button class="px-4 py-2 rounded-xl bg-surface-container-high text-on-surface-variant text-label-md font-medium text-center">Most Popular</button>
+</div>
+</div>
+<div>
+<label class="font-label-md text-label-md text-on-surface-variant block mb-3">Price Range</label>
+<div class="flex items-center gap-4">
+<input class="w-full bg-surface-container-low border-none rounded-xl text-label-md" placeholder="Min" type="number"/>
+<span class="text-outline-variant">—</span>
+<input class="w-full bg-surface-container-low border-none rounded-xl text-label-md" placeholder="Max" type="number"/>
+</div>
+</div>
+<div>
+<label class="font-label-md text-label-md text-on-surface-variant block mb-3">Type</label>
+<div class="flex gap-4">
+<label class="flex items-center gap-2 cursor-pointer">
+<input class="w-5 h-5 rounded border-outline-variant text-primary focus:ring-primary" type="checkbox"/>
+<span class="text-body-md">Product</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer">
+<input class="w-5 h-5 rounded border-outline-variant text-primary focus:ring-primary" type="checkbox"/>
+<span class="text-body-md">Service</span>
+</label>
+</div>
+</div>
+</div>
+<div class="mt-8 grid grid-cols-2 gap-4">
+<button class="py-3 rounded-xl border border-outline text-on-surface-variant font-label-md" onclick="toggleSheet()">Reset</button>
+<button class="py-3 rounded-xl bg-primary text-on-primary font-label-md shadow-lg" onclick="toggleSheet()">Apply Filters</button>
+</div>
+</div>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 py-2 bg-surface dark:bg-surface-container z-50 rounded-t-xl shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/50 px-3 py-1 transition-all rounded-xl" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-plus-jakarta-sans text-label-sm font-label-sm mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-xl px-4 py-1.5 shadow-sm" href="#">
+<span class="material-symbols-outlined" data-icon="grid_view" style="font-variation-settings: 'FILL' 1;">grid_view</span>
+<span class="font-plus-jakarta-sans text-label-sm font-label-sm mt-1">Catalog</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/50 px-3 py-1 transition-all rounded-xl" href="#">
+<span class="material-symbols-outlined" data-icon="shopping_bag">shopping_bag</span>
+<span class="font-plus-jakarta-sans text-label-sm font-label-sm mt-1">Orders</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/50 px-3 py-1 transition-all rounded-xl" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-plus-jakarta-sans text-label-sm font-label-sm mt-1">Profile</span>
+</a>
+</nav>
+<!-- FAB for quick action (Optional contextual) -->
+<button class="fixed bottom-24 right-6 w-14 h-14 bg-accent-gold text-on-tertiary rounded-full shadow-xl flex items-center justify-center z-40 active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-[28px]" data-icon="add">add</span>
+</button>
+<script>
+        function toggleSheet() {
+            const sheet = document.getElementById('bottom-sheet');
+            const overlay = document.getElementById('sheet-overlay');
+            
+            if (sheet.classList.contains('sheet-hidden')) {
+                sheet.classList.remove('sheet-hidden');
+                sheet.classList.add('sheet-visible');
+                overlay.classList.remove('hidden');
+                setTimeout(() => overlay.classList.add('opacity-100'), 10);
+                document.body.classList.add('overflow-hidden');
+            } else {
+                sheet.classList.add('sheet-hidden');
+                sheet.classList.remove('sheet-visible');
+                overlay.classList.remove('opacity-100');
+                setTimeout(() => {
+                    overlay.classList.add('hidden');
+                    document.body.classList.remove('overflow-hidden');
+                }, 300);
+            }
+        }
+
+        // Add to Cart Micro-interaction
+        const cartButtons = document.querySelectorAll('button:has(.material-symbols-outlined[data-icon="add_shopping_cart"])');
+        cartButtons.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const icon = btn.querySelector('.material-symbols-outlined');
+                icon.innerText = 'check';
+                btn.classList.replace('bg-secondary-container', 'bg-success');
+                btn.classList.replace('text-on-secondary-container', 'text-white');
+                
+                setTimeout(() => {
+                    icon.innerText = 'add_shopping_cart';
+                    btn.classList.replace('bg-success', 'bg-secondary-container');
+                    btn.classList.replace('text-white', 'text-on-secondary-container');
+                }, 2000);
+            });
+        });
+    </script>
+</body></html>

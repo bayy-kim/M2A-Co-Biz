@@ -1,0 +1,196 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  KETUA
+  SEKRETARIS
+  SELLER
+  BUYER
+}
+
+enum SellerType {
+  UMKM
+  JASA
+}
+
+enum SellerStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  SUSPENDED
+}
+
+enum DocumentType {
+  KTP
+  KK
+  IZIN_USAHA
+}
+
+enum ProductStatus {
+  ACTIVE
+  INACTIVE
+  ARCHIVED
+}
+
+enum CommissionScope {
+  GLOBAL
+  CATEGORY
+  SELLER
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  EXPIRED
+}
+
+enum PayoutStatus {
+  PENDING
+  PROCESSING
+  PAID
+  FAILED
+}
+
+enum LedgerType {
+  IN
+  OUT
+}
+
+model User {
+  id              String    @id @default(cuid())
+  role            Role
+  email           String    @unique
+  passwordHash    String
+  name            String
+  phone           String?
+  twoFactorSecret String?
+  createdAt       DateTime  @default(now())
+  sellerProfile   SellerProfile?
+}
+
+model SellerProfile {
+  id              String    @id @default(cuid())
+  userId          String    @unique
+  user            User      @relation(fields: [userId], references: [id])
+  businessName    String
+  type            SellerType
+  status          SellerStatus @default(PENDING)
+  bankAccountName String?
+  bankAccountNo   String?
+  bankName        String?
+  documents       SellerDocument[]
+  products        Product[]
+  createdAt       DateTime  @default(now())
+}
+
+model SellerDocument {
+  id               String   @id @default(cuid())
+  sellerId         String
+  seller           SellerProfile @relation(fields: [sellerId], references: [id])
+  type             DocumentType
+  encryptedBlobUrl String
+  uploadedAt       DateTime @default(now())
+  verifiedAt       DateTime?
+  verifiedBy       String?
+}
+
+model Category {
+  id                       String  @id @default(cuid())
+  name                     String
+  defaultCommissionPercent Decimal @db.Decimal(5,2)
+  products                 Product[]
+}
+
+model Product {
+  id          String   @id @default(cuid())
+  sellerId    String
+  seller      SellerProfile @relation(fields: [sellerId], references: [id])
+  categoryId  String?
+  category    Category? @relation(fields: [categoryId], references: [id])
+  title       String
+  description String
+  priceRupiah Int
+  images      String[]
+  status      ProductStatus @default(ACTIVE)
+  createdAt   DateTime @default(now())
+}
+
+model CommissionRule {
+  id        String   @id @default(cuid())
+  scope     CommissionScope
+  refId     String?
+  percent   Decimal  @db.Decimal(5,2)
+  updatedBy String
+  createdAt DateTime @default(now())
+}
+
+model Order {
+  id              String   @id @default(cuid())
+  buyerName       String
+  buyerPhone      String
+  totalRupiah     Int
+  paymentStatus   PaymentStatus @default(PENDING)
+  xenditInvoiceId String?
+  items           OrderItem[]
+  createdAt       DateTime @default(now())
+}
+
+model OrderItem {
+  id                String @id @default(cuid())
+  orderId           String
+  order             Order  @relation(fields: [orderId], references: [id])
+  productId         String
+  sellerId          String
+  qty               Int
+  priceRupiah       Int
+  commissionPercent Decimal @db.Decimal(5,2)
+  commissionRupiah  Int
+  sellerNetRupiah   Int
+}
+
+model Payout {
+  id                   String      @id @default(cuid())
+  sellerId             String
+  amountRupiah         Int
+  status               PayoutStatus @default(PENDING)
+  xenditDisbursementId String?
+  periodStart          DateTime
+  periodEnd            DateTime
+  createdAt            DateTime    @default(now())
+}
+
+model LedgerEntry {
+  id              String    @id @default(cuid())
+  type            LedgerType
+  amountRupiah    Int
+  relatedOrderId  String?
+  relatedPayoutId String?
+  createdAt       DateTime  @default(now())
+}
+
+model ActivityLog {
+  id         String   @id @default(cuid())
+  actorId    String
+  action     String
+  targetType String
+  targetId   String
+  metadata   Json?
+  createdAt  DateTime @default(now())
+}
+
+model CompanyProfile {
+  id          String  @id @default(cuid())
+  name        String  @default("M2A Co-Biz")
+  address     String
+  latitude    Float?
+  longitude   Float?
+  mapEmbedUrl String?
+}
