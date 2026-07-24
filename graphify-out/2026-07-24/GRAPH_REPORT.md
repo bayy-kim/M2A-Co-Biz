@@ -1,10 +1,11 @@
-# Graph Report - D:\coding\VIBECODING\m2a-co-biz  (2026-07-24)
+# Graph Report - m2a-co-biz  (2026-07-24)
 
 ## Corpus Check
-- cluster-only mode — file stats not available
+- 60 files · ~475,468 words
+- Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 356 nodes · 373 edges · 36 communities (27 shown, 9 thin omitted)
+- 356 nodes · 408 edges · 32 communities (25 shown, 7 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 4 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
@@ -31,7 +32,6 @@
 - scripts
 - landing-client.tsx
 - register/actions.ts
-- checkout-form.tsx
 - next-auth.d.ts
 - vercel.json
 - commission-engine.ts
@@ -40,7 +40,6 @@
 - next.config.ts
 - seed.ts
 - layout.tsx
-- bar-chart.tsx
 - pie-chart.tsx
 - eslint.config.mjs
 - postcss.config.mjs
@@ -48,40 +47,40 @@
 
 ## God Nodes (most connected - your core abstractions)
 1. `compilerOptions` - 16 edges
-2. `DESIGN.md — M2A Co-Biz` - 11 edges
-3. `SAR — System Architecture & Requirements` - 11 edges
-4. `DESIGN.md — M2A Co-Biz` - 11 edges
+2. `formatRupiah()` - 15 edges
+3. `DESIGN.md — M2A Co-Biz` - 11 edges
+4. `SAR — System Architecture & Requirements` - 11 edges
 5. `DESIGN.md — M2A Co-Biz` - 11 edges
 6. `DESIGN.md — M2A Co-Biz` - 11 edges
-7. `PRD — M2A Co-Biz` - 8 edges
-8. `formatRupiah()` - 7 edges
-9. `include` - 7 edges
-10. `AGENTS.md — M2A Co-Biz` - 7 edges
+7. `DESIGN.md — M2A Co-Biz` - 11 edges
+8. `PRD — M2A Co-Biz` - 8 edges
+9. `scripts` - 7 edges
+10. `include` - 7 edges
 
 ## Surprising Connections (you probably didn't know these)
+- `SekretarisDashboard()` --calls--> `formatRupiah()`  [EXTRACTED]
+  src/app/sekretaris/page.tsx → src/lib/utils.ts
 - `ProductDetailPage()` --calls--> `formatRupiah()`  [EXTRACTED]
   src/app/catalog/[id]/page.tsx → src/lib/utils.ts
 - `CatalogPage()` --calls--> `formatRupiah()`  [EXTRACTED]
   src/app/catalog/page.tsx → src/lib/utils.ts
+- `CheckoutPage()` --calls--> `formatRupiah()`  [EXTRACTED]
+  src/app/checkout/page.tsx → src/lib/utils.ts
 - `KetuaDashboard()` --calls--> `formatRupiah()`  [EXTRACTED]
   src/app/ketua/page.tsx → src/lib/utils.ts
-- `RegisterPage()` --indirect_call--> `register()`  [INFERRED]
-  src/app/register/page.tsx → src/app/register/actions.ts
-- `CommissionRuleForm()` --indirect_call--> `setCommissionRule()`  [INFERRED]
-  src/app/sekretaris/commission-form.tsx → src/app/sekretaris/actions.ts
 
 ## Import Cycles
 - None detected.
 
-## Communities (36 total, 9 thin omitted)
+## Communities (32 total, 7 thin omitted)
 
 ### Community 0 - "dependencies"
 Cohesion: 0.05
 Nodes (37): @auth/prisma-adapter, bcryptjs, framer-motion, @hookform/resolvers, lucide-react, next, next-auth, otplib (+29 more)
 
 ### Community 1 - "auth.ts"
-Cohesion: 0.10
-Nodes (17): updateSellerStatus(), ApproveButton(), RejectButton(), SIDEBAR, ProductDetailPage(), CatalogPage(), FALLBACK_CATEGORIES, KetuaDashboard() (+9 more)
+Cohesion: 0.09
+Nodes (23): ProductDetailPage(), CatalogPage(), FALLBACK_CATEGORIES, checkoutSchema, createCheckout(), CheckoutForm(), CheckoutPage(), KetuaDashboard() (+15 more)
 
 ### Community 2 - "compilerOptions"
 Cohesion: 0.07
@@ -93,7 +92,7 @@ Nodes (23): eslint, eslint-config-next, devDependencies, eslint, eslint-config-n
 
 ### Community 4 - "SAR — System Architecture & Requirements"
 Cohesion: 0.09
-Nodes (17): Akun Dummy (Development), Deploy, M2A Co-Biz, Setup Lokal, Struktur Folder, Tech Stack, 1. Tech Stack & Alasan, 2. Skema Database (Prisma) (+9 more)
+Nodes (17): 10. Aksesibilitas, 1. Brand Tone, 2. Palet Warna (Final — hasil export dari Stitch), 3. Tipografi, 4. Layout & Spacing, 5. Layout Dashboard (Admin/Ketua/Sekretaris/Seller), 6. Komponen (shadcn/ui), 7. Ikonografi (+9 more)
 
 ### Community 5 - "instructions"
 Cohesion: 0.12
@@ -101,15 +100,15 @@ Nodes (17): agent, build, plan, mode, permission, instructions, bash, edit (+9 m
 
 ### Community 6 - "sekretaris/actions.ts"
 Cohesion: 0.15
-Nodes (10): commissionSchema, CommissionState, confirmPayment(), ConfirmState, PayoutState, processPayout(), setCommissionRule(), CommissionRuleForm() (+2 more)
+Nodes (14): commissionSchema, CommissionState, confirmPayment(), ConfirmState, PayoutState, processPayout(), setCommissionRule(), CommissionRuleForm() (+6 more)
 
 ### Community 7 - "PRD — M2A Co-Biz"
 Cohesion: 0.12
 Nodes (16): 1. Ringkasan, 2. Peran & Pengguna, 3.1 Publik (Buyer), 3.2 Seller (UMKM & Jasa), 3.3 Admin, 3.4 Sekretaris, 3.5 Ketua, 3. Fitur per Peran (+8 more)
 
 ### Community 8 - "seller/actions.ts"
-Cohesion: 0.20
-Nodes (8): createProduct(), PayoutRequestState, productSchema, ProductState, requestPayout(), NewProductForm(), SIDEBAR, RequestPayoutForm()
+Cohesion: 0.17
+Nodes (8): updateSellerStatus(), ApproveButton(), RejectButton(), SIDEBAR, { handlers, signIn, signOut, auth }, maskString(), config, roleRoutes
 
 ### Community 9 - "AGENTS.md — M2A Co-Biz"
 Cohesion: 0.17
@@ -129,7 +128,7 @@ Nodes (11): 10. Aksesibilitas, 1. Brand Tone, 2. Palet Warna, 3. Tipografi, 4. L
 
 ### Community 13 - "DESIGN.md — M2A Co-Biz"
 Cohesion: 0.18
-Nodes (11): 10. Aksesibilitas, 1. Brand Tone, 2. Palet Warna (Final — hasil export dari Stitch), 3. Tipografi, 4. Layout & Spacing, 5. Layout Dashboard (Admin/Ketua/Sekretaris/Seller), 6. Komponen (shadcn/ui), 7. Ikonografi (+3 more)
+Nodes (11): 1. Tech Stack & Alasan, 2. Skema Database (Prisma), 3. Struktur Folder, 4. Auth & RBAC, 5. Integrasi Xendit, 6. Commission Engine, 7. Keamanan (Prioritas Tertinggi), 8. Environment Variables (`.env.example`) (+3 more)
 
 ### Community 14 - "scripts"
 Cohesion: 0.18
@@ -143,10 +142,6 @@ Nodes (5): AnimateItem(), AnimateSection(), AnimateSectionProps, AnimateStagger(
 Cohesion: 0.36
 Nodes (6): ACCEPTED_FILE_TYPES, fileSchema, register(), registerSchema, RegisterState, RegisterPage()
 
-### Community 17 - "checkout-form.tsx"
-Cohesion: 0.43
-Nodes (3): checkoutSchema, createCheckout(), CheckoutForm()
-
 ### Community 18 - "next-auth.d.ts"
 Cohesion: 0.33
 Nodes (5): JWT, next-auth, next-auth/jwt, Session, User
@@ -154,6 +149,10 @@ Nodes (5): JWT, next-auth, next-auth/jwt, Session, User
 ### Community 19 - "vercel.json"
 Cohesion: 0.33
 Nodes (5): buildCommand, crons, framework, installCommand, outputDirectory
+
+### Community 20 - "commission-engine.ts"
+Cohesion: 0.50
+Nodes (3): calculateCommission(), CommissionResult, prisma
 
 ### Community 21 - "xendit.ts"
 Cohesion: 0.60
@@ -166,7 +165,7 @@ Nodes (3): decrypt(), encrypt(), getKey()
 ## Knowledge Gaps
 - **191 isolated node(s):** `$schema`, `.opencode/plugins/graphify.js`, `AGENTS.md`, `PRD.md`, `SAR.md` (+186 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **9 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **7 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
@@ -182,6 +181,6 @@ _Questions this graph is uniquely positioned to answer:_
 - **Should `dependencies` be split into smaller, more focused modules?**
   _Cohesion score 0.05405405405405406 - nodes in this community are weakly interconnected._
 - **Should `auth.ts` be split into smaller, more focused modules?**
-  _Cohesion score 0.0967741935483871 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.08902439024390243 - nodes in this community are weakly interconnected._
 - **Should `compilerOptions` be split into smaller, more focused modules?**
   _Cohesion score 0.06896551724137931 - nodes in this community are weakly interconnected._

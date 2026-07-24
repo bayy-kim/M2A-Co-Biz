@@ -518,5 +518,10 @@
     "mtime": 1784884582.3800814,
     "ast_hash": "31b40053076fc387cdab225b6a2e02c1",
     "semantic_hash": "31b40053076fc387cdab225b6a2e02c1"
+  },
+  "public/images/qris-placeholder.svg": {
+    "mtime": 1784884620.6309283,
+    "ast_hash": "73136bcf7ae8b812349192ecfe618aeb",
+    "semantic_hash": ""
   }
 }
