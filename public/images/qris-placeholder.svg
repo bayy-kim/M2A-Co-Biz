@@ -1,0 +1,22 @@
+<svg width="400" height="400" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="400" fill="#ffffff" rx="24"/>
+  <rect x="16" y="16" width="368" height="368" fill="none" stroke="#004343" stroke-width="2" rx="20"/>
+  <rect x="40" y="40" width="120" height="120" fill="#004343" rx="8"/>
+  <rect x="240" y="40" width="120" height="120" fill="#004343" rx="8"/>
+  <rect x="40" y="240" width="120" height="120" fill="#004343" rx="8"/>
+  <rect x="240" y="240" width="120" height="120" fill="#004343" rx="8"/>
+  <rect x="160" y="160" width="80" height="80" fill="#90d2d1" rx="8"/>
+  <rect x="80" y="80" width="40" height="40" fill="#ffffff" rx="4"/>
+  <rect x="280" y="80" width="40" height="40" fill="#ffffff" rx="4"/>
+  <rect x="80" y="280" width="40" height="40" fill="#ffffff" rx="4"/>
+  <rect x="280" y="280" width="40" height="40" fill="#ffffff" rx="4"/>
+  <rect x="56" y="172" width="8" height="56" fill="#004343" rx="2"/>
+  <rect x="172" y="56" width="56" height="8" fill="#004343" rx="2"/>
+  <rect x="172" y="336" width="56" height="8" fill="#004343" rx="2"/>
+  <rect x="336" y="172" width="8" height="56" fill="#004343" rx="2"/>
+  <rect x="172" y="200" width="24" height="8" fill="#004343" rx="2"/>
+  <rect x="220" y="172" width="8" height="24" fill="#004343" rx="2"/>
+  <text x="200" y="118" fill="#90d2d1" font-family="sans-serif" font-size="14" font-weight="700" text-anchor="middle">M2A</text>
+  <text x="200" y="136" fill="#90d2d1" font-family="sans-serif" font-size="10" text-anchor="middle">QRIS</text>
+  <text x="200" y="380" fill="#004343" font-family="sans-serif" font-size="12" font-weight="600" text-anchor="middle">Scan to Pay — M2A Co-Biz</text>
+</svg>

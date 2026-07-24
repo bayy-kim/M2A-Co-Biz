@@ -2,7 +2,7 @@ import { redirect } from "next/navigation"
 import Link from "next/link"
 import { prisma } from "@/lib/db"
 import { formatRupiah } from "@/lib/utils"
-import { ShoppingBag, Store, ArrowLeft, ChevronRight, CreditCard } from "lucide-react"
+import { ShoppingBag, ArrowLeft, ChevronRight, QrCode } from "lucide-react"
 import { CheckoutForm } from "./checkout-form"
 
 async function CheckoutPage({
@@ -13,10 +13,13 @@ async function CheckoutPage({
   const params = await searchParams
 
   if (params.orderId) {
-    const order = await prisma.order.findUnique({
-      where: { id: params.orderId },
-      include: { items: true },
-    })
+    const [order, company] = await Promise.all([
+      prisma.order.findUnique({
+        where: { id: params.orderId },
+        include: { items: true },
+      }),
+      prisma.companyProfile.findFirst(),
+    ])
     if (!order) redirect("/catalog")
 
     return (
@@ -41,13 +44,44 @@ async function CheckoutPage({
               <span className="text-primary">{formatRupiah(order.totalRupiah)}</span>
             </div>
           </div>
-          <p className="text-label-sm text-on-surface-variant mb-lg">
-            We&apos;ll contact you at {order.buyerPhone} for payment confirmation.
-          </p>
-          <div className="bg-warning/5 border border-warning/20 rounded-lg p-md mb-lg text-label-sm text-on-surface text-left flex items-start gap-2">
-            <CreditCard className="w-5 h-5 text-warning flex-shrink-0 mt-0.5" />
-            <span>Payment integration coming soon. Our team will reach out to complete your transaction.</span>
+
+          <div className="bg-primary/5 border border-primary/20 rounded-lg p-lg mb-lg text-left">
+            <h3 className="text-label-md font-bold text-on-surface mb-md flex items-center gap-2">
+              <QrCode className="w-5 h-5 text-primary" />
+              Payment Instructions
+            </h3>
+            <div className="bg-surface-container-lowest rounded-lg p-md mb-md flex items-center justify-center border border-outline-variant/20">
+              <img
+                src="/images/qris-placeholder.svg"
+                alt="QRIS Payment"
+                className="w-48 h-48 object-contain"
+              />
+            </div>
+            {company?.bankName && (
+              <div className="space-y-2 text-label-sm">
+                <p className="text-on-surface font-bold">Bank Transfer</p>
+                <div className="flex justify-between">
+                  <span className="text-on-surface-variant">Bank</span>
+                  <span className="text-on-surface font-bold">{company.bankName}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-on-surface-variant">Account No.</span>
+                  <span className="text-on-surface font-bold">{company.bankAccountNo}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-on-surface-variant">Account Name</span>
+                  <span className="text-on-surface font-bold">{company.bankAccountName}</span>
+                </div>
+              </div>
+            )}
+            <p className="text-label-sm text-on-surface-variant mt-md">
+              Scan QRIS or transfer to the account above. Our team will confirm your payment manually.
+            </p>
           </div>
+
+          <p className="text-label-sm text-on-surface-variant mb-lg">
+            We&apos;ll contact you at {order.buyerPhone} once payment is confirmed.
+          </p>
           <Link href="/catalog" className="block w-full py-3 bg-primary text-on-primary rounded-lg text-label-md font-bold text-center hover:opacity-90 transition-opacity">
             Continue Shopping
           </Link>

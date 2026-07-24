@@ -6,6 +6,7 @@ import { Store, ShoppingBag, Wallet, TrendingUp, ChevronRight, Clock, CheckCircl
 import { TrendChart } from "@/components/line-chart"
 import Link from "next/link"
 import { NewProductForm } from "./new-product-form"
+import { RequestPayoutForm } from "./request-payout-form"
 
 const SIDEBAR = [
   { label: "Overview", href: "/seller" },
@@ -39,6 +40,23 @@ async function SellerDashboard({
   const pendingPayouts = await prisma.payout.aggregate({
     where: { sellerId: seller.id, status: "PENDING" },
     _sum: { amountRupiah: true },
+  })
+
+  const paidItems = await prisma.orderItem.findMany({
+    where: { sellerId: seller.id, order: { paymentStatus: "PAID" } },
+  })
+  const totalEarnings = paidItems.reduce((sum, i) => sum + i.sellerNetRupiah, 0)
+
+  const paidPayouts = await prisma.payout.findMany({
+    where: { sellerId: seller.id, status: { in: ["PROCESSING", "PAID"] } },
+  })
+  const totalPaidOut = paidPayouts.reduce((sum, p) => sum + p.amountRupiah, 0)
+
+  const availableBalance = totalEarnings - totalPaidOut
+
+  const allPayouts = await prisma.payout.findMany({
+    where: { sellerId: seller.id },
+    orderBy: { createdAt: "desc" },
   })
 
   const statusBadge = {
@@ -270,7 +288,51 @@ async function SellerDashboard({
           )}
 
           {tab === "sales" && <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 p-lg"><h3 className="text-headline-md text-on-surface font-bold mb-lg">Sales History</h3><p className="text-body-md text-on-surface-variant">Coming soon: detailed sales breakdown with commission calculations.</p></div>}
-          {tab === "payouts" && <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 p-lg"><h3 className="text-headline-md text-on-surface font-bold mb-lg">Payout History</h3><p className="text-body-md text-on-surface-variant">Coming soon: payout records and status tracking.</p></div>}
+          {tab === "payouts" && (
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-lg">
+              <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 p-lg">
+                <h3 className="text-headline-md text-on-surface font-bold mb-lg">Request Payout</h3>
+                <RequestPayoutForm availableBalance={availableBalance} />
+              </div>
+              <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 overflow-hidden">
+                <div className="p-lg border-b border-outline-variant/30">
+                  <h3 className="text-headline-md text-on-surface font-bold">Payout History</h3>
+                  <p className="text-label-sm text-on-surface-variant mt-1">{allPayouts.length} total payout(s)</p>
+                </div>
+                {allPayouts.length === 0 ? (
+                  <div className="p-lg text-center text-on-surface-variant text-body-md py-xl">No payouts yet.</div>
+                ) : (
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-left">
+                      <thead>
+                        <tr className="text-label-sm text-on-surface-variant border-b border-outline-variant/30">
+                          <th className="px-lg py-3 font-medium">Amount</th>
+                          <th className="px-lg py-3 font-medium">Status</th>
+                          <th className="px-lg py-3 font-medium">Date</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {allPayouts.map((p) => (
+                          <tr key={p.id} className="border-b border-outline-variant/20 hover:bg-surface-container-low transition-colors">
+                            <td className="px-lg py-3 text-label-md text-on-surface font-bold">{formatRupiah(p.amountRupiah)}</td>
+                            <td className="px-lg py-3">
+                              <span className={`inline-flex px-md py-0.5 rounded-full text-label-sm font-bold ${
+                                p.status === "PAID" ? "bg-success/10 text-success" :
+                                p.status === "PROCESSING" ? "bg-warning/10 text-warning" :
+                                p.status === "FAILED" ? "bg-error/10 text-error" :
+                                "bg-surface-container-highest text-on-surface-variant"
+                              }`}>{p.status}</span>
+                            </td>
+                            <td className="px-lg py-3 text-label-sm text-on-surface-variant">{p.createdAt.toLocaleDateString()}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
         </div>
       </main>
 

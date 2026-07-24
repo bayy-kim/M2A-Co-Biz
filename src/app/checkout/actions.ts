@@ -60,24 +60,6 @@ export async function createCheckout(formData: FormData) {
     },
   })
 
-  await prisma.ledgerEntry.create({
-    data: {
-      type: "IN",
-      amountRupiah: totalRupiah,
-      relatedOrderId: order.id,
-    },
-  })
-
-  if (commissionRupiah > 0) {
-    await prisma.ledgerEntry.create({
-      data: {
-        type: "IN",
-        amountRupiah: commissionRupiah,
-        relatedOrderId: order.id,
-      },
-    })
-  }
-
   return {
     success: true,
     orderId: order.id,

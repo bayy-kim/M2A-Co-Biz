@@ -47,7 +47,7 @@ export function CheckoutForm({ productId }: { productId: string }) {
 
       <div className="bg-warning/5 border border-warning/20 rounded-lg p-md text-label-sm text-on-surface flex items-start gap-2">
         <CreditCard className="w-5 h-5 text-warning flex-shrink-0 mt-0.5" />
-        <span>Payment will be processed via bank transfer or e-wallet. You&apos;ll receive payment instructions after placing the order.</span>
+        <span>Payment via QRIS or bank transfer. You&apos;ll see payment instructions after placing the order.</span>
       </div>
 
       {state && 'error' in state && typeof state.error === 'string' && (

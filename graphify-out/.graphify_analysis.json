@@ -1,46 +1,6 @@
 {
   "communities": {
     "0": [
-      "src_app_api_webhooks_xendit_route",
-      "src_app_api_webhooks_xendit_route_post",
-      "src_app_catalog_id_page",
-      "src_app_catalog_id_page_productdetailpage",
-      "src_app_catalog_page",
-      "src_app_catalog_page_catalogpage",
-      "src_app_catalog_page_fallback_categories",
-      "src_app_checkout_actions",
-      "src_app_checkout_actions_checkoutschema",
-      "src_app_checkout_actions_createcheckout",
-      "src_app_checkout_checkout_form",
-      "src_app_checkout_checkout_form_checkoutform",
-      "src_app_checkout_page",
-      "src_app_checkout_page_checkoutpage",
-      "src_app_ketua_page",
-      "src_app_ketua_page_ketuadashboard",
-      "src_app_ketua_page_sidebar",
-      "src_app_sekretaris_page",
-      "src_app_sekretaris_page_sekretarisdashboard",
-      "src_app_sekretaris_page_sidebar",
-      "src_app_seller_page",
-      "src_app_seller_page_sellerdashboard",
-      "src_app_seller_page_sidebar",
-      "src_components_bar_chart",
-      "src_components_bar_chart_barchartprops",
-      "src_components_bar_chart_financebarchart",
-      "src_components_line_chart",
-      "src_components_line_chart_trendchart",
-      "src_components_line_chart_trendchartprops",
-      "src_lib_commission_engine",
-      "src_lib_commission_engine_calculatecommission",
-      "src_lib_commission_engine_commissionresult",
-      "src_lib_commission_engine_prisma",
-      "src_lib_commission_engine_resolvecommission",
-      "src_lib_db",
-      "src_lib_db_globalforprisma",
-      "src_lib_utils",
-      "src_lib_utils_formatrupiah"
-    ],
-    "1": [
       "auth_prisma_adapter",
       "bcryptjs",
       "framer_motion",
@@ -79,74 +39,41 @@
       "xendit_node",
       "zod"
     ],
+    "1": [
+      "src_app_admin_actions",
+      "src_app_admin_actions_updatesellerstatus",
+      "src_app_admin_approve_button",
+      "src_app_admin_approve_button_approvebutton",
+      "src_app_admin_approve_button_rejectbutton",
+      "src_app_admin_page",
+      "src_app_admin_page_admindashboard",
+      "src_app_admin_page_sidebar",
+      "src_app_api_auth_nextauth_route",
+      "src_app_api_webhooks_xendit_route",
+      "src_app_api_webhooks_xendit_route_post",
+      "src_app_catalog_id_page",
+      "src_app_catalog_id_page_productdetailpage",
+      "src_app_catalog_page",
+      "src_app_catalog_page_catalogpage",
+      "src_app_catalog_page_fallback_categories",
+      "src_app_ketua_page",
+      "src_app_ketua_page_ketuadashboard",
+      "src_app_ketua_page_sidebar",
+      "src_components_line_chart",
+      "src_components_line_chart_trendchart",
+      "src_components_line_chart_trendchartprops",
+      "src_lib_auth",
+      "src_lib_auth_handlers_signin_signout_auth",
+      "src_lib_db",
+      "src_lib_db_globalforprisma",
+      "src_lib_utils",
+      "src_lib_utils_formatrupiah",
+      "src_lib_utils_maskstring",
+      "src_proxy",
+      "src_proxy_config",
+      "src_proxy_roleroutes"
+    ],
     "2": [
-      "agents",
-      "design",
-      "design_10_aksesibilitas",
-      "design_1_brand_tone",
-      "design_2_palet_warna_final_hasil_export_dari_stitch",
-      "design_3_tipografi",
-      "design_4_layout_spacing",
-      "design_5_layout_dashboard_admin_ketua_sekretaris_seller",
-      "design_6_komponen_shadcn_ui",
-      "design_7_ikonografi",
-      "design_8_animasi_framer_motion",
-      "design_9_komponen_lokasi_peta",
-      "design_design_md_m2a_co_biz",
-      "prd",
-      "readme",
-      "readme_akun_dummy_development",
-      "readme_deploy",
-      "readme_m2a_co_biz",
-      "readme_setup_lokal",
-      "readme_struktur_folder",
-      "readme_tech_stack",
-      "sar",
-      "sar_1_tech_stack_alasan",
-      "sar_2_skema_database_prisma",
-      "sar_3_struktur_folder",
-      "sar_4_auth_rbac",
-      "sar_5_integrasi_xendit",
-      "sar_6_commission_engine",
-      "sar_7_keamanan_prioritas_tertinggi",
-      "sar_8_environment_variables_env_example",
-      "sar_9_deployment",
-      "sar_m2a_co_biz",
-      "sar_sar_system_architecture_requirements"
-    ],
-    "3": [
-      "eslint",
-      "eslint_config_next",
-      "package",
-      "package_devdependencies",
-      "package_devdependencies_eslint",
-      "package_devdependencies_eslint_config_next",
-      "package_devdependencies_tailwindcss",
-      "package_devdependencies_tailwindcss_postcss",
-      "package_devdependencies_types_bcryptjs",
-      "package_devdependencies_types_node",
-      "package_devdependencies_types_qrcode",
-      "package_devdependencies_types_react",
-      "package_devdependencies_types_react_dom",
-      "package_devdependencies_typescript",
-      "package_name",
-      "package_private",
-      "package_scripts",
-      "package_scripts_build",
-      "package_scripts_dev",
-      "package_scripts_lint",
-      "package_scripts_start",
-      "package_version",
-      "tailwindcss",
-      "tailwindcss_postcss",
-      "types_bcryptjs",
-      "types_node",
-      "types_qrcode",
-      "types_react",
-      "types_react_dom",
-      "typescript"
-    ],
-    "4": [
       "ref_dom",
       "ref_dom_iterable",
       "ref_esnext",
@@ -177,6 +104,55 @@
       "tsconfig_exclude",
       "tsconfig_include"
     ],
+    "3": [
+      "eslint",
+      "eslint_config_next",
+      "package_devdependencies",
+      "package_devdependencies_eslint",
+      "package_devdependencies_eslint_config_next",
+      "package_devdependencies_tailwindcss",
+      "package_devdependencies_tailwindcss_postcss",
+      "package_devdependencies_types_bcryptjs",
+      "package_devdependencies_types_node",
+      "package_devdependencies_types_qrcode",
+      "package_devdependencies_types_react",
+      "package_devdependencies_types_react_dom",
+      "package_devdependencies_typescript",
+      "package_devdependencies_vitest",
+      "tailwindcss",
+      "tailwindcss_postcss",
+      "types_bcryptjs",
+      "types_node",
+      "types_qrcode",
+      "types_react",
+      "types_react_dom",
+      "typescript",
+      "vitest"
+    ],
+    "4": [
+      "agents",
+      "design",
+      "prd",
+      "readme",
+      "readme_akun_dummy_development",
+      "readme_deploy",
+      "readme_m2a_co_biz",
+      "readme_setup_lokal",
+      "readme_struktur_folder",
+      "readme_tech_stack",
+      "sar",
+      "sar_1_tech_stack_alasan",
+      "sar_2_skema_database_prisma",
+      "sar_3_struktur_folder",
+      "sar_4_auth_rbac",
+      "sar_5_integrasi_xendit",
+      "sar_6_commission_engine",
+      "sar_7_keamanan_prioritas_tertinggi",
+      "sar_8_environment_variables_env_example",
+      "sar_9_deployment",
+      "sar_m2a_co_biz",
+      "sar_sar_system_architecture_requirements"
+    ],
     "5": [
       "opencode_opencode",
       "opencode_opencode_agent",
@@ -198,6 +174,25 @@
       "ref_sar_md"
     ],
     "6": [
+      "src_app_sekretaris_actions",
+      "src_app_sekretaris_actions_commissionschema",
+      "src_app_sekretaris_actions_commissionstate",
+      "src_app_sekretaris_actions_confirmpayment",
+      "src_app_sekretaris_actions_confirmstate",
+      "src_app_sekretaris_actions_payoutstate",
+      "src_app_sekretaris_actions_processpayout",
+      "src_app_sekretaris_actions_setcommissionrule",
+      "src_app_sekretaris_commission_form",
+      "src_app_sekretaris_commission_form_commissionruleform",
+      "src_app_sekretaris_confirm_payment_button",
+      "src_app_sekretaris_confirm_payment_button_confirmpaymentbutton",
+      "src_app_sekretaris_page",
+      "src_app_sekretaris_page_sekretarisdashboard",
+      "src_app_sekretaris_page_sidebar",
+      "src_app_sekretaris_payout_action",
+      "src_app_sekretaris_payout_action_payoutaction"
+    ],
+    "7": [
       "prd_1_ringkasan",
       "prd_2_peran_pengguna",
       "prd_3_1_publik_buyer",
@@ -215,24 +210,23 @@
       "prd_7_kriteria_sukses",
       "prd_prd_m2a_co_biz"
     ],
-    "7": [
-      "src_app_admin_actions",
-      "src_app_admin_actions_updatesellerstatus",
-      "src_app_admin_approve_button",
-      "src_app_admin_approve_button_approvebutton",
-      "src_app_admin_approve_button_rejectbutton",
-      "src_app_admin_page",
-      "src_app_admin_page_admindashboard",
-      "src_app_admin_page_sidebar",
-      "src_app_api_auth_nextauth_route",
-      "src_lib_auth",
-      "src_lib_auth_handlers_signin_signout_auth",
-      "src_lib_utils_maskstring",
-      "src_proxy",
-      "src_proxy_config",
-      "src_proxy_roleroutes"
-    ],
     "8": [
+      "src_app_seller_actions",
+      "src_app_seller_actions_createproduct",
+      "src_app_seller_actions_payoutrequeststate",
+      "src_app_seller_actions_productschema",
+      "src_app_seller_actions_productstate",
+      "src_app_seller_actions_requestpayout",
+      "src_app_seller_actions_updateproductstatus",
+      "src_app_seller_new_product_form",
+      "src_app_seller_new_product_form_newproductform",
+      "src_app_seller_page",
+      "src_app_seller_page_sellerdashboard",
+      "src_app_seller_page_sidebar",
+      "src_app_seller_request_payout_form",
+      "src_app_seller_request_payout_form_requestpayoutform"
+    ],
+    "9": [
       "agents_agents_md_m2a_co_biz",
       "agents_catatan_teknis_penting",
       "agents_in_progress_todo",
@@ -246,7 +240,7 @@
       "agents_semua_route_13_total",
       "agents_tech_stack_wajib"
     ],
-    "9": [
+    "10": [
       "design_reference_asset_design",
       "design_reference_asset_design_10_aksesibilitas",
       "design_reference_asset_design_1_brand_tone",
@@ -260,7 +254,7 @@
       "design_reference_asset_design_9_komponen_lokasi_peta",
       "design_reference_asset_design_design_md_m2a_co_biz"
     ],
-    "10": [
+    "11": [
       "design_reference_desktop_m2a_co_biz_design",
       "design_reference_desktop_m2a_co_biz_design_10_aksesibilitas",
       "design_reference_desktop_m2a_co_biz_design_1_brand_tone",
@@ -274,7 +268,7 @@
       "design_reference_desktop_m2a_co_biz_design_9_komponen_lokasi_peta",
       "design_reference_desktop_m2a_co_biz_design_design_md_m2a_co_biz"
     ],
-    "11": [
+    "12": [
       "design_reference_mobile_m2a_co_biz_design",
       "design_reference_mobile_m2a_co_biz_design_10_aksesibilitas",
       "design_reference_mobile_m2a_co_biz_design_1_brand_tone",
@@ -288,19 +282,33 @@
       "design_reference_mobile_m2a_co_biz_design_9_komponen_lokasi_peta",
       "design_reference_mobile_m2a_co_biz_design_design_md_m2a_co_biz"
     ],
-    "12": [
-      "src_app_sekretaris_actions",
-      "src_app_sekretaris_actions_commissionschema",
-      "src_app_sekretaris_actions_commissionstate",
-      "src_app_sekretaris_actions_payoutstate",
-      "src_app_sekretaris_actions_processpayout",
-      "src_app_sekretaris_actions_setcommissionrule",
-      "src_app_sekretaris_commission_form",
-      "src_app_sekretaris_commission_form_commissionruleform",
-      "src_app_sekretaris_payout_action",
-      "src_app_sekretaris_payout_action_payoutaction"
-    ],
     "13": [
+      "design_10_aksesibilitas",
+      "design_1_brand_tone",
+      "design_2_palet_warna_final_hasil_export_dari_stitch",
+      "design_3_tipografi",
+      "design_4_layout_spacing",
+      "design_5_layout_dashboard_admin_ketua_sekretaris_seller",
+      "design_6_komponen_shadcn_ui",
+      "design_7_ikonografi",
+      "design_8_animasi_framer_motion",
+      "design_9_komponen_lokasi_peta",
+      "design_design_md_m2a_co_biz"
+    ],
+    "14": [
+      "package",
+      "package_name",
+      "package_private",
+      "package_scripts",
+      "package_scripts_build",
+      "package_scripts_dev",
+      "package_scripts_lint",
+      "package_scripts_seed",
+      "package_scripts_start",
+      "package_scripts_test",
+      "package_version"
+    ],
+    "15": [
       "src_app_page",
       "src_app_page_landingpage",
       "src_components_animate_section",
@@ -311,7 +319,7 @@
       "src_components_landing_client",
       "src_components_landing_client_landingclient"
     ],
-    "14": [
+    "16": [
       "src_app_register_actions",
       "src_app_register_actions_accepted_file_types",
       "src_app_register_actions_fileschema",
@@ -321,16 +329,16 @@
       "src_app_register_page",
       "src_app_register_page_registerpage"
     ],
-    "15": [
-      "src_app_seller_actions",
-      "src_app_seller_actions_createproduct",
-      "src_app_seller_actions_productschema",
-      "src_app_seller_actions_productstate",
-      "src_app_seller_actions_updateproductstatus",
-      "src_app_seller_new_product_form",
-      "src_app_seller_new_product_form_newproductform"
+    "17": [
+      "src_app_checkout_actions",
+      "src_app_checkout_actions_checkoutschema",
+      "src_app_checkout_actions_createcheckout",
+      "src_app_checkout_checkout_form",
+      "src_app_checkout_checkout_form_checkoutform",
+      "src_app_checkout_page",
+      "src_app_checkout_page_checkoutpage"
     ],
-    "16": [
+    "18": [
       "src_types_next_auth_d",
       "src_types_next_auth_d_jwt",
       "src_types_next_auth_d_next_auth",
@@ -338,7 +346,7 @@
       "src_types_next_auth_d_session",
       "src_types_next_auth_d_user"
     ],
-    "17": [
+    "19": [
       "vercel",
       "vercel_buildcommand",
       "vercel_crons",
@@ -346,83 +354,118 @@
       "vercel_installcommand",
       "vercel_outputdirectory"
     ],
-    "18": [
+    "20": [
+      "src_lib_commission_engine",
+      "src_lib_commission_engine_calculatecommission",
+      "src_lib_commission_engine_commissionresult",
+      "src_lib_commission_engine_prisma",
+      "src_lib_commission_engine_resolvecommission"
+    ],
+    "21": [
       "src_lib_xendit",
       "src_lib_xendit_createdisbursement",
       "src_lib_xendit_createinvoice",
       "src_lib_xendit_getopts",
       "src_lib_xendit_verifywebhooksignature"
     ],
-    "19": [
+    "22": [
       "src_lib_encryption",
       "src_lib_encryption_decrypt",
       "src_lib_encryption_encrypt",
       "src_lib_encryption_getkey"
     ],
-    "20": [
+    "23": [
       "next_config",
       "next_config_contentsecuritypolicy",
       "next_config_nextconfig"
     ],
-    "21": [
+    "24": [
+      "prisma_seed",
+      "prisma_seed_main",
+      "prisma_seed_prisma"
+    ],
+    "25": [
       "src_app_layout",
       "src_app_layout_metadata",
       "src_app_layout_rootlayout"
     ],
-    "22": [
+    "26": [
+      "src_components_bar_chart",
+      "src_components_bar_chart_barchartprops",
+      "src_components_bar_chart_financebarchart"
+    ],
+    "27": [
       "src_components_pie_chart",
       "src_components_pie_chart_colors",
       "src_components_pie_chart_revenuepiechart"
     ],
-    "23": [
+    "28": [
       "eslint_config",
       "eslint_config_eslintconfig"
     ],
-    "24": [
+    "29": [
       "postcss_config",
       "postcss_config_config"
     ],
-    "25": [
+    "30": [
+      "src_app_api_auth_can_totp_route",
+      "src_app_api_auth_can_totp_route_post"
+    ],
+    "31": [
       "src_app_login_page",
       "src_app_login_page_loginpage"
     ],
-    "26": [
+    "32": [
       "src_components_revenue_chart",
       "src_components_revenue_chart_revenuechart"
     ],
-    "27": [
+    "33": [
       "src_app_api_auth_nextauth_route_get_post"
+    ],
+    "34": [
+      "src_lib_commission_engine_test"
+    ],
+    "35": [
+      "vitest_config"
     ]
   },
   "cohesion": {
-    "0": 0.09103840682788052,
-    "1": 0.05405405405405406,
-    "2": 0.06060606060606061,
-    "3": 0.06666666666666667,
-    "4": 0.06896551724137931,
+    "0": 0.05405405405405406,
+    "1": 0.0967741935483871,
+    "2": 0.06896551724137931,
+    "3": 0.08695652173913043,
+    "4": 0.09090909090909091,
     "5": 0.12418300653594772,
-    "6": 0.125,
-    "7": 0.17142857142857143,
-    "8": 0.16666666666666666,
+    "6": 0.15441176470588236,
+    "7": 0.125,
+    "8": 0.1978021978021978,
     "9": 0.16666666666666666,
     "10": 0.16666666666666666,
     "11": 0.16666666666666666,
-    "12": 0.26666666666666666,
-    "13": 0.3333333333333333,
-    "14": 0.35714285714285715,
-    "15": 0.38095238095238093,
-    "16": 0.3333333333333333,
-    "17": 0.3333333333333333,
-    "18": 0.6,
-    "19": 0.8333333333333334,
-    "20": 0.6666666666666666,
-    "21": 0.6666666666666666,
-    "22": 0.6666666666666666,
-    "23": 1.0,
-    "24": 1.0,
-    "25": 1.0,
-    "26": 1.0,
-    "27": 1.0
+    "12": 0.16666666666666666,
+    "13": 0.18181818181818182,
+    "14": 0.18181818181818182,
+    "15": 0.3333333333333333,
+    "16": 0.35714285714285715,
+    "17": 0.42857142857142855,
+    "18": 0.3333333333333333,
+    "19": 0.3333333333333333,
+    "20": 0.4,
+    "21": 0.6,
+    "22": 0.8333333333333334,
+    "23": 0.6666666666666666,
+    "24": 0.6666666666666666,
+    "25": 0.6666666666666666,
+    "26": 0.6666666666666666,
+    "27": 0.6666666666666666,
+    "28": 1.0,
+    "29": 1.0,
+    "30": 1.0,
+    "31": 1.0,
+    "32": 1.0,
+    "33": 1.0,
+    "34": 1.0,
+    "35": 1.0
   },
   "gods": [
     {
@@ -431,48 +474,48 @@
       "degree": 16
     },
     {
-      "id": "src_lib_utils_formatrupiah",
-      "label": "formatRupiah()",
-      "degree": 13
-    },
-    {
       "id": "design_design_md_m2a_co_biz",
-      "label": "DESIGN.md \u2014 M2A Co-Biz",
+      "label": "DESIGN.md — M2A Co-Biz",
       "degree": 11
     },
     {
       "id": "sar_sar_system_architecture_requirements",
-      "label": "SAR \u2014 System Architecture & Requirements",
+      "label": "SAR — System Architecture & Requirements",
       "degree": 11
     },
     {
       "id": "design_reference_asset_design_design_md_m2a_co_biz",
-      "label": "DESIGN.md \u2014 M2A Co-Biz",
+      "label": "DESIGN.md — M2A Co-Biz",
       "degree": 11
     },
     {
       "id": "design_reference_desktop_m2a_co_biz_design_design_md_m2a_co_biz",
-      "label": "DESIGN.md \u2014 M2A Co-Biz",
+      "label": "DESIGN.md — M2A Co-Biz",
       "degree": 11
     },
     {
       "id": "design_reference_mobile_m2a_co_biz_design_design_md_m2a_co_biz",
-      "label": "DESIGN.md \u2014 M2A Co-Biz",
+      "label": "DESIGN.md — M2A Co-Biz",
       "degree": 11
     },
     {
       "id": "prd_prd_m2a_co_biz",
-      "label": "PRD \u2014 M2A Co-Biz",
+      "label": "PRD — M2A Co-Biz",
       "degree": 8
     },
     {
-      "id": "agents_agents_md_m2a_co_biz",
-      "label": "AGENTS.md \u2014 M2A Co-Biz",
+      "id": "src_lib_utils_formatrupiah",
+      "label": "formatRupiah()",
       "degree": 7
     },
     {
       "id": "tsconfig_include",
       "label": "include",
+      "degree": 7
+    },
+    {
+      "id": "agents_agents_md_m2a_co_biz",
+      "label": "AGENTS.md — M2A Co-Biz",
       "degree": 7
     }
   ],
@@ -500,17 +543,6 @@
       "why": "peripheral node `CatalogPage()` unexpectedly reaches hub `formatRupiah()`"
     },
     {
-      "source": "CheckoutPage()",
-      "target": "formatRupiah()",
-      "source_files": [
-        "src/app/checkout/page.tsx",
-        "src/lib/utils.ts"
-      ],
-      "confidence": "EXTRACTED",
-      "relation": "calls",
-      "why": "peripheral node `CheckoutPage()` unexpectedly reaches hub `formatRupiah()`"
-    },
-    {
       "source": "KetuaDashboard()",
       "target": "formatRupiah()",
       "source_files": [
@@ -531,10 +563,54 @@
       "confidence": "INFERRED",
       "relation": "indirect_call",
       "why": "inferred connection - not explicitly stated in source"
+    },
+    {
+      "source": "CommissionRuleForm()",
+      "target": "setCommissionRule()",
+      "source_files": [
+        "src/app/sekretaris/commission-form.tsx",
+        "src/app/sekretaris/actions.ts"
+      ],
+      "confidence": "INFERRED",
+      "relation": "indirect_call",
+      "why": "inferred connection - not explicitly stated in source"
     }
   ],
-  "tokens": {
-    "input": 0,
-    "output": 0
-  }
+  "questions": [
+    {
+      "type": "bridge_node",
+      "question": "Why does `dependencies` connect `dependencies` to `scripts`?",
+      "why": "High betweenness centrality (0.029) - this node is a cross-community bridge."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `devDependencies` connect `devDependencies` to `scripts`?",
+      "why": "High betweenness centrality (0.020) - this node is a cross-community bridge."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `PRD — M2A Co-Biz` connect `PRD — M2A Co-Biz` to `SAR — System Architecture & Requirements`?",
+      "why": "High betweenness centrality (0.012) - this node is a cross-community bridge."
+    },
+    {
+      "type": "isolated_nodes",
+      "question": "What connects `$schema`, `.opencode/plugins/graphify.js`, `AGENTS.md` to the rest of the system?",
+      "why": "191 weakly-connected nodes found - possible documentation gaps or missing edges."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `dependencies` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.05405405405405406 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `auth.ts` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.0967741935483871 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `compilerOptions` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.06896551724137931 - nodes in this community are weakly interconnected."
+    }
+  ]
 }

@@ -288,6 +288,10 @@ async function main() {
       latitude: -7.5064759,
       longitude: 108.2390261,
       mapEmbedUrl: "https://www.google.com/maps?q=-7.5064759,108.2390261&output=embed",
+      bankName: "Bank Syariah Indonesia",
+      bankAccountName: "M2A Co-Biz / Al-Mubarok II",
+      bankAccountNo: "1234567890",
+      qrisImageUrl: "/images/qris-placeholder.svg",
     },
   })
 

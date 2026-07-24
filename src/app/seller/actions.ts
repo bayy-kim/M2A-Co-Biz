@@ -49,6 +49,62 @@ export async function createProduct(prevState: ProductState, formData: FormData)
   return { success: true }
 }
 
+type PayoutRequestState = { error?: string; success?: boolean } | null
+
+export async function requestPayout(prevState: PayoutRequestState, formData: FormData): Promise<PayoutRequestState> {
+  const session = await auth()
+  if (!session?.user) return { error: "Unauthorized" }
+
+  const seller = await prisma.sellerProfile.findUnique({
+    where: { userId: session.user.id },
+  })
+  if (!seller || seller.status !== "APPROVED") return { error: "Seller not approved" }
+
+  const amountRupiah = parseInt(formData.get("amountRupiah") as string)
+  if (isNaN(amountRupiah) || amountRupiah <= 0) return { error: "Invalid amount" }
+
+  const paidItems = await prisma.orderItem.findMany({
+    where: { sellerId: seller.id, order: { paymentStatus: "PAID" } },
+  })
+  const totalEarnings = paidItems.reduce((sum, i) => sum + i.sellerNetRupiah, 0)
+
+  const paidPayouts = await prisma.payout.findMany({
+    where: { sellerId: seller.id, status: { in: ["PROCESSING", "PAID"] } },
+  })
+  const totalPaid = paidPayouts.reduce((sum, p) => sum + p.amountRupiah, 0)
+
+  const availableBalance = totalEarnings - totalPaid
+  if (amountRupiah > availableBalance) {
+    return { error: `Insufficient balance. Available: Rp${availableBalance.toLocaleString("id-ID")}` }
+  }
+
+  const periodStart = seller.createdAt
+  const periodEnd = new Date()
+
+  await prisma.payout.create({
+    data: {
+      sellerId: seller.id,
+      amountRupiah,
+      periodStart,
+      periodEnd,
+      status: "PENDING",
+    },
+  })
+
+  await prisma.activityLog.create({
+    data: {
+      actorId: session.user.id,
+      action: `Requested payout of Rp${amountRupiah.toLocaleString("id-ID")}`,
+      targetType: "Payout",
+      targetId: seller.id,
+    },
+  })
+
+  revalidatePath("/seller")
+  revalidatePath("/sekretaris")
+  return { success: true }
+}
+
 export async function updateProductStatus(productId: string, status: ProductStatus) {
   const session = await auth()
   if (!session?.user) return { error: "Unauthorized" }

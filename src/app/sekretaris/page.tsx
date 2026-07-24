@@ -7,9 +7,11 @@ import { FinanceBarChart } from "@/components/bar-chart"
 import Link from "next/link"
 import { CommissionRuleForm } from "./commission-form"
 import { PayoutAction } from "./payout-action"
+import { ConfirmPaymentButton } from "./confirm-payment-button"
 
 const SIDEBAR = [
   { label: "Overview", href: "/sekretaris" },
+  { label: "Payments", href: "/sekretaris?tab=payments" },
   { label: "Commission Rules", href: "/sekretaris?tab=commissions" },
   { label: "Payouts", href: "/sekretaris?tab=payouts" },
   { label: "Ledger", href: "/sekretaris?tab=ledger" },
@@ -26,7 +28,7 @@ async function SekretarisDashboard({
   const params = await searchParams
   const tab = params.tab || "overview"
 
-  const [totalRevenue, totalCommission, pendingPayouts, globalRule, categoryRules, sellerRules, allSellers, pendingPayoutsList, ledgerEntries] = await Promise.all([
+  const [totalRevenue, totalCommission, pendingPayouts, globalRule, categoryRules, sellerRules, allSellers, pendingPayoutsList, pendingPaymentsList, ledgerEntries] = await Promise.all([
     prisma.ledgerEntry.aggregate({ where: { type: "IN" }, _sum: { amountRupiah: true } }),
     prisma.ledgerEntry.aggregate({ where: { type: "OUT" }, _sum: { amountRupiah: true } }),
     prisma.payout.aggregate({ where: { status: "PENDING" }, _sum: { amountRupiah: true }, _count: true }),
@@ -35,6 +37,11 @@ async function SekretarisDashboard({
     prisma.commissionRule.findMany({ where: { scope: "SELLER" }, orderBy: { createdAt: "desc" } }),
     prisma.sellerProfile.findMany({ where: { status: "APPROVED" }, include: { user: { select: { name: true } } } }),
     prisma.payout.findMany({ where: { status: "PENDING" }, orderBy: { createdAt: "asc" } }),
+    prisma.order.findMany({
+      where: { paymentStatus: "PENDING" },
+      include: { items: true },
+      orderBy: { createdAt: "asc" },
+    }),
     prisma.ledgerEntry.findMany({ take: 20, orderBy: { createdAt: "desc" } }),
   ])
 
@@ -219,6 +226,50 @@ async function SekretarisDashboard({
                 )}
               </div>
             </>
+          )}
+
+          {tab === "payments" && (
+            <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 overflow-hidden">
+              <div className="p-lg border-b border-outline-variant/30">
+                <h3 className="text-headline-md text-on-surface font-bold">Pending Payments</h3>
+                <p className="text-label-sm text-on-surface-variant mt-1">{pendingPaymentsList.length} order(s) awaiting confirmation</p>
+              </div>
+              {pendingPaymentsList.length === 0 ? (
+                <div className="p-lg text-center text-on-surface-variant text-body-md py-xxl">No pending payments. All orders confirmed.</div>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left">
+                    <thead>
+                      <tr className="text-label-sm text-on-surface-variant border-b border-outline-variant/30">
+                        <th className="px-lg py-3 font-medium">Order</th>
+                        <th className="px-lg py-3 font-medium">Buyer</th>
+                        <th className="px-lg py-3 font-medium">Items</th>
+                        <th className="px-lg py-3 font-medium">Total</th>
+                        <th className="px-lg py-3 font-medium">Date</th>
+                        <th className="px-lg py-3 font-medium">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {pendingPaymentsList.map((o) => (
+                        <tr key={o.id} className="border-b border-outline-variant/20 hover:bg-surface-container-low transition-colors">
+                          <td className="px-lg py-3">
+                            <span className="text-label-sm font-mono text-on-surface">#{o.id.slice(0, 8)}</span>
+                          </td>
+                          <td className="px-lg py-3">
+                            <p className="text-label-md text-on-surface font-bold">{o.buyerName}</p>
+                            <p className="text-label-sm text-on-surface-variant">{o.buyerPhone}</p>
+                          </td>
+                          <td className="px-lg py-3 text-label-sm text-on-surface-variant">{o.items.length} item(s)</td>
+                          <td className="px-lg py-3 text-label-md text-primary font-bold">{formatRupiah(o.totalRupiah)}</td>
+                          <td className="px-lg py-3 text-label-sm text-on-surface-variant">{o.createdAt.toLocaleDateString()}</td>
+                          <td className="px-lg py-3"><ConfirmPaymentButton orderId={o.id} /></td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
           )}
 
           {tab === "commissions" && (

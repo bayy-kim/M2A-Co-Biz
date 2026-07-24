@@ -187,10 +187,14 @@ model ActivityLog {
 }
 
 model CompanyProfile {
-  id          String  @id @default(cuid())
-  name        String  @default("M2A Co-Biz")
-  address     String
-  latitude    Float?
-  longitude   Float?
-  mapEmbedUrl String?
+  id              String  @id @default(cuid())
+  name            String  @default("M2A Co-Biz")
+  address         String
+  latitude        Float?
+  longitude       Float?
+  mapEmbedUrl     String?
+  bankName        String?
+  bankAccountName String?
+  bankAccountNo   String?
+  qrisImageUrl    String?
 }

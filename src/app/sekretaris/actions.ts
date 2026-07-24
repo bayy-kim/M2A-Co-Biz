@@ -54,6 +54,59 @@ export async function setCommissionRule(prevState: CommissionState, formData: Fo
 
 type PayoutState = { error?: string; success?: boolean } | null
 
+type ConfirmState = { error?: string; success?: boolean } | null
+
+export async function confirmPayment(orderId: string): Promise<ConfirmState> {
+  const session = await auth()
+  if (!session?.user || (session.user.role !== "SEKRETARIS" && session.user.role !== "ADMIN")) {
+    return { error: "Unauthorized" }
+  }
+
+  const order = await prisma.order.findUnique({
+    where: { id: orderId },
+    include: { items: true },
+  })
+  if (!order || order.paymentStatus !== "PENDING") return { error: "Invalid order" }
+
+  const totalCommission = order.items.reduce((s, i) => s + i.commissionRupiah, 0)
+
+  await prisma.$transaction([
+    prisma.order.update({
+      where: { id: orderId },
+      data: { paymentStatus: "PAID" },
+    }),
+    prisma.ledgerEntry.create({
+      data: {
+        type: "IN",
+        amountRupiah: order.totalRupiah,
+        relatedOrderId: orderId,
+      },
+    }),
+    ...(totalCommission > 0
+      ? [
+          prisma.ledgerEntry.create({
+            data: {
+              type: "IN",
+              amountRupiah: totalCommission,
+              relatedOrderId: orderId,
+            },
+          }),
+        ]
+      : []),
+    prisma.activityLog.create({
+      data: {
+        actorId: session.user.id,
+        action: `Confirmed payment for order #${orderId.slice(0, 8)} — Rp${order.totalRupiah.toLocaleString("id-ID")}`,
+        targetType: "Order",
+        targetId: orderId,
+      },
+    }),
+  ])
+
+  revalidatePath("/sekretaris")
+  return { success: true }
+}
+
 export async function processPayout(payoutId: string, prevState: PayoutState, formData?: FormData): Promise<PayoutState> {
   const session = await auth()
   if (!session?.user || (session.user.role !== "SEKRETARIS" && session.user.role !== "ADMIN")) {
