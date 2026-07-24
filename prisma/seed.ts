@@ -8,7 +8,7 @@ async function main() {
   console.log("Seeding database...")
 
   const hash = (pw: string) => bcrypt.hashSync(pw, 12)
-  const totpSecret = authenticator.generateSecret()
+  const totpSecret = "HR5EOSAVEBWTYLJZ"
 
   // ── Users ──────────────────────────────────────────────
   const admin = await prisma.user.upsert({
