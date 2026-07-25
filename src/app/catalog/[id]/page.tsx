@@ -2,7 +2,7 @@ import { notFound } from "next/navigation"
 import Link from "next/link"
 import { prisma } from "@/lib/db"
 import { formatRupiah } from "@/lib/utils"
-import { ShoppingBag, Store, ArrowLeft, ChevronRight } from "lucide-react"
+import { ShoppingBag, Store, ArrowLeft, ChevronRight, ShieldCheck, Heart, Sparkles } from "lucide-react"
 import { PublicBottomBar } from "@/components/public-bottom-bar"
 
 async function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
@@ -15,71 +15,127 @@ async function ProductDetailPage({ params }: { params: Promise<{ id: string }> }
   if (!product || product.status !== "ACTIVE") notFound()
 
   return (
-    <div className="min-h-screen bg-surface">
-      <header className="sticky top-0 z-50 bg-surface/90 backdrop-blur-md border-b border-outline-variant/30 flex items-center px-lg h-16">
-        <Link href="/catalog" className="flex items-center gap-2 text-label-md text-on-surface-variant hover:text-primary transition-colors">
+    <div className="min-h-screen bg-background">
+      <header className="sticky top-0 z-50 bg-surface/90 backdrop-blur-md border-b border-outline-variant/30 flex items-center px-lg h-16 shadow-xs">
+        <Link 
+          href="/catalog" 
+          className="flex items-center gap-2 text-label-md text-on-surface-variant hover:text-primary transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-primary py-2 rounded-lg"
+        >
           <ArrowLeft className="w-5 h-5" />
           Kembali ke Katalog
         </Link>
       </header>
 
-      <main className="px-gutter py-lg max-w-6xl mx-auto">
-        <div className="flex items-center gap-2 text-label-sm text-on-surface-variant mb-lg">
-          <Link href="/" className="hover:text-primary">Beranda</Link>
-          <ChevronRight className="w-4 h-4" />
-          <Link href="/catalog" className="hover:text-primary">Katalog</Link>
+      <main className="px-gutter py-lg max-w-6xl mx-auto pb-32 lg:pb-16">
+        <nav className="flex items-center gap-2 text-label-sm text-on-surface-variant mb-lg overflow-x-auto no-scrollbar py-1">
+          <Link href="/" className="hover:text-primary transition-colors whitespace-nowrap">Beranda</Link>
+          <ChevronRight className="w-4 h-4 shrink-0" />
+          <Link href="/catalog" className="hover:text-primary transition-colors whitespace-nowrap">Katalog</Link>
           {product.category && (
             <>
-              <ChevronRight className="w-4 h-4" />
-              <span>{product.category.name}</span>
+              <ChevronRight className="w-4 h-4 shrink-0" />
+              <span className="whitespace-nowrap">{product.category.name}</span>
             </>
           )}
-          <ChevronRight className="w-4 h-4" />
-          <span className="text-on-surface font-bold">{product.title}</span>
-        </div>
+          <ChevronRight className="w-4 h-4 shrink-0" />
+          <span className="text-on-surface font-bold truncate max-w-[150px] sm:max-w-xs">{product.title}</span>
+        </nav>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-xxl">
-          <div className="bg-surface-container-high rounded-xl h-96 flex items-center justify-center">
-            {product.images.length > 0 ? (
-              <img alt={product.title} className="w-full h-full object-cover rounded-xl" src={product.images[0]} />
-            ) : (
-              <ShoppingBag className="w-24 h-24 text-outline-variant" />
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-xl lg:gap-xxl">
+          {/* Images Section */}
+          <div className="lg:col-span-7 space-y-md">
+            <div className="bg-surface-container-high rounded-3xl aspect-[4/3] sm:aspect-video lg:aspect-square flex items-center justify-center overflow-hidden border border-outline-variant/20 shadow-xs relative group">
+              {product.images.length > 0 ? (
+                <img 
+                  alt={product.title} 
+                  className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500" 
+                  src={product.images[0]} 
+                />
+              ) : (
+                <div className="flex flex-col items-center gap-3">
+                  <ShoppingBag className="w-20 h-20 text-outline-variant" />
+                  <span className="text-label-sm text-on-surface-variant font-medium">Tidak ada foto</span>
+                </div>
+              )}
+              {product.category && (
+                <div className="absolute top-4 left-4 bg-primary-container text-on-primary-container px-3 py-1.5 rounded-full text-label-sm font-bold shadow-xs">
+                  {product.category.name}
+                </div>
+              )}
+            </div>
+            
+            {/* Gallery thumbnails fallback (jika ada lebih dari 1 gambar) */}
+            {product.images.length > 1 && (
+              <div className="flex gap-sm overflow-x-auto pb-1 no-scrollbar">
+                {product.images.map((img, idx) => (
+                  <button 
+                    key={idx}
+                    className={`w-20 h-20 rounded-xl overflow-hidden border-2 shrink-0 ${idx === 0 ? "border-primary" : "border-outline-variant/30"}`}
+                  >
+                    <img src={img} alt={`${product.title} preview ${idx + 1}`} className="w-full h-full object-cover" />
+                  </button>
+                ))}
+              </div>
             )}
           </div>
 
-          <div className="space-y-lg">
-            <div>
-              <h1 className="text-display-md text-on-surface font-bold mb-2">{product.title}</h1>
-              {product.category && (
-                <span className="inline-flex px-md py-1 bg-primary/10 text-primary rounded-full text-label-sm font-bold">{product.category.name}</span>
-              )}
-            </div>
-
-            <p className="text-display-md text-primary font-bold">{formatRupiah(product.priceRupiah)}</p>
-
-            <div className="bg-surface-container-low rounded-xl p-lg">
-              <div className="flex items-center gap-3 mb-md">
-                <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                  <Store className="w-5 h-5 text-primary" />
-                </div>
-                <div>
-                  <p className="text-label-md font-bold text-on-surface">{product.seller.businessName}</p>
-                  <p className="text-label-sm text-on-surface-variant">{product.seller.type === "UMKM" ? "UMKM" : "Penyedia Jasa"}</p>
-                </div>
+          {/* Info Details Section */}
+          <div className="lg:col-span-5 space-y-xl">
+            <div className="space-y-sm">
+              <h1 className="text-display-md sm:text-display-lg text-on-surface font-bold tracking-tight leading-tight">
+                {product.title}
+              </h1>
+              <div className="flex items-center gap-2">
+                <span className="inline-flex items-center gap-1 text-label-sm text-success font-bold">
+                  <ShieldCheck className="w-4 h-4" /> Binaan Al-Mubarok II
+                </span>
               </div>
             </div>
 
-            <div>
-              <h2 className="text-headline-md text-on-surface font-bold mb-md">Deskripsi</h2>
-              <p className="text-body-md text-on-surface-variant leading-relaxed">{product.description}</p>
+            <div className="p-xl rounded-2xl bg-surface-container-lowest border border-outline-variant/30 shadow-xs space-y-md">
+              <p className="text-label-sm text-on-surface-variant font-medium uppercase tracking-wider">Harga Terbaik</p>
+              <div className="flex items-baseline gap-2">
+                <p className="text-display-md sm:text-display-lg text-primary font-bold">{formatRupiah(product.priceRupiah)}</p>
+              </div>
             </div>
 
-            <Link
-              href={`/checkout?productId=${product.id}`}
-              className="block w-full text-center py-3.5 bg-accent-gold text-white rounded-xl text-headline-md font-bold shadow-lg hover:brightness-110 active:scale-[0.98] transition-all"
-            >
-              Beli Sekarang
-            </Link>
+            {/* Seller profile card */}
+            <div className="bg-surface-container-low rounded-2xl p-xl border border-outline-variant/20 shadow-xs flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                  <Store className="w-6 h-6 text-primary" />
+                </div>
+                <div>
+                  <p className="text-label-md font-bold text-on-surface leading-snug">{product.seller.businessName}</p>
+                  <p className="text-label-sm text-on-surface-variant">{product.seller.type === "UMKM" ? "UMKM Mitra" : "Penyedia Jasa Mitra"}</p>
+                </div>
+              </div>
+              <Link 
+                href={`/catalog?q=${encodeURIComponent(product.seller.businessName)}`}
+                className="text-label-sm text-primary font-bold hover:underline"
+              >
+                Lihat Toko
+              </Link>
+            </div>
+
+            {/* Description */}
+            <div className="space-y-sm">
+              <h3 className="text-headline-md text-on-surface font-bold">Deskripsi Produk</h3>
+              <p className="text-body-md text-on-surface-variant leading-relaxed whitespace-pre-line bg-surface-container-lowest p-lg rounded-2xl border border-outline-variant/10">
+                {product.description}
+              </p>
+            </div>
+
+            {/* Buy / CTA Button */}
+            <div className="pt-4 flex gap-md">
+              <Link
+                href={`/checkout?productId=${product.id}`}
+                className="flex-1 py-4 bg-accent-gold text-white rounded-2xl text-headline-md font-bold shadow-lg shadow-accent-gold/20 hover:brightness-110 active:scale-[0.98] transition-all duration-200 text-center flex items-center justify-center gap-sm outline-none focus-visible:ring-2 focus-visible:ring-accent-gold"
+              >
+                <Sparkles className="w-5 h-5" />
+                Beli Sekarang
+              </Link>
+            </div>
           </div>
         </div>
       </main>
