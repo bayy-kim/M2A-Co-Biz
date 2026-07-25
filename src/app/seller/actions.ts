@@ -179,7 +179,7 @@ export async function requestPayout(prevState: PayoutRequestState, formData: For
     })
 
     revalidatePath("/seller")
-    revalidatePath("/sekretaris")
+    revalidatePath("/bendahara")
     return { success: true }
   } catch (e) {
     return { error: e instanceof Error ? e.message : "Gagal mengajukan payout" }
