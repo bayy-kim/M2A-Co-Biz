@@ -4,6 +4,7 @@ import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/db"
 import { formatRupiah } from "@/lib/utils"
 import { ShoppingBag, ChevronRight, Package, Clock, CheckCircle, XCircle } from "lucide-react"
+import { PublicBottomBar } from "@/components/public-bottom-bar"
 
 const statusIcon = {
   PENDING: Clock,
@@ -54,7 +55,7 @@ async function PesananSayaPage() {
         </div>
       </header>
 
-      <main className="max-w-2xl mx-auto px-gutter py-lg">
+      <main className="max-w-2xl mx-auto px-gutter py-lg pb-32">
         {orders.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-xxl">
             <div className="w-20 h-20 rounded-full bg-surface-container-high flex items-center justify-center mb-xl">
@@ -112,6 +113,7 @@ async function PesananSayaPage() {
           </div>
         )}
       </main>
+      <PublicBottomBar isLoggedIn={true} isSeller={session.user.role === "SELLER"} />
     </div>
   )
 }
