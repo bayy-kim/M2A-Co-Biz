@@ -328,7 +328,7 @@ const admin = await prisma.user.upsert({
 
   // ── Summary ─────────────────────────────────────────────
   console.log("\n── Seed Complete ──")
-  console.log("Admin:      muhamadai@gmail.com / admin123      (2FA TOTP enabled)")
+  console.log("Admin:      muhamadaibayu@gmail.com / admin123      (2FA TOTP enabled)")
   console.log("Ketua:      ketua@m2acobiz.com / ketua123")
   console.log("Sekretaris: sekretaris@m2acobiz.com / sekretaris123 (2FA TOTP enabled)")
   console.log("Seller 1:   seller1@m2acobiz.com / seller123  (Asep Craft, APPROVED, w/ & w/o category)")
