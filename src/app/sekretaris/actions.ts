@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/db"
+import { processPayoutById } from "@/lib/payout-utils"
 import { z } from "zod"
 
 const commissionSchema = z.object({
@@ -107,39 +108,15 @@ export async function confirmPayment(orderId: string): Promise<ConfirmState> {
   return { success: true }
 }
 
-export async function processPayout(payoutId: string, prevState: PayoutState, formData?: FormData): Promise<PayoutState> {
+export async function processPayout(payoutId: string, _prevState: PayoutState, _formData?: FormData): Promise<PayoutState> {
   const session = await auth()
   if (!session?.user || (session.user.role !== "SEKRETARIS" && session.user.role !== "ADMIN")) {
     return { error: "Unauthorized" }
   }
 
-  const payout = await prisma.payout.findUnique({
-    where: { id: payoutId },
-  })
-  if (!payout || payout.status !== "PENDING") return { error: "Invalid payout" }
-
-  await prisma.$transaction([
-    prisma.payout.update({
-      where: { id: payoutId },
-      data: { status: "PROCESSING" },
-    }),
-    prisma.ledgerEntry.create({
-      data: {
-        type: "OUT",
-        amountRupiah: payout.amountRupiah,
-        relatedPayoutId: payoutId,
-      },
-    }),
-    prisma.activityLog.create({
-      data: {
-        actorId: session.user.id,
-        action: `Processed payout of ${payout.amountRupiah} to seller ${payout.sellerId.slice(0, 8)}`,
-        targetType: "Payout",
-        targetId: payoutId,
-      },
-    }),
-  ])
+  const result = await processPayoutById(payoutId, session.user.id)
 
   revalidatePath("/sekretaris")
-  return { success: true }
+  if (result.success) return { success: true }
+  return { error: result.error }
 }
