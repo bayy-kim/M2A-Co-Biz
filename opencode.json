@@ -1,0 +1,13 @@
+{
+  "name": "m2a-co-biz",
+  "version": "1.0.0",
+  "engine": "nextjs-16",
+  "db": "postgresql-prisma",
+  "auth": "next-auth-v5",
+  "styling": "tailwind-v4",
+  "commands": {
+    "build": "npm run build",
+    "dev": "npm run dev",
+    "seed": "npm run seed"
+  }
+}

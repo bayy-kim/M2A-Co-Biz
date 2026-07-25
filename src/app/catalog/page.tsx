@@ -71,7 +71,7 @@ async function CatalogPage({ searchParams }: { searchParams: Promise<{ q?: strin
     if (!session?.user?.role) return "/login"
     const role = session.user.role
     if (role === "ADMIN") return "/admin"
-    if (role === "SEKRETARIS") return "/sekretaris"
+    if (role === "BENDAHARA") return "/bendahara"
     if (role === "KETUA") return "/ketua"
     if (role === "SELLER") return "/seller"
     if (role === "BUYER") return "/pesanan-saya"

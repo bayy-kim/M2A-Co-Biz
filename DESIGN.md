@@ -1,6 +1,6 @@
 # DESIGN.md — M2A Co-Biz
 
-Panduan desain ini berlaku untuk **semua** area platform — landing page publik maupun dashboard internal (Admin/Ketua/Sekretaris/Seller). Tidak ada area yang "kurang niat" desainnya.
+Panduan desain ini berlaku untuk **semua** area platform — landing page publik maupun dashboard internal (Admin/Ketua/Bendahara/Seller). Tidak ada area yang "kurang niat" desainnya.
 
 ## 1. Brand Tone
 
@@ -55,7 +55,7 @@ Ini pakai sistem token Material 3 (bukan cuma primary/secondary/accent sederhana
 - Spacing pakai skala 4/8/12/16/24/32px — jangan angka acak
 - Card dengan rounded corner (mis. `rounded-xl`) dan shadow lembut, bukan border tebal
 
-## 5. Layout Dashboard (Admin/Ketua/Sekretaris/Seller)
+## 5. Layout Dashboard (Admin/Ketua/Bendahara/Seller)
 
 - Pola konsisten di keempat role: **sidebar navigasi** (collapsible jadi bottom nav/drawer di mobile) + **topbar** (nama user, badge role, notifikasi)
 - Konten utama pakai kombinasi card ringkasan (angka besar + label) dan tabel data dengan sorting
@@ -81,7 +81,7 @@ Contoh pemetaan:
 - Scroll-reveal di landing page: fade + slide-up ringan (durasi 300–500ms, easing `easeOut`)
 - Transisi antar halaman dashboard: fade singkat (150–200ms), jangan berlebihan
 - Micro-interaction tombol: scale kecil saat tap/hover (mis. `whileTap={{ scale: 0.97 }}`)
-- Hindari animasi yang mengganggu keterbacaan data finansial di dashboard sekretaris — di sana animasi harus minimal dan cepat
+- Hindari animasi yang mengganggu keterbacaan data finansial di dashboard bendahara — di sana animasi harus minimal dan cepat
 
 ## 9. Komponen Lokasi/Peta
 

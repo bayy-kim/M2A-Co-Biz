@@ -17,7 +17,7 @@ type CommissionState = { error?: string; success?: boolean } | null
 
 export async function setCommissionRule(prevState: CommissionState, formData: FormData): Promise<CommissionState> {
   const session = await auth()
-  if (!session?.user || (session.user.role !== "SEKRETARIS" && session.user.role !== "ADMIN")) {
+  if (!session?.user || (session.user.role !== "BENDAHARA" && session.user.role !== "ADMIN")) {
     return { error: "Unauthorized" }
   }
 
@@ -60,7 +60,7 @@ export async function setCommissionRule(prevState: CommissionState, formData: Fo
       },
     })
 
-    revalidatePath("/sekretaris")
+    revalidatePath("/bendahara")
     return { success: true }
   } catch (e) {
     return { error: e instanceof Error ? e.message : "Gagal menyimpan aturan komisi" }
@@ -73,7 +73,7 @@ type ConfirmState = { error?: string; success?: boolean } | null
 
 export async function confirmPayment(orderId: string): Promise<ConfirmState> {
   const session = await auth()
-  if (!session?.user || (session.user.role !== "SEKRETARIS" && session.user.role !== "ADMIN")) {
+  if (!session?.user || (session.user.role !== "BENDAHARA" && session.user.role !== "ADMIN")) {
     return { error: "Unauthorized" }
   }
 
@@ -106,7 +106,7 @@ export async function confirmPayment(orderId: string): Promise<ConfirmState> {
       }),
     ])
 
-    revalidatePath("/sekretaris")
+    revalidatePath("/bendahara")
     return { success: true }
   } catch (e) {
     return { error: e instanceof Error ? e.message : "Gagal konfirmasi pembayaran" }
@@ -115,14 +115,14 @@ export async function confirmPayment(orderId: string): Promise<ConfirmState> {
 
 export async function processPayout(payoutId: string, _prevState: PayoutState, _formData?: FormData): Promise<PayoutState> {
   const session = await auth()
-  if (!session?.user || (session.user.role !== "SEKRETARIS" && session.user.role !== "ADMIN")) {
+  if (!session?.user || (session.user.role !== "BENDAHARA" && session.user.role !== "ADMIN")) {
     return { error: "Unauthorized" }
   }
 
   try {
     const result = await processPayoutById(payoutId, session.user.id)
 
-    revalidatePath("/sekretaris")
+    revalidatePath("/bendahara")
     if (result.success) return { success: true }
     return { error: result.error }
   } catch (e) {

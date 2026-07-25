@@ -15,9 +15,9 @@ async function main() {
 
   const hash = (pw: string) => bcrypt.hashSync(pw, 12)
   const adminPassword = requireEnv("SEED_ADMIN_PASSWORD")
-  const sekretarisPassword = requireEnv("SEED_SEKRETARIS_PASSWORD")
+  const bendaharaPassword = requireEnv("SEED_BENDAHARA_PASSWORD")
   const adminTotpSecret = requireEnv("SEED_ADMIN_TOTP")
-  const sekretarisTotpSecret = requireEnv("SEED_SEKRETARIS_TOTP")
+  const bendaharaTotpSecret = requireEnv("SEED_BENDAHARA_TOTP")
 
   // ── Users ──────────────────────────────────────────────
 const admin = await prisma.user.upsert({
@@ -49,19 +49,19 @@ const admin = await prisma.user.upsert({
     },
   })
 
-  const sekretaris = await prisma.user.upsert({
-    where: { email: "sekretaris@m2acobiz.com" },
+  const bendahara = await prisma.user.upsert({
+    where: { email: "bendahara@m2acobiz.com" },
     update: {
-      passwordHash: hash(sekretarisPassword),
-      twoFactorSecret: sekretarisTotpSecret,
+      passwordHash: hash(bendaharaPassword),
+      twoFactorSecret: bendaharaTotpSecret,
     },
     create: {
-      email: "sekretaris@m2acobiz.com",
-      name: "Sekretaris M2A",
-      passwordHash: hash(sekretarisPassword),
-      role: "SEKRETARIS",
+      email: "bendahara@m2acobiz.com",
+      name: "Bendahara M2A",
+      passwordHash: hash(bendaharaPassword),
+      role: "BENDAHARA",
       phone: "081234567893",
-      twoFactorSecret: sekretarisTotpSecret,
+      twoFactorSecret: bendaharaTotpSecret,
     },
   })
 
@@ -330,12 +330,12 @@ const admin = await prisma.user.upsert({
   console.log("\n── Seed Complete ──")
   console.log("Admin:      muhamadaibayu@gmail.com / admin123      (2FA TOTP enabled)")
   console.log("Ketua:      ketua@m2acobiz.com / ketua123")
-  console.log("Sekretaris: sekretaris@m2acobiz.com / sekretaris123 (2FA TOTP enabled)")
+  console.log("Bendahara:  bendahara@m2acobiz.com / bendahara123 (2FA TOTP enabled)")
   console.log("Seller 1:   seller1@m2acobiz.com / seller123  (Asep Craft, APPROVED, w/ & w/o category)")
   console.log("Seller 2:   seller2@m2acobiz.com / seller123  (Budi Service, APPROVED)")
   console.log("Seller 3:   seller3@m2acobiz.com / seller123  (Citra Catering, PENDING)")
   console.log("Buyer:      buyer@m2acobiz.com / buyer123      (Pembeli, can checkout & view orders)")
-  console.log(`\nTOTP Secret for admin & sekretaris: ${adminTotpSecret}, ${sekretarisTotpSecret}`)
+  console.log(`\nTOTP Secret for admin & bendahara: ${adminTotpSecret}, ${bendaharaTotpSecret}`)
   console.log("(Scan with Google Authenticator or use `otplib` to generate codes)")
 }
 

@@ -11,16 +11,16 @@ import { PayoutAction } from "./payout-action"
 import { ConfirmPaymentButton } from "./confirm-payment-button"
 
 const SIDEBAR: { label: string; href: string; icon: LucideIcon }[] = [
-  { label: "Ringkasan", href: "/sekretaris", icon: LayoutDashboard },
-  { label: "Pembayaran", href: "/sekretaris?tab=payments", icon: CreditCard },
-  { label: "Aturan Komisi", href: "/sekretaris?tab=commissions", icon: Percent },
-  { label: "Pencairan", href: "/sekretaris?tab=payouts", icon: Wallet },
-  { label: "Buku Besar", href: "/sekretaris?tab=ledger", icon: BookOpen },
+  { label: "Ringkasan", href: "/bendahara", icon: LayoutDashboard },
+  { label: "Pembayaran", href: "/bendahara?tab=payments", icon: CreditCard },
+  { label: "Aturan Komisi", href: "/bendahara?tab=commissions", icon: Percent },
+  { label: "Pencairan", href: "/bendahara?tab=payouts", icon: Wallet },
+  { label: "Buku Besar", href: "/bendahara?tab=ledger", icon: BookOpen },
 ]
 
-async function SekretarisDashboard({ searchParams }: { searchParams: Promise<{ tab?: string }> }) {
+async function BendaharaDashboard({ searchParams }: { searchParams: Promise<{ tab?: string }> }) {
   const session = await auth()
-  if (!session?.user || (session.user.role !== "SEKRETARIS" && session.user.role !== "ADMIN")) redirect("/")
+  if (!session?.user || (session.user.role !== "BENDAHARA" && session.user.role !== "ADMIN")) redirect("/")
 
   const params = await searchParams as Record<string, string | undefined>
   const tab = params.tab || "overview"
@@ -62,8 +62,8 @@ async function SekretarisDashboard({ searchParams }: { searchParams: Promise<{ t
   return (
     <DashboardShell
       sidebarItems={SIDEBAR}
-      title="Panel Keuangan"
-      roleLabel="sekretaris"
+      title="Panel Bendahara"
+      roleLabel="bendahara"
       tab={tab}
       userName={session.user.name}
       extraHeader={
@@ -189,7 +189,7 @@ async function SekretarisDashboard({ searchParams }: { searchParams: Promise<{ t
                       <tr key={entry.id} className="border-b border-outline-variant/20">
                         <td className="px-lg py-3">
                           <span className={`inline-flex px-md py-0.5 rounded-full text-label-sm font-bold ${entry.type === "IN" ? "bg-success/10 text-success" : "bg-error/10 text-error"}`}>
-                            {entry.type === "IN" ? "Revenue" : "Expense"}
+                            {entry.type === "IN" ? "Pemasukan" : "Pengeluaran"}
                           </span>
                         </td>
                         <td className="px-lg py-3 text-label-md text-on-surface font-bold">{formatRupiah(entry.amountRupiah)}</td>
@@ -378,10 +378,10 @@ async function SekretarisDashboard({ searchParams }: { searchParams: Promise<{ t
               <span className="text-label-sm text-on-surface-variant">Halaman {ledgerPage} dari {ledgerTotalPages}</span>
               <div className="flex gap-2">
                 {ledgerPage > 1 && (
-                  <a href={`/sekretaris?tab=ledger&ledgerPage=${ledgerPage - 1}`} className="px-md py-2 rounded-lg border border-outline-variant text-label-md text-on-surface hover:bg-surface-container transition-colors">Sebelumnya</a>
+                  <a href={`/bendahara?tab=ledger&ledgerPage=${ledgerPage - 1}`} className="px-md py-2 rounded-lg border border-outline-variant text-label-md text-on-surface hover:bg-surface-container transition-colors">Sebelumnya</a>
                 )}
                 {ledgerPage < ledgerTotalPages && (
-                  <a href={`/sekretaris?tab=ledger&ledgerPage=${ledgerPage + 1}`} className="px-md py-2 rounded-lg bg-primary text-on-primary text-label-md hover:opacity-90 transition-opacity">Selanjutnya</a>
+                  <a href={`/bendahara?tab=ledger&ledgerPage=${ledgerPage + 1}`} className="px-md py-2 rounded-lg bg-primary text-on-primary text-label-md hover:opacity-90 transition-opacity">Selanjutnya</a>
                 )}
               </div>
             </div>
@@ -392,4 +392,4 @@ async function SekretarisDashboard({ searchParams }: { searchParams: Promise<{ t
   )
 }
 
-export default SekretarisDashboard
+export default BendaharaDashboard

@@ -4,9 +4,9 @@ import { auth } from "@/lib/auth"
 const roleRoutes: Record<string, string[]> = {
   "/admin": ["ADMIN"],
   "/ketua": ["KETUA"],
-  "/sekretaris": ["SEKRETARIS", "ADMIN"],
+  "/bendahara": ["BENDAHARA", "ADMIN"],
   "/seller": ["SELLER"],
-  "/pesanan-saya": ["BUYER", "SELLER", "ADMIN", "KETUA", "SEKRETARIS"],
+  "/pesanan-saya": ["BUYER", "SELLER", "ADMIN", "KETUA", "BENDAHARA"],
   "/login": [],
   "/register": [],
 }

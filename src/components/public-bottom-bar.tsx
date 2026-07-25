@@ -39,7 +39,10 @@ export function PublicBottomBar({ isLoggedIn, isSeller }: Props) {
   const visibleItems = items.filter((item) => !item.hideWhen)
 
   return (
-    <nav className="lg:hidden fixed bottom-0 w-full z-50 bg-surface border-t border-outline-variant/30 shadow-[0_-4px_20px_rgba(0,0,0,0.08)] safe-area-bottom">
+    <nav 
+      className="lg:hidden fixed bottom-0 w-full z-50 bg-surface border-t border-outline-variant/30 shadow-[0_-4px_20px_rgba(0,0,0,0.08)] pb-[env(safe-area-inset-bottom)]"
+      aria-label="Navigasi Publik Mobile"
+    >
       <div className="flex items-center justify-around mx-auto max-w-lg overflow-x-auto no-scrollbar">
         {visibleItems.map((item) => {
           const Icon = item.icon
@@ -48,16 +51,17 @@ export function PublicBottomBar({ isLoggedIn, isSeller }: Props) {
             <Link
               key={item.label}
               href={item.href}
-              className={`flex flex-col items-center justify-center gap-0.5 min-w-0 flex-shrink-0 h-16 w-16 px-1 transition-all ${
+              className={`flex flex-col items-center justify-center gap-1 min-w-0 flex-shrink-0 h-16 w-16 px-1 transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-primary ${
                 active ? "text-primary" : "text-on-surface-variant hover:text-on-surface"
               }`}
+              aria-current={active ? "page" : undefined}
             >
-              <div className={`flex items-center justify-center w-10 h-10 rounded-xl transition-all ${
-                active ? "bg-primary-container text-primary" : ""
+              <div className={`flex items-center justify-center w-12 h-8 rounded-full transition-all duration-200 ${
+                active ? "bg-primary-container text-primary" : "hover:bg-surface-container-high"
               }`}>
                 <Icon className="w-5 h-5" />
               </div>
-              <span className={`text-[11px] leading-tight text-center max-w-full truncate ${
+              <span className={`text-[10px] leading-tight text-center max-w-full truncate ${
                 active ? "font-bold text-primary" : "text-on-surface-variant"
               }`}>
                 {item.label}

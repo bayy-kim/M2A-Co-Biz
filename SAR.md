@@ -15,9 +15,9 @@ Dokumen ini adalah rujukan teknis. Semua keputusan arsitektur di sini bersifat w
 | Database | PostgreSQL (Neon) | Relasi kompleks + transaksi ACID untuk data keuangan |
 | ORM | Prisma | Migration tooling matang, type-safe query |
 | Auth | NextAuth v5 (Auth.js) | Session berbasis role, kompatibel App Router |
-| Payment | Manual (QRIS/transfer) | Sekretaris/Admin konfirmasi via dashboard; Xendit tidak dipakai |
+| Payment | Manual (QRIS/transfer) | Bendahara/Admin konfirmasi via dashboard; Xendit tidak dipakai |
 | File storage | Vercel Blob (private access) | Foto produk + dokumen KTP/KK/izin usaha |
-| Chart | Recharts | Analitik di dashboard Sekretaris/Ketua/Seller |
+| Chart | Recharts | Analitik di dashboard Bendahara/Ketua/Seller |
 | Form & validasi | React Hook Form + Zod | Validasi ketat di client & server |
 | Cron | Vercel Cron Jobs | Agregasi analitik (payout manual, tidak perlu cron) |
 | Deploy | Vercel | Konsisten dengan project lain |
@@ -237,7 +237,7 @@ app/
   (auth)/              -> login, register seller (dengan upload dokumen)
   (admin)/              -> approval queue, kategori, user management, company profile
   (ketua)/              -> overview, activity feed, grafik tren
-  (sekretaris)/         -> commission rules, analitik keuangan, payout batch
+  (bendahara)/          -> commission rules, analitik keuangan, payout batch
   (seller)/             -> kelola produk/jasa, riwayat penjualan, riwayat payout
    api/admin/documents/[id]    -> View seller document (decrypt + serve)
 middleware.ts           -> RBAC guard per route group berdasarkan session role
@@ -254,14 +254,14 @@ prisma/
 - NextAuth v5, session JWT membawa `role` claim
 - `middleware.ts` memblokir akses route group berdasarkan role — **RBAC juga wajib dicek ulang di setiap server action**, tidak boleh mengandalkan middleware saja
 - Login pakai credentials (email + password, hashed dengan bcrypt/argon2)
-- **2FA wajib untuk role ADMIN dan SEKRETARIS** (TOTP, karena mereka pegang approval & kontrol keuangan)
+- **2FA wajib untuk role ADMIN dan BENDAHARA** (TOTP, karena mereka pegang approval & kontrol keuangan)
 
 ## 5. Pembayaran (Manual)
 
 - **Checkout**: buat Order + OrderItem + LedgerEntry saat checkout, tampilkan instruksi QRIS/transfer bank
-- **Konfirmasi**: Sekretaris konfirmasi pembayaran dari dashboard → `confirmPayment()` update Order ke PAID + buat LedgerEntry IN
-- **Payout**: Seller ajukan payout dari dashboard; Sekretaris proses dari dashboard → `processPayout()` mark PAID + LedgerEntry OUT + ActivityLog
-- **Xendit tidak dipakai** — semua pembayaran manual via dashboard Sekretaris
+- **Konfirmasi**: Bendahara konfirmasi pembayaran dari dashboard → `confirmPayment()` update Order ke PAID + buat LedgerEntry IN
+- **Payout**: Seller ajukan payout dari dashboard; Bendahara proses dari dashboard → `processPayout()` mark PAID + LedgerEntry OUT + ActivityLog
+- **Xendit tidak dipakai** — semua pembayaran manual via dashboard Bendahara
 
 ## 6. Commission Engine
 
@@ -280,7 +280,7 @@ Karena platform ini menyimpan dokumen KTP dan **Kartu Keluarga** (data pribadi s
 - **Data masking**: NIK/nomor KK tidak pernah ditampilkan penuh di tabel/list — hanya muncul di modal review admin, dan setiap kali dibuka tercatat di `ActivityLog`
 - **RBAC server-side**: setiap server action mengecek role dari session, tidak percaya pada state client
 - **Password hashing**: bcrypt/argon2, tidak pernah simpan plaintext
-- **2FA wajib**: role Admin & Sekretaris
+- **2FA wajib**: role Admin & Bendahara
 - **Rate limiting**: endpoint login & checkout dibatasi (mis. via Upstash Redis) untuk mencegah brute force/abuse
 - **Validasi input**: Zod di semua form, server action, dan API route — tidak ada input yang dipercaya mentah
 - **Validasi upload file**: cek MIME type & ukuran, tolak ekstensi executable

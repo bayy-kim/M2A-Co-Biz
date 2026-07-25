@@ -1,7 +1,7 @@
 # AGENTS.md — M2A Co-Biz
 
 ## Konteks Project
-M2A Co-Biz adalah platform marketplace + manajemen internal untuk UMKM dan penyedia jasa di bawah Al-Mubarok II. Empat peran: Admin, Ketua, Sekretaris, Seller — plus Buyer publik. Baca **PRD.md**, **SAR.md**, dan **DESIGN.md** di root project sebelum mengerjakan apa pun.
+M2A Co-Biz adalah platform marketplace + manajemen internal untuk UMKM dan penyedia jasa di bawah Al-Mubarok II. Empat peran: Admin, Ketua, Bendahara, Seller — plus Buyer publik. Baca **PRD.md**, **SAR.md**, dan **DESIGN.md** di root project sebelum mengerjakan apa pun.
 
 ## Project Status
 
@@ -27,17 +27,17 @@ M2A Co-Biz adalah platform marketplace + manajemen internal untuk UMKM dan penye
 ### Phase 3 — Transaksi & Komisi (100%)
 - **Checkout** (`/checkout`): buyer form (name, phone, qty), order creation, rate-limited, commission calculation via `resolveCommission()`, OrderItem + LedgerEntry, order confirmation page with QRIS/bank payment instructions
 - **Commission engine**: `resolveCommission()` cascade (SELLER > CATEGORY > GLOBAL → 0%), fully wired in checkout
-- **Sekretaris dashboard** (`/sekretaris`): shared DashboardShell, revenue/commission/profit stats, ledger table, set commission rules (global/category/seller), pending payout list + process action (mark PAID + LedgerEntry OUT + ActivityLog), payments tab (confirm payment manual, create LedgerEntry IN)
-- **Seller payouts**: payout request form + history table di dashboard Seller; Sekretaris proses payout dari dashboard (tanpa Xendit — manual)
+- **Bendahara dashboard** (`/bendahara`): shared DashboardShell, revenue/commission/profit stats, ledger table, set commission rules (global/category/seller), pending payout list + process action (mark PAID + LedgerEntry OUT + ActivityLog), payments tab (confirm payment manual, create LedgerEntry IN)
+- **Seller payouts**: payout request form + history table di dashboard Seller; Bendahara proses payout dari dashboard (tanpa Xendit — manual)
 
 ### Phase 4 — Dashboard & Analitik (100%)
 - **Ketua dashboard** (`/ketua`): shared DashboardShell, overview cards (sellers/products/orders/revenue/pending), platform summary, activity feed (read-only, real-time), full activity log table
-- **Secretary dashboard** — complete — already includes FinanceBarChart + RevenuePieChart
+- **Bendahara dashboard** — complete — already includes FinanceBarChart + RevenuePieChart
 - **Seller dashboard** — complete
-- **Charts/graphs**: Recharts terintegrasi — `FinanceBarChart` (bar chart revenue vs commission) dan `RevenuePieChart` (pie chart komisi per seller) di dashboard Sekretaris
+- **Charts/graphs**: Recharts terintegrasi — `FinanceBarChart` (bar chart revenue vs commission) dan `RevenuePieChart` (pie chart komisi per seller) di dashboard Bendahara
 
 ### Phase 5 — Navigasi & Konsistensi (100%)
-- **Shared DashboardShell**: All four dashboards (Admin/Seller/Ketua/Sekretaris) now use `src/components/dashboard-shell.tsx` for sidebar + bottom nav — single source of truth
+- **Shared DashboardShell**: All four dashboards (Admin/Seller/Ketua/Bendahara) now use `src/components/dashboard-shell.tsx` for sidebar + bottom nav — single source of truth
 - **"Lihat Produk" link**: Added to sidebar footer of all dashboards (icon Store, links to `/catalog`)
 - **Public bottom bar**: `src/components/public-bottom-bar.tsx` added to `/catalog` and `/catalog/[id]` — links to Beranda/Katalog/Masuk
 - **Catalog filter & sort**: Functional sort dropdown (Newest / Price Low-High / Price High-Low) + price range filter popover with min/max inputs
@@ -68,7 +68,7 @@ M2A Co-Biz adalah platform marketplace + manajemen internal untuk UMKM dan penye
 - **Schema**: Added `buyerId String?` + `buyer User?` relation to Order model + `orders Order[]` on User; migration SQL written as `20260725160000_add_buyer_id_to_order`
 - **Register page**: Added buyer/seller toggle at top — "Pembeli" (ShoppingBag icon) or "Penjual" (Store icon). Buyer registration is instant single-step form (name, email, phone, password, consent); creates user with role BUYER, no approval needed
 - **Buyer server action**: `registerBuyer()` — Zod validated, bcrypt hash, creates BUYER role user directly
-- **Proxy auth**: `/checkout` added to `authRequiredPrefixes` — redirects to login if unauthenticated (any role can access). `/pesanan-saya` added with `["BUYER", "SELLER", "ADMIN", "KETUA", "SEKRETARIS"]` allowed roles
+- **Proxy auth**: `/checkout` added to `authRequiredPrefixes` — redirects to login if unauthenticated (any role can access). `/pesanan-saya` added with `["BUYER", "SELLER", "ADMIN", "KETUA", "BENDAHARA"]` allowed roles
 - **Checkout auth**: Checkout page fetches session; passes `buyerId`, `defaultName`, `defaultPhone` to CheckoutForm; if logged in, name/phone fields hidden and pre-filled via hidden inputs; server action writes `buyerId` to Order
 - **Pesanan Saya route** (`/pesanan-saya`): Full order history page — lists orders with status badges (PENDING=Clock/warning, PAID=CheckCircle/success, FAILED/EXPIRED=XCircle), order totals, buyer info, dates. Empty state with CTA to catalog
 - **Routing**: `getDashboardHref()` in landing page and catalog now handles BUYER → `/pesanan-saya`
@@ -95,9 +95,9 @@ M2A Co-Biz adalah platform marketplace + manajemen internal untuk UMKM dan penye
 - **Section Rekomendasi**: ambil 4 produk ACTIVE lain (exclude dari hasil grid saat ini), urut terbaru; jika filter kategori, prioritaskan kategori yang sama; label "Produk Lainnya untuk Kamu" dengan `Sparkles` icon
 
 ## Selesai (Post-Phase 12)
-- **Xendit removal**: Xendit dihapus total — `xendit-node` dari package.json, `src/lib/xendit.ts`, webhook endpoint, cron payout, `xenditInvoiceId` & `xenditDisbursementId` dari schema; migration `20260725180000_remove_xendit_fields`. Pembayaran manual via Sekretaris (`confirmPayment()`), payout manual via `processPayout()`.
+- **Xendit removal**: Xendit dihapus total — `xendit-node` dari package.json, `src/lib/xendit.ts`, webhook endpoint, cron payout, `xenditInvoiceId` & `xenditDisbursementId` dari schema; migration `20260725180000_remove_xendit_fields`. Pembayaran manual via Bendahara (`confirmPayment()`), payout manual via `processPayout()`.
 - **Production readiness**: `public/robots.txt`, `src/app/sitemap.ts`, `public/favicon.svg`, OG metadata, Terms of Service & Privacy Policy diisi konten lengkap sesuai UU PDP, QRIS placeholder fallback.
-- **Translation 100%**: Semua UI string bahasa Inggris di seluruh halaman (admin, seller, sekretaris, ketua, catalog, checkout, register, landing, dll) sudah diterjemahkan ke Bahasa Indonesia.
+- **Translation 100%**: Semua UI string bahasa Inggris di seluruh halaman (admin, seller, bendahara, ketua, catalog, checkout, register, landing, dll) sudah diterjemahkan ke Bahasa Indonesia.
 
 ## In Progress / TODO
 - **Vercel Blob token**: `BLOB_READ_WRITE_TOKEN` sudah diisi di Vercel dashboard — upload dokumen berfungsi di production
@@ -127,7 +127,7 @@ Next.js 16 App Router + TypeScript, Tailwind CSS v4 + shadcn/ui, Framer Motion, 
 - Middleware → proxy.ts (Next.js 16 deprecated middleware → proxy pattern)
 - Route groups: all folders langsung di `src/app/` (`/admin`, `/login`, `/catalog`, etc.), bukan `(auth)` dll.
 - Tailwind v4 → `@theme inline` (bukan `extend`)
-- Payout manual: Sekretaris proses payout dari dashboard → `processPayout()` di `src/app/sekretaris/actions.ts` (mark PAID + LedgerEntry OUT + ActivityLog)
+- Payout manual: Bendahara proses payout dari dashboard → `processPayout()` di `src/app/bendahara/actions.ts` (mark PAID + LedgerEntry OUT + ActivityLog)
 - CommissionRule `percent` adalah `Decimal` — render pake `Number()` di JSX
 - Payout `sellerId` string biasa, tanpa relasi — perlu manual lookup
 - Local PostgreSQL broken on Windows (ASLR `0xC0000142`) — semua DB ops via Vercel build
@@ -147,7 +147,7 @@ Next.js 16 App Router + TypeScript, Tailwind CSS v4 + shadcn/ui, Framer Motion, 
 /pesanan-saya        (dynamic) Buyer order history
 /admin               (dynamic) Admin dashboard (approval queue + categories/users/company tabs)
 /ketua               (dynamic) Ketua dashboard (read-only overview)
-/sekretaris          (dynamic) Sekretaris dashboard (commission + payouts)
+/bendahara           (dynamic) Bendahara dashboard (commission + payouts)
 /seller              (dynamic) Seller dashboard (product mgmt + category proposal)
 /api/auth/[...nextauth]      (dynamic) NextAuth API
 /api/admin/documents/[id]    (dynamic) View seller document (decrypt + serve)
