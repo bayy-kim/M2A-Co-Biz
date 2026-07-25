@@ -26,8 +26,8 @@ export async function checkRateLimit(identifier: string): Promise<{ allowed: boo
     ratelimit = createRatelimit()
   }
   if (!ratelimit) {
-    console.warn("[rate-limit] Redis not configured — blocking request (fail closed)")
-    return { allowed: false, remaining: 0 }
+    console.warn("[rate-limit] Redis not configured — allowing request (fail open for unconfigured environment)")
+    return { allowed: true, remaining: 999 }
   }
   const result = await ratelimit.limit(identifier)
   return { allowed: result.success, remaining: result.remaining }
