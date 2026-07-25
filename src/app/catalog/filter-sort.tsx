@@ -50,12 +50,12 @@ export function CatalogFilterSort({ sortParam, minPrice, maxPrice, query, catego
     <div className="flex items-center gap-sm relative">
       <div className="relative">
         <button onClick={() => setShowFilter(!showFilter)} className="flex items-center gap-xs px-md py-2 bg-surface-container border border-outline-variant rounded-lg text-label-md text-on-surface-variant hover:bg-surface-container-high transition-colors">
-          <SlidersHorizontal className="w-[18px] h-[18px]" />
+          <SlidersHorizontal className="w-[18px] h-[18px] text-primary" />
           Filter
           {(minPrice || maxPrice) && <span className="w-2 h-2 rounded-full bg-primary" />}
         </button>
         {showFilter && (
-          <div className="absolute right-0 top-full mt-2 z-50 bg-surface-container-lowest border border-outline-variant rounded-xl p-lg shadow-xl w-72">
+          <div className="absolute left-0 top-full mt-2 z-50 bg-surface-container-lowest border border-outline-variant rounded-xl p-lg shadow-xl w-72 max-w-[calc(100vw-2rem)]">
             <div className="flex items-center justify-between mb-md">
               <p className="text-label-md font-bold text-on-surface">Price Range</p>
               <button onClick={() => setShowFilter(false)} className="text-on-surface-variant hover:text-on-surface">
