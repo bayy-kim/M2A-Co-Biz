@@ -1,12 +1,20 @@
 "use client"
 
-import { useState, useActionState, useRef } from "react"
+import { useState, useActionState, useRef, Suspense } from "react"
 import { Badge, Group, FileText, ArrowLeft, ArrowRight, Check, ShieldCheck, LifeBuoy, Loader2, ShoppingBag, Store } from "lucide-react"
 import Link from "next/link"
 import { useRouter, useSearchParams } from "next/navigation"
 import { register, registerBuyer, type RegisterState } from "./actions"
 
 export default function RegisterPage() {
+  return (
+    <Suspense>
+      <RegisterContent />
+    </Suspense>
+  )
+}
+
+function RegisterContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const initialRole = searchParams.get("role") === "seller" ? "seller" : "buyer"
@@ -344,4 +352,6 @@ export default function RegisterPage() {
       </main>
     </div>
   )
+}
+
 }
