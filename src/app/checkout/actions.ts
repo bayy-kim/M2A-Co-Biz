@@ -10,6 +10,7 @@ const checkoutSchema = z.object({
   buyerName: z.string().min(3, "Nama minimal 3 karakter"),
   buyerPhone: z.string().min(8, "Nomor telepon tidak valid"),
   qty: z.coerce.number().int().positive("Jumlah minimal 1"),
+  buyerId: z.string().optional(),
 })
 
 export async function createCheckout(formData: FormData) {
