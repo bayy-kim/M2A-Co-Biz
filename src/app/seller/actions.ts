@@ -49,6 +49,49 @@ export async function createProduct(prevState: ProductState, formData: FormData)
   return { success: true }
 }
 
+const categoryProposalSchema = z.object({
+  categoryName: z.string().min(2, "Category name must be at least 2 characters"),
+})
+
+export async function proposeCategory(prevState: { error?: string; success?: boolean } | null, formData: FormData): Promise<{ error?: string; success?: boolean } | null> {
+  const session = await auth()
+  if (!session?.user) return { error: "Unauthorized" }
+
+  const seller = await prisma.sellerProfile.findUnique({
+    where: { userId: session.user.id },
+  })
+  if (!seller || seller.status !== "APPROVED") return { error: "Seller not approved" }
+
+  const raw = { categoryName: formData.get("categoryName") as string }
+  const result = categoryProposalSchema.safeParse(raw)
+  if (!result.success) return { error: "Name too short" }
+
+  const existing = await prisma.category.findFirst({
+    where: { name: { equals: result.data.categoryName, mode: "insensitive" } },
+  })
+  if (existing) return { error: "Category already exists" }
+
+  await prisma.category.create({
+    data: {
+      name: result.data.categoryName,
+      status: "PENDING",
+      requestedBySellerId: seller.id,
+    },
+  })
+
+  await prisma.activityLog.create({
+    data: {
+      actorId: session.user.id,
+      action: `Proposed new category "${result.data.categoryName}"`,
+      targetType: "Category",
+      targetId: seller.id,
+    },
+  })
+
+  revalidatePath("/seller")
+  return { success: true }
+}
+
 type PayoutRequestState = { error?: string; success?: boolean } | null
 
 export async function requestPayout(prevState: PayoutRequestState, formData: FormData): Promise<PayoutRequestState> {

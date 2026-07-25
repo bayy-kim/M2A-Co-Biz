@@ -33,6 +33,12 @@ enum DocumentType {
   IZIN_USAHA
 }
 
+enum CategoryStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
 enum ProductStatus {
   ACTIVE
   INACTIVE
@@ -72,6 +78,7 @@ model User {
   name            String
   phone           String?
   emailVerified   DateTime?
+  isActive        Boolean   @default(true)
   twoFactorSecret String?
   createdAt       DateTime  @default(now())
   sellerProfile   SellerProfile?
@@ -109,6 +116,7 @@ model SellerProfile {
   bankName        String?
   documents       SellerDocument[]
   products        Product[]
+  proposedCategories Category[]
   createdAt       DateTime  @default(now())
 }
 
@@ -124,9 +132,14 @@ model SellerDocument {
 }
 
 model Category {
-  id                       String  @id @default(cuid())
+  id                       String         @id @default(cuid())
   name                     String
-  defaultCommissionPercent Decimal @db.Decimal(5,2)
+  defaultCommissionPercent Decimal        @db.Decimal(5,2) @default(0)
+  status                   CategoryStatus @default(PENDING)
+  requestedBySellerId      String?
+  requestedBySeller        SellerProfile? @relation(fields: [requestedBySellerId], references: [id])
+  rejectionReason          String?
+  createdAt                DateTime       @default(now())
   products                 Product[]
 }
 

@@ -3,6 +3,7 @@ import Link from "next/link"
 import { prisma } from "@/lib/db"
 import { formatRupiah } from "@/lib/utils"
 import { ShoppingBag, Store, ArrowLeft, ChevronRight } from "lucide-react"
+import { PublicBottomBar } from "@/components/public-bottom-bar"
 
 async function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
@@ -82,6 +83,7 @@ async function ProductDetailPage({ params }: { params: Promise<{ id: string }> }
           </div>
         </div>
       </main>
+      <PublicBottomBar />
     </div>
   )
 }

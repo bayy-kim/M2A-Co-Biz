@@ -1,11 +1,18 @@
 "use client"
 
-import { useActionState } from "react"
-import { Plus, Loader2, ArrowRight } from "lucide-react"
-import { createProduct } from "./actions"
+import { useActionState, useState } from "react"
+import { Plus, Loader2, Lightbulb } from "lucide-react"
+import { createProduct, proposeCategory } from "./actions"
 
-export function NewProductForm() {
+interface CategoryOption {
+  id: string
+  name: string
+}
+
+export function NewProductForm({ categories = [] }: { categories?: CategoryOption[] }) {
   const [state, action, pending] = useActionState(createProduct, null)
+  const [showPropose, setShowPropose] = useState(false)
+  const [proposeState, proposeAction, proposePending] = useActionState(proposeCategory, null)
 
   return (
     <form action={action} className="grid grid-cols-1 md:grid-cols-2 gap-lg">
@@ -23,10 +30,34 @@ export function NewProductForm() {
       </div>
       <div className="flex flex-col gap-xs">
         <label className="text-label-md text-on-surface" htmlFor="categoryId">Category</label>
-        <select className="rounded-lg border-outline-variant focus:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" id="categoryId" name="categoryId">
-          <option value="">No category</option>
-        </select>
+        <div className="flex gap-2">
+          <select className="flex-1 rounded-lg border-outline-variant focus:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" id="categoryId" name="categoryId">
+            <option value="">No category</option>
+            {categories.map((cat) => (
+              <option key={cat.id} value={cat.id}>{cat.name}</option>
+            ))}
+          </select>
+          <button type="button" onClick={() => setShowPropose(!showPropose)} className="px-md py-md rounded-lg border border-outline-variant text-on-surface-variant hover:bg-surface-container transition-colors" title="Propose new category">
+            <Lightbulb className="w-5 h-5" />
+          </button>
+        </div>
       </div>
+      {showPropose && (
+        <div className="md:col-span-2 bg-surface-container-low rounded-xl p-lg border border-outline-variant/30">
+          <p className="text-label-md font-bold text-on-surface mb-md">Propose New Category</p>
+          <form action={proposeAction} onSubmit={(e) => { e.stopPropagation(); proposeAction(new FormData(e.currentTarget)) }} className="flex gap-2">
+            <input className="flex-1 rounded-lg border-outline-variant focus:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" name="categoryName" placeholder="Category name..." required />
+            <button className="px-xl py-md bg-primary text-on-primary rounded-lg text-label-md hover:bg-primary-container transition-colors disabled:opacity-50 flex items-center gap-2" disabled={proposePending} type="submit">
+              {proposePending ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
+              Submit
+            </button>
+          </form>
+          {proposeState && 'error' in proposeState && <p className="mt-md text-label-sm text-error">{proposeState.error}</p>}
+          {proposeState && 'success' in proposeState && proposeState.success === true && (
+            <p className="mt-md text-label-sm text-success">Category proposed! Admin will review it.</p>
+          )}
+        </div>
+      )}
       <div className="md:col-span-2 flex justify-end pt-md">
         <button className="px-xl py-lg bg-primary text-on-primary rounded-lg text-label-md shadow-sm hover:bg-primary-container active:scale-[0.97] transition-all flex items-center gap-2 disabled:opacity-50" disabled={pending} type="submit">
           {pending ? <Loader2 className="w-5 h-5 animate-spin" /> : <Plus className="w-5 h-5" />}

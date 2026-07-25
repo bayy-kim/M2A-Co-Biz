@@ -2,20 +2,17 @@ import { redirect } from "next/navigation"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/db"
 import { formatRupiah } from "@/lib/utils"
-import { BarChart3, TrendingUp, Users, ShoppingBag, Activity, ChevronRight } from "lucide-react"
+import { BarChart3, TrendingUp, Users, ShoppingBag, Activity, LayoutDashboard, type LucideIcon } from "lucide-react"
 import { TrendChart } from "@/components/line-chart"
 import Link from "next/link"
+import { DashboardShell } from "@/components/dashboard-shell"
 
-const SIDEBAR = [
-  { label: "Overview", href: "/ketua" },
-  { label: "Activity", href: "/ketua?tab=activity" },
+const SIDEBAR: { label: string; href: string; icon: LucideIcon }[] = [
+  { label: "Overview", href: "/ketua", icon: LayoutDashboard },
+  { label: "Activity", href: "/ketua?tab=activity", icon: Activity },
 ]
 
-async function KetuaDashboard({
-  searchParams,
-}: {
-  searchParams: Promise<{ tab?: string }>
-}) {
+async function KetuaDashboard({ searchParams }: { searchParams: Promise<{ tab?: string }> }) {
   const session = await auth()
   if (!session?.user || session.user.role !== "KETUA") redirect("/")
 
@@ -29,213 +26,160 @@ async function KetuaDashboard({
     prisma.ledgerEntry.aggregate({ where: { type: "IN" }, _sum: { amountRupiah: true } }),
     prisma.sellerProfile.count({ where: { status: "PENDING" } }),
     prisma.activityLog.findMany({ take: 20, orderBy: { createdAt: "desc" } }),
-    prisma.ledgerEntry.groupBy({ by: ["createdAt"], _sum: { amountRupiah: true }, orderBy: { createdAt: "desc" }, take: 30 }),
+    prisma.ledgerEntry.groupBy({
+      by: ["createdAt"],
+      _sum: { amountRupiah: true },
+      orderBy: { createdAt: "desc" },
+      take: 30,
+    }),
   ])
 
   return (
-    <div className="min-h-screen bg-surface flex">
-      <aside className="w-64 bg-surface-container-low border-r border-outline-variant/30 hidden lg:flex flex-col">
-        <div className="p-lg border-b border-outline-variant/30">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-primary-container rounded-lg flex items-center justify-center">
-              <span className="text-on-primary-container font-bold text-headline-md">M</span>
+    <DashboardShell
+      sidebarItems={SIDEBAR}
+      title="Ketua Panel"
+      roleLabel="ketua"
+      tab={tab}
+      userName={session.user.name}
+    >
+      {tab === "overview" && (
+        <>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-lg">
+            <div className="bg-surface-container-lowest rounded-xl p-lg border border-outline-variant/30">
+              <div className="flex items-center gap-lg">
+                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center"><Users className="w-6 h-6 text-primary" /></div>
+                <div>
+                  <p className="text-display-md font-bold text-on-surface">{totalSellers}</p>
+                  <p className="text-label-sm text-on-surface-variant">Active Sellers</p>
+                </div>
+              </div>
             </div>
-            <div>
-              <h2 className="text-label-md font-bold text-on-surface">M2A Co-Biz</h2>
-              <p className="text-label-sm text-on-surface-variant">Ketua Panel</p>
+            <div className="bg-surface-container-lowest rounded-xl p-lg border border-outline-variant/30">
+              <div className="flex items-center gap-lg">
+                <div className="w-12 h-12 rounded-xl bg-success/10 flex items-center justify-center"><ShoppingBag className="w-6 h-6 text-success" /></div>
+                <div>
+                  <p className="text-display-md font-bold text-on-surface">{totalProducts}</p>
+                  <p className="text-label-sm text-on-surface-variant">Active Products</p>
+                </div>
+              </div>
+            </div>
+            <div className="bg-surface-container-lowest rounded-xl p-lg border border-outline-variant/30">
+              <div className="flex items-center gap-lg">
+                <div className="w-12 h-12 rounded-xl bg-secondary/10 flex items-center justify-center"><BarChart3 className="w-6 h-6 text-secondary" /></div>
+                <div>
+                  <p className="text-display-md font-bold text-on-surface">{totalOrders}</p>
+                  <p className="text-label-sm text-on-surface-variant">Total Orders</p>
+                </div>
+              </div>
+            </div>
+            <div className="bg-surface-container-lowest rounded-xl p-lg border border-outline-variant/30">
+              <div className="flex items-center gap-lg">
+                <div className="w-12 h-12 rounded-xl bg-warning/10 flex items-center justify-center"><TrendingUp className="w-6 h-6 text-warning" /></div>
+                <div>
+                  <p className="text-display-md font-bold text-on-surface">{formatRupiah(totalRevenue._sum.amountRupiah || 0)}</p>
+                  <p className="text-label-sm text-on-surface-variant">Total Revenue</p>
+                </div>
+              </div>
+            </div>
+            <div className="bg-surface-container-lowest rounded-xl p-lg border border-outline-variant/30">
+              <div className="flex items-center gap-lg">
+                <div className="w-12 h-12 rounded-xl bg-danger/10 flex items-center justify-center"><Activity className="w-6 h-6 text-danger" /></div>
+                <div>
+                  <p className="text-display-md font-bold text-on-surface">{pendingApprovals}</p>
+                  <p className="text-label-sm text-on-surface-variant">Pending Approvals</p>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-        <nav className="flex-1 p-md space-y-1">
-          {SIDEBAR.map((item) => {
-            const active = item.href === "/ketua" ? tab === "overview" : item.href.includes(tab)
-            return (
-              <Link key={item.label} href={item.href} className={`flex items-center gap-3 px-md py-2.5 rounded-lg text-label-md transition-colors ${active ? "bg-primary-container text-on-primary-container font-bold" : "text-on-surface-variant hover:bg-surface-container-higher hover:text-on-surface"}`}>
-                {item.label}
-              </Link>
-            )
-          })}
-        </nav>
-        <div className="p-lg border-t border-outline-variant/30">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center text-primary text-label-md font-bold">{session.user.name?.[0] || "K"}</div>
-            <div className="flex-1 min-w-0">
-              <p className="text-label-sm font-bold text-on-surface truncate">{session.user.name}</p>
-              <p className="text-label-sm text-on-surface-variant">Ketua</p>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-lg">
+            <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 p-lg">
+              <h3 className="text-headline-md text-on-surface font-bold mb-lg">Platform Summary</h3>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-lg">
+                <div>
+                  <p className="text-label-sm text-on-surface-variant">Revenue</p>
+                  <p className="text-headline-md text-success font-bold">{formatRupiah(totalRevenue._sum.amountRupiah || 0)}</p>
+                </div>
+                <div>
+                  <p className="text-label-sm text-on-surface-variant">Sellers</p>
+                  <p className="text-headline-md text-primary font-bold">{totalSellers}</p>
+                </div>
+                <div>
+                  <p className="text-label-sm text-on-surface-variant">Products</p>
+                  <p className="text-headline-md text-secondary font-bold">{totalProducts}</p>
+                </div>
+                <div>
+                  <p className="text-label-sm text-on-surface-variant">Orders</p>
+                  <p className="text-headline-md text-warning font-bold">{totalOrders}</p>
+                </div>
+              </div>
+            </div>
+            <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 p-lg">
+              <h3 className="text-headline-md text-on-surface font-bold mb-lg">Revenue Trend</h3>
+              <TrendChart data={trends.map(t => ({ label: t.createdAt.toLocaleDateString("id-ID", { month: "short", day: "numeric" }), value: t._sum.amountRupiah || 0 })).reverse()} color="#22C55E" />
             </div>
           </div>
-        </div>
-      </aside>
 
-      <main className="flex-1 overflow-auto pb-12">
-        <header className="sticky top-0 z-40 bg-surface/90 backdrop-blur-md border-b border-outline-variant/30 flex items-center justify-between px-lg h-16">
-          <div className="flex items-center gap-lg">
-            <div className="hidden lg:flex items-center gap-2">
-              <span className="text-label-sm text-on-surface-variant">Dashboard</span>
-              <ChevronRight className="w-4 h-4 text-on-surface-variant" />
-              <span className="text-label-sm font-bold text-on-surface capitalize">{tab}</span>
+          <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 overflow-hidden">
+            <div className="p-lg border-b border-outline-variant/30 flex items-center justify-between">
+              <h3 className="text-headline-md text-on-surface font-bold">Activity Feed</h3>
+              <Link href="/ketua?tab=activity" className="text-label-md text-primary hover:underline">View All</Link>
             </div>
-            <div className="lg:hidden flex items-center gap-3">
-              <div className="w-9 h-9 bg-primary-container rounded-lg flex items-center justify-center">
-                <span className="text-on-primary-container font-bold text-label-md">M</span>
+            {recentActivity.length === 0 ? (
+              <div className="p-lg text-center text-on-surface-variant text-body-md">No activity yet.</div>
+            ) : (
+              <div className="divide-y divide-outline-variant/10">
+                {recentActivity.slice(0, 8).map((log) => (
+                  <div key={log.id} className="px-lg py-3 flex items-start gap-3">
+                    <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                      <Activity className="w-4 h-4 text-primary" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-label-md text-on-surface">{log.action}</p>
+                      <p className="text-label-sm text-on-surface-variant">
+                        {log.targetType} · {new Date(log.createdAt).toLocaleString()}
+                      </p>
+                    </div>
+                  </div>
+                ))}
               </div>
-              <span className="text-label-md font-bold text-on-surface">Dashboard</span>
-            </div>
+            )}
           </div>
-        </header>
+        </>
+      )}
 
-        <div className="p-lg space-y-lg">
-          {tab === "overview" && (
-            <>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-lg">
-                <div className="bg-surface-container-lowest rounded-xl p-lg border border-outline-variant/30">
-                  <div className="flex items-center gap-lg">
-                    <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center"><Users className="w-6 h-6 text-primary" /></div>
-                    <div>
-                      <p className="text-display-md font-bold text-on-surface">{totalSellers}</p>
-                      <p className="text-label-sm text-on-surface-variant">Active Sellers</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="bg-surface-container-lowest rounded-xl p-lg border border-outline-variant/30">
-                  <div className="flex items-center gap-lg">
-                    <div className="w-12 h-12 rounded-xl bg-success/10 flex items-center justify-center"><ShoppingBag className="w-6 h-6 text-success" /></div>
-                    <div>
-                      <p className="text-display-md font-bold text-on-surface">{totalProducts}</p>
-                      <p className="text-label-sm text-on-surface-variant">Active Products</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="bg-surface-container-lowest rounded-xl p-lg border border-outline-variant/30">
-                  <div className="flex items-center gap-lg">
-                    <div className="w-12 h-12 rounded-xl bg-secondary/10 flex items-center justify-center"><BarChart3 className="w-6 h-6 text-secondary" /></div>
-                    <div>
-                      <p className="text-display-md font-bold text-on-surface">{totalOrders}</p>
-                      <p className="text-label-sm text-on-surface-variant">Total Orders</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="bg-surface-container-lowest rounded-xl p-lg border border-outline-variant/30">
-                  <div className="flex items-center gap-lg">
-                    <div className="w-12 h-12 rounded-xl bg-warning/10 flex items-center justify-center"><TrendingUp className="w-6 h-6 text-warning" /></div>
-                    <div>
-                      <p className="text-display-md font-bold text-on-surface">{formatRupiah(totalRevenue._sum.amountRupiah || 0)}</p>
-                      <p className="text-label-sm text-on-surface-variant">Total Revenue</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="bg-surface-container-lowest rounded-xl p-lg border border-outline-variant/30">
-                  <div className="flex items-center gap-lg">
-                    <div className="w-12 h-12 rounded-xl bg-danger/10 flex items-center justify-center"><Activity className="w-6 h-6 text-danger" /></div>
-                    <div>
-                      <p className="text-display-md font-bold text-on-surface">{pendingApprovals}</p>
-                      <p className="text-label-sm text-on-surface-variant">Pending Approvals</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-lg">
-                <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 p-lg">
-                  <h3 className="text-headline-md text-on-surface font-bold mb-lg">Platform Summary</h3>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-lg">
-                    <div>
-                      <p className="text-label-sm text-on-surface-variant">Revenue</p>
-                      <p className="text-headline-md text-success font-bold">{formatRupiah(totalRevenue._sum.amountRupiah || 0)}</p>
-                    </div>
-                    <div>
-                      <p className="text-label-sm text-on-surface-variant">Sellers</p>
-                      <p className="text-headline-md text-primary font-bold">{totalSellers}</p>
-                    </div>
-                    <div>
-                      <p className="text-label-sm text-on-surface-variant">Products</p>
-                      <p className="text-headline-md text-secondary font-bold">{totalProducts}</p>
-                    </div>
-                    <div>
-                      <p className="text-label-sm text-on-surface-variant">Orders</p>
-                      <p className="text-headline-md text-warning font-bold">{totalOrders}</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 p-lg">
-                  <h3 className="text-headline-md text-on-surface font-bold mb-lg">Revenue Trend</h3>
-                  <TrendChart data={trends.map(t => ({ label: t.createdAt.toLocaleDateString("id-ID", { month: "short", day: "numeric" }), value: t._sum.amountRupiah || 0 })).reverse()} color="#22C55E" />
-                </div>
-              </div>
-
-              <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 overflow-hidden">
-                <div className="p-lg border-b border-outline-variant/30 flex items-center justify-between">
-                  <h3 className="text-headline-md text-on-surface font-bold">Activity Feed</h3>
-                  <Link href="/ketua?tab=activity" className="text-label-md text-primary hover:underline">View All</Link>
-                </div>
-                {recentActivity.length === 0 ? (
-                  <div className="p-lg text-center text-on-surface-variant text-body-md">No activity yet.</div>
-                ) : (
-                  <div className="divide-y divide-outline-variant/10">
-                    {recentActivity.slice(0, 8).map((log) => (
-                      <div key={log.id} className="px-lg py-3 flex items-start gap-3">
-                        <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                          <Activity className="w-4 h-4 text-primary" />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <p className="text-label-md text-on-surface">{log.action}</p>
-                          <p className="text-label-sm text-on-surface-variant">
-                            {log.targetType} · {new Date(log.createdAt).toLocaleString()}
-                          </p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </>
-          )}
-
-          {tab === "activity" && (
-            <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 overflow-hidden">
-              <div className="p-lg border-b border-outline-variant/30">
-                <h3 className="text-headline-md text-on-surface font-bold">Activity Log</h3>
-              </div>
-              {recentActivity.length === 0 ? (
-                <div className="p-lg text-center text-on-surface-variant text-body-md py-xxl">No activity recorded yet.</div>
-              ) : (
-                <div className="overflow-x-auto">
-                  <table className="w-full text-left">
-                    <thead>
-                      <tr className="text-label-sm text-on-surface-variant border-b border-outline-variant/30">
-                        <th className="px-lg py-3 font-medium">Action</th>
-                        <th className="px-lg py-3 font-medium">Target</th>
-                        <th className="px-lg py-3 font-medium">Date</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {recentActivity.map((log) => (
-                        <tr key={log.id} className="border-b border-outline-variant/20">
-                          <td className="px-lg py-3 text-label-md text-on-surface">{log.action}</td>
-                          <td className="px-lg py-3 text-label-sm text-on-surface-variant">{log.targetType}</td>
-                          <td className="px-lg py-3 text-label-sm text-on-surface-variant">{new Date(log.createdAt).toLocaleString()}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              )}
+      {tab === "activity" && (
+        <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 overflow-hidden">
+          <div className="p-lg border-b border-outline-variant/30">
+            <h3 className="text-headline-md text-on-surface font-bold">Activity Log</h3>
+          </div>
+          {recentActivity.length === 0 ? (
+            <div className="p-lg text-center text-on-surface-variant text-body-md py-xxl">No activity recorded yet.</div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full text-left">
+                <thead>
+                  <tr className="text-label-sm text-on-surface-variant border-b border-outline-variant/30">
+                    <th className="px-lg py-3 font-medium">Action</th>
+                    <th className="px-lg py-3 font-medium">Target</th>
+                    <th className="px-lg py-3 font-medium">Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {recentActivity.map((log) => (
+                    <tr key={log.id} className="border-b border-outline-variant/20">
+                      <td className="px-lg py-3 text-label-md text-on-surface">{log.action}</td>
+                      <td className="px-lg py-3 text-label-sm text-on-surface-variant">{log.targetType}</td>
+                      <td className="px-lg py-3 text-label-sm text-on-surface-variant">{new Date(log.createdAt).toLocaleString()}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           )}
         </div>
-      </main>
-
-      <nav className="lg:hidden fixed bottom-0 w-full z-50 bg-surface-container-low border-t border-outline-variant/30 flex justify-around py-2">
-        {SIDEBAR.map((item) => {
-          const active = item.href === "/ketua" ? tab === "overview" : item.href.includes(tab)
-          return (
-            <Link key={item.label} href={item.href} className={`flex flex-col items-center gap-0.5 px-2 py-1 rounded-lg transition-colors ${active ? "text-primary" : "text-on-surface-variant"}`}>
-              <span className={`text-label-sm ${active ? "font-bold" : ""}`}>{item.label}</span>
-            </Link>
-          )
-        })}
-      </nav>
-    </div>
+      )}
+    </DashboardShell>
   )
 }
 
