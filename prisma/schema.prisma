@@ -234,4 +234,5 @@ model CompanyProfile {
   bankAccountName String?
   bankAccountNo   String?
   qrisImageUrl    String?
+  whatsappNumber  String?
 }

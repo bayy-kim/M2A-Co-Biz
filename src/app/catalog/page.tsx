@@ -1,4 +1,4 @@
-import { Search, ArrowUpDown, ChevronLeft, ChevronRight, ShoppingBag, X } from "lucide-react"
+import { Search, ChevronLeft, ChevronRight, ShoppingBag, MessageCircle, Sparkles } from "lucide-react"
 import Link from "next/link"
 import { prisma } from "@/lib/db"
 import { formatRupiah } from "@/lib/utils"
@@ -36,7 +36,7 @@ async function CatalogPage({ searchParams }: { searchParams: Promise<{ q?: strin
     sortParam === "price_desc" ? { priceRupiah: "desc" } :
     { createdAt: "desc" }
 
-  const [total, products] = await Promise.all([
+  const [total, products, company] = await Promise.all([
     prisma.product.count({ where }),
     prisma.product.findMany({
       where,
@@ -45,9 +45,25 @@ async function CatalogPage({ searchParams }: { searchParams: Promise<{ q?: strin
       skip: (currentPage - 1) * ITEMS_PER_PAGE,
       take: ITEMS_PER_PAGE,
     }),
+    prisma.companyProfile.findFirst(),
   ])
 
   const totalPages = Math.max(1, Math.ceil(total / ITEMS_PER_PAGE))
+
+  const recommendationWhere: Record<string, unknown> = {
+    status: "ACTIVE",
+    id: { notIn: products.map((p) => p.id) },
+  }
+  if (categoryFilter && categoryFilter !== "All Categories") {
+    const cat = await prisma.category.findFirst({ where: { name: categoryFilter } })
+    if (cat) recommendationWhere.categoryId = cat.id
+  }
+  const recommendations = await prisma.product.findMany({
+    where: recommendationWhere,
+    include: { seller: { select: { businessName: true } } },
+    orderBy: { createdAt: "desc" },
+    take: 4,
+  })
 
   const session = await auth()
 
@@ -80,7 +96,7 @@ async function CatalogPage({ searchParams }: { searchParams: Promise<{ q?: strin
         <div className="flex items-center gap-xl">
           <h1 className="text-display-md font-bold text-primary">M2A Co-Biz</h1>
           <form action="/catalog" method="GET" className="hidden md:flex relative items-center w-96">
-            <Search className="absolute left-3 w-5 h-5 text-outline" />
+            <Search className="absolute left-3 w-5 h-5 text-primary" />
             <input className="w-full bg-surface-container-low border-none rounded-xl pl-10 pr-4 py-2 focus:ring-2 focus:ring-primary/20 transition-all text-body-md" defaultValue={query} name="q" placeholder="Search catalog..." type="text" />
           </form>
         </div>
@@ -101,13 +117,13 @@ async function CatalogPage({ searchParams }: { searchParams: Promise<{ q?: strin
         <div className="md:hidden mb-lg">
           <h2 className="text-headline-lg text-primary mb-sm">Catalog</h2>
           <form action="/catalog" method="GET" className="relative items-center flex">
-            <Search className="absolute left-3 w-5 h-5 text-outline" />
+            <Search className="absolute left-3 w-5 h-5 text-primary" />
             <input className="w-full bg-surface-container-low border-none rounded-xl pl-10 pr-4 py-3 focus:ring-2 focus:ring-primary/20 transition-all text-body-md" defaultValue={query} name="q" placeholder="Search products..." type="text" />
           </form>
         </div>
 
-        <section className="mb-xxl">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-lg mb-lg">
+        <section className="space-y-lg">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-lg">
             <div>
               <h2 className="hidden md:block text-display-md text-on-surface mb-xs">Product Catalog</h2>
               <p className="text-on-surface-variant text-body-md">Discover premium goods and services from our community.</p>
@@ -121,52 +137,56 @@ async function CatalogPage({ searchParams }: { searchParams: Promise<{ q?: strin
             />
           </div>
 
-          <div className="flex items-center gap-sm overflow-x-auto pb-4 no-scrollbar">
-            {allCategories.map((cat) => (
-              <Link
-                key={cat}
-                href={buildQuery({ category: cat === "All Categories" ? "" : cat, page: undefined })}
-                className={`whitespace-nowrap px-lg py-2 rounded-full text-label-md ${
-                  categoryFilter === cat || (!categoryFilter && cat === "All Categories")
-                    ? "bg-primary text-on-primary"
-                    : "bg-surface-container border border-outline-variant text-on-surface-variant hover:border-primary transition-colors"
-                }`}
-              >
-                {cat}
-              </Link>
-            ))}
-          </div>
+          {allCategories.length > 1 && (
+            <div className="flex items-center gap-sm overflow-x-auto pb-1 no-scrollbar">
+              {allCategories.map((cat) => (
+                <Link
+                  key={cat}
+                  href={buildQuery({ category: cat === "All Categories" ? "" : cat, page: undefined })}
+                  className={`whitespace-nowrap px-lg py-2 rounded-full text-label-md flex-shrink-0 ${
+                    categoryFilter === cat || (!categoryFilter && cat === "All Categories")
+                      ? "bg-primary text-on-primary"
+                      : "bg-surface-container border border-outline-variant text-on-surface-variant hover:border-primary transition-colors"
+                  }`}
+                >
+                  {cat}
+                </Link>
+              ))}
+            </div>
+          )}
+
+          <div className="border-b border-outline-variant/20" />
         </section>
 
         {products.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-xxl text-center">
-            <ShoppingBag className="w-16 h-16 text-outline-variant mb-lg" />
+            <ShoppingBag className="w-16 h-16 text-primary mb-lg" />
             <p className="text-headline-md text-on-surface-variant">No products found</p>
             <p className="text-body-md text-on-surface-variant">Try adjusting your search or filter.</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-gutter">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-md md:gap-gutter">
             {products.map((product) => (
               <Link key={product.id} href={`/catalog/${product.id}`} className="group bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 flex flex-col">
-                <div className="relative h-48 overflow-hidden bg-surface-container-high flex items-center justify-center">
+                <div className="relative h-36 sm:h-44 overflow-hidden bg-surface-container-high flex items-center justify-center">
                   {product.images.length > 0 ? (
                     <img alt={product.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src={product.images[0]} />
                   ) : (
-                    <ShoppingBag className="w-16 h-16 text-outline-variant" />
+                    <ShoppingBag className="w-12 h-12 sm:w-16 sm:h-16 text-primary" />
                   )}
                 </div>
-                <div className="p-lg flex flex-col flex-1">
+                <div className="p-md sm:p-lg flex flex-col flex-1 min-w-0">
                   <div className="flex justify-between items-start mb-sm">
-                    <h3 className="text-headline-md text-on-surface leading-tight">{product.title}</h3>
+                    <h3 className="text-label-md sm:text-headline-md text-on-surface leading-tight line-clamp-2">{product.title}</h3>
                   </div>
                   <div className="mt-auto">
-                    <p className="text-on-surface-variant text-label-sm mb-xs">
-                      by <span className="text-primary font-bold">{product.seller.businessName}</span>
+                    <p className="text-on-surface-variant text-label-xs sm:text-label-sm mb-xs truncate">
+                      by <span className="text-primary font-bold truncate">{product.seller.businessName}</span>
                     </p>
-                    <div className="flex items-center justify-between">
-                      <span className="text-headline-lg text-primary">{formatRupiah(product.priceRupiah)}</span>
-                      <span className="bg-primary-container text-on-primary-container px-md py-2 rounded-lg text-label-md hover:opacity-90 transition-opacity">
-                        View Details
+                    <div className="flex items-center justify-between gap-1">
+                      <span className="text-headline-md sm:text-headline-lg text-primary truncate">{formatRupiah(product.priceRupiah)}</span>
+                      <span className="bg-primary-container text-on-primary-container px-2 sm:px-md py-1 sm:py-2 rounded-lg text-label-xs sm:text-label-md whitespace-nowrap hover:opacity-90 transition-opacity">
+                        Detail
                       </span>
                     </div>
                   </div>
@@ -198,9 +218,67 @@ async function CatalogPage({ searchParams }: { searchParams: Promise<{ q?: strin
             )}
           </div>
         )}
+
+        <section className="mt-xxl pt-xxl border-t border-outline-variant/20">
+          <div className="max-w-2xl mx-auto bg-gradient-to-br from-primary/5 to-surface-container-low rounded-2xl p-lg md:p-xl text-center">
+            <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-md">
+              <MessageCircle className="w-6 h-6 text-primary" />
+            </div>
+            <h3 className="text-headline-md text-primary font-bold mb-sm">Butuh Bantuan?</h3>
+            <p className="text-body-md text-on-surface-variant mb-lg max-w-md mx-auto">
+              Ada pertanyaan tentang produk atau pesanan? Tim kami siap membantu Anda.
+            </p>
+            {company?.whatsappNumber && (
+              <a
+                href={`https://wa.me/${company.whatsappNumber.replace(/\D/g, "")}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-xl py-3 bg-success text-white rounded-xl text-label-md font-bold shadow-lg hover:brightness-110 active:scale-[0.97] transition-all"
+              >
+                <MessageCircle className="w-5 h-5" />
+                Hubungi via WhatsApp
+              </a>
+            )}
+          </div>
+        </section>
+
+        {recommendations.length > 0 && (
+          <section className="mt-xxl pt-xxl border-t border-outline-variant/20" id="rekomendasi">
+            <div className="flex items-center gap-2 mb-lg">
+              <Sparkles className="w-5 h-5 text-accent-gold" />
+              <h3 className="text-headline-md text-on-surface font-bold">Produk Lainnya untuk Kamu</h3>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-md md:gap-gutter">
+              {recommendations.map((product) => (
+                <Link key={product.id} href={`/catalog/${product.id}`} className="group bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 flex flex-col">
+                  <div className="relative h-36 sm:h-44 overflow-hidden bg-surface-container-high flex items-center justify-center">
+                    {product.images.length > 0 ? (
+                      <img alt={product.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src={product.images[0]} />
+                    ) : (
+                      <ShoppingBag className="w-12 h-12 sm:w-16 sm:h-16 text-primary" />
+                    )}
+                  </div>
+                  <div className="p-md sm:p-lg flex flex-col flex-1 min-w-0">
+                    <div className="flex justify-between items-start mb-sm">
+                      <h3 className="text-label-md sm:text-headline-md text-on-surface leading-tight line-clamp-2">{product.title}</h3>
+                    </div>
+                    <div className="mt-auto">
+                      <p className="text-on-surface-variant text-label-xs sm:text-label-sm mb-xs truncate">
+                        by <span className="text-primary font-bold truncate">{product.seller.businessName}</span>
+                      </p>
+                      <div className="flex items-center justify-between gap-1">
+                        <span className="text-headline-md sm:text-headline-lg text-primary truncate">{formatRupiah(product.priceRupiah)}</span>
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
       </main>
 
-      <PublicBottomBar isLoggedIn={!!session?.user} />
+      <PublicBottomBar isLoggedIn={!!session?.user} isSeller={session?.user?.role === "SELLER"} />
     </>
   )
 }

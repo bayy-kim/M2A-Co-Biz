@@ -310,6 +310,7 @@ async function main() {
       bankAccountName: "M2A Co-Biz / Al-Mubarok II",
       bankAccountNo: "1234567890",
       qrisImageUrl: "/images/qris-placeholder.svg",
+      whatsappNumber: "+6281234567890",
     },
   })
 

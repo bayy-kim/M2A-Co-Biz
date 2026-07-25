@@ -78,8 +78,25 @@ M2A Co-Biz adalah platform marketplace + manajemen internal untuk UMKM dan penye
 - **Seed**: Added `buyer@m2acobiz.com / buyer123` (Rina Pembeli, BUYER role) to seed data
 - **PRD.md**: Updated Buyer description to reflect mandatory login checkout
 
+### Phase 10 — Perbaikan Catalog Mobile (100%)
+- **Grid produk**: `grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4` → `grid-cols-2 md:grid-cols-3 lg:grid-cols-4`; tinggi card dikecilkan (`h-36` mobile, `h-44 sm`); font judul `text-label-md sm:text-headline-md` + `line-clamp-2`; tombol Detail pakai `text-label-xs sm:text-label-md`; gap `md` mobile / `gutter` desktop
+- **Filter dropdown**: `right-0` → `left-0` + `max-w-[calc(100vw-2rem)]` supaya tidak overflow layar
+- **Kategori row**: disembunyikan jika cuma 1 opsi (`All Categories` doang); border separator antar section
+- **Icon konsisten**: `ShoppingBag` di card produk, `Search` di search bar, `SlidersHorizontal` di filter → semua `text-primary` bukan abu-abu
+- **Section rapi**: border `border-outline-variant/20` sebagai pemisah visual antara search/filter, grid, bantuan, rekomendasi
+
+### Phase 11 — Public Bottom Bar & Register URL (100%)
+- **Bottom bar baru**: 4 item — Beranda, Katalog, Daftar Jual/Dashboard (kondisional, untuk non-seller tayang Daftar Jual → `/register?role=seller`, seller lihat Dashboard → `/seller`), Pesanan; `overflow-x-auto` untuk layar sempit; icon `LayoutGrid` untuk Katalog, `Store` untuk Daftar Jual, `ShoppingBag` untuk Pesanan
+- **Register query param**: `useSearchParams()` baca `?role=seller` → set initial tab ke Seller; dipakai link "Daftar Jual" dari bottom bar
+
+### Phase 12 — Bantuan & Rekomendasi (100%)
+- **Schema**: `whatsappNumber String?` di CompanyProfile; migration `20260725170000_add_whatsapp_number`
+- **Admin company form**: tambah field WhatsApp Number di section Customer Support baru; Zod + server action update
+- **Section Bantuan**: di bawah pagination, di dalam card gradient — logo WA, judul "Butuh Bantuan?", deskripsi, tombol `https://wa.me/<number>` (hidden jika WA kosong); `MessageCircle` icon dari lucide
+- **Landing page footer**: link WhatsApp ngarah ke `wa.me` dari DB, bukan `#`
+- **Section Rekomendasi**: ambil 4 produk ACTIVE lain (exclude dari hasil grid saat ini), urut terbaru; jika filter kategori, prioritaskan kategori yang sama; label "Produk Lainnya untuk Kamu" dengan `Sparkles` icon
+
 ## In Progress / TODO
-- **Seed data**: seed script ada untuk users, kategori & produk sudah di-seed, buyer account juga sudah
 - **Terms & Privacy pages**: masih placeholder, perlu diisi konten sesuai UU PDP
 - **Vercel Blob token**: `BLOB_READ_WRITE_TOKEN` sudah diisi di Vercel dashboard — upload dokumen berfungsi di production
 - `DATABASE_URL` env var di Vercel dashboard belum diset — build akan gagal jika tidak diisi
@@ -98,7 +115,12 @@ Next.js 16 App Router + TypeScript, Tailwind CSS v4 + shadcn/ui, Framer Motion, 
 - **Shared dashboard nav**: All four dashboards use `src/components/dashboard-shell.tsx` — edit one file to change sidebar/bottom nav for all roles
 - **Category lifecycle**: Seller proposes → PENDING → Admin approves → APPROVED (visible in catalog + seller form)
 - **User status**: `isActive` on User model, toggled by Admin from Users tab; sellers are suspended/reactivated in sync
-- **Company profile**: Single record via `CompanyProfile` model, editable from Admin → Company tab
+- **Company profile**: Single record via `CompanyProfile` model, editable from Admin → Company tab (includes `whatsappNumber` for "Hubungi via WhatsApp" buttons)
+- **WhatsApp links**: `whatsappNumber` on CompanyProfile → cleaned with `.replace(/\D/g, "")` for `https://wa.me/` links
+- **Catalog grid**: `grid-cols-2 md:grid-cols-3 lg:grid-cols-4` with `line-clamp-2` for titles on small screens
+- **PublicBottomBar**: 4 items (Beranda, Katalog, Daftar Jual/Dashboard, Pesanan Saya) with overflow-x-auto; `register?role=seller` link
+- **Product sections below catalog grid**: Bantuan (WA card) + Rekomendasi (4 products excluding current results)
+- **Register page**: Reads `?role=seller` from URL searchParams via `useSearchParams()`
 - Fonts: Plus Jakarta Sans + Inter via `<link>` tags (bukan `next/font`; `next/font` gagal build di env ini)
 - Middleware → proxy.ts (Next.js 16 deprecated middleware → proxy pattern)
 - Route groups: all folders langsung di `src/app/` (`/admin`, `/login`, `/catalog`, etc.), bukan `(auth)` dll.

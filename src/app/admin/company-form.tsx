@@ -15,6 +15,7 @@ interface CompanyProfileData {
   bankAccountName: string | null
   bankAccountNo: string | null
   qrisImageUrl: string | null
+  whatsappNumber: string | null
 }
 
 export function CompanyProfileForm({ profile }: { profile: CompanyProfileData | null }) {
@@ -63,6 +64,15 @@ export function CompanyProfileForm({ profile }: { profile: CompanyProfileData | 
       <div className="flex flex-col gap-xs">
         <label className="text-label-md text-on-surface" htmlFor="qrisImageUrl">QRIS Image URL</label>
         <input className="rounded-lg border-outline-variant focus:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" id="qrisImageUrl" name="qrisImageUrl" type="url" defaultValue={profile?.qrisImageUrl || ""} />
+      </div>
+
+      <hr className="border-outline-variant/30" />
+
+      <h4 className="text-headline-md text-on-surface font-bold">Customer Support</h4>
+      <div className="flex flex-col gap-xs">
+        <label className="text-label-md text-on-surface" htmlFor="whatsappNumber">WhatsApp Number</label>
+        <input className="rounded-lg border-outline-variant focus:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" id="whatsappNumber" name="whatsappNumber" placeholder="+6281234567890" type="tel" defaultValue={profile?.whatsappNumber || ""} />
+        <p className="text-label-sm text-on-surface-variant">Nomor untuk tombol &ldquo;Hubungi via WhatsApp&rdquo; di katalog dan landing page.</p>
       </div>
 
       <div className="flex justify-end pt-md">

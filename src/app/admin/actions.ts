@@ -96,6 +96,7 @@ const companySchema = z.object({
   bankAccountName: z.string().optional().nullable(),
   bankAccountNo: z.string().optional().nullable(),
   qrisImageUrl: z.string().optional().nullable(),
+  whatsappNumber: z.string().optional().nullable(),
 })
 
 export async function updateCompanyProfile(prevState: unknown, formData: FormData) {
@@ -112,6 +113,7 @@ export async function updateCompanyProfile(prevState: unknown, formData: FormDat
     bankAccountName: formData.get("bankAccountName") as string || null,
     bankAccountNo: formData.get("bankAccountNo") as string || null,
     qrisImageUrl: formData.get("qrisImageUrl") as string || null,
+    whatsappNumber: formData.get("whatsappNumber") as string || null,
   }
 
   const result = companySchema.safeParse(raw)
@@ -121,6 +123,7 @@ export async function updateCompanyProfile(prevState: unknown, formData: FormDat
   if (existing) {
     await prisma.companyProfile.update({ where: { id: existing.id }, data: result.data })
   } else {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     await prisma.companyProfile.create({ data: result.data as any })
   }
 

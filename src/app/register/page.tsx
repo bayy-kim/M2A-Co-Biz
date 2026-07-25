@@ -1,14 +1,16 @@
 "use client"
 
 import { useState, useActionState, useRef } from "react"
-import { Badge, Group, FileText, ArrowLeft, ArrowRight, Check, Verified, ShieldCheck, LifeBuoy, Loader2, ShoppingBag, Store } from "lucide-react"
+import { Badge, Group, FileText, ArrowLeft, ArrowRight, Check, ShieldCheck, LifeBuoy, Loader2, ShoppingBag, Store } from "lucide-react"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { register, registerBuyer, type RegisterState } from "./actions"
 
 export default function RegisterPage() {
   const router = useRouter()
-  const [role, setRole] = useState<"buyer" | "seller">("buyer")
+  const searchParams = useSearchParams()
+  const initialRole = searchParams.get("role") === "seller" ? "seller" : "buyer"
+  const [role, setRole] = useState<"buyer" | "seller">(initialRole)
   const [step, setStep] = useState(1)
   const totalSteps = 3
   const formRef = useRef<HTMLFormElement>(null)

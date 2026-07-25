@@ -11,9 +11,10 @@ interface LandingClientProps {
       role?: string
     }
   } | null
+  whatsappNumber?: string | null
 }
 
-export function LandingClient({ session }: LandingClientProps) {
+export function LandingClient({ session, whatsappNumber }: LandingClientProps) {
   const getDashboardHref = () => {
     if (!session?.user?.role) return "/login"
     const role = session.user.role
@@ -283,7 +284,11 @@ export function LandingClient({ session }: LandingClientProps) {
             <div className="flex gap-xxl">
               <Link className="text-on-surface-variant hover:text-primary transition-colors" href="#">Instagram</Link>
               <Link className="text-on-surface-variant hover:text-primary transition-colors" href="#">Facebook</Link>
-              <Link className="text-on-surface-variant hover:text-primary transition-colors" href="#">WhatsApp</Link>
+              {whatsappNumber ? (
+                <a className="text-on-surface-variant hover:text-primary transition-colors" href={`https://wa.me/${whatsappNumber.replace(/\D/g, "")}`} target="_blank" rel="noopener noreferrer">WhatsApp</a>
+              ) : (
+                <span className="text-on-surface-variant/50">WhatsApp</span>
+              )}
             </div>
           </div>
         </div>

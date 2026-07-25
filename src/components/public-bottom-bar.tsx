@@ -2,13 +2,14 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Home, Bell, User } from "lucide-react"
+import { Home, Store, ShoppingBag, LayoutGrid } from "lucide-react"
 
 interface Props {
   isLoggedIn?: boolean
+  isSeller?: boolean
 }
 
-export function PublicBottomBar({ isLoggedIn }: Props) {
+export function PublicBottomBar({ isLoggedIn, isSeller }: Props) {
   const pathname = usePathname()
 
   const items = [
@@ -18,28 +19,36 @@ export function PublicBottomBar({ isLoggedIn }: Props) {
       icon: Home,
     },
     {
-      label: "Notifikasi",
-      href: isLoggedIn ? "/admin" : "/login",
-      icon: Bell,
+      label: "Katalog",
+      href: "/catalog",
+      icon: LayoutGrid,
     },
     {
-      label: "Saya",
+      label: isSeller ? "Dashboard" : "Daftar Jual",
+      href: isSeller ? "/seller" : "/register?role=seller",
+      icon: Store,
+      hideWhen: isLoggedIn && !isSeller,
+    },
+    {
+      label: "Pesanan",
       href: isLoggedIn ? "/pesanan-saya" : "/login",
-      icon: User,
+      icon: ShoppingBag,
     },
   ]
 
+  const visibleItems = items.filter((item) => !item.hideWhen)
+
   return (
     <nav className="lg:hidden fixed bottom-0 w-full z-50 bg-surface border-t border-outline-variant/30 shadow-[0_-4px_20px_rgba(0,0,0,0.08)] safe-area-bottom">
-      <div className="flex items-center justify-around mx-auto max-w-lg">
-        {items.map((item) => {
+      <div className="flex items-center justify-around mx-auto max-w-lg overflow-x-auto no-scrollbar">
+        {visibleItems.map((item) => {
           const Icon = item.icon
           const active = pathname === item.href
           return (
             <Link
               key={item.label}
               href={item.href}
-              className={`flex flex-col items-center justify-center gap-0.5 min-w-0 flex-1 h-16 px-1 transition-all ${
+              className={`flex flex-col items-center justify-center gap-0.5 min-w-0 flex-shrink-0 h-16 w-16 px-1 transition-all ${
                 active ? "text-primary" : "text-on-surface-variant hover:text-on-surface"
               }`}
             >
