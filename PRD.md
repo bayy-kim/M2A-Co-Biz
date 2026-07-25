@@ -19,7 +19,7 @@ Tujuan utama: memberi UMKM/penjual jasa kanal jualan resmi yang rapi, sekaligus 
 
 | Peran | Deskripsi singkat |
 |---|---|
-| **Buyer** (publik) | Browsing katalog, checkout, tidak wajib punya akun kalau tidak perlu riwayat pesanan |
+| **Buyer** (publik) | Browsing katalog, checkout (wajib login — buyer account registrasi instan), lihat riwayat pesanan di /pesanan-saya |
 | **Seller** (UMKM/Jasa) | Daftar → menunggu approval → kelola produk/jasa sendiri, lihat penjualan & payout |
 | **Admin** | Approve/reject/suspend seller, kelola kategori, kelola user, moderasi konten |
 | **Sekretaris** | Atur persentase komisi (global/kategori/per-seller), lihat analitik pemasukan-pengeluaran, kelola batch payout |

@@ -58,6 +58,7 @@ async function CatalogPage({ searchParams }: { searchParams: Promise<{ q?: strin
     if (role === "SEKRETARIS") return "/sekretaris"
     if (role === "KETUA") return "/ketua"
     if (role === "SELLER") return "/seller"
+    if (role === "BUYER") return "/pesanan-saya"
     return "/catalog"
   }
 

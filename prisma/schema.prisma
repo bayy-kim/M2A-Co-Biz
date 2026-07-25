@@ -82,6 +82,7 @@ model User {
   twoFactorSecret String?
   createdAt       DateTime  @default(now())
   sellerProfile   SellerProfile?
+  orders          Order[]
   accounts        Account[]
 }
 
@@ -170,6 +171,8 @@ model Order {
   id              String   @id @default(cuid())
   buyerName       String
   buyerPhone      String
+  buyerId         String?
+  buyer           User?    @relation(fields: [buyerId], references: [id])
   totalRupiah     Int
   paymentStatus   PaymentStatus @default(PENDING)
   xenditInvoiceId String?

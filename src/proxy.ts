@@ -6,9 +6,12 @@ const roleRoutes: Record<string, string[]> = {
   "/ketua": ["KETUA"],
   "/sekretaris": ["SEKRETARIS", "ADMIN"],
   "/seller": ["SELLER"],
+  "/pesanan-saya": ["BUYER", "SELLER", "ADMIN", "KETUA", "SEKRETARIS"],
   "/login": [],
   "/register": [],
 }
+
+const authRequiredPrefixes = ["/checkout"]
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default auth((req: any) => {
@@ -19,20 +22,21 @@ export default auth((req: any) => {
     pathname.startsWith(route)
   )
 
+  const needsAuth = authRequiredPrefixes.some((prefix) => pathname.startsWith(prefix))
+
+  if (needsAuth) {
+    if (!session?.user) {
+      const loginUrl = new URL("/login", req.url)
+      loginUrl.searchParams.set("callbackUrl", pathname)
+      return NextResponse.redirect(loginUrl)
+    }
+  }
+
   if (matchedRoute) {
     const allowedRoles = matchedRoute[1]
 
-    if (allowedRoles.length > 0) {
-      if (!session?.user) {
-        const loginUrl = new URL("/login", req.url)
-        loginUrl.searchParams.set("callbackUrl", pathname)
-        return NextResponse.redirect(loginUrl)
-      }
-
-      const userRole = session.user.role
-      if (!allowedRoles.includes(userRole)) {
-        return NextResponse.redirect(new URL("/", req.url))
-      }
+    if (allowedRoles.length > 0 && !allowedRoles.includes(session?.user?.role)) {
+      return NextResponse.redirect(new URL("/", req.url))
     }
   }
 

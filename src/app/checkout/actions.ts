@@ -9,24 +9,26 @@ const checkoutSchema = z.object({
   productId: z.string().min(1),
   buyerName: z.string().min(3, "Name must be at least 3 characters"),
   buyerPhone: z.string().min(8, "Invalid phone number"),
+  buyerId: z.string().optional(),
   qty: z.coerce.number().int().positive("Quantity must be at least 1"),
 })
 
 export async function createCheckout(formData: FormData) {
-  const rl = await checkRateLimit(`checkout:${formData.get("buyerPhone") as string || "anonymous"}`)
-  if (!rl.allowed) return { error: "Too many requests. Please try again later." }
-
   const raw = {
     productId: formData.get("productId") as string,
     buyerName: formData.get("buyerName") as string,
     buyerPhone: formData.get("buyerPhone") as string,
+    buyerId: (formData.get("buyerId") as string) || undefined,
     qty: formData.get("qty") as string,
   }
+
+  const rl = await checkRateLimit(`checkout:${raw.buyerPhone || "anonymous"}`)
+  if (!rl.allowed) return { error: "Too many requests. Please try again later." }
 
   const result = checkoutSchema.safeParse(raw)
   if (!result.success) return { error: "Please fix the form errors" }
 
-  const { productId, buyerName, buyerPhone, qty } = result.data
+  const { productId, buyerName, buyerPhone, buyerId, qty } = result.data
 
   const product = await prisma.product.findUnique({
     where: { id: productId },
@@ -49,6 +51,7 @@ export async function createCheckout(formData: FormData) {
     data: {
       buyerName,
       buyerPhone,
+      buyerId: buyerId || null,
       totalRupiah,
       items: {
         create: {

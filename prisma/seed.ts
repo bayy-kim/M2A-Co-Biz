@@ -91,6 +91,18 @@ async function main() {
     },
   })
 
+  const buyerUser = await prisma.user.upsert({
+    where: { email: "buyer@m2acobiz.com" },
+    update: {},
+    create: {
+      email: "buyer@m2acobiz.com",
+      name: "Rina Pembeli",
+      passwordHash: hash("buyer123"),
+      role: "BUYER",
+      phone: "081234567897",
+    },
+  })
+
   console.log("  ✓ Users created")
 
   // ── Seller Profiles ────────────────────────────────────
@@ -311,6 +323,7 @@ async function main() {
   console.log("Seller 1:   seller1@m2acobiz.com / seller123  (Asep Craft, APPROVED, w/ & w/o category)")
   console.log("Seller 2:   seller2@m2acobiz.com / seller123  (Budi Service, APPROVED)")
   console.log("Seller 3:   seller3@m2acobiz.com / seller123  (Citra Catering, PENDING)")
+  console.log("Buyer:      buyer@m2acobiz.com / buyer123      (Pembeli, can checkout & view orders)")
   console.log(`\nTOTP Secret for admin & sekretaris: ${totpSecret}`)
   console.log("(Scan with Google Authenticator or use `otplib` to generate codes)")
 }

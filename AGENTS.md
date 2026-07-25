@@ -66,8 +66,20 @@ M2A Co-Biz adalah platform marketplace + manajemen internal untuk UMKM dan penye
 - Scrollable tables on mobile (`overflow-x-auto`)
 - All admin placeholder tabs replaced with functional implementations
 
+### Phase 9 — Akun Pembeli & Checkout Wajib Login (100%)
+- **Schema**: Added `buyerId String?` + `buyer User?` relation to Order model + `orders Order[]` on User; migration SQL written as `20260725160000_add_buyer_id_to_order`
+- **Register page**: Added buyer/seller toggle at top — "Pembeli" (ShoppingBag icon) or "Penjual" (Store icon). Buyer registration is instant single-step form (name, email, phone, password, consent); creates user with role BUYER, no approval needed
+- **Buyer server action**: `registerBuyer()` — Zod validated, bcrypt hash, creates BUYER role user directly
+- **Proxy auth**: `/checkout` added to `authRequiredPrefixes` — redirects to login if unauthenticated (any role can access). `/pesanan-saya` added with `["BUYER", "SELLER", "ADMIN", "KETUA", "SEKRETARIS"]` allowed roles
+- **Checkout auth**: Checkout page fetches session; passes `buyerId`, `defaultName`, `defaultPhone` to CheckoutForm; if logged in, name/phone fields hidden and pre-filled via hidden inputs; server action writes `buyerId` to Order
+- **Pesanan Saya route** (`/pesanan-saya`): Full order history page — lists orders with status badges (PENDING=Clock/warning, PAID=CheckCircle/success, FAILED/EXPIRED=XCircle), order totals, buyer info, dates. Empty state with CTA to catalog
+- **Routing**: `getDashboardHref()` in landing page and catalog now handles BUYER → `/pesanan-saya`
+- **Public bottom bar**: "Saya" item now routes to `/pesanan-saya` when logged in
+- **Seed**: Added `buyer@m2acobiz.com / buyer123` (Rina Pembeli, BUYER role) to seed data
+- **PRD.md**: Updated Buyer description to reflect mandatory login checkout
+
 ## In Progress / TODO
-- **Seed data**: seed script ada untuk users, tapi kategori & produk belum di-seed (perlu perbaikan seed script)
+- **Seed data**: seed script ada untuk users, kategori & produk sudah di-seed, buyer account juga sudah
 - **Terms & Privacy pages**: masih placeholder, perlu diisi konten sesuai UU PDP
 - **Vercel Blob token**: `BLOB_READ_WRITE_TOKEN` sudah diisi di Vercel dashboard — upload dokumen berfungsi di production
 - `DATABASE_URL` env var di Vercel dashboard belum diset — build akan gagal jika tidak diisi
@@ -104,10 +116,11 @@ Next.js 16 App Router + TypeScript, Tailwind CSS v4 + shadcn/ui, Framer Motion, 
 /terms               (static)  Terms of Service (placeholder)
 /privacy             (static)  Privacy Policy (placeholder)
 /login               (static)  Login (NextAuth signIn)
-/register            (static)  Seller registration (server action)
+/register            (static)  Buyer & Seller registration (server action, toggle)
 /catalog             (dynamic) Product catalog (Prisma + search/filter/sort/pagination)
 /catalog/[id]        (dynamic) Product detail
 /checkout            (dynamic) Checkout + order creation
+/pesanan-saya        (dynamic) Buyer order history
 /admin               (dynamic) Admin dashboard (approval queue + categories/users/company tabs)
 /ketua               (dynamic) Ketua dashboard (read-only overview)
 /sekretaris          (dynamic) Sekretaris dashboard (commission + payouts)

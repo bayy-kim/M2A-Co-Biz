@@ -2,14 +2,25 @@
 
 import { useActionState } from "react"
 import { useRouter } from "next/navigation"
-import { CreditCard, Loader2, ArrowRight, User, Phone, Package } from "lucide-react"
+import { CreditCard, Loader2, ArrowRight, User, Phone, Package, CheckCircle } from "lucide-react"
 import { createCheckout } from "./actions"
 
-export function CheckoutForm({ productId }: { productId: string }) {
+export function CheckoutForm({
+  productId,
+  buyerId,
+  defaultName,
+  defaultPhone,
+}: {
+  productId: string
+  buyerId?: string
+  defaultName?: string
+  defaultPhone?: string
+}) {
   const router = useRouter()
 
   const checkout = async (_prev: unknown, formData: FormData) => {
     formData.set("productId", productId)
+    if (buyerId) formData.set("buyerId", buyerId)
     const result = await createCheckout(formData)
     if (result?.success) {
       router.push(`/checkout?orderId=${result.orderId}`)
@@ -21,21 +32,34 @@ export function CheckoutForm({ productId }: { productId: string }) {
 
   return (
     <form action={action} className="space-y-lg">
-      <div className="flex flex-col gap-xs">
-        <label className="text-label-md text-on-surface" htmlFor="buyerName">Full Name</label>
-        <div className="relative group">
-          <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-outline group-focus-within:text-primary transition-colors" />
-          <input className="w-full pl-10 pr-4 py-3 rounded-lg border border-outline-variant bg-surface-bright focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-body-md" id="buyerName" name="buyerName" placeholder="Your full name" required type="text" />
+      {defaultName && defaultPhone ? (
+        <div className="p-md bg-surface-container-low rounded-lg border border-outline-variant/30 flex items-start gap-3">
+          <CheckCircle className="w-5 h-5 text-success flex-shrink-0 mt-0.5" />
+          <div className="text-label-sm text-on-surface-variant">
+            Order as <span className="font-bold text-on-surface">{defaultName}</span> ({defaultPhone}).
+            <input type="hidden" name="buyerName" value={defaultName} />
+            <input type="hidden" name="buyerPhone" value={defaultPhone} />
+          </div>
         </div>
-      </div>
+      ) : (
+        <>
+          <div className="flex flex-col gap-xs">
+            <label className="text-label-md text-on-surface" htmlFor="buyerName">Full Name</label>
+            <div className="relative group">
+              <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-outline group-focus-within:text-primary transition-colors" />
+              <input className="w-full pl-10 pr-4 py-3 rounded-lg border border-outline-variant bg-surface-bright focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-body-md" id="buyerName" name="buyerName" placeholder="Your full name" required type="text" />
+            </div>
+          </div>
 
-      <div className="flex flex-col gap-xs">
-        <label className="text-label-md text-on-surface" htmlFor="buyerPhone">Phone Number</label>
-        <div className="relative group">
-          <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-outline group-focus-within:text-primary transition-colors" />
-          <input className="w-full pl-10 pr-4 py-3 rounded-lg border border-outline-variant bg-surface-bright focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-body-md" id="buyerPhone" name="buyerPhone" placeholder="+62 812 XXXX XXXX" required type="tel" />
-        </div>
-      </div>
+          <div className="flex flex-col gap-xs">
+            <label className="text-label-md text-on-surface" htmlFor="buyerPhone">Phone Number</label>
+            <div className="relative group">
+              <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-outline group-focus-within:text-primary transition-colors" />
+              <input className="w-full pl-10 pr-4 py-3 rounded-lg border border-outline-variant bg-surface-bright focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-body-md" id="buyerPhone" name="buyerPhone" placeholder="+62 812 XXXX XXXX" required type="tel" />
+            </div>
+          </div>
+        </>
+      )}
 
       <div className="flex flex-col gap-xs">
         <label className="text-label-md text-on-surface" htmlFor="qty">Quantity</label>

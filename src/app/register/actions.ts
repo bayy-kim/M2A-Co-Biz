@@ -129,3 +129,50 @@ export async function register(prevState: RegisterState, formData: FormData): Pr
 
   return { message: "Registration submitted successfully! Redirecting..." }
 }
+
+const buyerRegisterSchema = z.object({
+  fullName: z.string().min(1, "Name is required"),
+  email: z.string().email("Invalid email address"),
+  phone: z.string().min(8, "Invalid phone number"),
+  password: z.string().min(8, "Password must be at least 8 characters"),
+  consent: z.string().refine((v) => v === "on", "You must agree to the terms"),
+})
+
+export async function registerBuyer(
+  prevState: RegisterState,
+  formData: FormData,
+): Promise<RegisterState> {
+  const raw = {
+    fullName: formData.get("fullName") as string,
+    email: formData.get("email") as string,
+    phone: formData.get("phone") as string,
+    password: formData.get("password") as string,
+    consent: formData.get("consent") as string,
+  }
+
+  const result = buyerRegisterSchema.safeParse(raw)
+  if (!result.success) {
+    return { errors: result.error.flatten().fieldErrors, message: "Please fix the errors above." }
+  }
+
+  const data = result.data
+
+  const existing = await prisma.user.findUnique({ where: { email: data.email } })
+  if (existing) {
+    return { errors: { email: ["Email is already registered"] }, message: "Email already in use." }
+  }
+
+  const hashed = await bcrypt.hash(data.password, 12)
+
+  await prisma.user.create({
+    data: {
+      role: "BUYER",
+      email: data.email,
+      passwordHash: hashed,
+      name: data.fullName,
+      phone: data.phone,
+    },
+  })
+
+  return { message: "Registration submitted successfully! Redirecting..." }
+}

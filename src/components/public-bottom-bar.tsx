@@ -24,7 +24,7 @@ export function PublicBottomBar({ isLoggedIn }: Props) {
     },
     {
       label: "Saya",
-      href: isLoggedIn ? "/admin" : "/login",
+      href: isLoggedIn ? "/pesanan-saya" : "/login",
       icon: User,
     },
   ]

@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation"
 import Link from "next/link"
+import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/db"
 import { formatRupiah } from "@/lib/utils"
 import { ShoppingBag, ArrowLeft, ChevronRight, QrCode } from "lucide-react"
@@ -10,7 +11,7 @@ async function CheckoutPage({
 }: {
   searchParams: Promise<{ productId?: string; orderId?: string }>
 }) {
-  const params = await searchParams
+  const [params, session] = await Promise.all([searchParams, auth()])
 
   if (params.orderId) {
     const [order, company] = await Promise.all([
@@ -92,6 +93,13 @@ async function CheckoutPage({
 
   if (!params.productId) redirect("/catalog")
 
+  const userInfo = session?.user?.id
+    ? await prisma.user.findUnique({
+        where: { id: session.user.id },
+        select: { name: true, phone: true },
+      })
+    : null
+
   const product = await prisma.product.findUnique({
     where: { id: params.productId },
     include: { seller: { select: { businessName: true } } },
@@ -137,7 +145,12 @@ async function CheckoutPage({
           </div>
 
           <div className="p-lg">
-            <CheckoutForm productId={product.id} />
+            <CheckoutForm
+              productId={product.id}
+              buyerId={session?.user?.id}
+              defaultName={userInfo?.name ?? ""}
+              defaultPhone={userInfo?.phone ?? ""}
+            />
           </div>
         </div>
       </main>
