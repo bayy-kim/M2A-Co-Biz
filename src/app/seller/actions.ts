@@ -5,6 +5,10 @@ import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/db"
 import type { ProductStatus } from "@prisma/client"
 import { z } from "zod"
+import { put } from "@vercel/blob"
+
+const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp"]
+const MAX_FILE_SIZE = 5 * 1024 * 1024
 
 const productSchema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters"),
@@ -14,6 +18,17 @@ const productSchema = z.object({
 })
 
 type ProductState = { error?: string | Record<string, string[]>; success?: boolean } | null
+
+async function uploadImage(file: File, sellerId: string): Promise<string> {
+  const buffer = Buffer.from(await file.arrayBuffer())
+  const uniqueName = `product-${sellerId}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`
+  const blob = await put(uniqueName, buffer, {
+    access: "public",
+    contentType: file.type,
+    addRandomSuffix: false,
+  })
+  return blob.url
+}
 
 export async function createProduct(prevState: ProductState, formData: FormData): Promise<ProductState> {
   const session = await auth()
@@ -35,6 +50,17 @@ export async function createProduct(prevState: ProductState, formData: FormData)
     const result = productSchema.safeParse(raw)
     if (!result.success) return { error: "Harap perbaiki kesalahan form" }
 
+    const imageFiles = formData.getAll("images") as File[]
+    const imageUrls: string[] = []
+    for (const file of imageFiles) {
+      if (file && file.size > 0) {
+        if (!ACCEPTED_IMAGE_TYPES.includes(file.type)) continue
+        if (file.size > MAX_FILE_SIZE) continue
+        const url = await uploadImage(file, seller.id)
+        imageUrls.push(url)
+      }
+    }
+
     await prisma.product.create({
       data: {
         sellerId: seller.id,
@@ -42,7 +68,7 @@ export async function createProduct(prevState: ProductState, formData: FormData)
         description: result.data.description,
         priceRupiah: result.data.priceRupiah,
         categoryId: result.data.categoryId || undefined,
-        images: [],
+        images: imageUrls,
       },
     })
 

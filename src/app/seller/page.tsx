@@ -58,6 +58,13 @@ async function SellerDashboard({ searchParams }: { searchParams: Promise<{ tab?:
     orderBy: { createdAt: "desc" },
   })
 
+  const salesItems = await prisma.orderItem.findMany({
+    where: { sellerId: seller.id, order: { paymentStatus: "PAID" } },
+    include: { order: { select: { buyerName: true, createdAt: true } } },
+    orderBy: { order: { createdAt: "desc" } },
+    take: 50,
+  })
+
   const statusBadge = {
     PENDING: { icon: Clock, class: "bg-warning/10 text-warning", label: "Ditinjau" },
     APPROVED: { icon: CheckCircle2, class: "bg-success/10 text-success", label: "Aktif" },
@@ -237,7 +244,55 @@ async function SellerDashboard({ searchParams }: { searchParams: Promise<{ tab?:
         </div>
       )}
 
-      {tab === "sales" && <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 p-lg"><h3 className="text-headline-md text-on-surface font-bold mb-lg">Riwayat Penjualan</h3><p className="text-body-md text-on-surface-variant">Segera hadir: rincian penjualan lengkap dengan perhitungan komisi.</p></div>}
+      {tab === "sales" && (
+        <div className="space-y-lg">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-lg">
+            <div className="bg-surface-container-lowest rounded-xl p-lg border border-outline-variant/30">
+              <p className="text-label-sm text-on-surface-variant">Total Penjualan</p>
+              <p className="text-display-md font-bold text-on-surface">{salesItems.reduce((s, i) => s + i.priceRupiah * i.qty, 0).toLocaleString("id-ID")}</p>
+            </div>
+            <div className="bg-surface-container-lowest rounded-xl p-lg border border-outline-variant/30">
+              <p className="text-label-sm text-on-surface-variant">Total Komisi</p>
+              <p className="text-display-md font-bold text-on-surface">{salesItems.reduce((s, i) => s + i.commissionRupiah, 0).toLocaleString("id-ID")}</p>
+            </div>
+            <div className="bg-surface-container-lowest rounded-xl p-lg border border-outline-variant/30">
+              <p className="text-label-sm text-on-surface-variant">Pendapatan Bersih</p>
+              <p className="text-display-md font-bold text-on-surface">{formatRupiah(salesItems.reduce((s, i) => s + i.sellerNetRupiah, 0))}</p>
+            </div>
+          </div>
+          <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 overflow-hidden">
+            <div className="p-lg border-b border-outline-variant/30"><h3 className="text-headline-md text-on-surface font-bold">Riwayat Penjualan</h3></div>
+            {salesItems.length === 0 ? (
+              <div className="p-lg text-center text-on-surface-variant text-body-md py-xl">Belum ada penjualan.</div>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="w-full text-left">
+                  <thead>
+                    <tr className="text-label-sm text-on-surface-variant border-b border-outline-variant/30">
+                      <th className="px-lg py-3 font-medium">Pembeli</th>
+                      <th className="px-lg py-3 font-medium">Total</th>
+                      <th className="px-lg py-3 font-medium">Komisi</th>
+                      <th className="px-lg py-3 font-medium">Bersih</th>
+                      <th className="px-lg py-3 font-medium">Tanggal</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {salesItems.map((item) => (
+                      <tr key={item.id} className="border-b border-outline-variant/20 hover:bg-surface-container-low transition-colors">
+                        <td className="px-lg py-3 text-label-md text-on-surface">{item.order.buyerName}</td>
+                        <td className="px-lg py-3 text-label-md text-on-surface">{formatRupiah(item.priceRupiah * item.qty)}</td>
+                        <td className="px-lg py-3 text-label-sm text-on-surface-variant">{formatRupiah(item.commissionRupiah)} ({Number(item.commissionPercent)}%)</td>
+                        <td className="px-lg py-3 text-label-md text-on-surface font-bold">{formatRupiah(item.sellerNetRupiah)}</td>
+                        <td className="px-lg py-3 text-label-sm text-on-surface-variant">{item.order.createdAt.toLocaleDateString()}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
       {tab === "payouts" && (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-lg">
           <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 p-lg">

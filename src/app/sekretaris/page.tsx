@@ -22,10 +22,13 @@ async function SekretarisDashboard({ searchParams }: { searchParams: Promise<{ t
   const session = await auth()
   if (!session?.user || (session.user.role !== "SEKRETARIS" && session.user.role !== "ADMIN")) redirect("/")
 
-  const params = await searchParams
+  const params = await searchParams as Record<string, string | undefined>
   const tab = params.tab || "overview"
+  const ledgerPage = Math.max(1, parseInt(params.ledgerPage || "1"))
+  const ledgerPerPage = 20
+  const ledgerSkip = (ledgerPage - 1) * ledgerPerPage
 
-  const [totalRevenue, totalCommission, pendingPayouts, globalRule, categoryRules, sellerRules, allSellers, pendingPayoutsList, pendingPaymentsList, ledgerEntries, commissionBySeller] = await Promise.all([
+  const [totalRevenue, totalCommission, pendingPayouts, globalRule, categoryRules, sellerRules, allSellers, pendingPayoutsList, pendingPaymentsList, ledgerEntries, ledgerTotal, commissionBySeller] = await Promise.all([
     prisma.ledgerEntry.aggregate({ where: { type: "IN" }, _sum: { amountRupiah: true } }),
     prisma.ledgerEntry.aggregate({ where: { type: "OUT" }, _sum: { amountRupiah: true } }),
     prisma.payout.aggregate({ where: { status: "PENDING" }, _sum: { amountRupiah: true }, _count: true }),
@@ -39,7 +42,8 @@ async function SekretarisDashboard({ searchParams }: { searchParams: Promise<{ t
       include: { items: true },
       orderBy: { createdAt: "asc" },
     }),
-    prisma.ledgerEntry.findMany({ take: 20, orderBy: { createdAt: "desc" } }),
+    prisma.ledgerEntry.findMany({ skip: ledgerSkip, take: ledgerPerPage, orderBy: { createdAt: "desc" } }),
+    prisma.ledgerEntry.count(),
     prisma.orderItem.groupBy({
       by: ["sellerId"],
       _sum: { commissionRupiah: true },
@@ -47,6 +51,7 @@ async function SekretarisDashboard({ searchParams }: { searchParams: Promise<{ t
       take: 6,
     }),
   ])
+  const ledgerTotalPages = Math.ceil(ledgerTotal / ledgerPerPage)
 
   const sellerMap = new Map(allSellers.map((s) => [s.id, s.businessName]))
 
@@ -334,8 +339,9 @@ async function SekretarisDashboard({ searchParams }: { searchParams: Promise<{ t
 
       {tab === "ledger" && (
         <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 overflow-hidden">
-          <div className="p-lg border-b border-outline-variant/30">
+          <div className="p-lg border-b border-outline-variant/30 flex items-center justify-between">
             <h3 className="text-headline-md text-on-surface font-bold">Buku Besar</h3>
+            <span className="text-label-sm text-on-surface-variant">{ledgerTotal} entri</span>
           </div>
           {ledgerEntries.length === 0 ? (
             <div className="p-lg text-center text-on-surface-variant text-body-md">Belum ada entri.</div>
@@ -365,6 +371,19 @@ async function SekretarisDashboard({ searchParams }: { searchParams: Promise<{ t
                   ))}
                 </tbody>
               </table>
+            </div>
+          )}
+          {ledgerTotalPages > 1 && (
+            <div className="p-lg border-t border-outline-variant/30 flex items-center justify-between">
+              <span className="text-label-sm text-on-surface-variant">Halaman {ledgerPage} dari {ledgerTotalPages}</span>
+              <div className="flex gap-2">
+                {ledgerPage > 1 && (
+                  <a href={`/sekretaris?tab=ledger&ledgerPage=${ledgerPage - 1}`} className="px-md py-2 rounded-lg border border-outline-variant text-label-md text-on-surface hover:bg-surface-container transition-colors">Sebelumnya</a>
+                )}
+                {ledgerPage < ledgerTotalPages && (
+                  <a href={`/sekretaris?tab=ledger&ledgerPage=${ledgerPage + 1}`} className="px-md py-2 rounded-lg bg-primary text-on-primary text-label-md hover:opacity-90 transition-opacity">Selanjutnya</a>
+                )}
+              </div>
             </div>
           )}
         </div>

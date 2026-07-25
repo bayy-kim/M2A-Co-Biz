@@ -25,6 +25,14 @@ export async function resolveCommission(
     if (categoryRule) {
       return { percent: Number(categoryRule.percent), scope: "CATEGORY" }
     }
+
+    const category = await prisma.category.findUnique({
+      where: { id: categoryId },
+      select: { defaultCommissionPercent: true },
+    })
+    if (category && Number(category.defaultCommissionPercent) > 0) {
+      return { percent: Number(category.defaultCommissionPercent), scope: "CATEGORY" }
+    }
   }
 
   const globalRule = await prisma.commissionRule.findFirst({

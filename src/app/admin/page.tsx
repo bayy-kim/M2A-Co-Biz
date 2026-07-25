@@ -246,7 +246,7 @@ async function AdminDashboard({ searchParams }: { searchParams: Promise<{ tab?: 
 
       {tab === "categories" && <AdminCategoriesTab />}
 
-      {tab === "users" && <AdminUsersTab />}
+      {tab === "users" && <AdminUsersTab searchParams={searchParams} />}
 
       {tab === "company" && <AdminCompanyTab />}
 

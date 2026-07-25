@@ -1,7 +1,7 @@
 "use client"
 
-import { useActionState, useState } from "react"
-import { Plus, Loader2, Lightbulb } from "lucide-react"
+import { useActionState, useState, useRef } from "react"
+import { Plus, Loader2, Lightbulb, Upload, X } from "lucide-react"
 import { createProduct, proposeCategory } from "./actions"
 
 interface CategoryOption {
@@ -13,6 +13,19 @@ export function NewProductForm({ categories = [] }: { categories?: CategoryOptio
   const [state, action, pending] = useActionState(createProduct, null)
   const [showPropose, setShowPropose] = useState(false)
   const [proposeState, proposeAction, proposePending] = useActionState(proposeCategory, null)
+  const [previews, setPreviews] = useState<string[]>([])
+  const fileRef = useRef<HTMLInputElement>(null)
+
+  const handleFiles = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || [])
+    const urls = files.map((f) => URL.createObjectURL(f))
+    setPreviews((prev) => [...prev, ...urls].slice(0, 5))
+  }
+
+  const removePreview = (idx: number) => {
+    setPreviews((prev) => prev.filter((_, i) => i !== idx))
+    if (fileRef.current) fileRef.current.value = ""
+  }
 
   return (
     <form action={action} className="grid grid-cols-1 md:grid-cols-2 gap-lg">
@@ -23,6 +36,24 @@ export function NewProductForm({ categories = [] }: { categories?: CategoryOptio
       <div className="flex flex-col gap-xs md:col-span-2">
         <label className="text-label-md text-on-surface" htmlFor="description">Deskripsi</label>
         <textarea className="rounded-lg border-outline-variant focus:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" id="description" name="description" placeholder="Deskripsikan produk Anda..." required rows={3} />
+      </div>
+      <div className="md:col-span-2">
+        <label className="text-label-md text-on-surface block mb-xs">Gambar Produk</label>
+        <div className="flex flex-wrap gap-3 items-start">
+          <label className="flex flex-col items-center justify-center w-24 h-24 border-2 border-dashed border-outline-variant rounded-xl hover:border-primary hover:bg-primary/5 transition-all cursor-pointer">
+            <Upload className="w-5 h-5 text-on-surface-variant" />
+            <span className="text-label-sm text-on-surface-variant mt-1">Upload</span>
+            <input ref={fileRef} className="hidden" name="images" type="file" accept="image/jpeg,image/png,image/webp" multiple onChange={handleFiles} />
+          </label>
+          {previews.map((url, i) => (
+            <div key={i} className="relative w-24 h-24 rounded-xl overflow-hidden border border-outline-variant group">
+              <img src={url} alt="" className="w-full h-full object-cover" />
+              <button type="button" onClick={() => removePreview(i)} className="absolute top-0.5 right-0.5 w-5 h-5 rounded-full bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                <X className="w-3 h-3 text-white" />
+              </button>
+            </div>
+          ))}
+        </div>
       </div>
       <div className="flex flex-col gap-xs">
         <label className="text-label-md text-on-surface" htmlFor="priceRupiah">Harga (Rupiah)</label>

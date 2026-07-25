@@ -34,6 +34,7 @@ const registerSchema = z.object({
 export type RegisterState = {
   errors?: Record<string, string[]>
   message?: string
+  success?: boolean
 }
 
 async function uploadAndEncrypt(file: File, prefix: string): Promise<{ encryptedBlobUrl: string } | null> {
@@ -137,7 +138,7 @@ export async function register(prevState: RegisterState, formData: FormData): Pr
     return { message }
   }
 
-  return { message: "Akun berhasil dibuat! Mengarahkan..." }
+  return { success: true, message: "Akun berhasil dibuat! Mengarahkan..." }
 }
 
 const buyerRegisterSchema = z.object({
@@ -191,5 +192,5 @@ export async function registerBuyer(
     return { message: e instanceof Error ? e.message : "Gagal mendaftar" }
   }
 
-  return { message: "Pendaftaran berhasil! Mengarahkan..." }
+  return { success: true, message: "Pendaftaran berhasil! Mengarahkan..." }
 }

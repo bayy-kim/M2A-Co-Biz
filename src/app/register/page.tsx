@@ -38,7 +38,7 @@ function RegisterContent() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-              if (state.message === "Registration submitted successfully! Redirecting..." || state.message === "Akun berhasil dibuat! Mengarahkan...") {
+    if (state.success) {
       router.push("/login")
       return
     }
@@ -78,7 +78,7 @@ function RegisterContent() {
 
       <main className="flex-grow pt-24 pb-12 px-gutter flex justify-center items-start">
         <div className="w-full max-w-4xl">
-              {(state.message === "Registration submitted successfully! Redirecting..." || state.message === "Akun berhasil dibuat! Mengarahkan...") ? (
+              {state.success ? (
             <div className="flex flex-col items-center justify-center py-xxl">
               <div className="w-20 h-20 rounded-full bg-success/10 flex items-center justify-center mb-xl">
                 <Check className="w-10 h-10 text-success" />
@@ -124,7 +124,7 @@ function RegisterContent() {
                 </button>
               </div>
 
-              {state.message && state.message !== "Registration submitted successfully! Redirecting..." && state.message !== "Akun berhasil dibuat! Mengarahkan..." && (
+              {state.message && !state.success && (
                 <div className="mb-lg p-lg bg-error-container text-on-error-container rounded-lg text-label-md">
                   {state.message}
                 </div>

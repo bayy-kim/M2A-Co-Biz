@@ -2,11 +2,22 @@ import { prisma } from "@/lib/db"
 import { Shield, User, Store } from "lucide-react"
 import { ToggleUserStatusButton } from "./user-actions"
 
-export async function AdminUsersTab() {
-  const users = await prisma.user.findMany({
-    include: { sellerProfile: { select: { businessName: true, status: true } } },
-    orderBy: { createdAt: "desc" },
-  })
+export async function AdminUsersTab({ searchParams }: { searchParams:  Promise<Record<string, string | undefined>> }) {
+  const params = await searchParams
+  const page = Math.max(1, parseInt(params.page || "1"))
+  const perPage = 20
+  const skip = (page - 1) * perPage
+
+  const [users, totalUsers] = await Promise.all([
+    prisma.user.findMany({
+      include: { sellerProfile: { select: { businessName: true, status: true } } },
+      orderBy: { createdAt: "desc" },
+      skip,
+      take: perPage,
+    }),
+    prisma.user.count(),
+  ])
+  const totalPages = Math.ceil(totalUsers / perPage)
 
   const roleIcon = (role: string) => {
     switch (role) {
@@ -20,7 +31,7 @@ export async function AdminUsersTab() {
     <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 overflow-hidden">
       <div className="p-lg border-b border-outline-variant/30">
         <h3 className="text-headline-md text-on-surface font-bold">Manajemen Pengguna</h3>
-        <p className="text-label-sm text-on-surface-variant mt-1">{users.length} total pengguna</p>
+        <p className="text-label-sm text-on-surface-variant mt-1">{totalUsers} total pengguna</p>
       </div>
       <div className="overflow-x-auto">
         <table className="w-full text-left">
@@ -77,6 +88,15 @@ export async function AdminUsersTab() {
           </tbody>
         </table>
       </div>
+      {totalPages > 1 && (
+        <div className="p-lg border-t border-outline-variant/30 flex items-center justify-between">
+          <span className="text-label-sm text-on-surface-variant">Halaman {page} dari {totalPages}</span>
+          <div className="flex gap-2">
+            {page > 1 && <a href={`/admin?tab=users&page=${page - 1}`} className="px-md py-2 rounded-lg border border-outline-variant text-label-md text-on-surface hover:bg-surface-container transition-colors">Sebelumnya</a>}
+            {page < totalPages && <a href={`/admin?tab=users&page=${page + 1}`} className="px-md py-2 rounded-lg bg-primary text-on-primary text-label-md hover:opacity-90 transition-opacity">Selanjutnya</a>}
+          </div>
+        </div>
+      )}
     </div>
   )
 }
