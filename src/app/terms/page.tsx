@@ -10,6 +10,7 @@ export default function TermsPage() {
             <FileText className="w-6 h-6 text-primary" />
           </div>
           <h1 className="text-display-md text-primary font-bold">Ketentuan Layanan</h1>
+        </div>
 
         <div className="space-y-lg text-body-md text-on-surface-variant leading-relaxed">
           <section>
