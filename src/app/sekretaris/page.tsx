@@ -4,6 +4,7 @@ import { prisma } from "@/lib/db"
 import { formatRupiah } from "@/lib/utils"
 import { TrendingUp, TrendingDown, Wallet, Percent, ChevronRight } from "lucide-react"
 import { FinanceBarChart } from "@/components/bar-chart"
+import { RevenuePieChart } from "@/components/pie-chart"
 import Link from "next/link"
 import { CommissionRuleForm } from "./commission-form"
 import { PayoutAction } from "./payout-action"
@@ -28,7 +29,7 @@ async function SekretarisDashboard({
   const params = await searchParams
   const tab = params.tab || "overview"
 
-  const [totalRevenue, totalCommission, pendingPayouts, globalRule, categoryRules, sellerRules, allSellers, pendingPayoutsList, pendingPaymentsList, ledgerEntries] = await Promise.all([
+  const [totalRevenue, totalCommission, pendingPayouts, globalRule, categoryRules, sellerRules, allSellers, pendingPayoutsList, pendingPaymentsList, ledgerEntries, commissionBySeller] = await Promise.all([
     prisma.ledgerEntry.aggregate({ where: { type: "IN" }, _sum: { amountRupiah: true } }),
     prisma.ledgerEntry.aggregate({ where: { type: "OUT" }, _sum: { amountRupiah: true } }),
     prisma.payout.aggregate({ where: { status: "PENDING" }, _sum: { amountRupiah: true }, _count: true }),
@@ -43,6 +44,12 @@ async function SekretarisDashboard({
       orderBy: { createdAt: "asc" },
     }),
     prisma.ledgerEntry.findMany({ take: 20, orderBy: { createdAt: "desc" } }),
+    prisma.orderItem.groupBy({
+      by: ["sellerId"],
+      _sum: { commissionRupiah: true },
+      orderBy: { _sum: { commissionRupiah: "desc" } },
+      take: 6,
+    }),
   ])
 
   const sellerMap = new Map(allSellers.map((s) => [s.id, s.businessName]))
@@ -149,9 +156,20 @@ async function SekretarisDashboard({
                 </div>
               </div>
 
-              <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 p-lg">
-                <h3 className="text-headline-md text-on-surface font-bold mb-lg">Revenue vs Commission</h3>
-                <FinanceBarChart data={[{ label: "All Time", revenue: totalIn, commission: totalOut }]} />
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-lg">
+                <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 p-lg">
+                  <h3 className="text-headline-md text-on-surface font-bold mb-lg">Revenue vs Commission</h3>
+                  <FinanceBarChart data={[{ label: "All Time", revenue: totalIn, commission: totalOut }]} />
+                </div>
+                <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 p-lg">
+                  <RevenuePieChart
+                    data={commissionBySeller.map((c) => ({
+                      name: sellerMap.get(c.sellerId) || c.sellerId.slice(0, 8),
+                      value: c._sum.commissionRupiah || 0,
+                    }))}
+                    title="Commission by Seller"
+                  />
+                </div>
               </div>
 
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-lg">

@@ -27,7 +27,7 @@ const registerSchema = z.object({
   ktp: fileSchema,
   kartuKeluarga: fileSchema,
   izinUsaha: fileSchema,
-  consent: z.string().refine((v) => v === "on", "You must agree to the terms"),
+  consent: z.string().refine((v) => v === "on", "Anda harus menyetujui ketentuan"),
 })
 
 export type RegisterState = {

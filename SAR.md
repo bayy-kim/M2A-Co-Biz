@@ -9,7 +9,7 @@ Dokumen ini adalah rujukan teknis. Semua keputusan arsitektur di sini bersifat w
 
 | Layer | Pilihan | Alasan |
 |---|---|---|
-| Framework | Next.js 15 (App Router) + TypeScript | SSR untuk SEO landing/katalog, server actions untuk mutasi data |
+| Framework | Next.js 16 (App Router) + TypeScript | SSR untuk SEO landing/katalog, server actions untuk mutasi data |
 | Styling | Tailwind CSS v4 + shadcn/ui | Konsisten dengan project lain, komponen aksesibel by default |
 | Animasi | Framer Motion | Scroll-reveal landing page, transisi dashboard |
 | Database | PostgreSQL (Neon) | Relasi kompleks + transaksi ACID untuk data keuangan |

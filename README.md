@@ -10,7 +10,7 @@ Dokumen lengkap:
 
 ## Tech Stack
 
-Next.js 15 (App Router) + TypeScript · Tailwind CSS v4 + shadcn/ui · Framer Motion · Prisma + PostgreSQL (Neon) · NextAuth v5 · Xendit (payment & disbursement) · Vercel Blob · Recharts · Vercel
+Next.js 16 (App Router) + TypeScript · Tailwind CSS v4 + shadcn/ui · Framer Motion · Prisma + PostgreSQL (Neon) · NextAuth v5 · Xendit (payment & disbursement) · Vercel Blob · Recharts · Vercel
 
 ## Setup Lokal
 

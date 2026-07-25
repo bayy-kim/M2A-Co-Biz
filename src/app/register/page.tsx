@@ -73,7 +73,7 @@ export default function RegisterPage() {
                           {s < step ? <Check className="w-[18px] h-[18px]" /> : s}
                         </div>
                         <span className={`text-label-sm ${s <= step ? "text-primary font-bold" : "text-on-surface-variant"}`}>
-                          {s === 1 ? "Information" : s === 2 ? "Documents" : "Consent"}
+                          {s === 1 ? "Informasi" : s === 2 ? "Dokumen" : "Persetujuan"}
                         </span>
                       </div>
                       {s < totalSteps && (
@@ -173,16 +173,16 @@ export default function RegisterPage() {
 
                 <section className={step !== 3 ? "hidden" : ""}>
                   <div className="mb-xl">
-                    <h2 className="text-headline-lg text-primary mb-2">Final Consent</h2>
-                    <p className="text-on-surface-variant text-body-md">Review our terms and provide consent to finalize your seller registration.</p>
+                    <h2 className="text-headline-lg text-primary mb-2">Persetujuan Akhir</h2>
+                    <p className="text-on-surface-variant text-body-md">Tinjau ketentuan kami dan berikan persetujuan untuk menyelesaikan pendaftaran penjual.</p>
                   </div>
                   <div className="space-y-lg">
                     <div className="p-lg bg-surface-container rounded-xl">
-                      <h3 className="text-headline-md text-on-surface mb-lg">Data Privacy Agreement</h3>
+                      <h3 className="text-headline-md text-on-surface mb-lg">Perjanjian Privasi Data</h3>
                       <div className="max-h-48 overflow-y-auto text-label-md text-on-surface-variant pr-lg">
-                        <p className="mb-4">M2A Co-Biz is committed to protecting your personal data. By proceeding, you agree that we may collect, store, and process your business information solely for the purposes of managing the seller hub and providing financial community services.</p>
-                        <p className="mb-4">We do not share your sensitive data with third-party marketers. All document uploads are encrypted and stored in secure cloud environments compliant with regional privacy standards.</p>
-                        <p>Your shop information will be visible to community members within the M2A ecosystem to facilitate transactions and business networking.</p>
+                        <p className="mb-4">M2A Co-Biz berkomitmen melindungi data pribadi Anda. Dengan melanjutkan, Anda menyetujui bahwa kami dapat mengumpulkan, menyimpan, dan memproses informasi bisnis Anda semata-mata untuk tujuan mengelola hub penjual dan menyediakan layanan komunitas keuangan.</p>
+                        <p className="mb-4">Kami tidak membagikan data sensitif Anda kepada pemasar pihak ketiga. Semua unggahan dokumen dienkripsi dan disimpan di lingkungan cloud aman yang sesuai dengan standar privasi regional.</p>
+                        <p>Informasi toko Anda akan terlihat oleh anggota komunitas dalam ekosistem M2A untuk memfasilitasi transaksi dan jaringan bisnis.</p>
                       </div>
                     </div>
                     <div className="flex items-start gap-md pt-4">
@@ -190,7 +190,7 @@ export default function RegisterPage() {
                         <input className="h-5 w-5 rounded border-outline text-primary focus:ring-primary cursor-pointer transition-all" id="consent" name="consent" type="checkbox" />
                       </div>
                       <div className="text-body-md">
-                        <label className="font-medium text-on-surface" htmlFor="consent">I hereby declare that all information provided is true and I agree to the{" "}<a className="text-primary underline" href="#">Terms of Service</a>{" "}and{" "}<a className="text-primary underline" href="#">Privacy Policy</a>.</label>
+                        <label className="font-medium text-on-surface" htmlFor="consent">Dengan ini saya menyatakan bahwa semua informasi yang diberikan adalah benar dan saya menyetujui{" "}<a className="text-primary underline" href="/terms">Ketentuan Layanan</a>{" "}dan{" "}<a className="text-primary underline" href="/privacy">Kebijakan Privasi</a>.</label>
                       </div>
                     </div>
                     {state.errors?.consent && <span className="text-error text-label-sm ml-xl">{state.errors.consent[0]}</span>}
