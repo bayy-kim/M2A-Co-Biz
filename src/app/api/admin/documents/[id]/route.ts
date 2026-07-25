@@ -30,9 +30,7 @@ export async function GET(
   })
 
   try {
-    const resp = await fetch(doc.encryptedBlobUrl, {
-      headers: { Authorization: `Bearer ${process.env.BLOB_READ_WRITE_TOKEN}` },
-    })
+    const resp = await fetch(doc.encryptedBlobUrl)
     if (!resp.ok) return new NextResponse("Failed to fetch document", { status: 500 })
 
     const encryptedText = await resp.text()

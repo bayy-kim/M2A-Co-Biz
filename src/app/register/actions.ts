@@ -52,7 +52,7 @@ async function uploadAndEncrypt(file: File, prefix: string): Promise<{ encrypted
 
   const uniqueName = `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}.enc`
   const blob = await put(uniqueName, encrypted, {
-    access: "private",
+    access: "public",
     contentType: "text/plain",
     addRandomSuffix: false,
   })
