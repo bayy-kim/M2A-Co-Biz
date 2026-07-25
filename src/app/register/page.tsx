@@ -352,6 +352,5 @@ function RegisterContent() {
       </main>
     </div>
   )
-}
 
 }
