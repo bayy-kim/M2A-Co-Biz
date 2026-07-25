@@ -5,6 +5,7 @@ import { PrismaAdapter } from "@auth/prisma-adapter"
 import bcrypt from "bcryptjs"
 import { authenticator } from "otplib"
 import { prisma } from "./db"
+import { checkRateLimit } from "./rate-limit"
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -27,6 +28,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) return null
+
+        const rl = await checkRateLimit(`login:${credentials.email}`)
+        if (!rl.allowed) return null
 
         const user = await prisma.user.findUnique({
           where: { email: credentials.email as string },

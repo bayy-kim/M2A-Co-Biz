@@ -3,6 +3,7 @@
 import { prisma } from "@/lib/db"
 import { z } from "zod"
 import { resolveCommission } from "@/lib/commission-engine"
+import { checkRateLimit } from "@/lib/rate-limit"
 
 const checkoutSchema = z.object({
   productId: z.string().min(1),
@@ -12,6 +13,9 @@ const checkoutSchema = z.object({
 })
 
 export async function createCheckout(formData: FormData) {
+  const rl = await checkRateLimit(`checkout:${formData.get("buyerPhone") as string || "anonymous"}`)
+  if (!rl.allowed) return { error: "Too many requests. Please try again later." }
+
   const raw = {
     productId: formData.get("productId") as string,
     buyerName: formData.get("buyerName") as string,

@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/db"
-import { CheckCircle2, XCircle, Clock, Users, ShoppingBag, FileText, ChevronRight, AlertTriangle, Search } from "lucide-react"
+import { CheckCircle2, XCircle, Clock, Users, ShoppingBag, FileText, ChevronRight, AlertTriangle, Search, Eye } from "lucide-react"
 import Link from "next/link"
 import { maskString } from "@/lib/utils"
 import { ApproveButton, RejectButton } from "./approve-button"
@@ -285,10 +285,16 @@ async function AdminDashboard({
                           <td className="px-lg py-3">
                             <div className="flex flex-col gap-1">
                               {seller.documents.map((doc) => (
-                                <span key={doc.id} className="text-label-sm text-primary flex items-center gap-1">
-                                  <FileText className="w-3 h-3" />
+                                <a
+                                  key={doc.id}
+                                  href={`/api/admin/documents/${doc.id}`}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-label-sm text-primary flex items-center gap-1 hover:underline"
+                                >
+                                  <Eye className="w-3 h-3" />
                                   {doc.type}
-                                </span>
+                                </a>
                               ))}
                               {seller.documents.length === 0 && (
                                 <span className="text-label-sm text-on-surface-variant italic">No files</span>
