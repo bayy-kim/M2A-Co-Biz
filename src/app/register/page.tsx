@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useActionState, useRef, Suspense } from "react"
-import { Badge, Group, FileText, ArrowLeft, ArrowRight, Check, ShieldCheck, LifeBuoy, Loader2, ShoppingBag, Store } from "lucide-react"
+import { Badge, Group, FileText, ArrowLeft, ArrowRight, Check, ShieldCheck, LifeBuoy, Loader2, ShoppingBag, Store, Upload } from "lucide-react"
 import Link from "next/link"
 import { useRouter, useSearchParams } from "next/navigation"
 import { register, registerBuyer, type RegisterState } from "./actions"
@@ -23,6 +23,7 @@ function RegisterContent() {
   const totalSteps = 3
   const formRef = useRef<HTMLFormElement>(null)
 
+  const [files, setFiles] = useState<Record<string, { name: string } | null>>({})
   const [state, formAction, pending] = useActionState<RegisterState, FormData>(
     role === "seller" ? register : registerBuyer,
     {},
@@ -139,22 +140,22 @@ function RegisterContent() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-lg">
                       <div className="flex flex-col gap-xs">
                         <label className="text-label-md text-on-surface" htmlFor="fullName">Nama Lengkap</label>
-                        <input className="rounded-lg border-outline-variant focus:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" id="fullName" name="fullName" placeholder="Nama lengkap" type="text" required />
+                        <input className="rounded-lg border-outline-variant focus:ring-2 focus-visible:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" id="fullName" name="fullName" placeholder="Nama lengkap" type="text" required />
                         {state.errors?.fullName && <span className="text-error text-label-sm">{state.errors.fullName[0]}</span>}
                       </div>
                       <div className="flex flex-col gap-xs">
                         <label className="text-label-md text-on-surface" htmlFor="email">Email</label>
-                        <input className="rounded-lg border-outline-variant focus:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" id="email" name="email" placeholder="nama@email.com" type="email" required />
+                        <input className="rounded-lg border-outline-variant focus:ring-2 focus-visible:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" id="email" name="email" placeholder="nama@email.com" type="email" required />
                         {state.errors?.email && <span className="text-error text-label-sm">{state.errors.email[0]}</span>}
                       </div>
                       <div className="flex flex-col gap-xs">
                         <label className="text-label-md text-on-surface" htmlFor="phone">No. Telepon</label>
-                        <input className="rounded-lg border-outline-variant focus:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" id="phone" name="phone" placeholder="+62 812 XXXX XXXX" type="tel" required />
+                        <input className="rounded-lg border-outline-variant focus:ring-2 focus-visible:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" id="phone" name="phone" placeholder="+62 812 XXXX XXXX" type="tel" required />
                         {state.errors?.phone && <span className="text-error text-label-sm">{state.errors.phone[0]}</span>}
                       </div>
                       <div className="flex flex-col gap-xs">
                         <label className="text-label-md text-on-surface" htmlFor="password">Password</label>
-                        <input className="rounded-lg border-outline-variant focus:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" id="password" name="password" placeholder="Min. 8 karakter" type="password" required />
+                        <input className="rounded-lg border-outline-variant focus:ring-2 focus-visible:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" id="password" name="password" placeholder="Min. 8 karakter" type="password" required />
                         {state.errors?.password && <span className="text-error text-label-sm">{state.errors.password[0]}</span>}
                       </div>
                     </div>
@@ -250,23 +251,50 @@ function RegisterContent() {
                         <p className="text-on-surface-variant text-body-md">Unggah dokumen resmi Anda secara aman untuk verifikasi. Format: JPG, PNG, atau PDF (Maks 5MB).</p>
                       </div>
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-lg">
-                        <div className="flex flex-col items-center justify-center p-xl border-2 border-dashed border-outline-variant rounded-xl hover:border-primary hover:bg-primary/5 transition-all group cursor-pointer relative overflow-hidden">
-                          <input aria-label="Upload KTP" className="absolute inset-0 opacity-0 cursor-pointer" name="ktp" type="file" />
-                          <Badge className="text-primary-container w-12 h-12 mb-4 group-hover:scale-110 transition-transform" />
-                          <span className="text-headline-md text-on-surface mb-1">KTP</span>
-                          <span className="text-label-sm text-on-surface-variant text-center">KTP (Wajib)</span>
+                        <div className={`flex flex-col items-center justify-center p-xl border-2 ${files.ktp ? "border-primary bg-primary/5" : "border-dashed border-outline-variant"} rounded-xl hover:border-primary hover:bg-primary/5 transition-all group cursor-pointer relative overflow-hidden`}>
+                          <input aria-label="Upload KTP" className="absolute inset-0 opacity-0 cursor-pointer" name="ktp" type="file" accept=".jpg,.jpeg,.png,.pdf" onChange={(e) => setFiles((prev) => ({ ...prev, ktp: e.target.files?.[0] ? { name: e.target.files[0].name } : null }))} />
+                          {files.ktp ? (
+                            <div className="flex flex-col items-center gap-2 pointer-events-none">
+                              <Upload className="text-primary w-8 h-8" />
+                              <span className="text-label-sm text-primary font-bold text-center truncate max-w-full">{files.ktp.name}</span>
+                            </div>
+                          ) : (
+                            <>
+                              <Badge className="text-primary-container w-12 h-12 mb-4 group-hover:scale-110 transition-transform" />
+                              <span className="text-headline-md text-on-surface mb-1">KTP</span>
+                              <span className="text-label-sm text-on-surface-variant text-center">KTP (Wajib)</span>
+                            </>
+                          )}
                         </div>
-                        <div className="flex flex-col items-center justify-center p-xl border-2 border-dashed border-outline-variant rounded-xl hover:border-primary hover:bg-primary/5 transition-all group cursor-pointer relative overflow-hidden">
-                          <input aria-label="Upload Kartu Keluarga" className="absolute inset-0 opacity-0 cursor-pointer" name="kartuKeluarga" type="file" />
-                          <Group className="text-primary-container w-12 h-12 mb-4 group-hover:scale-110 transition-transform" />
-                          <span className="text-headline-md text-on-surface mb-1">Kartu Keluarga</span>
-                          <span className="text-label-sm text-on-surface-variant text-center">Kartu Keluarga (Wajib)</span>
+                        <div className={`flex flex-col items-center justify-center p-xl border-2 ${files.kartuKeluarga ? "border-primary bg-primary/5" : "border-dashed border-outline-variant"} rounded-xl hover:border-primary hover:bg-primary/5 transition-all group cursor-pointer relative overflow-hidden`}>
+                          <input aria-label="Upload Kartu Keluarga" className="absolute inset-0 opacity-0 cursor-pointer" name="kartuKeluarga" type="file" accept=".jpg,.jpeg,.png,.pdf" onChange={(e) => setFiles((prev) => ({ ...prev, kartuKeluarga: e.target.files?.[0] ? { name: e.target.files[0].name } : null }))} />
+                          {files.kartuKeluarga ? (
+                            <div className="flex flex-col items-center gap-2 pointer-events-none">
+                              <Upload className="text-primary w-8 h-8" />
+                              <span className="text-label-sm text-primary font-bold text-center truncate max-w-full">{files.kartuKeluarga.name}</span>
+                            </div>
+                          ) : (
+                            <>
+                              <Group className="text-primary-container w-12 h-12 mb-4 group-hover:scale-110 transition-transform" />
+                              <span className="text-headline-md text-on-surface mb-1">Kartu Keluarga</span>
+                              <span className="text-label-sm text-on-surface-variant text-center">Kartu Keluarga (Wajib)</span>
+                            </>
+                          )}
                         </div>
-                        <div className="flex flex-col items-center justify-center p-xl border-2 border-dashed border-outline-variant rounded-xl hover:border-primary hover:bg-primary/5 transition-all group cursor-pointer relative overflow-hidden">
-                          <input aria-label="Upload Izin Usaha" className="absolute inset-0 opacity-0 cursor-pointer" name="izinUsaha" type="file" />
-                          <FileText className="text-on-surface-variant w-12 h-12 mb-4 group-hover:scale-110 transition-transform" />
-                          <span className="text-headline-md text-on-surface mb-1">Izin Usaha</span>
-                          <span className="text-label-sm text-on-surface-variant text-center italic">Opsional</span>
+                        <div className={`flex flex-col items-center justify-center p-xl border-2 ${files.izinUsaha ? "border-primary bg-primary/5" : "border-dashed border-outline-variant"} rounded-xl hover:border-primary hover:bg-primary/5 transition-all group cursor-pointer relative overflow-hidden`}>
+                          <input aria-label="Upload Izin Usaha" className="absolute inset-0 opacity-0 cursor-pointer" name="izinUsaha" type="file" accept=".jpg,.jpeg,.png,.pdf" onChange={(e) => setFiles((prev) => ({ ...prev, izinUsaha: e.target.files?.[0] ? { name: e.target.files[0].name } : null }))} />
+                          {files.izinUsaha ? (
+                            <div className="flex flex-col items-center gap-2 pointer-events-none">
+                              <Upload className="text-primary w-8 h-8" />
+                              <span className="text-label-sm text-primary font-bold text-center truncate max-w-full">{files.izinUsaha.name}</span>
+                            </div>
+                          ) : (
+                            <>
+                              <FileText className="text-on-surface-variant w-12 h-12 mb-4 group-hover:scale-110 transition-transform" />
+                              <span className="text-headline-md text-on-surface mb-1">Izin Usaha</span>
+                              <span className="text-label-sm text-on-surface-variant text-center italic">Opsional</span>
+                            </>
+                          )}
                         </div>
                       </div>
                       <div className="mt-xl p-lg bg-surface-container-low rounded-lg border border-outline-variant flex items-center gap-lg">

@@ -1,6 +1,7 @@
 "use server"
 
 import { prisma } from "@/lib/db"
+import { auth } from "@/lib/auth"
 import { z } from "zod"
 import { resolveCommission } from "@/lib/commission-engine"
 import { checkRateLimit } from "@/lib/rate-limit"
@@ -14,12 +15,20 @@ const checkoutSchema = z.object({
 })
 
 export async function createCheckout(formData: FormData) {
+  const session = await auth()
+
   const raw = {
     productId: formData.get("productId") as string,
     buyerName: formData.get("buyerName") as string,
     buyerPhone: formData.get("buyerPhone") as string,
     buyerId: (formData.get("buyerId") as string) || undefined,
     qty: formData.get("qty") as string,
+  }
+
+  if (raw.buyerId) {
+    if (!session?.user || session.user.id !== raw.buyerId) {
+      return { error: "Sesi tidak valid" }
+    }
   }
 
   const rl = await checkRateLimit(`checkout:${raw.buyerPhone || "anonymous"}`)
@@ -47,28 +56,32 @@ export async function createCheckout(formData: FormData) {
   const commissionRupiah = commissionPerItem * qty
   const sellerNetRupiah = totalRupiah - commissionRupiah
 
-  const order = await prisma.order.create({
-    data: {
-      buyerName,
-      buyerPhone,
-      buyerId: buyerId || null,
-      totalRupiah,
-      items: {
-        create: {
-          productId: product.id,
-          sellerId: product.sellerId,
-          qty,
-          priceRupiah: product.priceRupiah,
-          commissionPercent: commission.percent,
-          commissionRupiah,
-          sellerNetRupiah,
+  try {
+    const order = await prisma.order.create({
+      data: {
+        buyerName,
+        buyerPhone,
+        buyerId: buyerId || null,
+        totalRupiah,
+        items: {
+          create: {
+            productId: product.id,
+            sellerId: product.sellerId,
+            qty,
+            priceRupiah: product.priceRupiah,
+            commissionPercent: commission.percent,
+            commissionRupiah,
+            sellerNetRupiah,
+          },
         },
       },
-    },
-  })
+    })
 
-  return {
-    success: true,
-    orderId: order.id,
+    return {
+      success: true,
+      orderId: order.id,
+    }
+  } catch (e) {
+    return { error: e instanceof Error ? e.message : "Gagal membuat pesanan" }
   }
 }

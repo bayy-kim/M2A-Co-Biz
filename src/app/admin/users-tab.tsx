@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/db"
-import { Shield, User, Store, Search } from "lucide-react"
+import { Shield, User, Store } from "lucide-react"
 import { ToggleUserStatusButton } from "./user-actions"
 
 export async function AdminUsersTab() {

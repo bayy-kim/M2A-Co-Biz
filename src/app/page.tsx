@@ -5,7 +5,13 @@ import { prisma } from "@/lib/db"
 export default async function LandingPage() {
   const [session, company] = await Promise.all([
     auth(),
-    prisma.companyProfile.findFirst({ select: { whatsappNumber: true } }),
+    prisma.companyProfile.findFirst({
+      select: {
+        whatsappNumber: true,
+        bankAccountName: true,
+        bankName: true,
+      },
+    }),
   ])
-  return <LandingClient session={session} whatsappNumber={company?.whatsappNumber} />
+  return <LandingClient session={session} company={company} />
 }

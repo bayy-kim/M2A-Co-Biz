@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/db"
 import { processPayoutById } from "@/lib/payout-utils"
+import type { CommissionScope } from "@prisma/client"
 import { z } from "zod"
 
 const commissionSchema = z.object({
@@ -20,37 +21,50 @@ export async function setCommissionRule(prevState: CommissionState, formData: Fo
     return { error: "Unauthorized" }
   }
 
-  const raw = {
-    scope: formData.get("scope") as string,
-    refId: formData.get("refId") as string || null,
-    percent: formData.get("percent") as string,
+  try {
+    const raw = {
+      scope: formData.get("scope") as string,
+      refId: formData.get("refId") as string || null,
+      percent: formData.get("percent") as string,
+    }
+
+    const result = commissionSchema.safeParse(raw)
+    if (!result.success) return { error: "Nilai tidak valid" }
+
+    if (result.data.scope === "SELLER" && !result.data.refId) {
+      return { error: "ID penjual wajib diisi untuk komisi per seller" }
+    }
+    if (result.data.scope === "CATEGORY" && !result.data.refId) {
+      return { error: "ID kategori wajib diisi untuk komisi per kategori" }
+    }
+    if (result.data.scope === "GLOBAL" && result.data.refId) {
+      return { error: "Komisi global tidak boleh memiliki refId" }
+    }
+
+    await prisma.commissionRule.create({
+      data: {
+        scope: result.data.scope as CommissionScope,
+        refId: result.data.refId || null,
+        percent: result.data.percent,
+        updatedBy: session.user.id,
+      },
+    })
+
+    await prisma.activityLog.create({
+      data: {
+        actorId: session.user.id,
+        action: `Set ${result.data.scope} commission to ${result.data.percent}%`,
+        targetType: "CommissionRule",
+        targetId: result.data.scope,
+        metadata: { refId: result.data.refId, percent: result.data.percent },
+      },
+    })
+
+    revalidatePath("/sekretaris")
+    return { success: true }
+  } catch (e) {
+    return { error: e instanceof Error ? e.message : "Gagal menyimpan aturan komisi" }
   }
-
-  const result = commissionSchema.safeParse(raw)
-  if (!result.success) return { error: "Nilai tidak valid" }
-
-  await prisma.commissionRule.create({
-    data: {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      scope: result.data.scope as any,
-      refId: result.data.refId || null,
-      percent: result.data.percent,
-      updatedBy: session.user.id,
-    },
-  })
-
-  await prisma.activityLog.create({
-    data: {
-      actorId: session.user.id,
-      action: `Set ${result.data.scope} commission to ${result.data.percent}%`,
-      targetType: "CommissionRule",
-      targetId: result.data.scope,
-      metadata: { refId: result.data.refId, percent: result.data.percent },
-    },
-  })
-
-  revalidatePath("/sekretaris")
-  return { success: true }
 }
 
 type PayoutState = { error?: string; success?: boolean } | null
@@ -63,49 +77,40 @@ export async function confirmPayment(orderId: string): Promise<ConfirmState> {
     return { error: "Unauthorized" }
   }
 
-  const order = await prisma.order.findUnique({
-    where: { id: orderId },
-    include: { items: true },
-  })
-  if (!order || order.paymentStatus !== "PENDING") return { error: "Pesanan tidak valid" }
-
-  const totalCommission = order.items.reduce((s, i) => s + i.commissionRupiah, 0)
-
-  await prisma.$transaction([
-    prisma.order.update({
+  try {
+    const order = await prisma.order.findUnique({
       where: { id: orderId },
-      data: { paymentStatus: "PAID" },
-    }),
-    prisma.ledgerEntry.create({
-      data: {
-        type: "IN",
-        amountRupiah: order.totalRupiah,
-        relatedOrderId: orderId,
-      },
-    }),
-    ...(totalCommission > 0
-      ? [
-          prisma.ledgerEntry.create({
-            data: {
-              type: "IN",
-              amountRupiah: totalCommission,
-              relatedOrderId: orderId,
-            },
-          }),
-        ]
-      : []),
-    prisma.activityLog.create({
-      data: {
-        actorId: session.user.id,
-        action: `Confirmed payment for order #${orderId.slice(0, 8)} — Rp${order.totalRupiah.toLocaleString("id-ID")}`,
-        targetType: "Order",
-        targetId: orderId,
-      },
-    }),
-  ])
+      include: { items: true },
+    })
+    if (!order || order.paymentStatus !== "PENDING") return { error: "Pesanan tidak valid" }
 
-  revalidatePath("/sekretaris")
-  return { success: true }
+    await prisma.$transaction([
+      prisma.order.update({
+        where: { id: orderId },
+        data: { paymentStatus: "PAID" },
+      }),
+      prisma.ledgerEntry.create({
+        data: {
+          type: "IN",
+          amountRupiah: order.totalRupiah,
+          relatedOrderId: orderId,
+        },
+      }),
+      prisma.activityLog.create({
+        data: {
+          actorId: session.user.id,
+          action: `Confirmed payment for order #${orderId.slice(0, 8)} — Rp${order.totalRupiah.toLocaleString("id-ID")}`,
+          targetType: "Order",
+          targetId: orderId,
+        },
+      }),
+    ])
+
+    revalidatePath("/sekretaris")
+    return { success: true }
+  } catch (e) {
+    return { error: e instanceof Error ? e.message : "Gagal konfirmasi pembayaran" }
+  }
 }
 
 export async function processPayout(payoutId: string, _prevState: PayoutState, _formData?: FormData): Promise<PayoutState> {
@@ -114,9 +119,13 @@ export async function processPayout(payoutId: string, _prevState: PayoutState, _
     return { error: "Unauthorized" }
   }
 
-  const result = await processPayoutById(payoutId, session.user.id)
+  try {
+    const result = await processPayoutById(payoutId, session.user.id)
 
-  revalidatePath("/sekretaris")
-  if (result.success) return { success: true }
-  return { error: result.error }
+    revalidatePath("/sekretaris")
+    if (result.success) return { success: true }
+    return { error: result.error }
+  } catch (e) {
+    return { error: e instanceof Error ? e.message : "Gagal memproses payout" }
+  }
 }

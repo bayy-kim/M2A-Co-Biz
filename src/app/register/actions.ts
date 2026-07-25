@@ -3,8 +3,9 @@
 import { z } from "zod"
 import bcrypt from "bcryptjs"
 import { prisma } from "@/lib/db"
-import { put } from "@vercel/blob"
+import { put, del } from "@vercel/blob"
 import { encrypt } from "@/lib/encryption"
+import { checkRateLimit } from "@/lib/rate-limit"
 import type { SellerType, DocumentType } from "@prisma/client"
 
 const ACCEPTED_FILE_TYPES = ["image/jpeg", "image/png", "application/pdf"]
@@ -74,6 +75,9 @@ export async function register(prevState: RegisterState, formData: FormData): Pr
     consent: formData.get("consent") as string,
   }
 
+  const rl = await checkRateLimit(`register:seller:${raw.email}`)
+  if (!rl.allowed) return { message: "Terlalu banyak permintaan. Silakan coba lagi nanti." }
+
   const result = registerSchema.safeParse(raw)
   if (!result.success) {
     return { errors: result.error.flatten().fieldErrors, message: "Perbaiki isian di atas." }
@@ -88,6 +92,8 @@ export async function register(prevState: RegisterState, formData: FormData): Pr
 
   const hashed = await bcrypt.hash(data.password, 12)
 
+  const uploadedUrls: string[] = []
+
   try {
     const docEntries: { type: DocumentType; encryptedBlobUrl: string }[] = []
 
@@ -97,6 +103,7 @@ export async function register(prevState: RegisterState, formData: FormData): Pr
         const doc = await uploadAndEncrypt(file, field)
         if (doc) {
           docEntries.push({ type: docType as DocumentType, encryptedBlobUrl: doc.encryptedBlobUrl })
+          uploadedUrls.push(doc.encryptedBlobUrl)
         }
       }
     }
@@ -123,6 +130,9 @@ export async function register(prevState: RegisterState, formData: FormData): Pr
       return user
     })
   } catch (e) {
+    for (const url of uploadedUrls) {
+      try { await del(url) } catch { }
+    }
     const message = e instanceof Error ? e.message : "Upload failed"
     return { message }
   }
@@ -150,6 +160,9 @@ export async function registerBuyer(
     consent: formData.get("consent") as string,
   }
 
+  const rl = await checkRateLimit(`register:buyer:${raw.email}`)
+  if (!rl.allowed) return { message: "Terlalu banyak permintaan. Silakan coba lagi nanti." }
+
   const result = buyerRegisterSchema.safeParse(raw)
   if (!result.success) {
     return { errors: result.error.flatten().fieldErrors, message: "Perbaiki isian di atas." }
@@ -164,15 +177,19 @@ export async function registerBuyer(
 
   const hashed = await bcrypt.hash(data.password, 12)
 
-  await prisma.user.create({
-    data: {
-      role: "BUYER",
-      email: data.email,
-      passwordHash: hashed,
-      name: data.fullName,
-      phone: data.phone,
-    },
-  })
+  try {
+    await prisma.user.create({
+      data: {
+        role: "BUYER",
+        email: data.email,
+        passwordHash: hashed,
+        name: data.fullName,
+        phone: data.phone,
+      },
+    })
+  } catch (e) {
+    return { message: e instanceof Error ? e.message : "Gagal mendaftar" }
+  }
 
-  return { message: "Registration submitted successfully! Redirecting..." }
+  return { message: "Pendaftaran berhasil! Mengarahkan..." }
 }

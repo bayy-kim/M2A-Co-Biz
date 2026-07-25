@@ -66,18 +66,18 @@ export async function AdminCategoriesTab() {
 
       <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 overflow-hidden">
         <div className="p-lg border-b border-outline-variant/30 flex items-center justify-between">
-          <h3 className="text-headline-md text-on-surface font-bold">Active Categories</h3>
+          <h3 className="text-headline-md text-on-surface font-bold">Kategori Aktif</h3>
           <span className="text-label-sm text-on-surface-variant">{approvedCategories.length} total</span>
         </div>
         {approvedCategories.length === 0 ? (
-          <div className="p-lg text-center text-on-surface-variant text-body-md py-xl">No categories yet.</div>
+          <div className="p-lg text-center text-on-surface-variant text-body-md py-xl">Belum ada kategori.</div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left">
               <thead>
                 <tr className="text-label-sm text-on-surface-variant border-b border-outline-variant/30">
-                  <th className="px-lg py-3 font-medium">Name</th>
-                  <th className="px-lg py-3 font-medium">Default Commission</th>
+                  <th className="px-lg py-3 font-medium">Nama</th>
+                  <th className="px-lg py-3 font-medium">Komisi Default</th>
                   <th className="px-lg py-3 font-medium">Status</th>
                 </tr>
               </thead>
@@ -89,7 +89,7 @@ export async function AdminCategoriesTab() {
                     <td className="px-lg py-3">
                       <span className="inline-flex items-center gap-1 px-md py-0.5 rounded-full text-label-sm font-bold bg-success/10 text-success">
                         <CheckCircle2 className="w-3 h-3" />
-                        Active
+                        Aktif
                       </span>
                     </td>
                   </tr>

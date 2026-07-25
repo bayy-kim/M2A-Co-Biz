@@ -3,7 +3,7 @@
 import { TrendingUp, ShieldCheck, Zap, Users, BarChart3, MapPin, Phone, Mail, ArrowRight, ShoppingBag } from "lucide-react"
 import Link from "next/link"
 import { motion } from "framer-motion"
-import { AnimateSection, AnimateStagger, AnimateItem } from "@/components/animate-section"
+import { AnimateSection, AnimateStagger } from "@/components/animate-section"
 
 interface LandingClientProps {
   session: {
@@ -11,10 +11,15 @@ interface LandingClientProps {
       role?: string
     }
   } | null
-  whatsappNumber?: string | null
+  company: {
+    whatsappNumber?: string | null
+    bankAccountName?: string | null
+    bankName?: string | null
+  } | null
 }
 
-export function LandingClient({ session, whatsappNumber }: LandingClientProps) {
+export function LandingClient({ session, company }: LandingClientProps) {
+  const whatsappNumber = company?.whatsappNumber
   const getDashboardHref = () => {
     if (!session?.user?.role) return "/login"
     const role = session.user.role
@@ -98,8 +103,20 @@ export function LandingClient({ session, whatsappNumber }: LandingClientProps) {
               transition={{ duration: 0.5, ease: "easeOut", delay: 0.15 }}
               className="relative hidden lg:block"
             >
-              <div className="relative aspect-square rounded-3xl overflow-hidden shadow-2xl z-20 bg-surface-container-high flex items-center justify-center">
-                <div className="text-on-surface-variant text-body-md">Hero Image</div>
+              <div className="relative aspect-square rounded-3xl overflow-hidden shadow-2xl z-20 bg-gradient-to-br from-primary/5 to-primary-container/20 flex items-center justify-center p-xxl">
+                <svg viewBox="0 0 400 400" className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="200" cy="200" r="120" fill="none" stroke="var(--primary)" strokeWidth="2" strokeDasharray="8 4" opacity="0.3" />
+                  <circle cx="200" cy="200" r="80" fill="none" stroke="var(--primary)" strokeWidth="1.5" strokeDasharray="6 3" opacity="0.2" />
+                  <path d="M120 200 Q160 140 200 180 Q240 220 280 160" fill="none" stroke="var(--accent-gold)" strokeWidth="3" strokeLinecap="round" opacity="0.5" />
+                  <path d="M140 220 Q180 170 220 200 Q260 230 300 190" fill="none" stroke="var(--primary)" strokeWidth="2" strokeLinecap="round" opacity="0.3" />
+                  <circle cx="160" cy="170" r="6" fill="var(--primary)" opacity="0.4" />
+                  <circle cx="240" cy="190" r="6" fill="var(--accent-gold)" opacity="0.4" />
+                  <circle cx="200" cy="150" r="8" fill="var(--primary)" opacity="0.2" />
+                  <circle cx="280" cy="220" r="5" fill="var(--accent-gold)" opacity="0.3" />
+                  <circle cx="130" cy="230" r="4" fill="var(--primary)" opacity="0.3" />
+                  <rect x="155" y="240" width="90" height="8" rx="4" fill="var(--primary)" opacity="0.15" />
+                  <rect x="170" y="255" width="60" height="6" rx="3" fill="var(--primary-container)" opacity="0.2" />
+                </svg>
               </div>
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -130,29 +147,16 @@ export function LandingClient({ session, whatsappNumber }: LandingClientProps) {
                   Koleksi pilihan dari para pelaku UMKM binaan Al-Mubarok II, mulai dari kerajinan tangan hingga kuliner khas daerah.
                 </p>
               </div>
-              <AnimateStagger>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-lg">
-                  {[1, 2, 3, 4].map((i) => (
-                    <AnimateItem key={i}>
-                      <div className="group bg-surface-container-lowest rounded-xl shadow-md overflow-hidden">
-                        <div className="aspect-square relative overflow-hidden bg-surface-container-high flex items-center justify-center">
-                          <ShoppingBag className="w-12 h-12 text-outline-variant" />
-                        </div>
-                        <div className="p-lg">
-                          <h4 className="text-headline-md font-bold text-primary mb-xs">Produk Contoh {i}</h4>
-                          <p className="text-label-md text-on-surface-variant mb-md">Kategori Produk</p>
-                          <div className="flex items-center justify-between">
-                            <span className="text-primary font-bold">Rp 50.000</span>
-                            <button className="p-2 bg-primary/5 hover:bg-primary/10 text-primary rounded-full transition-colors">
-                              <ShoppingBag className="w-5 h-5" />
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </AnimateItem>
-                  ))}
-                </div>
-              </AnimateStagger>
+              <div className="text-center">
+                <Link
+                  href="/catalog"
+                  className="inline-flex items-center gap-2 px-xxl py-4 bg-primary text-on-primary rounded-xl text-headline-md shadow-lg shadow-primary/20 hover:scale-[1.02] transition-transform"
+                >
+                  <ShoppingBag className="w-5 h-5" />
+                  Lihat Semua Produk di Katalog
+                  <ArrowRight className="w-5 h-5" />
+                </Link>
+              </div>
             </div>
           </section>
         </AnimateSection>
@@ -162,8 +166,15 @@ export function LandingClient({ session, whatsappNumber }: LandingClientProps) {
             <div className="container mx-auto px-margin">
               <div className="flex flex-col lg:flex-row gap-xxl items-center">
                 <div className="lg:w-1/2 relative">
-                  <div className="relative z-10 rounded-2xl overflow-hidden shadow-2xl border-8 border-surface bg-surface-container-high aspect-[4/3] flex items-center justify-center">
-                    <span className="text-on-surface-variant">About Image</span>
+                  <div className="relative z-10 rounded-2xl overflow-hidden shadow-2xl border-8 border-surface bg-gradient-to-br from-primary/5 to-primary-container/20 aspect-[4/3] flex items-center justify-center p-xxl">
+                    <svg viewBox="0 0 400 300" className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+                      <rect x="80" y="60" width="240" height="180" rx="12" fill="none" stroke="var(--primary)" strokeWidth="2" opacity="0.3" />
+                      <rect x="100" y="80" width="200" height="140" rx="8" fill="none" stroke="var(--accent-gold)" strokeWidth="1.5" opacity="0.25" />
+                      <circle cx="200" cy="125" r="20" fill="var(--primary)" opacity="0.15" />
+                      <path d="M170 170 Q200 150 230 170" fill="none" stroke="var(--accent-gold)" strokeWidth="2" strokeLinecap="round" opacity="0.4" />
+                      <rect x="130" y="160" width="140" height="6" rx="3" fill="var(--primary)" opacity="0.15" />
+                      <rect x="145" y="172" width="110" height="4" rx="2" fill="var(--primary-container)" opacity="0.2" />
+                    </svg>
                   </div>
                 </div>
                 <div className="lg:w-1/2 space-y-xl">
@@ -213,13 +224,15 @@ export function LandingClient({ session, whatsappNumber }: LandingClientProps) {
                         <p className="text-on-primary/70">Banjarwaringin, Salopa, Tasikmalaya, Jawa Barat</p>
                       </div>
                     </div>
-                    <div className="flex items-start gap-lg">
-                      <Phone className="w-6 h-6 text-accent-gold flex-shrink-0" />
-                      <div>
-                        <p className="font-bold">Telepon</p>
-                        <p className="text-on-primary/70">+62 812-3456-7890</p>
+                    {whatsappNumber && (
+                      <div className="flex items-start gap-lg">
+                        <Phone className="w-6 h-6 text-accent-gold flex-shrink-0" />
+                        <div>
+                          <p className="font-bold">Telepon</p>
+                          <p className="text-on-primary/70">{whatsappNumber}</p>
+                        </div>
                       </div>
-                    </div>
+                    )}
                     <div className="flex items-start gap-lg">
                       <Mail className="w-6 h-6 text-accent-gold flex-shrink-0" />
                       <div>
@@ -261,7 +274,7 @@ export function LandingClient({ session, whatsappNumber }: LandingClientProps) {
                   Daftar sebagai UMKM
                 </Link>
                 <Link
-                  href="#"
+                  href={whatsappNumber ? `https://wa.me/${whatsappNumber.replace(/\D/g, "")}` : "/catalog"}
                   className="px-xxl py-4 bg-on-primary text-primary font-bold rounded-xl hover:bg-primary-fixed transition-colors"
                 >
                   Konsultasi Bisnis
@@ -278,12 +291,10 @@ export function LandingClient({ session, whatsappNumber }: LandingClientProps) {
             <div className="space-y-sm text-center md:text-left">
               <h3 className="text-headline-md font-bold text-primary">M2A Co-Biz</h3>
               <p className="text-label-md text-on-surface-variant">
-                &copy; 2024 Al-Mubarok II. Hak cipta dilindungi.
+                &copy; {new Date().getFullYear()} Al-Mubarok II. Hak cipta dilindungi.
               </p>
             </div>
             <div className="flex gap-xxl">
-              <Link className="text-on-surface-variant hover:text-primary transition-colors" href="#">Instagram</Link>
-              <Link className="text-on-surface-variant hover:text-primary transition-colors" href="#">Facebook</Link>
               {whatsappNumber ? (
                 <a className="text-on-surface-variant hover:text-primary transition-colors" href={`https://wa.me/${whatsappNumber.replace(/\D/g, "")}`} target="_blank" rel="noopener noreferrer">WhatsApp</a>
               ) : (

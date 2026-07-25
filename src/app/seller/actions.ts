@@ -19,34 +19,38 @@ export async function createProduct(prevState: ProductState, formData: FormData)
   const session = await auth()
   if (!session?.user) return { error: "Unauthorized" }
 
-  const seller = await prisma.sellerProfile.findUnique({
-    where: { userId: session.user.id },
-  })
-  if (!seller || seller.status !== "APPROVED") return { error: "Seller not approved" }
+  try {
+    const seller = await prisma.sellerProfile.findUnique({
+      where: { userId: session.user.id },
+    })
+    if (!seller || seller.status !== "APPROVED") return { error: "Akun penjual belum disetujui" }
 
-  const raw = {
-    title: formData.get("title") as string,
-    description: formData.get("description") as string,
-    priceRupiah: formData.get("priceRupiah") as string,
-    categoryId: formData.get("categoryId") as string || null,
+    const raw = {
+      title: formData.get("title") as string,
+      description: formData.get("description") as string,
+      priceRupiah: formData.get("priceRupiah") as string,
+      categoryId: formData.get("categoryId") as string || null,
+    }
+
+    const result = productSchema.safeParse(raw)
+    if (!result.success) return { error: "Harap perbaiki kesalahan form" }
+
+    await prisma.product.create({
+      data: {
+        sellerId: seller.id,
+        title: result.data.title,
+        description: result.data.description,
+        priceRupiah: result.data.priceRupiah,
+        categoryId: result.data.categoryId || undefined,
+        images: [],
+      },
+    })
+
+    revalidatePath("/seller")
+    return { success: true }
+  } catch (e) {
+    return { error: e instanceof Error ? e.message : "Gagal membuat produk" }
   }
-
-  const result = productSchema.safeParse(raw)
-  if (!result.success) return { error: "Harap perbaiki kesalahan form" }
-
-  await prisma.product.create({
-    data: {
-      sellerId: seller.id,
-      title: result.data.title,
-      description: result.data.description,
-      priceRupiah: result.data.priceRupiah,
-      categoryId: result.data.categoryId || undefined,
-      images: [],
-    },
-  })
-
-  revalidatePath("/seller")
-  return { success: true }
 }
 
 const categoryProposalSchema = z.object({
@@ -57,39 +61,43 @@ export async function proposeCategory(prevState: { error?: string; success?: boo
   const session = await auth()
   if (!session?.user) return { error: "Unauthorized" }
 
-  const seller = await prisma.sellerProfile.findUnique({
-    where: { userId: session.user.id },
-  })
-  if (!seller || seller.status !== "APPROVED") return { error: "Seller not approved" }
+  try {
+    const seller = await prisma.sellerProfile.findUnique({
+      where: { userId: session.user.id },
+    })
+    if (!seller || seller.status !== "APPROVED") return { error: "Akun penjual belum disetujui" }
 
-  const raw = { categoryName: formData.get("categoryName") as string }
-  const result = categoryProposalSchema.safeParse(raw)
-  if (!result.success) return { error: "Name too short" }
+    const raw = { categoryName: formData.get("categoryName") as string }
+    const result = categoryProposalSchema.safeParse(raw)
+    if (!result.success) return { error: "Nama terlalu pendek" }
 
-  const existing = await prisma.category.findFirst({
-    where: { name: { equals: result.data.categoryName, mode: "insensitive" } },
-  })
-  if (existing) return { error: "Category already exists" }
+    const existing = await prisma.category.findFirst({
+      where: { name: { equals: result.data.categoryName, mode: "insensitive" } },
+    })
+    if (existing) return { error: "Kategori sudah ada" }
 
-  await prisma.category.create({
-    data: {
-      name: result.data.categoryName,
-      status: "PENDING",
-      requestedBySellerId: seller.id,
-    },
-  })
+    await prisma.category.create({
+      data: {
+        name: result.data.categoryName,
+        status: "PENDING",
+        requestedBySellerId: seller.id,
+      },
+    })
 
-  await prisma.activityLog.create({
-    data: {
-      actorId: session.user.id,
-      action: `Proposed new category "${result.data.categoryName}"`,
-      targetType: "Category",
-      targetId: seller.id,
-    },
-  })
+    await prisma.activityLog.create({
+      data: {
+        actorId: session.user.id,
+        action: `Proposed new category "${result.data.categoryName}"`,
+        targetType: "Category",
+        targetId: seller.id,
+      },
+    })
 
-  revalidatePath("/seller")
-  return { success: true }
+    revalidatePath("/seller")
+    return { success: true }
+  } catch (e) {
+    return { error: e instanceof Error ? e.message : "Gagal mengusulkan kategori" }
+  }
 }
 
 type PayoutRequestState = { error?: string; success?: boolean } | null
@@ -98,71 +106,79 @@ export async function requestPayout(prevState: PayoutRequestState, formData: For
   const session = await auth()
   if (!session?.user) return { error: "Unauthorized" }
 
-  const seller = await prisma.sellerProfile.findUnique({
-    where: { userId: session.user.id },
-  })
-  if (!seller || seller.status !== "APPROVED") return { error: "Seller not approved" }
+  try {
+    const seller = await prisma.sellerProfile.findUnique({
+      where: { userId: session.user.id },
+    })
+    if (!seller || seller.status !== "APPROVED") return { error: "Akun penjual belum disetujui" }
 
-  const amountRupiah = parseInt(formData.get("amountRupiah") as string)
-  if (isNaN(amountRupiah) || amountRupiah <= 0) return { error: "Jumlah tidak valid" }
+    const amountRupiah = parseInt(formData.get("amountRupiah") as string)
+    if (isNaN(amountRupiah) || amountRupiah <= 0) return { error: "Jumlah tidak valid" }
 
-  const paidItems = await prisma.orderItem.findMany({
-    where: { sellerId: seller.id, order: { paymentStatus: "PAID" } },
-  })
-  const totalEarnings = paidItems.reduce((sum, i) => sum + i.sellerNetRupiah, 0)
+    const paidItems = await prisma.orderItem.findMany({
+      where: { sellerId: seller.id, order: { paymentStatus: "PAID" } },
+    })
+    const totalEarnings = paidItems.reduce((sum, i) => sum + i.sellerNetRupiah, 0)
 
-  const paidPayouts = await prisma.payout.findMany({
-    where: { sellerId: seller.id, status: { in: ["PROCESSING", "PAID"] } },
-  })
-  const totalPaid = paidPayouts.reduce((sum, p) => sum + p.amountRupiah, 0)
+    const paidPayouts = await prisma.payout.findMany({
+      where: { sellerId: seller.id, status: { in: ["PROCESSING", "PAID"] } },
+    })
+    const totalPaid = paidPayouts.reduce((sum, p) => sum + p.amountRupiah, 0)
 
-  const availableBalance = totalEarnings - totalPaid
-  if (amountRupiah > availableBalance) {
-    return { error: `Insufficient balance. Available: Rp${availableBalance.toLocaleString("id-ID")}` }
+    const availableBalance = totalEarnings - totalPaid
+    if (amountRupiah > availableBalance) {
+      return { error: `Saldo tidak cukup. Tersedia: Rp${availableBalance.toLocaleString("id-ID")}` }
+    }
+
+    const periodStart = seller.createdAt
+    const periodEnd = new Date()
+
+    await prisma.payout.create({
+      data: {
+        sellerId: seller.id,
+        amountRupiah,
+        periodStart,
+        periodEnd,
+        status: "PENDING",
+      },
+    })
+
+    await prisma.activityLog.create({
+      data: {
+        actorId: session.user.id,
+        action: `Requested payout of Rp${amountRupiah.toLocaleString("id-ID")}`,
+        targetType: "Payout",
+        targetId: seller.id,
+      },
+    })
+
+    revalidatePath("/seller")
+    revalidatePath("/sekretaris")
+    return { success: true }
+  } catch (e) {
+    return { error: e instanceof Error ? e.message : "Gagal mengajukan payout" }
   }
-
-  const periodStart = seller.createdAt
-  const periodEnd = new Date()
-
-  await prisma.payout.create({
-    data: {
-      sellerId: seller.id,
-      amountRupiah,
-      periodStart,
-      periodEnd,
-      status: "PENDING",
-    },
-  })
-
-  await prisma.activityLog.create({
-    data: {
-      actorId: session.user.id,
-      action: `Requested payout of Rp${amountRupiah.toLocaleString("id-ID")}`,
-      targetType: "Payout",
-      targetId: seller.id,
-    },
-  })
-
-  revalidatePath("/seller")
-  revalidatePath("/sekretaris")
-  return { success: true }
 }
 
 export async function updateProductStatus(productId: string, status: ProductStatus) {
   const session = await auth()
   if (!session?.user) return { error: "Unauthorized" }
 
-  const product = await prisma.product.findUnique({
-    where: { id: productId },
-    include: { seller: true },
-  })
-  if (!product || product.seller.userId !== session.user.id) return { error: "Tidak ditemukan" }
+  try {
+    const product = await prisma.product.findUnique({
+      where: { id: productId },
+      include: { seller: true },
+    })
+    if (!product || product.seller.userId !== session.user.id) return { error: "Tidak ditemukan" }
 
-  await prisma.product.update({
-    where: { id: productId },
-    data: { status },
-  })
+    await prisma.product.update({
+      where: { id: productId },
+      data: { status },
+    })
 
-  revalidatePath("/seller")
-  return { success: true }
+    revalidatePath("/seller")
+    return { success: true }
+  } catch (e) {
+    return { error: e instanceof Error ? e.message : "Gagal mengupdate produk" }
+  }
 }

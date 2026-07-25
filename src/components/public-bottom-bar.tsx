@@ -43,7 +43,7 @@ export function PublicBottomBar({ isLoggedIn, isSeller }: Props) {
       <div className="flex items-center justify-around mx-auto max-w-lg overflow-x-auto no-scrollbar">
         {visibleItems.map((item) => {
           const Icon = item.icon
-          const active = pathname === item.href
+          const active = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href))
           return (
             <Link
               key={item.label}
