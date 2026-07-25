@@ -7,25 +7,35 @@ const prisma = new PrismaClient()
 async function main() {
   console.log("Seeding database...")
 
+  function requireEnv(key: string): string {
+  const val = process.env[key]
+  if (!val) throw new Error(`Missing required env var: ${key}`)
+  return val
+  }
+
   const hash = (pw: string) => bcrypt.hashSync(pw, 12)
-  const totpSecret = "HR5EOSAVEBWTYLJZ"
+  const adminPassword = requireEnv("SEED_ADMIN_PASSWORD")
+  const sekretarisPassword = requireEnv("SEED_SEKRETARIS_PASSWORD")
+  const adminTotpSecret = requireEnv("SEED_ADMIN_TOTP")
+  const sekretarisTotpSecret = requireEnv("SEED_SEKRETARIS_TOTP")
 
   // ── Users ──────────────────────────────────────────────
-  const admin = await prisma.user.upsert({
+const admin = await prisma.user.upsert({
     where: { email: "admin@m2acobiz.com" },
     update: {
-      passwordHash: hash("admin123"),
-      twoFactorSecret: totpSecret,
+      passwordHash: hash(adminPassword),
+      twoFactorSecret: adminTotpSecret,
     },
     create: {
       email: "admin@m2acobiz.com",
       name: "Admin M2A",
-      passwordHash: hash("admin123"),
+      passwordHash: hash(adminPassword),
       role: "ADMIN",
       phone: "081234567891",
-      twoFactorSecret: totpSecret,
+      twoFactorSecret: adminTotpSecret,
     },
   })
+
 
   const ketua = await prisma.user.upsert({
     where: { email: "ketua@m2acobiz.com" },
@@ -42,16 +52,16 @@ async function main() {
   const sekretaris = await prisma.user.upsert({
     where: { email: "sekretaris@m2acobiz.com" },
     update: {
-      passwordHash: hash("sekretaris123"),
-      twoFactorSecret: totpSecret,
+      passwordHash: hash(sekretarisPassword),
+      twoFactorSecret: sekretarisTotpSecret,
     },
     create: {
       email: "sekretaris@m2acobiz.com",
       name: "Sekretaris M2A",
-      passwordHash: hash("sekretaris123"),
+      passwordHash: hash(sekretarisPassword),
       role: "SEKRETARIS",
       phone: "081234567893",
-      twoFactorSecret: totpSecret,
+      twoFactorSecret: sekretarisTotpSecret,
     },
   })
 
@@ -325,7 +335,7 @@ async function main() {
   console.log("Seller 2:   seller2@m2acobiz.com / seller123  (Budi Service, APPROVED)")
   console.log("Seller 3:   seller3@m2acobiz.com / seller123  (Citra Catering, PENDING)")
   console.log("Buyer:      buyer@m2acobiz.com / buyer123      (Pembeli, can checkout & view orders)")
-  console.log(`\nTOTP Secret for admin & sekretaris: ${totpSecret}`)
+  console.log(`\nTOTP Secret for admin & sekretaris: ${adminTotpSecret}, ${sekretarisTotpSecret}`)
   console.log("(Scan with Google Authenticator or use `otplib` to generate codes)")
 }
 

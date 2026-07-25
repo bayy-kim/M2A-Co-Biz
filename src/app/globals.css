@@ -106,6 +106,12 @@
   --spacing-gutter: 16px;
   --spacing-margin: 24px;
 
+  --container-xs: 20rem;
+  --container-sm: 24rem;
+  --container-md: 28rem;
+  --container-lg: 32rem;
+  --container-xl: 36rem;
+
   --radius-xl: 0.75rem;
   --radius-lg: 0.5rem;
 }
