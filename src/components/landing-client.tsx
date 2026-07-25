@@ -38,19 +38,19 @@ export function LandingClient({ session, whatsappNumber }: LandingClientProps) {
           <span className="text-headline-md font-bold text-primary">M2A Co-Biz</span>
         </div>
         <nav className="hidden md:flex items-center gap-xxl">
-          <Link className="text-primary font-bold border-b-2 border-primary text-body-md" href="/">Home</Link>
-          <Link className="text-on-surface-variant hover:text-primary transition-colors text-body-md" href="/catalog">Catalog</Link>
-          <Link className="text-on-surface-variant hover:text-primary transition-colors text-body-md" href="#about">About</Link>
-          <Link className="text-on-surface-variant hover:text-primary transition-colors text-body-md" href="#location">Contact</Link>
+          <Link className="text-primary font-bold border-b-2 border-primary text-body-md" href="/">Beranda</Link>
+          <Link className="text-on-surface-variant hover:text-primary transition-colors text-body-md" href="/catalog">Katalog</Link>
+          <Link className="text-on-surface-variant hover:text-primary transition-colors text-body-md" href="#about">Tentang</Link>
+          <Link className="text-on-surface-variant hover:text-primary transition-colors text-body-md" href="#location">Kontak</Link>
         </nav>
         <div className="flex items-center gap-md">
           {session?.user ? (
             <Link href={getDashboardHref()} className="flex items-center gap-2 px-4 py-2 bg-primary text-on-primary rounded-full hover:opacity-90 transition-all text-label-md">
-              <span>Dashboard</span>
+              <span>Dasbor</span>
             </Link>
           ) : (
             <Link href="/login" className="flex items-center gap-2 px-4 py-2 bg-primary text-on-primary rounded-full hover:opacity-90 transition-all text-label-md">
-              <span>Login</span>
+                <span>Masuk</span>
             </Link>
           )}
         </div>
@@ -67,7 +67,7 @@ export function LandingClient({ session, whatsappNumber }: LandingClientProps) {
             >
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary-container/10 border border-primary-container/20 text-primary-container text-label-md">
                 <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-                Community-Led Commerce
+                Ekonomi Komunitas
               </div>
               <h1 className="text-display-lg text-primary tracking-tight leading-tight">
                 Pusat Bisnis & UMKM <br /> <span className="text-accent-gold">Al-Mubarok II</span>
@@ -113,7 +113,7 @@ export function LandingClient({ session, whatsappNumber }: LandingClientProps) {
                   </div>
                   <div>
                     <p className="text-on-surface font-bold">50+ UMKM Aktif</p>
-                    <p className="text-label-sm text-on-surface-variant">Tumbuh Bersama M2A</p>
+                    <p className="text-label-sm text-on-surface-variant">Tumbuh Bersama Kami</p>
                   </div>
                 </div>
               </motion.div>
@@ -142,7 +142,7 @@ export function LandingClient({ session, whatsappNumber }: LandingClientProps) {
                           <h4 className="text-headline-md font-bold text-primary mb-xs">Produk Contoh {i}</h4>
                           <p className="text-label-md text-on-surface-variant mb-md">Kategori Produk</p>
                           <div className="flex items-center justify-between">
-                            <span className="text-primary-container font-bold">Rp 50.000</span>
+                            <span className="text-primary font-bold">Rp 50.000</span>
                             <button className="p-2 bg-primary/5 hover:bg-primary/10 text-primary rounded-full transition-colors">
                               <ShoppingBag className="w-5 h-5" />
                             </button>
@@ -167,7 +167,7 @@ export function LandingClient({ session, whatsappNumber }: LandingClientProps) {
                   </div>
                 </div>
                 <div className="lg:w-1/2 space-y-xl">
-                  <span className="text-accent-gold font-bold tracking-widest uppercase text-label-sm">Our Mission</span>
+                  <span className="text-accent-gold font-bold tracking-widest uppercase text-label-sm">Misi Kami</span>
                   <h2 className="text-display-md text-primary">Memberdayakan UMKM, Membangun Kemandirian</h2>
                   <p className="text-body-lg text-on-surface-variant leading-relaxed">
                     M2A Co-Biz merupakan inisiatif strategis dari organisasi kepemudaan Al-Mubarok II untuk menjawab tantangan ekonomi digital bagi pelaku usaha lokal di Banjarwaringin.
@@ -278,7 +278,7 @@ export function LandingClient({ session, whatsappNumber }: LandingClientProps) {
             <div className="space-y-sm text-center md:text-left">
               <h3 className="text-headline-md font-bold text-primary">M2A Co-Biz</h3>
               <p className="text-label-md text-on-surface-variant">
-                &copy; 2024 Al-Mubarok II. All rights reserved.
+                &copy; 2024 Al-Mubarok II. Hak cipta dilindungi.
               </p>
             </div>
             <div className="flex gap-xxl">

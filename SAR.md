@@ -15,11 +15,11 @@ Dokumen ini adalah rujukan teknis. Semua keputusan arsitektur di sini bersifat w
 | Database | PostgreSQL (Neon) | Relasi kompleks + transaksi ACID untuk data keuangan |
 | ORM | Prisma | Migration tooling matang, type-safe query |
 | Auth | NextAuth v5 (Auth.js) | Session berbasis role, kompatibel App Router |
-| Payment | Xendit | Invoice API (checkout) + Disbursement API (payout otomatis ke seller) |
+| Payment | Manual (QRIS/transfer) | Sekretaris/Admin konfirmasi via dashboard; Xendit tidak dipakai |
 | File storage | Vercel Blob (private access) | Foto produk + dokumen KTP/KK/izin usaha |
 | Chart | Recharts | Analitik di dashboard Sekretaris/Ketua/Seller |
 | Form & validasi | React Hook Form + Zod | Validasi ketat di client & server |
-| Cron | Vercel Cron Jobs | Batch payout terjadwal, agregasi analitik |
+| Cron | Vercel Cron Jobs | Agregasi analitik (payout manual, tidak perlu cron) |
 | Deploy | Vercel | Konsisten dengan project lain |
 
 **Aturan uang:** semua nominal Rupiah disimpan sebagai `Int` (satuan penuh Rupiah), **tidak pernah** sebagai `Float`, untuk menghindari floating-point error.
@@ -27,11 +27,6 @@ Dokumen ini adalah rujukan teknis. Semua keputusan arsitektur di sini bersifat w
 ## 2. Skema Database (Prisma)
 
 ```prisma
-enum Role {
-  ADMIN
-  KETUA
-  SEKRETARIS
-  SELLER
   BUYER
 }
 
@@ -57,6 +52,12 @@ enum ProductStatus {
   ACTIVE
   INACTIVE
   ARCHIVED
+}
+
+enum CategoryStatus {
+  PENDING
+  APPROVED
+  REJECTED
 }
 
 enum CommissionScope {
@@ -92,8 +93,10 @@ model User {
   name            String
   phone           String?
   twoFactorSecret String?
+  isActive        Boolean   @default(true)
   createdAt       DateTime  @default(now())
   sellerProfile   SellerProfile?
+  orders          Order[]
 }
 
 model SellerProfile {
@@ -123,10 +126,15 @@ model SellerDocument {
 }
 
 model Category {
-  id                       String  @id @default(cuid())
-  name                     String
+  id                String    @id @default(cuid())
+  name              String
+  status            CategoryStatus @default(PENDING)
+  requestedBySellerId String?
+  requestedBy       User?     @relation(fields: [requestedBySellerId], references: [id])
+  rejectionReason   String?
   defaultCommissionPercent Decimal @db.Decimal(5,2)
-  products                 Product[]
+  products          Product[]
+  createdAt         DateTime  @default(now())
 }
 
 model Product {
@@ -156,9 +164,10 @@ model Order {
   id              String   @id @default(cuid())
   buyerName       String
   buyerPhone      String
+  buyerId         String?
+  buyer           User?    @relation(fields: [buyerId], references: [id])
   totalRupiah     Int
   paymentStatus   PaymentStatus @default(PENDING)
-  xenditInvoiceId String?
   items           OrderItem[]
   createdAt       DateTime @default(now())
 }
@@ -177,14 +186,13 @@ model OrderItem {
 }
 
 model Payout {
-  id                   String   @id @default(cuid())
-  sellerId             String
-  amountRupiah         Int
-  status               PayoutStatus @default(PENDING)
-  xenditDisbursementId String?
-  periodStart          DateTime
-  periodEnd            DateTime
-  createdAt            DateTime @default(now())
+  id               String   @id @default(cuid())
+  sellerId         String
+  amountRupiah     Int
+  status           PayoutStatus @default(PENDING)
+  periodStart      DateTime
+  periodEnd        DateTime
+  createdAt        DateTime @default(now())
 }
 
 model LedgerEntry {
@@ -207,12 +215,17 @@ model ActivityLog {
 }
 
 model CompanyProfile {
-  id          String @id @default(cuid())
-  name        String @default("M2A Co-Biz")
-  address     String
-  latitude    Float?
-  longitude   Float?
-  mapEmbedUrl String?
+  id            String  @id @default(cuid())
+  name          String  @default("M2A Co-Biz")
+  address       String
+  latitude      Float?
+  longitude     Float?
+  mapEmbedUrl   String?
+  bankName      String?
+  bankAccountName String?
+  bankAccountNo String?
+  qrisImageUrl  String?
+  whatsappNumber String?
 }
 ```
 
@@ -226,11 +239,11 @@ app/
   (ketua)/              -> overview, activity feed, grafik tren
   (sekretaris)/         -> commission rules, analitik keuangan, payout batch
   (seller)/             -> kelola produk/jasa, riwayat penjualan, riwayat payout
-  api/webhooks/xendit/  -> webhook handler (signature verified)
+   api/admin/documents/[id]    -> View seller document (decrypt + serve)
 middleware.ts           -> RBAC guard per route group berdasarkan session role
 lib/
   commission-engine.ts  -> logic resolusi komisi (seller > kategori > global)
-  xendit.ts             -> wrapper Invoice & Disbursement API
+  payout-utils.ts       -> payout helper (mark PAID + LedgerEntry OUT + ActivityLog)
   encryption.ts         -> AES-256-GCM untuk dokumen sensitif
 prisma/
   schema.prisma
@@ -243,11 +256,12 @@ prisma/
 - Login pakai credentials (email + password, hashed dengan bcrypt/argon2)
 - **2FA wajib untuk role ADMIN dan SEKRETARIS** (TOTP, karena mereka pegang approval & kontrol keuangan)
 
-## 5. Integrasi Xendit
+## 5. Pembayaran (Manual)
 
-- **Checkout**: buat Invoice via Xendit Invoice API saat Order dibuat, redirect buyer ke halaman pembayaran (QRIS/VA/e-wallet)
-- **Webhook**: endpoint `api/webhooks/xendit` **wajib** verifikasi `x-callback-token`/signature sebelum memproses payload — payload tak terverifikasi ditolak
-- **Disbursement**: batch payout terjadwal (Vercel Cron, mis. mingguan) memanggil Disbursement API ke rekening seller yang terdaftar; sekretaris juga bisa trigger manual dari dashboard
+- **Checkout**: buat Order + OrderItem + LedgerEntry saat checkout, tampilkan instruksi QRIS/transfer bank
+- **Konfirmasi**: Sekretaris konfirmasi pembayaran dari dashboard → `confirmPayment()` update Order ke PAID + buat LedgerEntry IN
+- **Payout**: Seller ajukan payout dari dashboard; Sekretaris proses dari dashboard → `processPayout()` mark PAID + LedgerEntry OUT + ActivityLog
+- **Xendit tidak dipakai** — semua pembayaran manual via dashboard Sekretaris
 
 ## 6. Commission Engine
 
@@ -270,7 +284,6 @@ Karena platform ini menyimpan dokumen KTP dan **Kartu Keluarga** (data pribadi s
 - **Rate limiting**: endpoint login & checkout dibatasi (mis. via Upstash Redis) untuk mencegah brute force/abuse
 - **Validasi input**: Zod di semua form, server action, dan API route — tidak ada input yang dipercaya mentah
 - **Validasi upload file**: cek MIME type & ukuran, tolak ekstensi executable
-- **Webhook signature verification**: wajib untuk semua callback Xendit
 - **Audit log lengkap**: approve/reject seller, perubahan persentase komisi, trigger payout — semua tercatat siapa & kapan
 - **Security headers**: CSP, X-Frame-Options, X-Content-Type-Options via `next.config.js`
 - **Consent & retensi data**: checkbox consent saat registrasi seller (pemrosesan data pribadi sesuai UU PDP), kebijakan retensi/penghapusan dokumen didokumentasikan
@@ -281,8 +294,6 @@ Karena platform ini menyimpan dokumen KTP dan **Kartu Keluarga** (data pribadi s
 DATABASE_URL=
 NEXTAUTH_SECRET=
 NEXTAUTH_URL=
-XENDIT_SECRET_KEY=
-XENDIT_WEBHOOK_TOKEN=
 BLOB_READ_WRITE_TOKEN=
 ENCRYPTION_KEY=
 UPSTASH_REDIS_REST_URL=
@@ -294,4 +305,3 @@ UPSTASH_REDIS_REST_TOKEN=
 - Project di-deploy ke Vercel (team ID sudah ada dari project sebelumnya)
 - Environment variables diisi lewat Vercel dashboard, **tidak pernah** di-commit
 - Prisma migration dijalankan sebagai bagian dari build step
-- Cron job payout dikonfigurasi lewat `vercel.json`

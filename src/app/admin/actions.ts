@@ -117,7 +117,7 @@ export async function updateCompanyProfile(prevState: unknown, formData: FormDat
   }
 
   const result = companySchema.safeParse(raw)
-  if (!result.success) return { error: "Please fix the form errors" }
+  if (!result.success) return { error: "Harap perbaiki kesalahan form" }
 
   const existing = await prisma.companyProfile.findFirst()
   if (existing) {

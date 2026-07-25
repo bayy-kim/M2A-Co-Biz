@@ -32,7 +32,7 @@ export async function createProduct(prevState: ProductState, formData: FormData)
   }
 
   const result = productSchema.safeParse(raw)
-  if (!result.success) return { error: "Please fix the form errors" }
+  if (!result.success) return { error: "Harap perbaiki kesalahan form" }
 
   await prisma.product.create({
     data: {
@@ -104,7 +104,7 @@ export async function requestPayout(prevState: PayoutRequestState, formData: For
   if (!seller || seller.status !== "APPROVED") return { error: "Seller not approved" }
 
   const amountRupiah = parseInt(formData.get("amountRupiah") as string)
-  if (isNaN(amountRupiah) || amountRupiah <= 0) return { error: "Invalid amount" }
+  if (isNaN(amountRupiah) || amountRupiah <= 0) return { error: "Jumlah tidak valid" }
 
   const paidItems = await prisma.orderItem.findMany({
     where: { sellerId: seller.id, order: { paymentStatus: "PAID" } },
@@ -156,7 +156,7 @@ export async function updateProductStatus(productId: string, status: ProductStat
     where: { id: productId },
     include: { seller: true },
   })
-  if (!product || product.seller.userId !== session.user.id) return { error: "Not found" }
+  if (!product || product.seller.userId !== session.user.id) return { error: "Tidak ditemukan" }
 
   await prisma.product.update({
     where: { id: productId },

@@ -19,20 +19,20 @@ export async function AdminCategoriesTab() {
     <div className="space-y-lg">
       <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 overflow-hidden">
         <div className="p-lg border-b border-outline-variant/30">
-          <h3 className="text-headline-md text-on-surface font-bold">Pending Category Proposals</h3>
-          <p className="text-label-sm text-on-surface-variant mt-1">{pendingCategories.length} proposal(s) awaiting review</p>
+          <h3 className="text-headline-md text-on-surface font-bold">Proposal Kategori Tertunda</h3>
+          <p className="text-label-sm text-on-surface-variant mt-1">{pendingCategories.length} proposal menunggu review</p>
         </div>
         {pendingCategories.length === 0 ? (
-          <div className="p-lg text-center text-on-surface-variant text-body-md py-xxl">No pending proposals.</div>
+          <div className="p-lg text-center text-on-surface-variant text-body-md py-xxl">Tidak ada proposal tertunda.</div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left">
               <thead>
                 <tr className="text-label-sm text-on-surface-variant border-b border-outline-variant/30">
-                  <th className="px-lg py-3 font-medium">Category Name</th>
-                  <th className="px-lg py-3 font-medium">Proposed By</th>
-                  <th className="px-lg py-3 font-medium">Date</th>
-                  <th className="px-lg py-3 font-medium">Actions</th>
+                  <th className="px-lg py-3 font-medium">Nama Kategori</th>
+                  <th className="px-lg py-3 font-medium">Diusulkan Oleh</th>
+                  <th className="px-lg py-3 font-medium">Tanggal</th>
+                  <th className="px-lg py-3 font-medium">Aksi</th>
                 </tr>
               </thead>
               <tbody>

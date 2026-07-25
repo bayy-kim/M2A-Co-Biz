@@ -174,9 +174,8 @@ model Order {
   buyerId         String?
   buyer           User?    @relation(fields: [buyerId], references: [id])
   totalRupiah     Int
-  paymentStatus   PaymentStatus @default(PENDING)
-  xenditInvoiceId String?
-  items           OrderItem[]
+  paymentStatus PaymentStatus @default(PENDING)
+  items         OrderItem[]
   createdAt       DateTime @default(now())
 }
 
@@ -197,9 +196,8 @@ model Payout {
   id                   String      @id @default(cuid())
   sellerId             String
   amountRupiah         Int
-  status               PayoutStatus @default(PENDING)
-  xenditDisbursementId String?
-  periodStart          DateTime
+  status      PayoutStatus @default(PENDING)
+  periodStart DateTime
   periodEnd            DateTime
   createdAt            DateTime    @default(now())
 }

@@ -51,7 +51,7 @@ export default function LoginPage() {
       if (data.totp) {
         setStep(2)
       } else {
-        setError("Invalid email or password")
+        setError("Email atau kata sandi salah")
       }
       return
     }
@@ -69,7 +69,7 @@ export default function LoginPage() {
 
     const totp = code.join("")
     if (totp.length !== 6) {
-      setError("Please enter the complete 6-digit code")
+      setError("Masukkan kode 6 digit yang lengkap")
       setPending(false)
       return
     }
@@ -84,7 +84,7 @@ export default function LoginPage() {
     setPending(false)
 
     if (result?.error) {
-      setError("Invalid verification code. Please try again.")
+      setError("Kode verifikasi salah. Silakan coba lagi.")
       setCode(["", "", "", "", "", ""])
       inputRefs.current[0]?.focus()
       return
@@ -104,7 +104,7 @@ export default function LoginPage() {
             <span className="text-display-md font-bold text-primary">M</span>
           </div>
           <h1 className="text-display-md text-primary mb-xs">M2A Co-Biz</h1>
-          <p className="text-body-md text-on-surface-variant">The Business Community Hub</p>
+          <p className="text-body-md text-on-surface-variant">Pusat Komunitas Bisnis</p>
         </div>
 
         <div className="w-full bg-surface-container-lowest shadow-[0_10px_40px_-10px_rgba(15,92,92,0.1)] rounded-xl border border-outline-variant/30 p-xxl relative overflow-hidden">
@@ -114,14 +114,14 @@ export default function LoginPage() {
             <div>
               <div className="flex items-center gap-sm mb-xl">
                 <Lock className="text-primary w-6 h-6" />
-                <h2 className="text-headline-md text-on-surface">Secure Sign In</h2>
+                <h2 className="text-headline-md text-on-surface">Masuk dengan Aman</h2>
               </div>
               {error && (
                 <div className="mb-lg p-md bg-error-container text-on-error-container rounded-lg text-label-sm">{error}</div>
               )}
               <form className="space-y-xl" onSubmit={handleLogin}>
                 <div className="space-y-xs">
-                  <label className="text-label-md text-on-surface-variant px-1" htmlFor="email">Email Address</label>
+                  <label className="text-label-md text-on-surface-variant px-1" htmlFor="email">Alamat Email</label>
                   <div className="relative group">
                     <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-outline group-focus-within:text-primary transition-colors" />
                     <input
@@ -137,8 +137,8 @@ export default function LoginPage() {
                 </div>
                 <div className="space-y-xs">
                   <div className="flex justify-between items-center px-1">
-                    <label className="text-label-md text-on-surface-variant" htmlFor="password">Password</label>
-                    <Link className="text-label-sm text-primary hover:underline" href="#">Forgot password?</Link>
+                      <label className="text-label-md text-on-surface-variant" htmlFor="password">Kata Sandi</label>
+                    <Link className="text-label-sm text-primary hover:underline" href="#">Lupa kata sandi?</Link>
                   </div>
                   <div className="relative group">
                     <Key className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-outline group-focus-within:text-primary transition-colors" />
@@ -155,7 +155,7 @@ export default function LoginPage() {
                 </div>
                 <button className="w-full py-3.5 bg-primary-container text-on-primary-container rounded-lg text-headline-md shadow-md hover:shadow-lg active:scale-[0.98] transition-all flex items-center justify-center gap-sm disabled:opacity-50" disabled={pending} type="submit">
                   {pending ? <Loader2 className="w-5 h-5 animate-spin" /> : null}
-                  {pending ? "Signing in..." : "Continue"}
+                  {pending ? "Masuk..." : "Lanjutkan"}
                   {!pending && <ArrowRight className="w-5 h-5" />}
                 </button>
               </form>
@@ -165,7 +165,7 @@ export default function LoginPage() {
                   <div className="w-full border-t border-outline-variant/30"></div>
                 </div>
                 <div className="relative flex justify-center text-label-sm uppercase">
-                  <span className="bg-surface-container-lowest px-2 text-on-surface-variant">Or continue with</span>
+                  <span className="bg-surface-container-lowest px-2 text-on-surface-variant">Atau masuk dengan</span>
                 </div>
               </div>
 
@@ -184,20 +184,20 @@ export default function LoginPage() {
                   <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05" />
                   <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335" />
                 </svg>
-                Sign in with Google
+                Masuk dengan Google
               </button>
             </div>
           ) : (
             <div>
               <button className="mb-lg flex items-center text-primary text-label-md" onClick={() => setStep(1)} type="button">
                 <ArrowLeft className="w-[18px] h-[18px]" />
-                <span>Back to login</span>
+                <span>Kembali ke login</span>
               </button>
               <div className="flex items-center gap-sm mb-lg">
                 <ShieldCheck className="text-primary w-6 h-6" />
-                <h2 className="text-headline-md text-on-surface">Staff Verification</h2>
+                <h2 className="text-headline-md text-on-surface">Verifikasi Staf</h2>
               </div>
-              <p className="text-body-md text-on-surface-variant mb-xl">A security code has been sent to your registered device. Please enter the 6-digit code below to verify your identity.</p>
+              <p className="text-body-md text-on-surface-variant mb-xl">Kode keamanan telah dikirim ke perangkat terdaftar Anda. Masukkan kode 6 digit di bawah untuk memverifikasi identitas Anda.</p>
               {error && (
                 <div className="mb-lg p-md bg-error-container text-on-error-container rounded-lg text-label-sm">{error}</div>
               )}
@@ -218,11 +218,11 @@ export default function LoginPage() {
                 <div className="flex flex-col gap-md">
                   <button className="w-full py-3.5 bg-accent-gold text-on-primary-fixed text-headline-md rounded-lg shadow-md hover:shadow-lg active:scale-[0.98] transition-all flex items-center justify-center gap-sm disabled:opacity-50" disabled={pending} type="submit">
                     {pending ? <Loader2 className="w-5 h-5 animate-spin" /> : null}
-                    {pending ? "Verifying..." : "Verify & Enter"}
+                    {pending ? "Memverifikasi..." : "Verifikasi & Masuk"}
                     {!pending && <Verified className="w-5 h-5" />}
                   </button>
                   <button className="text-label-md text-on-surface-variant hover:text-primary py-2 transition-colors" type="button">
-                    Didn&apos;t receive a code? <span className="font-bold">Resend</span>
+                    Tidak menerima kode? <span className="font-bold">Kirim Ulang</span>
                   </button>
                 </div>
               </form>
@@ -231,14 +231,14 @@ export default function LoginPage() {
         </div>
 
         <div className="mt-xl flex flex-wrap justify-center gap-xl">
-          <Link className="text-label-sm text-on-surface-variant hover:text-primary transition-colors flex items-center gap-xs" href="#"><HelpCircle className="w-[16px] h-[16px]" /> Support Hub</Link>
-          <Link className="text-label-sm text-on-surface-variant hover:text-primary transition-colors flex items-center gap-xs" href="#"><FileText className="w-[16px] h-[16px]" /> Privacy Policy</Link>
-          <Link className="text-label-sm text-on-surface-variant hover:text-primary transition-colors flex items-center gap-xs" href="#"><FileText className="w-[16px] h-[16px]" /> Terms</Link>
+          <Link className="text-label-sm text-on-surface-variant hover:text-primary transition-colors flex items-center gap-xs" href="#"><HelpCircle className="w-[16px] h-[16px]" /> Pusat Bantuan</Link>
+          <Link className="text-label-sm text-on-surface-variant hover:text-primary transition-colors flex items-center gap-xs" href="/privacy"><FileText className="w-[16px] h-[16px]" /> Kebijakan Privasi</Link>
+          <Link className="text-label-sm text-on-surface-variant hover:text-primary transition-colors flex items-center gap-xs" href="/terms"><FileText className="w-[16px] h-[16px]" /> Ketentuan</Link>
         </div>
 
         <div className="mt-xxl flex items-center gap-sm px-4 py-2 bg-on-primary-fixed-variant/5 rounded-full border border-outline-variant/20">
           <Verified className="text-primary w-5 h-5" />
-          <span className="text-label-sm text-on-surface-variant">Enterprise Grade Security Encryption</span>
+          <span className="text-label-sm text-on-surface-variant">Enkripsi Keamanan Enterprise</span>
         </div>
       </div>
     </div>

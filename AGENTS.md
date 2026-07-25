@@ -11,7 +11,7 @@ M2A Co-Biz adalah platform marketplace + manajemen internal untuk UMKM dan penye
 - **Tailwind theme**: All Material 3 color tokens, Plus Jakarta Sans + Inter, type scale, spacing
 - **Auth config**: NextAuth v5 + Credentials + Google OAuth + PrismaAdapter + JWT (id, role in token/session)
 - **RBAC proxy**: Role-based access control per route (`src/proxy.ts`)
-- **Core lib**: db, encryption (AES-256-GCM), xendit (Invoice + Payout wrappers), commission-engine (cascade: seller > category > global), utils (maskString, formatRupiah), rate-limit (Upstash Redis)
+- **Core lib**: db, encryption (AES-256-GCM), commission-engine (cascade: seller > category > global), utils (maskString, formatRupiah), rate-limit (Upstash Redis), payout-utils (mark PAID + LedgerEntry OUT + ActivityLog)
 - **Auth API route**: `/api/auth/[...nextauth]`
 - **All config files**: next.config.ts, .env, .env.example
 - **Login page** (`/login`): wired to NextAuth `signIn`, email+password+TOTP form, error handling + Google OAuth
@@ -27,10 +27,8 @@ M2A Co-Biz adalah platform marketplace + manajemen internal untuk UMKM dan penye
 ### Phase 3 — Transaksi & Komisi (100%)
 - **Checkout** (`/checkout`): buyer form (name, phone, qty), order creation, rate-limited, commission calculation via `resolveCommission()`, OrderItem + LedgerEntry, order confirmation page with QRIS/bank payment instructions
 - **Commission engine**: `resolveCommission()` cascade (SELLER > CATEGORY > GLOBAL → 0%), fully wired in checkout
-- **Sekretaris dashboard** (`/sekretaris`): shared DashboardShell, revenue/commission/profit stats, ledger table, set commission rules (global/category/seller), pending payout list + process action (calls Xendit Disbursement API), payments tab (confirm payment manual, create LedgerEntry IN)
-- **Xendit webhook** (`/api/webhooks/xendit`): signature verification (`x-callback-token`), update Order status to PAID/EXPIRED, activity log
-- **Xendit lib** (`src/lib/xendit.ts`): `createInvoice()`, `createDisbursement()`, `verifyWebhookSignature()`
-- **Seller payouts**: payout request form + history table di dashboard Seller
+- **Sekretaris dashboard** (`/sekretaris`): shared DashboardShell, revenue/commission/profit stats, ledger table, set commission rules (global/category/seller), pending payout list + process action (mark PAID + LedgerEntry OUT + ActivityLog), payments tab (confirm payment manual, create LedgerEntry IN)
+- **Seller payouts**: payout request form + history table di dashboard Seller; Sekretaris proses payout dari dashboard (tanpa Xendit — manual)
 
 ### Phase 4 — Dashboard & Analitik (100%)
 - **Ketua dashboard** (`/ketua`): shared DashboardShell, overview cards (sellers/products/orders/revenue/pending), platform summary, activity feed (read-only, real-time), full activity log table
@@ -96,13 +94,17 @@ M2A Co-Biz adalah platform marketplace + manajemen internal untuk UMKM dan penye
 - **Landing page footer**: link WhatsApp ngarah ke `wa.me` dari DB, bukan `#`
 - **Section Rekomendasi**: ambil 4 produk ACTIVE lain (exclude dari hasil grid saat ini), urut terbaru; jika filter kategori, prioritaskan kategori yang sama; label "Produk Lainnya untuk Kamu" dengan `Sparkles` icon
 
+## Selesai (Post-Phase 12)
+- **Xendit removal**: Xendit dihapus total — `xendit-node` dari package.json, `src/lib/xendit.ts`, webhook endpoint, cron payout, `xenditInvoiceId` & `xenditDisbursementId` dari schema; migration `20260725180000_remove_xendit_fields`. Pembayaran manual via Sekretaris (`confirmPayment()`), payout manual via `processPayout()`.
+- **Production readiness**: `public/robots.txt`, `src/app/sitemap.ts`, `public/favicon.svg`, OG metadata, Terms of Service & Privacy Policy diisi konten lengkap sesuai UU PDP, QRIS placeholder fallback.
+- **Translation 100%**: Semua UI string bahasa Inggris di seluruh halaman (admin, seller, sekretaris, ketua, catalog, checkout, register, landing, dll) sudah diterjemahkan ke Bahasa Indonesia.
+
 ## In Progress / TODO
-- **Terms & Privacy pages**: masih placeholder, perlu diisi konten sesuai UU PDP
 - **Vercel Blob token**: `BLOB_READ_WRITE_TOKEN` sudah diisi di Vercel dashboard — upload dokumen berfungsi di production
 - `DATABASE_URL` env var di Vercel dashboard belum diset — build akan gagal jika tidak diisi
 
 ## Tech Stack Wajib
-Next.js 16 App Router + TypeScript, Tailwind CSS v4 + shadcn/ui, Framer Motion, Prisma + PostgreSQL, NextAuth v5 (+ Google OAuth), Xendit, Vercel Blob, Recharts, React Hook Form + Zod, Upstash Redis.
+Next.js 16 App Router + TypeScript, Tailwind CSS v4 + shadcn/ui, Framer Motion, Prisma + PostgreSQL, NextAuth v5 (+ Google OAuth), Vercel Blob, Recharts, React Hook Form + Zod, Upstash Redis.
 
 ## Larangan
 - Tidak ada emoji di UI mana pun — pakai icon dari `lucide-react`
@@ -125,7 +127,7 @@ Next.js 16 App Router + TypeScript, Tailwind CSS v4 + shadcn/ui, Framer Motion, 
 - Middleware → proxy.ts (Next.js 16 deprecated middleware → proxy pattern)
 - Route groups: all folders langsung di `src/app/` (`/admin`, `/login`, `/catalog`, etc.), bukan `(auth)` dll.
 - Tailwind v4 → `@theme inline` (bukan `extend`)
-- Xendit SDK: `{ Invoice, Payout }` via destructure, bukan `new Xendit()`
+- Payout manual: Sekretaris proses payout dari dashboard → `processPayout()` di `src/app/sekretaris/actions.ts` (mark PAID + LedgerEntry OUT + ActivityLog)
 - CommissionRule `percent` adalah `Decimal` — render pake `Number()` di JSX
 - Payout `sellerId` string biasa, tanpa relasi — perlu manual lookup
 - Local PostgreSQL broken on Windows (ASLR `0xC0000142`) — semua DB ops via Vercel build
@@ -135,8 +137,8 @@ Next.js 16 App Router + TypeScript, Tailwind CSS v4 + shadcn/ui, Framer Motion, 
 ## Semua Route (16 total)
 ```
 /                    (static)  Landing page
-/terms               (static)  Terms of Service (placeholder)
-/privacy             (static)  Privacy Policy (placeholder)
+/terms               (static)  Terms of Service (isi lengkap 9 pasal)
+/privacy             (static)  Privacy Policy (isi lengkap 10 pasal sesuai UU PDP)
 /login               (static)  Login (NextAuth signIn)
 /register            (static)  Buyer & Seller registration (server action, toggle)
 /catalog             (dynamic) Product catalog (Prisma + search/filter/sort/pagination)
@@ -148,7 +150,5 @@ Next.js 16 App Router + TypeScript, Tailwind CSS v4 + shadcn/ui, Framer Motion, 
 /sekretaris          (dynamic) Sekretaris dashboard (commission + payouts)
 /seller              (dynamic) Seller dashboard (product mgmt + category proposal)
 /api/auth/[...nextauth]      (dynamic) NextAuth API
-/api/webhooks/xendit         (dynamic) Xendit payment callback
 /api/admin/documents/[id]    (dynamic) View seller document (decrypt + serve)
-/api/crons/payout            (dynamic) Cron payout (Vercel Cron, protected)
 ```

@@ -11,11 +11,11 @@ import { PayoutAction } from "./payout-action"
 import { ConfirmPaymentButton } from "./confirm-payment-button"
 
 const SIDEBAR: { label: string; href: string; icon: LucideIcon }[] = [
-  { label: "Overview", href: "/sekretaris", icon: LayoutDashboard },
-  { label: "Payments", href: "/sekretaris?tab=payments", icon: CreditCard },
-  { label: "Commission Rules", href: "/sekretaris?tab=commissions", icon: Percent },
-  { label: "Payouts", href: "/sekretaris?tab=payouts", icon: Wallet },
-  { label: "Ledger", href: "/sekretaris?tab=ledger", icon: BookOpen },
+  { label: "Ringkasan", href: "/sekretaris", icon: LayoutDashboard },
+  { label: "Pembayaran", href: "/sekretaris?tab=payments", icon: CreditCard },
+  { label: "Aturan Komisi", href: "/sekretaris?tab=commissions", icon: Percent },
+  { label: "Pencairan", href: "/sekretaris?tab=payouts", icon: Wallet },
+  { label: "Buku Besar", href: "/sekretaris?tab=ledger", icon: BookOpen },
 ]
 
 async function SekretarisDashboard({ searchParams }: { searchParams: Promise<{ tab?: string }> }) {
@@ -57,13 +57,13 @@ async function SekretarisDashboard({ searchParams }: { searchParams: Promise<{ t
   return (
     <DashboardShell
       sidebarItems={SIDEBAR}
-      title="Finance Panel"
+      title="Panel Keuangan"
       roleLabel="sekretaris"
       tab={tab}
       userName={session.user.name}
       extraHeader={
         <div className="flex items-center gap-md">
-          <span className="text-label-sm text-on-surface-variant">{pendingPayouts._count} pending payouts</span>
+          <span className="text-label-sm text-on-surface-variant">{pendingPayouts._count} pencairan tertunda</span>
           <div className="w-2 h-2 rounded-full bg-warning animate-pulse" />
         </div>
       }
@@ -76,7 +76,7 @@ async function SekretarisDashboard({ searchParams }: { searchParams: Promise<{ t
                 <div className="w-12 h-12 rounded-xl bg-success/10 flex items-center justify-center"><TrendingUp className="w-6 h-6 text-success" /></div>
                 <div>
                   <p className="text-display-md font-bold text-on-surface">{formatRupiah(totalIn)}</p>
-                  <p className="text-label-sm text-on-surface-variant">Total Revenue</p>
+                  <p className="text-label-sm text-on-surface-variant">Total Pendapatan</p>
                 </div>
               </div>
             </div>
@@ -85,7 +85,7 @@ async function SekretarisDashboard({ searchParams }: { searchParams: Promise<{ t
                 <div className="w-12 h-12 rounded-xl bg-warning/10 flex items-center justify-center"><Percent className="w-6 h-6 text-warning" /></div>
                 <div>
                   <p className="text-display-md font-bold text-on-surface">{formatRupiah(totalOut)}</p>
-                  <p className="text-label-sm text-on-surface-variant">Commission Collected</p>
+                  <p className="text-label-sm text-on-surface-variant">Komisi Terkumpul</p>
                 </div>
               </div>
             </div>
@@ -94,7 +94,7 @@ async function SekretarisDashboard({ searchParams }: { searchParams: Promise<{ t
                 <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">{profit >= 0 ? <TrendingUp className="w-6 h-6 text-primary" /> : <TrendingDown className="w-6 h-6 text-error" />}</div>
                 <div>
                   <p className="text-display-md font-bold text-on-surface">{formatRupiah(profit)}</p>
-                  <p className="text-label-sm text-on-surface-variant">Net Profit</p>
+                  <p className="text-label-sm text-on-surface-variant">Laba Bersih</p>
                 </div>
               </div>
             </div>
@@ -103,7 +103,7 @@ async function SekretarisDashboard({ searchParams }: { searchParams: Promise<{ t
                 <div className="w-12 h-12 rounded-xl bg-tertiary/10 flex items-center justify-center"><Wallet className="w-6 h-6 text-tertiary" /></div>
                 <div>
                   <p className="text-display-md font-bold text-on-surface">{formatRupiah(pendingPayouts._sum.amountRupiah || 0)}</p>
-                  <p className="text-label-sm text-on-surface-variant">Pending Payouts ({pendingPayouts._count})</p>
+                  <p className="text-label-sm text-on-surface-variant">Pencairan Tertunda ({pendingPayouts._count})</p>
                 </div>
               </div>
             </div>
@@ -111,7 +111,7 @@ async function SekretarisDashboard({ searchParams }: { searchParams: Promise<{ t
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-lg">
             <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 p-lg">
-              <h3 className="text-headline-md text-on-surface font-bold mb-lg">Revenue vs Commission</h3>
+              <h3 className="text-headline-md text-on-surface font-bold mb-lg">Pendapatan vs Komisi</h3>
               <FinanceBarChart data={[{ label: "All Time", revenue: totalIn, commission: totalOut }]} />
             </div>
             <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 p-lg">
@@ -120,16 +120,16 @@ async function SekretarisDashboard({ searchParams }: { searchParams: Promise<{ t
                   name: sellerMap.get(c.sellerId) || c.sellerId.slice(0, 8),
                   value: c._sum.commissionRupiah || 0,
                 }))}
-                title="Commission by Seller"
+                title="Komisi per Penjual"
               />
             </div>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-lg">
             <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 p-lg">
-              <h3 className="text-headline-md text-on-surface font-bold mb-lg">Pending Payouts</h3>
+              <h3 className="text-headline-md text-on-surface font-bold mb-lg">Pencairan Tertunda</h3>
               {pendingPayoutsList.length === 0 ? (
-                <p className="text-body-md text-on-surface-variant text-center py-lg">No pending payouts.</p>
+                <p className="text-body-md text-on-surface-variant text-center py-lg">Tidak ada pencairan tertunda.</p>
               ) : (
                 <div className="space-y-md">
                   {pendingPayoutsList.slice(0, 5).map((p) => (
@@ -145,18 +145,18 @@ async function SekretarisDashboard({ searchParams }: { searchParams: Promise<{ t
               )}
             </div>
             <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 p-lg">
-              <h3 className="text-headline-md text-on-surface font-bold mb-lg">Active Commission Rules</h3>
+              <h3 className="text-headline-md text-on-surface font-bold mb-lg">Aturan Komisi Aktif</h3>
               <div className="space-y-md">
                 <div className="flex justify-between text-label-md">
-                  <span className="text-on-surface">Global Default</span>
-                  <span className="text-on-surface font-bold">{globalRule ? `${Number(globalRule.percent)}%` : "Not set"}</span>
+                  <span className="text-on-surface">Default Global</span>
+                  <span className="text-on-surface font-bold">{globalRule ? `${Number(globalRule.percent)}%` : "Belum diset"}</span>
                 </div>
                 <div className="flex justify-between text-label-md">
-                  <span className="text-on-surface">Per-Category Rules</span>
+                  <span className="text-on-surface">Aturan per Kategori</span>
                   <span className="text-on-surface font-bold">{categoryRules.length}</span>
                 </div>
                 <div className="flex justify-between text-label-md">
-                  <span className="text-on-surface">Per-Seller Rules</span>
+                  <span className="text-on-surface">Aturan per Penjual</span>
                   <span className="text-on-surface font-bold">{sellerRules.length}</span>
                 </div>
               </div>
@@ -165,18 +165,18 @@ async function SekretarisDashboard({ searchParams }: { searchParams: Promise<{ t
 
           <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 overflow-hidden">
             <div className="p-lg border-b border-outline-variant/30">
-              <h3 className="text-headline-md text-on-surface font-bold">Ledger</h3>
+              <h3 className="text-headline-md text-on-surface font-bold">Buku Besar</h3>
             </div>
             {ledgerEntries.length === 0 ? (
-              <div className="p-lg text-center text-on-surface-variant text-body-md">No entries yet.</div>
+              <div className="p-lg text-center text-on-surface-variant text-body-md">Belum ada entri.</div>
             ) : (
               <div className="overflow-x-auto">
                 <table className="w-full text-left">
                   <thead>
                     <tr className="text-label-sm text-on-surface-variant border-b border-outline-variant/30">
-                      <th className="px-lg py-3 font-medium">Type</th>
-                      <th className="px-lg py-3 font-medium">Amount</th>
-                      <th className="px-lg py-3 font-medium">Date</th>
+                      <th className="px-lg py-3 font-medium">Tipe</th>
+                      <th className="px-lg py-3 font-medium">Jumlah</th>
+                      <th className="px-lg py-3 font-medium">Tanggal</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -202,22 +202,22 @@ async function SekretarisDashboard({ searchParams }: { searchParams: Promise<{ t
       {tab === "payments" && (
         <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 overflow-hidden">
           <div className="p-lg border-b border-outline-variant/30">
-            <h3 className="text-headline-md text-on-surface font-bold">Pending Payments</h3>
-            <p className="text-label-sm text-on-surface-variant mt-1">{pendingPaymentsList.length} order(s) awaiting confirmation</p>
+            <h3 className="text-headline-md text-on-surface font-bold">Pembayaran Tertunda</h3>
+            <p className="text-label-sm text-on-surface-variant mt-1">{pendingPaymentsList.length} pesanan menunggu konfirmasi</p>
           </div>
           {pendingPaymentsList.length === 0 ? (
-            <div className="p-lg text-center text-on-surface-variant text-body-md py-xxl">No pending payments. All orders confirmed.</div>
+            <div className="p-lg text-center text-on-surface-variant text-body-md py-xxl">Tidak ada pembayaran tertunda. Semua pesanan terkonfirmasi.</div>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-left">
                 <thead>
                   <tr className="text-label-sm text-on-surface-variant border-b border-outline-variant/30">
-                    <th className="px-lg py-3 font-medium">Order</th>
-                    <th className="px-lg py-3 font-medium">Buyer</th>
-                    <th className="px-lg py-3 font-medium">Items</th>
+                    <th className="px-lg py-3 font-medium">Pesanan</th>
+                    <th className="px-lg py-3 font-medium">Pembeli</th>
+                    <th className="px-lg py-3 font-medium">Item</th>
                     <th className="px-lg py-3 font-medium">Total</th>
-                    <th className="px-lg py-3 font-medium">Date</th>
-                    <th className="px-lg py-3 font-medium">Actions</th>
+                    <th className="px-lg py-3 font-medium">Tanggal</th>
+                    <th className="px-lg py-3 font-medium">Aksi</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -246,7 +246,7 @@ async function SekretarisDashboard({ searchParams }: { searchParams: Promise<{ t
       {tab === "commissions" && (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-lg">
           <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 p-lg">
-            <h3 className="text-headline-md text-on-surface font-bold mb-lg">Set Commission Rule</h3>
+            <h3 className="text-headline-md text-on-surface font-bold mb-lg">Atur Aturan Komisi</h3>
             <CommissionRuleForm />
           </div>
           <div className="space-y-lg">
@@ -254,17 +254,17 @@ async function SekretarisDashboard({ searchParams }: { searchParams: Promise<{ t
               <h3 className="text-headline-md text-on-surface font-bold mb-lg">Global</h3>
               {globalRule ? (
                 <div className="flex justify-between text-label-md">
-                  <span className="text-on-surface">Default Rate</span>
+                  <span className="text-on-surface">Tarif Default</span>
                   <span className="text-on-surface font-bold">{Number(globalRule.percent)}%</span>
                 </div>
               ) : (
-                <p className="text-label-sm text-on-surface-variant">Not set. Defaults to 0%.</p>
+                <p className="text-label-sm text-on-surface-variant">Belum diset. Default 0%.</p>
               )}
             </div>
             <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 p-lg">
-              <h3 className="text-headline-md text-on-surface font-bold mb-lg">Per Category</h3>
+              <h3 className="text-headline-md text-on-surface font-bold mb-lg">Per Kategori</h3>
               {categoryRules.length === 0 ? (
-                <p className="text-label-sm text-on-surface-variant">No category overrides.</p>
+                <p className="text-label-sm text-on-surface-variant">Tidak ada override kategori.</p>
               ) : (
                 <div className="space-y-md">
                   {categoryRules.map((r) => (
@@ -277,9 +277,9 @@ async function SekretarisDashboard({ searchParams }: { searchParams: Promise<{ t
               )}
             </div>
             <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 p-lg">
-              <h3 className="text-headline-md text-on-surface font-bold mb-lg">Per Seller</h3>
+              <h3 className="text-headline-md text-on-surface font-bold mb-lg">Per Penjual</h3>
               {sellerRules.length === 0 ? (
-                <p className="text-label-sm text-on-surface-variant">No seller overrides.</p>
+                <p className="text-label-sm text-on-surface-variant">Tidak ada override penjual.</p>
               ) : (
                 <div className="space-y-md">
                   {sellerRules.map((r) => (
@@ -299,21 +299,21 @@ async function SekretarisDashboard({ searchParams }: { searchParams: Promise<{ t
         <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 overflow-hidden">
           <div className="p-lg border-b border-outline-variant/30 flex items-center justify-between">
             <div>
-              <h3 className="text-headline-md text-on-surface font-bold">Pending Payouts</h3>
-              <p className="text-label-sm text-on-surface-variant">{pendingPayoutsList.length} seller(s) awaiting payout</p>
+              <h3 className="text-headline-md text-on-surface font-bold">Pencairan Tertunda</h3>
+              <p className="text-label-sm text-on-surface-variant">{pendingPayoutsList.length} penjual menunggu pencairan</p>
             </div>
           </div>
           {pendingPayoutsList.length === 0 ? (
-            <div className="p-lg text-center text-on-surface-variant text-body-md py-xxl">All payouts processed.</div>
+            <div className="p-lg text-center text-on-surface-variant text-body-md py-xxl">Semua pencairan sudah diproses.</div>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-left">
                 <thead>
                   <tr className="text-label-sm text-on-surface-variant border-b border-outline-variant/30">
-                    <th className="px-lg py-3 font-medium">Seller</th>
-                    <th className="px-lg py-3 font-medium">Period</th>
-                    <th className="px-lg py-3 font-medium">Amount</th>
-                    <th className="px-lg py-3 font-medium">Actions</th>
+                    <th className="px-lg py-3 font-medium">Penjual</th>
+                    <th className="px-lg py-3 font-medium">Periode</th>
+                    <th className="px-lg py-3 font-medium">Jumlah</th>
+                    <th className="px-lg py-3 font-medium">Aksi</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -335,19 +335,19 @@ async function SekretarisDashboard({ searchParams }: { searchParams: Promise<{ t
       {tab === "ledger" && (
         <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 overflow-hidden">
           <div className="p-lg border-b border-outline-variant/30">
-            <h3 className="text-headline-md text-on-surface font-bold">Ledger</h3>
+            <h3 className="text-headline-md text-on-surface font-bold">Buku Besar</h3>
           </div>
           {ledgerEntries.length === 0 ? (
-            <div className="p-lg text-center text-on-surface-variant text-body-md">No entries yet.</div>
+            <div className="p-lg text-center text-on-surface-variant text-body-md">Belum ada entri.</div>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-left">
                 <thead>
                   <tr className="text-label-sm text-on-surface-variant border-b border-outline-variant/30">
-                    <th className="px-lg py-3 font-medium">Type</th>
-                    <th className="px-lg py-3 font-medium">Amount</th>
-                    <th className="px-lg py-3 font-medium">Order</th>
-                    <th className="px-lg py-3 font-medium">Date</th>
+                    <th className="px-lg py-3 font-medium">Tipe</th>
+                    <th className="px-lg py-3 font-medium">Jumlah</th>
+                    <th className="px-lg py-3 font-medium">Pesanan</th>
+                    <th className="px-lg py-3 font-medium">Tanggal</th>
                   </tr>
                 </thead>
                 <tbody>

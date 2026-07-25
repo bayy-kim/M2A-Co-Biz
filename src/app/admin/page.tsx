@@ -10,12 +10,12 @@ import { AdminUsersTab } from "./users-tab"
 import { AdminCompanyTab } from "./company-tab"
 
 const SIDEBAR: { label: string; href: string; icon: LucideIcon }[] = [
-  { label: "Overview", href: "/admin", icon: LayoutDashboard },
-  { label: "Approval Queue", href: "/admin?tab=approvals", icon: Clock },
-  { label: "Categories", href: "/admin?tab=categories", icon: Tag },
-  { label: "Users", href: "/admin?tab=users", icon: Users },
-  { label: "Company Profile", href: "/admin?tab=company", icon: Building2 },
-  { label: "Activity Log", href: "/admin?tab=activity", icon: List },
+  { label: "Ringkasan", href: "/admin", icon: LayoutDashboard },
+  { label: "Antrian Persetujuan", href: "/admin?tab=approvals", icon: Clock },
+  { label: "Kategori", href: "/admin?tab=categories", icon: Tag },
+  { label: "Pengguna", href: "/admin?tab=users", icon: Users },
+  { label: "Profil Perusahaan", href: "/admin?tab=company", icon: Building2 },
+  { label: "Log Aktivitas", href: "/admin?tab=activity", icon: List },
 ]
 
 async function AdminDashboard({ searchParams }: { searchParams: Promise<{ tab?: string }> }) {
@@ -39,7 +39,7 @@ async function AdminDashboard({ searchParams }: { searchParams: Promise<{ tab?: 
   return (
     <DashboardShell
       sidebarItems={SIDEBAR}
-      title="Admin Panel"
+      title="Panel Admin"
       roleLabel="admin"
       tab={tab}
       userName={session.user.name}
@@ -47,7 +47,7 @@ async function AdminDashboard({ searchParams }: { searchParams: Promise<{ tab?: 
         <div className="flex items-center gap-md">
           <div className="relative hidden md:block">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-outline" />
-            <input className="w-64 bg-surface-container-low border-none rounded-lg pl-9 pr-3 py-1.5 text-label-md focus:ring-2 focus:ring-primary/20 transition-all" placeholder="Search..." type="text" />
+            <input className="w-64 bg-surface-container-low border-none rounded-lg pl-9 pr-3 py-1.5 text-label-md focus:ring-2 focus:ring-primary/20 transition-all" placeholder="Cari..." type="text" />
           </div>
           <div className="w-2 h-2 rounded-full bg-danger animate-pulse" title={`${pendingSellers.length} pending`} />
         </div>
@@ -63,7 +63,7 @@ async function AdminDashboard({ searchParams }: { searchParams: Promise<{ tab?: 
                 </div>
                 <div>
                   <p className="text-display-md font-bold text-on-surface">{pendingSellers.length}</p>
-                  <p className="text-label-sm text-on-surface-variant">Pending Approvals</p>
+                  <p className="text-label-sm text-on-surface-variant">Menunggu Persetujuan</p>
                 </div>
               </div>
             </div>
@@ -74,7 +74,7 @@ async function AdminDashboard({ searchParams }: { searchParams: Promise<{ tab?: 
                 </div>
                 <div>
                   <p className="text-display-md font-bold text-on-surface">{totalSellers}</p>
-                  <p className="text-label-sm text-on-surface-variant">Total Sellers</p>
+                  <p className="text-label-sm text-on-surface-variant">Total Penjual</p>
                 </div>
               </div>
             </div>
@@ -85,7 +85,7 @@ async function AdminDashboard({ searchParams }: { searchParams: Promise<{ tab?: 
                 </div>
                 <div>
                   <p className="text-display-md font-bold text-on-surface">{totalProducts}</p>
-                  <p className="text-label-sm text-on-surface-variant">Active Products</p>
+                  <p className="text-label-sm text-on-surface-variant">Produk Aktif</p>
                 </div>
               </div>
             </div>
@@ -96,7 +96,7 @@ async function AdminDashboard({ searchParams }: { searchParams: Promise<{ tab?: 
                 </div>
                 <div>
                   <p className="text-display-md font-bold text-on-surface">{recentActivity.length}</p>
-                  <p className="text-label-sm text-on-surface-variant">Recent Activity</p>
+                  <p className="text-label-sm text-on-surface-variant">Aktivitas Terbaru</p>
                 </div>
               </div>
             </div>
@@ -104,21 +104,21 @@ async function AdminDashboard({ searchParams }: { searchParams: Promise<{ tab?: 
 
           <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 overflow-hidden">
             <div className="p-lg border-b border-outline-variant/30 flex items-center justify-between">
-              <h3 className="text-headline-md text-on-surface font-bold">Pending Seller Approvals</h3>
-              <Link href="/admin?tab=approvals" className="text-label-md text-primary hover:underline">View All</Link>
+              <h3 className="text-headline-md text-on-surface font-bold">Persetujuan Penjual Tertunda</h3>
+              <Link href="/admin?tab=approvals" className="text-label-md text-primary hover:underline">Lihat Semua</Link>
             </div>
             {pendingSellers.length === 0 ? (
-              <div className="p-lg text-center text-on-surface-variant text-body-md">No pending approvals.</div>
+              <div className="p-lg text-center text-on-surface-variant text-body-md">Tidak ada yang menunggu persetujuan.</div>
             ) : (
               <div className="overflow-x-auto">
                 <table className="w-full text-left">
                   <thead>
                     <tr className="text-label-sm text-on-surface-variant border-b border-outline-variant/30">
-                      <th className="px-lg py-3 font-medium">Name</th>
-                      <th className="px-lg py-3 font-medium">Business</th>
-                      <th className="px-lg py-3 font-medium">Type</th>
-                      <th className="px-lg py-3 font-medium">Date</th>
-                      <th className="px-lg py-3 font-medium">Docs</th>
+                      <th className="px-lg py-3 font-medium">Nama</th>
+                      <th className="px-lg py-3 font-medium">Usaha</th>
+                      <th className="px-lg py-3 font-medium">Jenis</th>
+                      <th className="px-lg py-3 font-medium">Tanggal</th>
+                      <th className="px-lg py-3 font-medium">Dokumen</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -154,9 +154,9 @@ async function AdminDashboard({ searchParams }: { searchParams: Promise<{ tab?: 
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-lg">
             <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 p-lg">
-              <h3 className="text-headline-md text-on-surface font-bold mb-lg">Recent Activity</h3>
+              <h3 className="text-headline-md text-on-surface font-bold mb-lg">Aktivitas Terbaru</h3>
               {recentActivity.length === 0 ? (
-                <p className="text-body-md text-on-surface-variant text-center py-lg">No activity yet.</p>
+                <p className="text-body-md text-on-surface-variant text-center py-lg">Belum ada aktivitas.</p>
               ) : (
                 <div className="space-y-md">
                   {recentActivity.map((log) => (
@@ -182,23 +182,23 @@ async function AdminDashboard({ searchParams }: { searchParams: Promise<{ tab?: 
       {tab === "approvals" && (
         <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 overflow-hidden">
           <div className="p-lg border-b border-outline-variant/30">
-            <h3 className="text-headline-md text-on-surface font-bold">Approval Queue</h3>
-            <p className="text-label-sm text-on-surface-variant mt-1">{pendingSellers.length} seller(s) awaiting review</p>
+            <h3 className="text-headline-md text-on-surface font-bold">Antrian Persetujuan</h3>
+            <p className="text-label-sm text-on-surface-variant mt-1">{pendingSellers.length} penjual menunggu review</p>
           </div>
           {pendingSellers.length === 0 ? (
-            <div className="p-lg text-center text-on-surface-variant text-body-md py-xxl">No pending approvals. All clear!</div>
+            <div className="p-lg text-center text-on-surface-variant text-body-md py-xxl">Tidak ada yang menunggu. Semua bersih!</div>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-left">
                 <thead>
                   <tr className="text-label-sm text-on-surface-variant border-b border-outline-variant/30">
-                    <th className="px-lg py-3 font-medium">Seller</th>
-                    <th className="px-lg py-3 font-medium">Business</th>
-                    <th className="px-lg py-3 font-medium">Type</th>
-                    <th className="px-lg py-3 font-medium">Contact</th>
-                    <th className="px-lg py-3 font-medium">Registered</th>
-                    <th className="px-lg py-3 font-medium">Documents</th>
-                    <th className="px-lg py-3 font-medium">Actions</th>
+                    <th className="px-lg py-3 font-medium">Penjual</th>
+                    <th className="px-lg py-3 font-medium">Usaha</th>
+                    <th className="px-lg py-3 font-medium">Jenis</th>
+                    <th className="px-lg py-3 font-medium">Kontak</th>
+                    <th className="px-lg py-3 font-medium">Terdaftar</th>
+                    <th className="px-lg py-3 font-medium">Dokumen</th>
+                    <th className="px-lg py-3 font-medium">Aksi</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -226,7 +226,7 @@ async function AdminDashboard({ searchParams }: { searchParams: Promise<{ tab?: 
                               {doc.type}
                             </a>
                           ))}
-                          {seller.documents.length === 0 && <span className="text-label-sm text-on-surface-variant italic">No files</span>}
+                            {seller.documents.length === 0 && <span className="text-label-sm text-on-surface-variant italic">Tidak ada</span>}
                         </div>
                       </td>
                       <td className="px-lg py-3">
@@ -254,15 +254,15 @@ async function AdminDashboard({ searchParams }: { searchParams: Promise<{ tab?: 
         <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 p-lg">
           <h3 className="text-headline-md text-on-surface font-bold mb-lg">Activity Log</h3>
           {recentActivity.length === 0 ? (
-            <p className="text-body-md text-on-surface-variant">No activity recorded yet.</p>
+            <p className="text-body-md text-on-surface-variant">Belum ada aktivitas tercatat.</p>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-left">
                 <thead>
                   <tr className="text-label-sm text-on-surface-variant border-b border-outline-variant/30">
-                    <th className="px-lg py-3 font-medium">Action</th>
+                    <th className="px-lg py-3 font-medium">Aksi</th>
                     <th className="px-lg py-3 font-medium">Target</th>
-                    <th className="px-lg py-3 font-medium">Date</th>
+                    <th className="px-lg py-3 font-medium">Tanggal</th>
                   </tr>
                 </thead>
                 <tbody>

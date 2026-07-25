@@ -29,7 +29,7 @@ export default function RegisterPage() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    if (state.message === "Registration submitted successfully! Redirecting...") {
+              if (state.message === "Registration submitted successfully! Redirecting..." || state.message === "Akun berhasil dibuat! Mengarahkan...") {
       router.push("/login")
       return
     }
@@ -61,36 +61,36 @@ export default function RegisterPage() {
         </div>
         <div className="hidden md:block">
           <span className="text-on-surface-variant text-label-md">
-            Already registered?{" "}
-            <Link href="/login" className="text-primary font-bold">Sign In</Link>
+            Sudah daftar?{" "}
+            <Link href="/login" className="text-primary font-bold">Masuk</Link>
           </span>
         </div>
       </header>
 
       <main className="flex-grow pt-24 pb-12 px-gutter flex justify-center items-start">
         <div className="w-full max-w-4xl">
-              {state.message === "Registration submitted successfully! Redirecting..." ? (
+              {(state.message === "Registration submitted successfully! Redirecting..." || state.message === "Akun berhasil dibuat! Mengarahkan...") ? (
             <div className="flex flex-col items-center justify-center py-xxl">
               <div className="w-20 h-20 rounded-full bg-success/10 flex items-center justify-center mb-xl">
                 <Check className="w-10 h-10 text-success" />
               </div>
               {role === "buyer" ? (
                 <>
-                  <h2 className="text-headline-lg text-primary mb-2">Account Created!</h2>
+                  <h2 className="text-headline-lg text-primary mb-2">Akun Dibuat!</h2>
                   <p className="text-body-md text-on-surface-variant text-center max-w-md">
-                    Your buyer account is ready. You can now log in and start shopping.
+                    Akun pembeli Anda siap. Silakan masuk dan mulai berbelanja.
                   </p>
                 </>
               ) : (
                 <>
-                  <h2 className="text-headline-lg text-primary mb-2">Registration Submitted!</h2>
+                  <h2 className="text-headline-lg text-primary mb-2">Pendaftaran Terkirim!</h2>
                   <p className="text-body-md text-on-surface-variant text-center max-w-md">
-                    Your application is being reviewed. We&apos;ll notify you at your email once approved.
+                    Pendaftaran Anda sedang ditinjau. Kami akan memberi tahu Anda melalui email setelah disetujui.
                   </p>
                 </>
               )}
               <Link href="/login" className="mt-xl w-full max-w-xs py-3 bg-primary text-on-primary rounded-lg text-label-md font-bold text-center hover:opacity-90 transition-opacity block">
-                Sign In
+                Masuk
               </Link>
             </div>
           ) : (
@@ -115,7 +115,7 @@ export default function RegisterPage() {
                 </button>
               </div>
 
-              {state.message && state.message !== "Registration submitted successfully! Redirecting..." && (
+              {state.message && state.message !== "Registration submitted successfully! Redirecting..." && state.message !== "Akun berhasil dibuat! Mengarahkan..." && (
                 <div className="mb-lg p-lg bg-error-container text-on-error-container rounded-lg text-label-md">
                   {state.message}
                 </div>
@@ -196,13 +196,13 @@ export default function RegisterPage() {
 
                     <section className={step !== 1 ? "hidden" : ""}>
                       <div className="mb-xl">
-                        <h2 className="text-headline-lg text-primary mb-2">Business Identification</h2>
-                        <p className="text-on-surface-variant text-body-md">Please provide your legal personal and business details to start your journey with M2A Co-Biz.</p>
+                        <h2 className="text-headline-lg text-primary mb-2">Identifikasi Bisnis</h2>
+                        <p className="text-on-surface-variant text-body-md">Silakan lengkapi data pribadi dan usaha Anda untuk memulai perjalanan bersama M2A Co-Biz.</p>
                       </div>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-lg">
                         <div className="flex flex-col gap-xs">
-                          <label className="text-label-md text-on-surface" htmlFor="fullName">Full Name</label>
-                          <input className="rounded-lg border-outline-variant focus:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" id="fullName" name="fullName" placeholder="Legal name as per KTP" type="text" required />
+                          <label className="text-label-md text-on-surface" htmlFor="fullName">Nama Lengkap</label>
+                          <input className="rounded-lg border-outline-variant focus:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" id="fullName" name="fullName" placeholder="Nama sesuai KTP" type="text" required />
                           {state.errors?.fullName && <span className="text-error text-label-sm">{state.errors.fullName[0]}</span>}
                         </div>
                         <div className="flex flex-col gap-xs">
@@ -211,12 +211,12 @@ export default function RegisterPage() {
                           {state.errors?.email && <span className="text-error text-label-sm">{state.errors.email[0]}</span>}
                         </div>
                         <div className="flex flex-col gap-xs">
-                          <label className="text-label-md text-on-surface" htmlFor="phone">Phone Number</label>
+                          <label className="text-label-md text-on-surface" htmlFor="phone">No. Telepon</label>
                           <input className="rounded-lg border-outline-variant focus:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" id="phone" name="phone" placeholder="+62 812 XXXX XXXX" type="tel" required />
                           {state.errors?.phone && <span className="text-error text-label-sm">{state.errors.phone[0]}</span>}
                         </div>
                         <div className="flex flex-col gap-xs">
-                          <label className="text-label-md text-on-surface" htmlFor="businessType">Business Type</label>
+                          <label className="text-label-md text-on-surface" htmlFor="businessType">Jenis Usaha</label>
                           <select className="rounded-lg border-outline-variant focus:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" id="businessType" name="businessType" required>
                             <option value="UMKM">UMKM (Product)</option>
                             <option value="JASA">Jasa (Service)</option>
@@ -224,13 +224,13 @@ export default function RegisterPage() {
                           {state.errors?.businessType && <span className="text-error text-label-sm">{state.errors.businessType[0]}</span>}
                         </div>
                         <div className="flex flex-col gap-xs md:col-span-2">
-                          <label className="text-label-md text-on-surface" htmlFor="businessName">Shop / Business Name</label>
-                          <input className="rounded-lg border-outline-variant focus:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" id="businessName" name="businessName" placeholder="Your business brand name" type="text" required />
+                          <label className="text-label-md text-on-surface" htmlFor="businessName">Nama Toko / Usaha</label>
+                          <input className="rounded-lg border-outline-variant focus:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" id="businessName" name="businessName" placeholder="Nama brand usaha Anda" type="text" required />
                           {state.errors?.businessName && <span className="text-error text-label-sm">{state.errors.businessName[0]}</span>}
                         </div>
                         <div className="flex flex-col gap-xs md:col-span-2">
-                          <label className="text-label-md text-on-surface" htmlFor="password">Password</label>
-                          <input className="rounded-lg border-outline-variant focus:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" id="password" name="password" placeholder="Min. 8 characters" type="password" required />
+                        <label className="text-label-md text-on-surface" htmlFor="password">Kata Sandi</label>
+                          <input className="rounded-lg border-outline-variant focus:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" id="password" name="password" placeholder="Min. 8 karakter" type="password" required />
                           {state.errors?.password && <span className="text-error text-label-sm">{state.errors.password[0]}</span>}
                         </div>
                       </div>
@@ -238,27 +238,27 @@ export default function RegisterPage() {
 
                     <section className={step !== 2 ? "hidden" : ""}>
                       <div className="mb-xl">
-                        <h2 className="text-headline-lg text-primary mb-2">Document Verification</h2>
-                        <p className="text-on-surface-variant text-body-md">Securely upload your legal documents for verification. Accepted formats: JPG, PNG, or PDF (Max 5MB).</p>
+                        <h2 className="text-headline-lg text-primary mb-2">Verifikasi Dokumen</h2>
+                        <p className="text-on-surface-variant text-body-md">Unggah dokumen resmi Anda secara aman untuk verifikasi. Format: JPG, PNG, atau PDF (Maks 5MB).</p>
                       </div>
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-lg">
                         <div className="flex flex-col items-center justify-center p-xl border-2 border-dashed border-outline-variant rounded-xl hover:border-primary hover:bg-primary/5 transition-all group cursor-pointer relative overflow-hidden">
                           <input aria-label="Upload KTP" className="absolute inset-0 opacity-0 cursor-pointer" name="ktp" type="file" />
                           <Badge className="text-primary-container w-12 h-12 mb-4 group-hover:scale-110 transition-transform" />
                           <span className="text-headline-md text-on-surface mb-1">KTP</span>
-                          <span className="text-label-sm text-on-surface-variant text-center">Identity Card (Required)</span>
+                          <span className="text-label-sm text-on-surface-variant text-center">KTP (Wajib)</span>
                         </div>
                         <div className="flex flex-col items-center justify-center p-xl border-2 border-dashed border-outline-variant rounded-xl hover:border-primary hover:bg-primary/5 transition-all group cursor-pointer relative overflow-hidden">
                           <input aria-label="Upload Kartu Keluarga" className="absolute inset-0 opacity-0 cursor-pointer" name="kartuKeluarga" type="file" />
                           <Group className="text-primary-container w-12 h-12 mb-4 group-hover:scale-110 transition-transform" />
                           <span className="text-headline-md text-on-surface mb-1">Kartu Keluarga</span>
-                          <span className="text-label-sm text-on-surface-variant text-center">Family Card (Required)</span>
+                          <span className="text-label-sm text-on-surface-variant text-center">Kartu Keluarga (Wajib)</span>
                         </div>
                         <div className="flex flex-col items-center justify-center p-xl border-2 border-dashed border-outline-variant rounded-xl hover:border-primary hover:bg-primary/5 transition-all group cursor-pointer relative overflow-hidden">
                           <input aria-label="Upload Izin Usaha" className="absolute inset-0 opacity-0 cursor-pointer" name="izinUsaha" type="file" />
                           <FileText className="text-on-surface-variant w-12 h-12 mb-4 group-hover:scale-110 transition-transform" />
                           <span className="text-headline-md text-on-surface mb-1">Izin Usaha</span>
-                          <span className="text-label-sm text-on-surface-variant text-center italic">Optional Document</span>
+                          <span className="text-label-sm text-on-surface-variant text-center italic">Opsional</span>
                         </div>
                       </div>
                       <div className="mt-xl p-lg bg-surface-container-low rounded-lg border border-outline-variant flex items-center gap-lg">
@@ -266,8 +266,8 @@ export default function RegisterPage() {
                           <ShieldCheck className="w-8 h-8 text-primary" />
                         </div>
                         <div>
-                          <p className="text-label-md font-bold text-on-surface">Ensure documents are legible</p>
-                          <p className="text-label-sm text-on-surface-variant">Blurred or cropped documents will delay your application approval process.</p>
+                          <p className="text-label-md font-bold text-on-surface">Pastikan dokumen terbaca jelas</p>
+                          <p className="text-label-sm text-on-surface-variant">Dokumen buram atau terpotong akan memperlambat proses persetujuan.</p>
                         </div>
                       </div>
                     </section>
@@ -300,15 +300,15 @@ export default function RegisterPage() {
                         <div className="flex items-center gap-md p-lg bg-secondary-container/30 rounded-xl">
                           <ShieldCheck className="w-6 h-6 text-secondary" />
                           <div>
-                            <p className="text-label-md font-bold text-on-secondary-container">Trust Guaranteed</p>
-                            <p className="text-label-sm text-on-secondary-container/80">Secured with enterprise-level encryption.</p>
+                            <p className="text-label-md font-bold text-on-secondary-container">Terpercaya</p>
+                            <p className="text-label-sm text-on-secondary-container/80">Diamankan dengan enkripsi tingkat enterprise.</p>
                           </div>
                         </div>
                         <div className="flex items-center gap-md p-lg bg-tertiary-container/10 rounded-xl">
                           <LifeBuoy className="w-6 h-6 text-tertiary" />
                           <div>
-                            <p className="text-label-md font-bold text-on-tertiary-fixed-variant">Human Review</p>
-                            <p className="text-label-sm text-on-tertiary-fixed-variant/80">Our team reviews apps within 48 hours.</p>
+                            <p className="text-label-md font-bold text-on-tertiary-fixed-variant">Tinjauan Tim</p>
+                            <p className="text-label-sm text-on-tertiary-fixed-variant/80">Tim kami meninjau pendaftaran dalam 48 jam.</p>
                           </div>
                         </div>
                       </div>
@@ -316,17 +316,17 @@ export default function RegisterPage() {
 
                     <div className="flex items-center justify-between pt-xl border-t border-outline-variant mt-xxl">
                       <button className={`px-xl py-lg rounded-lg text-label-md text-primary hover:bg-primary/5 transition-all flex items-center gap-2 ${step === 1 ? "invisible" : ""}`} onClick={prevStep} type="button">
-                        <ArrowLeft className="w-[20px] h-[20px]" /> Back
+                        <ArrowLeft className="w-[20px] h-[20px]" /> Kembali
                       </button>
                       <div className="flex-grow" />
                       {step < totalSteps ? (
                         <button className="px-xl py-lg bg-primary text-on-primary rounded-lg text-label-md shadow-sm hover:bg-primary-container active:scale-[0.97] transition-all flex items-center gap-2" onClick={nextStep} type="button">
-                          Next Step <ArrowRight className="w-[20px] h-[20px]" />
+                          Langkah Berikutnya <ArrowRight className="w-[20px] h-[20px]" />
                         </button>
                       ) : (
                         <button className="px-xl py-lg bg-accent-gold text-white rounded-lg text-label-md shadow-lg hover:brightness-110 active:scale-[0.97] transition-all flex items-center gap-2" disabled={pending} type="submit">
                           {pending ? <Loader2 className="w-5 h-5 animate-spin" /> : null}
-                          {pending ? "Submitting..." : "Submit Application"}
+                          {pending ? "Mengirim..." : "Kirim Pendaftaran"}
                           {!pending && <ArrowRight className="w-[20px] h-[20px]" />}
                         </button>
                       )}
@@ -336,7 +336,7 @@ export default function RegisterPage() {
               </form>
 
               <footer className="mt-xl text-center text-on-surface-variant/60 text-label-sm">
-                &copy; 2024 M2A Co-Biz. All Rights Reserved. Professional Business Hub.
+                &copy; 2024 M2A Co-Biz. Hak cipta dilindungi. Pusat Bisnis Profesional.
               </footer>
             </>
           )}

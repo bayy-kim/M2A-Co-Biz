@@ -7,10 +7,9 @@ import { checkRateLimit } from "@/lib/rate-limit"
 
 const checkoutSchema = z.object({
   productId: z.string().min(1),
-  buyerName: z.string().min(3, "Name must be at least 3 characters"),
-  buyerPhone: z.string().min(8, "Invalid phone number"),
-  buyerId: z.string().optional(),
-  qty: z.coerce.number().int().positive("Quantity must be at least 1"),
+  buyerName: z.string().min(3, "Nama minimal 3 karakter"),
+  buyerPhone: z.string().min(8, "Nomor telepon tidak valid"),
+  qty: z.coerce.number().int().positive("Jumlah minimal 1"),
 })
 
 export async function createCheckout(formData: FormData) {
@@ -23,10 +22,10 @@ export async function createCheckout(formData: FormData) {
   }
 
   const rl = await checkRateLimit(`checkout:${raw.buyerPhone || "anonymous"}`)
-  if (!rl.allowed) return { error: "Too many requests. Please try again later." }
+  if (!rl.allowed) return { error: "Terlalu banyak permintaan. Silakan coba lagi nanti." }
 
   const result = checkoutSchema.safeParse(raw)
-  if (!result.success) return { error: "Please fix the form errors" }
+  if (!result.success) return { error: "Perbaiki isian form" }
 
   const { productId, buyerName, buyerPhone, buyerId, qty } = result.data
 
@@ -34,7 +33,7 @@ export async function createCheckout(formData: FormData) {
     where: { id: productId },
     include: { seller: true, category: true },
   })
-  if (!product || product.status !== "ACTIVE") return { error: "Product not available" }
+  if (!product || product.status !== "ACTIVE") return { error: "Produk tidak tersedia" }
 
   const totalRupiah = product.priceRupiah * qty
 

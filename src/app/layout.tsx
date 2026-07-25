@@ -2,9 +2,21 @@ import type { Metadata } from "next"
 import "./globals.css"
 
 export const metadata: Metadata = {
-  title: "M2A Co-Biz | Pusat Bisnis & UMKM Al-Mubarok II",
+  title: {
+    default: "M2A Co-Biz | Pusat Bisnis & UMKM Al-Mubarok II",
+    template: "%s | M2A Co-Biz",
+  },
   description:
     "Platform marketplace dan manajemen bisnis untuk UMKM dan penyedia jasa di bawah naungan Al-Mubarok II.",
+  icons: { icon: "/favicon.svg" },
+  openGraph: {
+    title: "M2A Co-Biz | Pusat Bisnis & UMKM Al-Mubarok II",
+    description:
+      "Platform marketplace dan manajemen bisnis untuk UMKM dan penyedia jasa di bawah naungan Al-Mubarok II.",
+    type: "website",
+    locale: "id_ID",
+    siteName: "M2A Co-Biz",
+  },
 }
 
 export default function RootLayout({

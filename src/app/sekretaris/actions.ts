@@ -27,7 +27,7 @@ export async function setCommissionRule(prevState: CommissionState, formData: Fo
   }
 
   const result = commissionSchema.safeParse(raw)
-  if (!result.success) return { error: "Invalid values" }
+  if (!result.success) return { error: "Nilai tidak valid" }
 
   await prisma.commissionRule.create({
     data: {
@@ -67,7 +67,7 @@ export async function confirmPayment(orderId: string): Promise<ConfirmState> {
     where: { id: orderId },
     include: { items: true },
   })
-  if (!order || order.paymentStatus !== "PENDING") return { error: "Invalid order" }
+  if (!order || order.paymentStatus !== "PENDING") return { error: "Pesanan tidak valid" }
 
   const totalCommission = order.items.reduce((s, i) => s + i.commissionRupiah, 0)
 

@@ -19,15 +19,15 @@ async function ProductDetailPage({ params }: { params: Promise<{ id: string }> }
       <header className="sticky top-0 z-50 bg-surface/90 backdrop-blur-md border-b border-outline-variant/30 flex items-center px-lg h-16">
         <Link href="/catalog" className="flex items-center gap-2 text-label-md text-on-surface-variant hover:text-primary transition-colors">
           <ArrowLeft className="w-5 h-5" />
-          Back to Catalog
+          Kembali ke Katalog
         </Link>
       </header>
 
       <main className="px-gutter py-lg max-w-6xl mx-auto">
         <div className="flex items-center gap-2 text-label-sm text-on-surface-variant mb-lg">
-          <Link href="/" className="hover:text-primary">Home</Link>
+          <Link href="/" className="hover:text-primary">Beranda</Link>
           <ChevronRight className="w-4 h-4" />
-          <Link href="/catalog" className="hover:text-primary">Catalog</Link>
+          <Link href="/catalog" className="hover:text-primary">Katalog</Link>
           {product.category && (
             <>
               <ChevronRight className="w-4 h-4" />
@@ -64,13 +64,13 @@ async function ProductDetailPage({ params }: { params: Promise<{ id: string }> }
                 </div>
                 <div>
                   <p className="text-label-md font-bold text-on-surface">{product.seller.businessName}</p>
-                  <p className="text-label-sm text-on-surface-variant">{product.seller.type === "UMKM" ? "UMKM" : "Service Provider"}</p>
+                  <p className="text-label-sm text-on-surface-variant">{product.seller.type === "UMKM" ? "UMKM" : "Penyedia Jasa"}</p>
                 </div>
               </div>
             </div>
 
             <div>
-              <h2 className="text-headline-md text-on-surface font-bold mb-md">Description</h2>
+              <h2 className="text-headline-md text-on-surface font-bold mb-md">Deskripsi</h2>
               <p className="text-body-md text-on-surface-variant leading-relaxed">{product.description}</p>
             </div>
 
@@ -78,7 +78,7 @@ async function ProductDetailPage({ params }: { params: Promise<{ id: string }> }
               href={`/checkout?productId=${product.id}`}
               className="block w-full text-center py-3.5 bg-accent-gold text-white rounded-xl text-headline-md font-bold shadow-lg hover:brightness-110 active:scale-[0.98] transition-all"
             >
-              Buy Now
+              Beli Sekarang
             </Link>
           </div>
         </div>

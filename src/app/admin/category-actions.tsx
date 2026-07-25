@@ -12,7 +12,7 @@ export function ApproveCategoryButton({ categoryId }: { categoryId: string }) {
     <form action={action}>
       <button className="flex items-center gap-1 px-md py-1.5 bg-success/10 text-success rounded-lg text-label-sm hover:bg-success/20 transition-colors disabled:opacity-50" disabled={pending} type="submit">
         {pending ? <Loader2 className="w-4 h-4 animate-spin" /> : <CheckCircle2 className="w-4 h-4" />}
-        Approve
+        Setujui
       </button>
     </form>
   )
@@ -26,7 +26,7 @@ export function RejectCategoryButton({ categoryId }: { categoryId: string }) {
     <form action={action}>
       <button className="flex items-center gap-1 px-md py-1.5 bg-error/10 text-error rounded-lg text-label-sm hover:bg-error/20 transition-colors disabled:opacity-50" disabled={pending} type="submit">
         {pending ? <Loader2 className="w-4 h-4 animate-spin" /> : <XCircle className="w-4 h-4" />}
-        Reject
+        Tolak
       </button>
     </form>
   )

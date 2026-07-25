@@ -57,19 +57,19 @@ export function CatalogFilterSort({ sortParam, minPrice, maxPrice, query, catego
         {showFilter && (
           <div className="absolute left-0 top-full mt-2 z-50 bg-surface-container-lowest border border-outline-variant rounded-xl p-lg shadow-xl w-72 max-w-[calc(100vw-2rem)]">
             <div className="flex items-center justify-between mb-md">
-              <p className="text-label-md font-bold text-on-surface">Price Range</p>
+              <p className="text-label-md font-bold text-on-surface">Rentang Harga</p>
               <button onClick={() => setShowFilter(false)} className="text-on-surface-variant hover:text-on-surface">
                 <X className="w-4 h-4" />
               </button>
             </div>
             <div className="flex items-center gap-2 mb-md">
-              <input type="number" placeholder="Min" value={localMin} onChange={(e) => setLocalMin(e.target.value)} className="w-full rounded-lg border border-outline-variant px-md py-2 text-label-md bg-surface text-on-surface focus:ring-2 focus:ring-primary/20" />
+              <input type="number" placeholder="Min." value={localMin} onChange={(e) => setLocalMin(e.target.value)} className="w-full rounded-lg border border-outline-variant px-md py-2 text-label-md bg-surface text-on-surface focus:ring-2 focus:ring-primary/20" />
               <span className="text-on-surface-variant">-</span>
-              <input type="number" placeholder="Max" value={localMax} onChange={(e) => setLocalMax(e.target.value)} className="w-full rounded-lg border border-outline-variant px-md py-2 text-label-md bg-surface text-on-surface focus:ring-2 focus:ring-primary/20" />
+              <input type="number" placeholder="Maks." value={localMax} onChange={(e) => setLocalMax(e.target.value)} className="w-full rounded-lg border border-outline-variant px-md py-2 text-label-md bg-surface text-on-surface focus:ring-2 focus:ring-primary/20" />
             </div>
             <div className="flex gap-2">
-              <button onClick={applyPriceFilter} className="flex-1 px-md py-2 bg-primary text-on-primary rounded-lg text-label-md hover:opacity-90 transition-opacity">Apply</button>
-              {(minPrice || maxPrice) && <button onClick={clearFilter} className="px-md py-2 border border-outline-variant rounded-lg text-label-md text-on-surface-variant hover:bg-surface-container transition-colors">Clear</button>}
+              <button onClick={applyPriceFilter} className="flex-1 px-md py-2 bg-primary text-on-primary rounded-lg text-label-md hover:opacity-90 transition-opacity">Terapkan</button>
+              {(minPrice || maxPrice) && <button onClick={clearFilter} className="px-md py-2 border border-outline-variant rounded-lg text-label-md text-on-surface-variant hover:bg-surface-container transition-colors">Hapus</button>}
             </div>
           </div>
         )}
@@ -81,9 +81,9 @@ export function CatalogFilterSort({ sortParam, minPrice, maxPrice, query, catego
           onChange={(e) => applySort(e.target.value)}
           className="flex items-center gap-xs px-md py-2 bg-surface-container border border-outline-variant rounded-lg text-label-md text-on-surface-variant hover:bg-surface-container-high transition-colors appearance-none cursor-pointer pr-8"
         >
-          <option value="newest">Newest</option>
-          <option value="price_asc">Price: Low to High</option>
-          <option value="price_desc">Price: High to Low</option>
+          <option value="newest">Terbaru</option>
+          <option value="price_asc">Harga: Rendah ke Tinggi</option>
+          <option value="price_desc">Harga: Tinggi ke Rendah</option>
         </select>
         <ArrowUpDown className="absolute right-2.5 top-1/2 -translate-y-1/2 w-[18px] h-[18px] pointer-events-none text-on-surface-variant" />
       </div>

@@ -36,7 +36,7 @@ export function CheckoutForm({
         <div className="p-md bg-surface-container-low rounded-lg border border-outline-variant/30 flex items-start gap-3">
           <CheckCircle className="w-5 h-5 text-success flex-shrink-0 mt-0.5" />
           <div className="text-label-sm text-on-surface-variant">
-            Order as <span className="font-bold text-on-surface">{defaultName}</span> ({defaultPhone}).
+            Pesanan atas nama <span className="font-bold text-on-surface">{defaultName}</span> ({defaultPhone}).
             <input type="hidden" name="buyerName" value={defaultName} />
             <input type="hidden" name="buyerPhone" value={defaultPhone} />
           </div>
@@ -44,15 +44,15 @@ export function CheckoutForm({
       ) : (
         <>
           <div className="flex flex-col gap-xs">
-            <label className="text-label-md text-on-surface" htmlFor="buyerName">Full Name</label>
+            <label className="text-label-md text-on-surface" htmlFor="buyerName">Nama Lengkap</label>
             <div className="relative group">
               <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-outline group-focus-within:text-primary transition-colors" />
-              <input className="w-full pl-10 pr-4 py-3 rounded-lg border border-outline-variant bg-surface-bright focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-body-md" id="buyerName" name="buyerName" placeholder="Your full name" required type="text" />
+              <input className="w-full pl-10 pr-4 py-3 rounded-lg border border-outline-variant bg-surface-bright focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-body-md" id="buyerName" name="buyerName" placeholder="Nama lengkap Anda" required type="text" />
             </div>
           </div>
 
           <div className="flex flex-col gap-xs">
-            <label className="text-label-md text-on-surface" htmlFor="buyerPhone">Phone Number</label>
+            <label className="text-label-md text-on-surface" htmlFor="buyerPhone">Nomor Telepon</label>
             <div className="relative group">
               <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-outline group-focus-within:text-primary transition-colors" />
               <input className="w-full pl-10 pr-4 py-3 rounded-lg border border-outline-variant bg-surface-bright focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-body-md" id="buyerPhone" name="buyerPhone" placeholder="+62 812 XXXX XXXX" required type="tel" />
@@ -62,7 +62,7 @@ export function CheckoutForm({
       )}
 
       <div className="flex flex-col gap-xs">
-        <label className="text-label-md text-on-surface" htmlFor="qty">Quantity</label>
+            <label className="text-label-md text-on-surface" htmlFor="qty">Jumlah</label>
         <div className="relative group">
           <Package className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-outline group-focus-within:text-primary transition-colors" />
           <input className="w-full pl-10 pr-4 py-3 rounded-lg border border-outline-variant bg-surface-bright focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-body-md" defaultValue="1" id="qty" min="1" name="qty" required type="number" />
@@ -71,7 +71,7 @@ export function CheckoutForm({
 
       <div className="bg-warning/5 border border-warning/20 rounded-lg p-md text-label-sm text-on-surface flex items-start gap-2">
         <CreditCard className="w-5 h-5 text-warning flex-shrink-0 mt-0.5" />
-        <span>Payment via QRIS or bank transfer. You&apos;ll see payment instructions after placing the order.</span>
+        <span>Pembayaran melalui QRIS atau transfer bank. Petunjuk pembayaran akan muncul setelah pesanan dibuat.</span>
       </div>
 
       {state && 'error' in state && typeof state.error === 'string' && (
@@ -80,7 +80,7 @@ export function CheckoutForm({
 
       <button className="w-full py-3.5 bg-accent-gold text-white rounded-xl text-headline-md font-bold shadow-lg hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center gap-sm disabled:opacity-50" disabled={pending} type="submit">
         {pending ? <Loader2 className="w-5 h-5 animate-spin" /> : <ArrowRight className="w-5 h-5" />}
-        {pending ? "Processing..." : "Place Order"}
+        {pending ? "Memproses..." : "Buat Pesanan"}
       </button>
     </form>
   )

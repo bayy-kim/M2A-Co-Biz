@@ -19,19 +19,19 @@ export async function AdminUsersTab() {
   return (
     <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 overflow-hidden">
       <div className="p-lg border-b border-outline-variant/30">
-        <h3 className="text-headline-md text-on-surface font-bold">User Management</h3>
-        <p className="text-label-sm text-on-surface-variant mt-1">{users.length} total user(s)</p>
+        <h3 className="text-headline-md text-on-surface font-bold">Manajemen Pengguna</h3>
+        <p className="text-label-sm text-on-surface-variant mt-1">{users.length} total pengguna</p>
       </div>
       <div className="overflow-x-auto">
         <table className="w-full text-left">
           <thead>
             <tr className="text-label-sm text-on-surface-variant border-b border-outline-variant/30">
-              <th className="px-lg py-3 font-medium">User</th>
-              <th className="px-lg py-3 font-medium">Role</th>
-              <th className="px-lg py-3 font-medium">Business</th>
-              <th className="px-lg py-3 font-medium">Joined</th>
+              <th className="px-lg py-3 font-medium">Pengguna</th>
+              <th className="px-lg py-3 font-medium">Peran</th>
+              <th className="px-lg py-3 font-medium">Usaha</th>
+              <th className="px-lg py-3 font-medium">Bergabung</th>
               <th className="px-lg py-3 font-medium">Status</th>
-              <th className="px-lg py-3 font-medium">Actions</th>
+              <th className="px-lg py-3 font-medium">Aksi</th>
             </tr>
           </thead>
           <tbody>
@@ -66,7 +66,7 @@ export async function AdminUsersTab() {
                       ? "bg-success/10 text-success"
                       : "bg-error/10 text-error"
                   }`}>
-                    {user.isActive ? "Active" : "Suspended"}
+                    {user.isActive ? "Aktif" : "Ditangguhkan"}
                   </span>
                 </td>
                 <td className="px-lg py-3">

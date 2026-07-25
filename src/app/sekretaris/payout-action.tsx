@@ -12,7 +12,7 @@ export function PayoutAction({ payoutId }: { payoutId: string }) {
     <form action={action}>
       <button className="flex items-center gap-1 px-md py-1.5 bg-primary/10 text-primary rounded-lg text-label-sm hover:bg-primary/20 transition-colors disabled:opacity-50" disabled={pending} type="submit">
         {pending ? <Loader2 className="w-4 h-4 animate-spin" /> : <ArrowRight className="w-4 h-4" />}
-        {pending ? "Processing..." : "Process"}
+        {pending ? "Memproses..." : "Proses"}
       </button>
     </form>
   )

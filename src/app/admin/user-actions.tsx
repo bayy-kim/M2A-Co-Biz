@@ -16,7 +16,7 @@ export function ToggleUserStatusButton({ userId, isActive }: { userId: string; i
           : "bg-success/10 text-success hover:bg-success/20"
       }`} disabled={pending} type="submit">
         {pending ? <Loader2 className="w-4 h-4 animate-spin" /> : isActive ? <Ban className="w-4 h-4" /> : <CheckCircle2 className="w-4 h-4" />}
-        {isActive ? "Suspend" : "Reactivate"}
+        {isActive ? "Nonaktifkan" : "Aktifkan"}
       </button>
     </form>
   )

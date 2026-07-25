@@ -24,11 +24,11 @@ export function CompanyProfileForm({ profile }: { profile: CompanyProfileData | 
   return (
     <form action={action} className="max-w-2xl space-y-lg">
       <div className="flex flex-col gap-xs">
-        <label className="text-label-md text-on-surface" htmlFor="name">Company Name</label>
+        <label className="text-label-md text-on-surface" htmlFor="name">Nama Perusahaan</label>
         <input className="rounded-lg border-outline-variant focus:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" id="name" name="name" defaultValue={profile?.name || "M2A Co-Biz"} required type="text" />
       </div>
       <div className="flex flex-col gap-xs">
-        <label className="text-label-md text-on-surface" htmlFor="address">Address</label>
+        <label className="text-label-md text-on-surface" htmlFor="address">Alamat</label>
         <textarea className="rounded-lg border-outline-variant focus:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" id="address" name="address" required rows={3} defaultValue={profile?.address || ""} />
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-lg">
@@ -42,35 +42,35 @@ export function CompanyProfileForm({ profile }: { profile: CompanyProfileData | 
         </div>
       </div>
       <div className="flex flex-col gap-xs">
-        <label className="text-label-md text-on-surface" htmlFor="mapEmbedUrl">Google Maps Embed URL</label>
+        <label className="text-label-md text-on-surface" htmlFor="mapEmbedUrl">URL Embed Google Maps</label>
         <input className="rounded-lg border-outline-variant focus:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" id="mapEmbedUrl" name="mapEmbedUrl" type="url" defaultValue={profile?.mapEmbedUrl || ""} />
       </div>
 
       <hr className="border-outline-variant/30" />
 
-      <h4 className="text-headline-md text-on-surface font-bold">Payment Information</h4>
+      <h4 className="text-headline-md text-on-surface font-bold">Informasi Pembayaran</h4>
       <div className="flex flex-col gap-xs">
-        <label className="text-label-md text-on-surface" htmlFor="bankName">Bank Name</label>
+        <label className="text-label-md text-on-surface" htmlFor="bankName">Nama Bank</label>
         <input className="rounded-lg border-outline-variant focus:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" id="bankName" name="bankName" defaultValue={profile?.bankName || ""} />
       </div>
       <div className="flex flex-col gap-xs">
-        <label className="text-label-md text-on-surface" htmlFor="bankAccountName">Bank Account Name</label>
+        <label className="text-label-md text-on-surface" htmlFor="bankAccountName">Nama Pemilik Rekening</label>
         <input className="rounded-lg border-outline-variant focus:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" id="bankAccountName" name="bankAccountName" defaultValue={profile?.bankAccountName || ""} />
       </div>
       <div className="flex flex-col gap-xs">
-        <label className="text-label-md text-on-surface" htmlFor="bankAccountNo">Bank Account Number</label>
+        <label className="text-label-md text-on-surface" htmlFor="bankAccountNo">Nomor Rekening</label>
         <input className="rounded-lg border-outline-variant focus:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" id="bankAccountNo" name="bankAccountNo" defaultValue={profile?.bankAccountNo || ""} />
       </div>
       <div className="flex flex-col gap-xs">
-        <label className="text-label-md text-on-surface" htmlFor="qrisImageUrl">QRIS Image URL</label>
+        <label className="text-label-md text-on-surface" htmlFor="qrisImageUrl">URL Gambar QRIS</label>
         <input className="rounded-lg border-outline-variant focus:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" id="qrisImageUrl" name="qrisImageUrl" type="url" defaultValue={profile?.qrisImageUrl || ""} />
       </div>
 
       <hr className="border-outline-variant/30" />
 
-      <h4 className="text-headline-md text-on-surface font-bold">Customer Support</h4>
+      <h4 className="text-headline-md text-on-surface font-bold">Dukungan Pelanggan</h4>
       <div className="flex flex-col gap-xs">
-        <label className="text-label-md text-on-surface" htmlFor="whatsappNumber">WhatsApp Number</label>
+        <label className="text-label-md text-on-surface" htmlFor="whatsappNumber">Nomor WhatsApp</label>
         <input className="rounded-lg border-outline-variant focus:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" id="whatsappNumber" name="whatsappNumber" placeholder="+6281234567890" type="tel" defaultValue={profile?.whatsappNumber || ""} />
         <p className="text-label-sm text-on-surface-variant">Nomor untuk tombol &ldquo;Hubungi via WhatsApp&rdquo; di katalog dan landing page.</p>
       </div>
@@ -78,14 +78,14 @@ export function CompanyProfileForm({ profile }: { profile: CompanyProfileData | 
       <div className="flex justify-end pt-md">
         <button className="px-xl py-lg bg-primary text-on-primary rounded-lg text-label-md shadow-sm hover:bg-primary-container active:scale-[0.97] transition-all flex items-center gap-2 disabled:opacity-50" disabled={pending} type="submit">
           {pending ? <Loader2 className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
-          {pending ? "Saving..." : "Save Changes"}
+          {pending ? "Menyimpan..." : "Simpan Perubahan"}
         </button>
       </div>
       {state && 'error' in state && typeof state.error === 'string' && (
         <div className="p-md bg-error-container text-on-error-container rounded-lg text-label-sm">{state.error}</div>
       )}
       {state && 'success' in state && state.success === true && (
-        <div className="p-md bg-success/10 text-success rounded-lg text-label-sm">Company profile updated.</div>
+        <div className="p-md bg-success/10 text-success rounded-lg text-label-sm">Profil perusahaan diperbarui.</div>
       )}
     </form>
   )

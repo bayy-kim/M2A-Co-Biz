@@ -20,11 +20,11 @@ async function CatalogPage({ searchParams }: { searchParams: Promise<{ q?: strin
   const currentPage = Math.max(1, Number(params.page) || 1)
 
   const dbCategories = await prisma.category.findMany({ where: { status: "APPROVED" }, orderBy: { name: "asc" } })
-  const allCategories = ["All Categories", ...dbCategories.map((c) => c.name)]
+  const allCategories = ["Semua Kategori", ...dbCategories.map((c) => c.name)]
 
   const where: Record<string, unknown> = { status: "ACTIVE" }
   if (query) where.title = { contains: query, mode: "insensitive" }
-  if (categoryFilter && categoryFilter !== "All Categories") {
+  if (categoryFilter && categoryFilter !== "Semua Kategori") {
     const cat = await prisma.category.findFirst({ where: { name: categoryFilter } })
     if (cat) where.categoryId = cat.id
   }
@@ -54,7 +54,7 @@ async function CatalogPage({ searchParams }: { searchParams: Promise<{ q?: strin
     status: "ACTIVE",
     id: { notIn: products.map((p) => p.id) },
   }
-  if (categoryFilter && categoryFilter !== "All Categories") {
+  if (categoryFilter && categoryFilter !== "Semua Kategori") {
     const cat = await prisma.category.findFirst({ where: { name: categoryFilter } })
     if (cat) recommendationWhere.categoryId = cat.id
   }
@@ -97,17 +97,17 @@ async function CatalogPage({ searchParams }: { searchParams: Promise<{ q?: strin
           <h1 className="text-display-md font-bold text-primary">M2A Co-Biz</h1>
           <form action="/catalog" method="GET" className="hidden md:flex relative items-center w-96">
             <Search className="absolute left-3 w-5 h-5 text-primary" />
-            <input className="w-full bg-surface-container-low border-none rounded-xl pl-10 pr-4 py-2 focus:ring-2 focus:ring-primary/20 transition-all text-body-md" defaultValue={query} name="q" placeholder="Search catalog..." type="text" />
+            <input className="w-full bg-surface-container-low border-none rounded-xl pl-10 pr-4 py-2 focus:ring-2 focus:ring-primary/20 transition-all text-body-md" defaultValue={query} name="q" placeholder="Cari produk..." type="text" />
           </form>
         </div>
         <div className="flex items-center gap-md">
           {session?.user ? (
             <Link href={getDashboardHref()} className="flex items-center gap-2 px-4 py-2 bg-primary text-on-primary rounded-full hover:opacity-90 transition-all text-label-md">
-              Dashboard
+              Dasbor
             </Link>
           ) : (
             <Link href="/login" className="flex items-center gap-2 px-4 py-2 bg-primary text-on-primary rounded-full hover:opacity-90 transition-all text-label-md">
-              Login
+              Masuk
             </Link>
           )}
         </div>
@@ -115,18 +115,18 @@ async function CatalogPage({ searchParams }: { searchParams: Promise<{ q?: strin
 
       <main className="pt-20 pb-24 md:pb-8 px-gutter min-h-screen">
         <div className="md:hidden mb-lg">
-          <h2 className="text-headline-lg text-primary mb-sm">Catalog</h2>
+          <h2 className="text-headline-lg text-primary mb-sm">Katalog</h2>
           <form action="/catalog" method="GET" className="relative items-center flex">
             <Search className="absolute left-3 w-5 h-5 text-primary" />
-            <input className="w-full bg-surface-container-low border-none rounded-xl pl-10 pr-4 py-3 focus:ring-2 focus:ring-primary/20 transition-all text-body-md" defaultValue={query} name="q" placeholder="Search products..." type="text" />
+            <input className="w-full bg-surface-container-low border-none rounded-xl pl-10 pr-4 py-3 focus:ring-2 focus:ring-primary/20 transition-all text-body-md" defaultValue={query} name="q" placeholder="Cari produk..." type="text" />
           </form>
         </div>
 
         <section className="space-y-lg">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-lg">
             <div>
-              <h2 className="hidden md:block text-display-md text-on-surface mb-xs">Product Catalog</h2>
-              <p className="text-on-surface-variant text-body-md">Discover premium goods and services from our community.</p>
+              <h2 className="hidden md:block text-display-md text-on-surface mb-xs">Katalog Produk</h2>
+              <p className="text-on-surface-variant text-body-md">Temukan produk dan jasa terbaik dari komunitas kami.</p>
             </div>
             <CatalogFilterSort
               sortParam={sortParam}
@@ -142,9 +142,9 @@ async function CatalogPage({ searchParams }: { searchParams: Promise<{ q?: strin
               {allCategories.map((cat) => (
                 <Link
                   key={cat}
-                  href={buildQuery({ category: cat === "All Categories" ? "" : cat, page: undefined })}
+                  href={buildQuery({ category: cat === "Semua Kategori" ? "" : cat, page: undefined })}
                   className={`whitespace-nowrap px-lg py-2 rounded-full text-label-md flex-shrink-0 ${
-                    categoryFilter === cat || (!categoryFilter && cat === "All Categories")
+                    categoryFilter === cat || (!categoryFilter && cat === "Semua Kategori")
                       ? "bg-primary text-on-primary"
                       : "bg-surface-container border border-outline-variant text-on-surface-variant hover:border-primary transition-colors"
                   }`}
@@ -161,8 +161,8 @@ async function CatalogPage({ searchParams }: { searchParams: Promise<{ q?: strin
         {products.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-xxl text-center">
             <ShoppingBag className="w-16 h-16 text-primary mb-lg" />
-            <p className="text-headline-md text-on-surface-variant">No products found</p>
-            <p className="text-body-md text-on-surface-variant">Try adjusting your search or filter.</p>
+            <p className="text-headline-md text-on-surface-variant">Produk tidak ditemukan</p>
+            <p className="text-body-md text-on-surface-variant">Coba ubah kata kunci atau filter pencarian.</p>
           </div>
         ) : (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-md md:gap-gutter">
@@ -185,7 +185,7 @@ async function CatalogPage({ searchParams }: { searchParams: Promise<{ q?: strin
                     </p>
                     <div className="flex items-center justify-between gap-1">
                       <span className="text-headline-md sm:text-headline-lg text-primary truncate">{formatRupiah(product.priceRupiah)}</span>
-                      <span className="bg-primary-container text-on-primary-container px-2 sm:px-md py-1 sm:py-2 rounded-lg text-label-xs sm:text-label-md whitespace-nowrap hover:opacity-90 transition-opacity">
+                      <span className="bg-primary text-on-primary px-2 sm:px-md py-1 sm:py-2 rounded-lg text-label-xs sm:text-label-md whitespace-nowrap hover:opacity-90 transition-opacity">
                         Detail
                       </span>
                     </div>

@@ -1,5 +1,4 @@
 import { prisma } from "@/lib/db"
-import { createDisbursement } from "@/lib/xendit"
 
 export async function processPayoutById(payoutId: string, actorId: string) {
   const payout = await prisma.payout.findUnique({
@@ -16,26 +15,11 @@ export async function processPayoutById(payoutId: string, actorId: string) {
     return { error: "Seller bank info incomplete" }
   }
 
-  const channelCode = seller.bankName === "BCA" ? "BCA" : seller.bankName === "BNI" ? "BNI" : seller.bankName === "MANDIRI" ? "MANDIRI" : seller.bankName === "BRI" ? "BRI" : seller.bankName?.toUpperCase().replace(/\s+/g, "_") || "BCA"
-
   try {
-    const disbursement = await createDisbursement({
-      idempotencyKey: payout.id,
-      referenceId: payout.id,
-      amount: payout.amountRupiah,
-      channelCode,
-      accountNumber: seller.bankAccountNo,
-      accountHolderName: seller.bankAccountName,
-      description: `Payout ${payout.id.slice(0, 8)}`,
-    })
-
     await prisma.$transaction([
       prisma.payout.update({
         where: { id: payoutId },
-        data: {
-          status: "PAID",
-          xenditDisbursementId: disbursement.id,
-        },
+        data: { status: "PAID" },
       }),
       prisma.ledgerEntry.create({
         data: {
@@ -50,14 +34,14 @@ export async function processPayoutById(payoutId: string, actorId: string) {
           action: `Payout ${payoutId.slice(0, 8)} processed — Rp${payout.amountRupiah.toLocaleString("id-ID")} to seller ${seller.businessName}`,
           targetType: "Payout",
           targetId: payoutId,
-          metadata: { xenditDisbursementId: disbursement.id, status: "PAID" },
+          metadata: { status: "PAID" },
         },
       }),
     ])
 
-    return { success: true, xenditId: disbursement.id }
+    return { success: true }
   } catch (e) {
-    const msg = e instanceof Error ? e.message : "Disbursement failed"
+    const msg = e instanceof Error ? e.message : "Failed to process payout"
 
     await prisma.$transaction([
       prisma.payout.update({

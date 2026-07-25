@@ -16,10 +16,10 @@ export function ConfirmPaymentButton({ orderId }: { orderId: string }) {
         type="submit"
       >
         {pending ? <Loader2 className="w-4 h-4 animate-spin" /> : <CheckCircle2 className="w-4 h-4" />}
-        {pending ? "Confirming..." : "Confirm Payment"}
+        {pending ? "Mengkonfirmasi..." : "Konfirmasi Pembayaran"}
       </button>
       {state && "success" in state && state.success && (
-        <p className="text-label-sm text-success mt-1">Confirmed</p>
+        <p className="text-label-sm text-success mt-1">Terkonfirmasi</p>
       )}
       {state && "error" in state && typeof state.error === "string" && (
         <p className="text-label-sm text-error mt-1">{state.error}</p>

@@ -12,18 +12,18 @@ const MAX_FILE_SIZE = 5 * 1024 * 1024
 
 const fileSchema = z
   .instanceof(File)
-  .refine((f) => f.size === 0 || ACCEPTED_FILE_TYPES.includes(f.type), "Only JPG, PNG, or PDF files are accepted")
-  .refine((f) => f.size <= MAX_FILE_SIZE, "Max file size is 5MB")
+  .refine((f) => f.size === 0 || ACCEPTED_FILE_TYPES.includes(f.type), "Hanya file JPG, PNG, atau PDF yang diterima")
+  .refine((f) => f.size <= MAX_FILE_SIZE, "Ukuran maksimal file 5MB")
   .optional()
   .nullable()
 
 const registerSchema = z.object({
-  fullName: z.string().min(3, "Full name must be at least 3 characters"),
-  email: z.string().email("Invalid email address"),
-  phone: z.string().min(8, "Invalid phone number"),
+  fullName: z.string().min(3, "Nama minimal 3 karakter"),
+  email: z.string().email("Email tidak valid"),
+  phone: z.string().min(8, "Nomor telepon tidak valid"),
   businessType: z.enum(["UMKM", "JASA"]),
-  businessName: z.string().min(3, "Business name must be at least 3 characters"),
-  password: z.string().min(8, "Password must be at least 8 characters"),
+  businessName: z.string().min(3, "Nama usaha minimal 3 karakter"),
+  password: z.string().min(8, "Kata sandi minimal 8 karakter"),
   ktp: fileSchema,
   kartuKeluarga: fileSchema,
   izinUsaha: fileSchema,
@@ -40,10 +40,10 @@ async function uploadAndEncrypt(file: File, prefix: string): Promise<{ encrypted
 
   const serverMime = file.type
   if (!ACCEPTED_FILE_TYPES.includes(serverMime)) {
-    throw new Error(`Invalid file type: ${serverMime}`)
+    throw new Error(`Tipe file tidak valid: ${serverMime}`)
   }
   if (file.size > MAX_FILE_SIZE) {
-    throw new Error(`File too large: ${file.size} bytes`)
+    throw new Error(`File terlalu besar: ${file.size} bytes`)
   }
 
   const buffer = Buffer.from(await file.arrayBuffer())
@@ -76,7 +76,7 @@ export async function register(prevState: RegisterState, formData: FormData): Pr
 
   const result = registerSchema.safeParse(raw)
   if (!result.success) {
-    return { errors: result.error.flatten().fieldErrors, message: "Please fix the errors above." }
+    return { errors: result.error.flatten().fieldErrors, message: "Perbaiki isian di atas." }
   }
 
   const data = result.data
@@ -127,15 +127,15 @@ export async function register(prevState: RegisterState, formData: FormData): Pr
     return { message }
   }
 
-  return { message: "Registration submitted successfully! Redirecting..." }
+  return { message: "Akun berhasil dibuat! Mengarahkan..." }
 }
 
 const buyerRegisterSchema = z.object({
-  fullName: z.string().min(1, "Name is required"),
-  email: z.string().email("Invalid email address"),
-  phone: z.string().min(8, "Invalid phone number"),
-  password: z.string().min(8, "Password must be at least 8 characters"),
-  consent: z.string().refine((v) => v === "on", "You must agree to the terms"),
+  fullName: z.string().min(1, "Nama wajib diisi"),
+  email: z.string().email("Email tidak valid"),
+  phone: z.string().min(8, "Nomor telepon tidak valid"),
+  password: z.string().min(8, "Kata sandi minimal 8 karakter"),
+  consent: z.string().refine((v) => v === "on", "Anda harus menyetujui ketentuan"),
 })
 
 export async function registerBuyer(
@@ -152,14 +152,14 @@ export async function registerBuyer(
 
   const result = buyerRegisterSchema.safeParse(raw)
   if (!result.success) {
-    return { errors: result.error.flatten().fieldErrors, message: "Please fix the errors above." }
+    return { errors: result.error.flatten().fieldErrors, message: "Perbaiki isian di atas." }
   }
 
   const data = result.data
 
   const existing = await prisma.user.findUnique({ where: { email: data.email } })
   if (existing) {
-    return { errors: { email: ["Email is already registered"] }, message: "Email already in use." }
+    return { errors: { email: ["Email sudah terdaftar"] }, message: "Email sudah digunakan." }
   }
 
   const hashed = await bcrypt.hash(data.password, 12)

@@ -31,7 +31,7 @@ Tujuan utama: memberi UMKM/penjual jasa kanal jualan resmi yang rapi, sekaligus 
 - Landing page: hero, produk/jasa unggulan, tentang Al-Mubarok II, lokasi/peta kantor
 - Katalog produk & jasa dengan filter kategori (kategori bersifat opsional — produk tanpa kategori tetap muncul di "Semua")
 - Halaman detail produk/jasa: galeri foto (multi-foto), deskripsi, harga, info penjual
-- Checkout: isi data pembeli → pilih metode pembayaran (QRIS/VA/e-wallet via Xendit) → konfirmasi
+- Checkout: isi data pembeli → pembayaran QRIS/transfer bank → konfirmasi manual oleh Sekretaris
 
 ### 3.2 Seller (UMKM & Jasa)
 - Registrasi: data diri, data usaha, upload dokumen (KTP, **Kartu Keluarga**, izin usaha/NIB — opsional kalau belum ada)
@@ -69,12 +69,12 @@ Tujuan utama: memberi UMKM/penjual jasa kanal jualan resmi yang rapi, sekaligus 
 5. Admin bisa suspend seller kapan saja kalau ada pelanggaran
 
 ### 4.2 Alur Transaksi
-1. Buyer checkout → sistem buat Order + Xendit Invoice
-2. Buyer bayar via metode pilihan
-3. Webhook Xendit konfirmasi pembayaran (dengan verifikasi signature)
+1. Buyer checkout → sistem buat Order + OrderItem + LedgerEntry (komisi)
+2. Buyer scan QRIS atau transfer ke rekening perusahaan
+3. Sekretaris konfirmasi pembayaran manual dari dashboard → update Order status ke PAID
 4. Sistem hitung komisi per item (berdasarkan aturan aktif) → catat sebagai OrderItem + LedgerEntry
-5. Dana masuk ke saldo Xendit perusahaan, kewajiban payout ke seller tercatat sebagai PENDING
-6. Payout diproses (terjadwal via cron atau dipicu manual sekretaris) → Xendit Disbursement API → status PAID
+5. Seller lihat saldo tersedia di dashboard, bisa ajukan payout
+6. Sekretaris proses payout dari dashboard → update status ke PAID + LedgerEntry OUT + ActivityLog
 
 ### 4.3 Aturan Komisi
 - Prioritas: **komisi khusus seller** > **komisi kategori** > **komisi default global**
@@ -92,7 +92,7 @@ Tujuan utama: memberi UMKM/penjual jasa kanal jualan resmi yang rapi, sekaligus 
 
 1. **Fase 1 — Fondasi**: setup project, schema database, auth & RBAC
 2. **Fase 2 — Marketplace Inti**: landing page, katalog, seller onboarding + approval
-3. **Fase 3 — Transaksi & Komisi**: checkout, integrasi Xendit, commission engine, payout automation
+3. **Fase 3 — Transaksi & Komisi**: checkout, commission engine, payout (manual via Sekretaris)
 4. **Fase 4 — Dashboard & Analitik**: dashboard Ketua, Sekretaris, Seller lengkap dengan grafik
 5. **Fase 5 — Keamanan & Polish**: audit keamanan, animasi, cek mobile/desktop, dokumen final
 6. **Fase 6 — Deploy**: deployment ke Vercel, smoke test production
@@ -100,7 +100,7 @@ Tujuan utama: memberi UMKM/penjual jasa kanal jualan resmi yang rapi, sekaligus 
 ## 7. Kriteria Sukses
 
 - Seller bisa daftar, upload dokumen, dan diapprove admin tanpa error
-- Buyer bisa checkout dan pembayaran terkonfirmasi otomatis via webhook
+- Buyer bisa checkout dan pembayaran dikonfirmasi manual oleh Sekretaris
 - Komisi terhitung otomatis dan benar sesuai prioritas aturan (termasuk kasus kategori kosong)
 - Payout ke seller bisa diproses dan tercatat statusnya
 - Ketiga dashboard (Ketua/Sekretaris/Seller) menampilkan data akurat dan real-time
