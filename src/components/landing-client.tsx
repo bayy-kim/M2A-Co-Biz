@@ -4,6 +4,7 @@ import { TrendingUp, ShieldCheck, Zap, Users, BarChart3, MapPin, Phone, Mail, Ar
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { AnimateSection, AnimateStagger } from "@/components/animate-section"
+import { Logo } from "@/components/logo"
 
 interface LandingClientProps {
   session: {
@@ -39,9 +40,7 @@ export function LandingClient({ session, company }: LandingClientProps) {
         transition={{ duration: 0.3, ease: "easeOut" }}
         className="fixed top-0 w-full z-50 flex justify-between items-center px-lg h-16 bg-surface shadow-sm"
       >
-        <div className="flex items-center gap-2">
-          <span className="text-headline-md font-bold text-primary">M2A Co-Biz</span>
-        </div>
+        <Logo size="sm" />
         <nav className="hidden md:flex items-center gap-xxl">
           <Link className="text-primary font-bold border-b-2 border-primary text-body-md" href="/">Beranda</Link>
           <Link className="text-on-surface-variant hover:text-primary transition-colors text-body-md" href="/catalog">Katalog</Link>

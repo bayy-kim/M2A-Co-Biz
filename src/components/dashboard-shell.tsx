@@ -6,6 +6,7 @@ import {
   Activity, CreditCard, Percent, Wallet, BookOpen, Package, ShoppingCart, type LucideIcon 
 } from "lucide-react"
 import { LogoutButton } from "@/components/logout-button"
+import { Logo } from "@/components/logo"
 import { useState, ComponentType } from "react"
 
 const ICON_MAP: Record<string, LucideIcon> = {
@@ -84,15 +85,7 @@ export function DashboardShell({
         aria-label="Navigasi Utama"
       >
         <div className="p-lg border-b border-outline-variant/30">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center shadow-sm">
-              <span className="text-on-primary font-bold text-headline-md">M</span>
-            </div>
-            <div>
-              <h2 className="text-label-md font-bold text-on-surface">M2A Co-Biz</h2>
-              <p className="text-label-sm text-on-surface-variant font-medium">{title}</p>
-            </div>
-          </div>
+          <Logo showSubtitle subtitleText={title} />
         </div>
 
         {userName && (
@@ -181,15 +174,7 @@ export function DashboardShell({
           
           <aside className="fixed inset-y-0 left-0 w-72 bg-surface-container-low flex flex-col shadow-2xl z-50 animate-slide-in">
             <div className="p-lg border-b border-outline-variant/30 flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-9 h-9 bg-primary rounded-lg flex items-center justify-center">
-                  <span className="text-on-primary font-bold text-label-md">M</span>
-                </div>
-                <div>
-                  <h2 className="text-label-md font-bold text-on-surface">M2A Co-Biz</h2>
-                  <p className="text-label-sm text-on-surface-variant font-medium">{displayRole}</p>
-                </div>
-              </div>
+              <Logo size="sm" showSubtitle subtitleText={displayRole} />
               <button
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="w-10 h-10 flex items-center justify-center rounded-xl text-on-surface-variant hover:bg-surface-container outline-none focus-visible:ring-2 focus-visible:ring-primary"

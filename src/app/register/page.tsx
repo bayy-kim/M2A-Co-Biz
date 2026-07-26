@@ -3,8 +3,9 @@
 import { useState, useActionState, useRef, Suspense } from "react"
 import { Badge, Group, FileText, ArrowLeft, ArrowRight, Check, ShieldCheck, LifeBuoy, Loader2, ShoppingBag, Store, Upload } from "lucide-react"
 import Link from "next/link"
-import { useRouter, useSearchParams } from "next/navigation"
+import { useSearchParams, useRouter } from "next/navigation"
 import { register, registerBuyer, type RegisterState } from "./actions"
+import { Logo } from "@/components/logo"
 
 export default function RegisterPage() {
   return (
@@ -62,12 +63,7 @@ function RegisterContent() {
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <header className="fixed top-0 w-full z-50 bg-surface shadow-sm h-16 flex items-center px-lg md:px-xl justify-between">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-primary-container rounded-lg flex items-center justify-center">
-            <span className="text-on-primary-container font-bold text-headline-md">M</span>
-          </div>
-          <h1 className="text-headline-md font-bold text-primary">M2A Co-Biz</h1>
-        </div>
+        <Logo size="sm" />
         <div className="hidden md:block">
           <span className="text-on-surface-variant text-label-md">
             Sudah daftar?{" "}

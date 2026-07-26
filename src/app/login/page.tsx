@@ -5,6 +5,7 @@ import { Lock, Mail, Key, ArrowRight, ArrowLeft, ShieldCheck, Verified, HelpCirc
 import Link from "next/link"
 import { signIn } from "next-auth/react"
 import { useRouter } from "next/navigation"
+import { Logo } from "@/components/logo"
 
 export default function LoginPage() {
   const router = useRouter()
@@ -99,12 +100,8 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-gutter bg-surface">
       <div className="w-full max-w-[440px] flex flex-col items-center">
-        <div className="mb-xxl text-center">
-          <div className="w-20 h-20 mx-auto mb-lg rounded-xl bg-primary/10 flex items-center justify-center">
-            <span className="text-display-md font-bold text-primary">M</span>
-          </div>
-          <h1 className="text-display-md text-primary mb-xs">M2A Co-Biz</h1>
-          <p className="text-body-md text-on-surface-variant">Pusat Komunitas Bisnis</p>
+        <div className="mb-xxl text-center flex justify-center">
+          <Logo size="lg" showSubtitle subtitleText="Pusat Komunitas Bisnis" />
         </div>
 
         <div className="w-full bg-surface-container-lowest shadow-[0_10px_40px_-10px_rgba(15,92,92,0.1)] rounded-xl border border-outline-variant/30 p-xxl relative overflow-hidden">
