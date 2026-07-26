@@ -88,7 +88,7 @@ export async function register(prevState: RegisterState, formData: FormData): Pr
 
   const existing = await prisma.user.findUnique({ where: { email: data.email } })
   if (existing) {
-    return { errors: { email: ["Email is already registered"] }, message: "Email already in use." }
+    return { errors: { email: ["Email sudah terdaftar"] }, message: "Email sudah digunakan." }
   }
 
   const hashed = await bcrypt.hash(data.password, 12)
@@ -134,7 +134,7 @@ export async function register(prevState: RegisterState, formData: FormData): Pr
     for (const url of uploadedUrls) {
       try { await del(url) } catch { }
     }
-    const message = e instanceof Error ? e.message : "Upload failed"
+    const message = e instanceof Error ? e.message : "Gagal mengunggah dokumen"
     return { message }
   }
 

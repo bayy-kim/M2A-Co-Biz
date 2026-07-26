@@ -6,6 +6,7 @@ import { auth } from "@/lib/auth"
 import { ShoppingBag, Store, ArrowLeft, ChevronRight, ShieldCheck, Heart, Sparkles } from "lucide-react"
 import { PublicBottomBar } from "@/components/public-bottom-bar"
 import { PublicHeader } from "@/components/public-header"
+import { ShareButton } from "@/components/share-button"
 
 async function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const [{ id }, session] = await Promise.all([params, auth()])
@@ -119,7 +120,7 @@ async function ProductDetailPage({ params }: { params: Promise<{ id: string }> }
               </p>
             </div>
 
-            {/* Buy / CTA Button */}
+            {/* Buy / CTA Button + Share */}
             <div className="pt-4 flex gap-md">
               <Link
                 href={`/checkout?productId=${product.id}`}
@@ -128,6 +129,7 @@ async function ProductDetailPage({ params }: { params: Promise<{ id: string }> }
                 <Sparkles className="w-5 h-5" />
                 Beli Sekarang
               </Link>
+              <ShareButton />
             </div>
           </div>
         </div>

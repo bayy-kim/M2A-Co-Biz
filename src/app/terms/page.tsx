@@ -22,7 +22,7 @@ export default function TermsPage() {
             <h2 className="text-headline-md text-on-surface font-bold mb-md">2. Definisi</h2>
             <ul className="list-disc pl-xl space-y-sm">
               <li><strong>Platform</strong>: M2A Co-Biz, marketplace dan sistem manajemen internal untuk UMKM dan penyedia jasa di bawah Al-Mubarok II.</li>
-              <li><strong>Pengguna</strong>: Setiap individu yang terdaftar dan menggunakan Platform, termasuk Pembeli, Penjual, Admin, Sekretaris, dan Ketua.</li>
+              <li><strong>Pengguna</strong>: Setiap individu yang terdaftar dan menggunakan Platform, termasuk Pembeli, Penjual, Admin, Bendahara, dan Ketua.</li>
               <li><strong>Penjual</strong>: UMKM atau penyedia jasa yang terdaftar dan telah disetujui untuk menjual produk/jasa melalui Platform.</li>
               <li><strong>Pembeli</strong>: Pengguna yang membeli produk/jasa melalui Platform.</li>
             </ul>

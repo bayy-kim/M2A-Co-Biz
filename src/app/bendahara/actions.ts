@@ -18,7 +18,7 @@ type CommissionState = { error?: string; success?: boolean } | null
 export async function setCommissionRule(prevState: CommissionState, formData: FormData): Promise<CommissionState> {
   const session = await auth()
   if (!session?.user || (session.user.role !== "BENDAHARA" && session.user.role !== "ADMIN")) {
-    return { error: "Unauthorized" }
+    return { error: "Sesi tidak memiliki akses bendahara" }
   }
 
   try {
@@ -74,7 +74,7 @@ type ConfirmState = { error?: string; success?: boolean } | null
 export async function confirmPayment(orderId: string): Promise<ConfirmState> {
   const session = await auth()
   if (!session?.user || (session.user.role !== "BENDAHARA" && session.user.role !== "ADMIN")) {
-    return { error: "Unauthorized" }
+    return { error: "Sesi tidak memiliki akses bendahara" }
   }
 
   try {
@@ -116,7 +116,7 @@ export async function confirmPayment(orderId: string): Promise<ConfirmState> {
 export async function processPayout(payoutId: string, _prevState: PayoutState, _formData?: FormData): Promise<PayoutState> {
   const session = await auth()
   if (!session?.user || (session.user.role !== "BENDAHARA" && session.user.role !== "ADMIN")) {
-    return { error: "Unauthorized" }
+    return { error: "Sesi tidak memiliki akses bendahara" }
   }
 
   try {

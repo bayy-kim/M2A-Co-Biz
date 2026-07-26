@@ -8,7 +8,7 @@ import { z } from "zod"
 
 export async function updateSellerStatus(sellerId: string, status: SellerStatus) {
   const session = await auth()
-  if (!session?.user || session.user.role !== "ADMIN") return { error: "Unauthorized" }
+  if (!session?.user || session.user.role !== "ADMIN") return { error: "Sesi tidak memiliki akses admin" }
 
   try {
     const seller = await prisma.sellerProfile.findUnique({
@@ -38,7 +38,7 @@ export async function updateSellerStatus(sellerId: string, status: SellerStatus)
 
 export async function updateCategoryStatus(categoryId: string, status: "APPROVED" | "REJECTED") {
   const session = await auth()
-  if (!session?.user || session.user.role !== "ADMIN") return { error: "Unauthorized" }
+  if (!session?.user || session.user.role !== "ADMIN") return { error: "Sesi tidak memiliki akses admin" }
 
   try {
     const category = await prisma.category.findUnique({ where: { id: categoryId } })
@@ -64,7 +64,7 @@ export async function updateCategoryStatus(categoryId: string, status: "APPROVED
 
 export async function toggleUserStatus(userId: string) {
   const session = await auth()
-  if (!session?.user || session.user.role !== "ADMIN") return { error: "Unauthorized" }
+  if (!session?.user || session.user.role !== "ADMIN") return { error: "Sesi tidak memiliki akses admin" }
 
   try {
     const user = await prisma.user.findUnique({ where: { id: userId }, include: { sellerProfile: true } })
@@ -113,7 +113,7 @@ const companySchema = z.object({
 
 export async function updateCompanyProfile(prevState: unknown, formData: FormData) {
   const session = await auth()
-  if (!session?.user || session.user.role !== "ADMIN") return { error: "Unauthorized" }
+  if (!session?.user || session.user.role !== "ADMIN") return { error: "Sesi tidak memiliki akses admin" }
 
   try {
     const raw = {

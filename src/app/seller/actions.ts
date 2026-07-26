@@ -11,9 +11,9 @@ const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp"]
 const MAX_FILE_SIZE = 5 * 1024 * 1024
 
 const productSchema = z.object({
-  title: z.string().min(3, "Title must be at least 3 characters"),
-  description: z.string().min(10, "Description must be at least 10 characters"),
-  priceRupiah: z.coerce.number().int().positive("Price must be positive"),
+  title: z.string().min(3, "Judul minimal 3 karakter"),
+  description: z.string().min(10, "Deskripsi minimal 10 karakter"),
+  priceRupiah: z.coerce.number().int().positive("Harga harus lebih dari 0"),
   categoryId: z.string().optional().nullable(),
 })
 
@@ -32,7 +32,7 @@ async function uploadImage(file: File, sellerId: string): Promise<string> {
 
 export async function createProduct(prevState: ProductState, formData: FormData): Promise<ProductState> {
   const session = await auth()
-  if (!session?.user) return { error: "Unauthorized" }
+  if (!session?.user) return { error: "Sesi tidak valid" }
 
   try {
     const seller = await prisma.sellerProfile.findUnique({
@@ -80,12 +80,12 @@ export async function createProduct(prevState: ProductState, formData: FormData)
 }
 
 const categoryProposalSchema = z.object({
-  categoryName: z.string().min(2, "Category name must be at least 2 characters"),
+  categoryName: z.string().min(2, "Nama kategori minimal 2 karakter"),
 })
 
 export async function proposeCategory(prevState: { error?: string; success?: boolean } | null, formData: FormData): Promise<{ error?: string; success?: boolean } | null> {
   const session = await auth()
-  if (!session?.user) return { error: "Unauthorized" }
+  if (!session?.user) return { error: "Sesi tidak valid" }
 
   try {
     const seller = await prisma.sellerProfile.findUnique({
@@ -130,7 +130,7 @@ type PayoutRequestState = { error?: string; success?: boolean } | null
 
 export async function requestPayout(prevState: PayoutRequestState, formData: FormData): Promise<PayoutRequestState> {
   const session = await auth()
-  if (!session?.user) return { error: "Unauthorized" }
+  if (!session?.user) return { error: "Sesi tidak valid" }
 
   try {
     const seller = await prisma.sellerProfile.findUnique({
@@ -188,7 +188,7 @@ export async function requestPayout(prevState: PayoutRequestState, formData: For
 
 export async function updateProductStatus(productId: string, status: ProductStatus) {
   const session = await auth()
-  if (!session?.user) return { error: "Unauthorized" }
+  if (!session?.user) return { error: "Sesi tidak valid" }
 
   try {
     const product = await prisma.product.findUnique({
@@ -211,7 +211,7 @@ export async function updateProductStatus(productId: string, status: ProductStat
 
 export async function updateFulfillmentStatus(orderId: string, fulfillmentStatus: FulfillmentStatus) {
   const session = await auth()
-  if (!session?.user) return { error: "Unauthorized" }
+  if (!session?.user) return { error: "Sesi tidak valid" }
 
   try {
     const seller = await prisma.sellerProfile.findUnique({

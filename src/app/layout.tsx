@@ -8,7 +8,15 @@ export const metadata: Metadata = {
   },
   description:
     "Platform marketplace dan manajemen bisnis untuk UMKM dan penyedia jasa di bawah naungan Al-Mubarok II.",
-  icons: { icon: "/favicon.svg" },
+  icons: {
+    icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
+  },
+  other: {
+    "theme-color": "#004343",
+    "apple-mobile-web-app-capable": "yes",
+    "apple-mobile-web-app-status-bar-style": "default",
+    "apple-mobile-web-app-title": "M2A Co-Biz",
+  },
   openGraph: {
     title: "M2A Co-Biz | Pusat Bisnis & UMKM Al-Mubarok II",
     description:
