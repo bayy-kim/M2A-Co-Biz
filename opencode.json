@@ -1,13 +1,13 @@
 {
-  "name": "m2a-co-biz",
-  "version": "1.0.0",
-  "engine": "nextjs-16",
-  "db": "postgresql-prisma",
-  "auth": "next-auth-v5",
-  "styling": "tailwind-v4",
-  "commands": {
-    "build": "npm run build",
-    "dev": "npm run dev",
-    "seed": "npm run seed"
+  "$schema": "https://opencode.ai/config.json",
+  "command": {
+    "build": {
+      "template": "Run `npm run build` and fix any TypeScript or build errors that appear.",
+      "description": "Build project & fix errors"
+    },
+    "seed": {
+      "template": "Run `npm run seed` locally to seed the database with test data. NEVER run this against production — seeding must always be a manual, local-only step.",
+      "description": "Seed database (manual only)"
+    }
   }
 }
