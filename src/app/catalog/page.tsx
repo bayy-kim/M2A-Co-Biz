@@ -153,7 +153,8 @@ async function CatalogPage({ searchParams }: { searchParams: Promise<{ q?: strin
             {products.map((product) => (
               <AnimateItem key={product.id}>
                 <AnimateCard>
-                  <Link href={`/catalog/${product.id}`} className="group bg-surface-container-lowest rounded-2xl overflow-hidden shadow-xs hover:shadow-md border border-outline-variant/20 transition-all duration-300 flex flex-col h-full">
+                  <div className="p-[1px] rounded-[1.25rem] bg-gradient-to-b from-outline-variant/30 to-transparent">
+                  <Link href={`/catalog/${product.id}`} className="group bg-surface-container-lowest rounded-[calc(1.25rem-1px)] overflow-hidden shadow-xs hover:shadow-lg transition-all duration-300 flex flex-col h-full">
                     <div className="relative h-36 sm:h-44 overflow-hidden bg-surface-container-high flex items-center justify-center">
                       {product.images.length > 0 ? (
                         <img alt={product.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src={product.images[0]} />
@@ -178,6 +179,7 @@ async function CatalogPage({ searchParams }: { searchParams: Promise<{ q?: strin
                       </div>
                     </div>
                   </Link>
+                  </div>
                 </AnimateCard>
               </AnimateItem>
             ))}
@@ -238,7 +240,8 @@ async function CatalogPage({ searchParams }: { searchParams: Promise<{ q?: strin
             </div>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-md md:gap-gutter">
               {recommendations.map((product) => (
-                <Link key={product.id} href={`/catalog/${product.id}`} className="group bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 flex flex-col">
+                <div key={product.id} className="p-[1px] rounded-[1.25rem] bg-gradient-to-b from-outline-variant/30 to-transparent">
+                <Link href={`/catalog/${product.id}`} className="group bg-surface-container-lowest rounded-[calc(1.25rem-1px)] overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 flex flex-col">
                   <div className="relative h-36 sm:h-44 overflow-hidden bg-surface-container-high flex items-center justify-center">
                     {product.images.length > 0 ? (
                       <img alt={product.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src={product.images[0]} />
@@ -260,6 +263,7 @@ async function CatalogPage({ searchParams }: { searchParams: Promise<{ q?: strin
                     </div>
                   </div>
                 </Link>
+                </div>
               ))}
             </div>
           </section>

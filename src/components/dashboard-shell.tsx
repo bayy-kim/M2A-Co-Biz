@@ -100,15 +100,19 @@ export function DashboardShell({
         </div>
 
         {userName && (
-          <div className="p-lg mx-md mt-lg rounded-xl bg-surface-container-high border border-outline-variant/20 flex items-center gap-3">
-            <div className="w-10 h-10 bg-primary-container text-on-primary-container rounded-full flex items-center justify-center shrink-0">
-              <User className="w-5 h-5" />
-            </div>
-            <div className="min-w-0">
-              <p className="text-label-md font-bold text-on-surface truncate">{userName}</p>
-              <span className="inline-flex px-2 py-0.5 rounded-full text-[10px] font-bold bg-primary/10 text-primary capitalize">
-                {displayRole}
-              </span>
+          <div className="mx-md mt-lg">
+            <div className="p-[1px] rounded-[1rem] bg-gradient-to-b from-outline-variant/30 to-transparent">
+              <div className="rounded-[calc(1rem-1px)] bg-surface-container-high flex items-center gap-3 p-lg">
+                <div className="w-10 h-10 bg-primary-container text-on-primary-container rounded-full flex items-center justify-center shrink-0 shadow-[inset_0_1px_1px_rgba(255,255,255,0.3)]">
+                  <User className="w-5 h-5" />
+                </div>
+                <div className="min-w-0">
+                  <p className="text-label-md font-bold text-on-surface truncate">{userName}</p>
+                  <span className="inline-flex px-2 py-0.5 rounded-full text-[10px] font-bold bg-primary/10 text-primary capitalize">
+                    {displayRole}
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
         )}
@@ -122,7 +126,7 @@ export function DashboardShell({
                 href={item.href}
                 className={`flex items-center gap-3 px-md py-3 rounded-xl text-label-md transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-primary ${
                   active
-                    ? "bg-primary-container text-on-primary-container font-bold shadow-sm"
+                    ? "bg-primary-container text-on-primary-container font-bold shadow-sm ring-1 ring-primary/20"
                     : "text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface"
                 }`}
                 aria-current={active ? "page" : undefined}
