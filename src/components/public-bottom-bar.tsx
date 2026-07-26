@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { LayoutGrid, Store, ShoppingBag, Bell } from "lucide-react"
+import { Home, ShoppingBag, Bell, User } from "lucide-react"
 
 interface Props {
   isLoggedIn?: boolean
@@ -13,7 +13,6 @@ interface Props {
 export function PublicBottomBar({ isLoggedIn, isSeller, role }: Props) {
   const pathname = usePathname()
 
-  // Dynamic notification target based on role
   const getNotificationHref = () => {
     if (!isLoggedIn) return "/login"
     if (role === "ADMIN") return "/admin?tab=approvals"
@@ -23,11 +22,25 @@ export function PublicBottomBar({ isLoggedIn, isSeller, role }: Props) {
     return "/pesanan-saya"
   }
 
+  const getDashboardHref = () => {
+    if (!isLoggedIn) return "/login"
+    if (role === "ADMIN") return "/admin"
+    if (role === "BENDAHARA") return "/bendahara"
+    if (role === "KETUA") return "/ketua"
+    if (role === "SELLER") return "/seller"
+    return "/pesanan-saya"
+  }
+
   const items = [
     {
       label: "Beranda",
-      href: "/catalog", // Diretas langsung ke katalog sesuai permintaan user
-      icon: LayoutGrid,
+      href: "/catalog",
+      icon: Home,
+    },
+    {
+      label: "Pesanan",
+      href: isLoggedIn ? "/pesanan-saya" : "/login",
+      icon: ShoppingBag,
     },
     {
       label: "Notifikasi",
@@ -36,27 +49,19 @@ export function PublicBottomBar({ isLoggedIn, isSeller, role }: Props) {
       hasBadge: true,
     },
     {
-      label: isSeller ? "Dashboard" : "Daftar Jual",
-      href: isSeller ? "/seller" : "/register?role=seller",
-      icon: Store,
-      hideWhen: isLoggedIn && !isSeller,
-    },
-    {
-      label: "Pesanan",
-      href: isLoggedIn ? "/pesanan-saya" : "/login",
-      icon: ShoppingBag,
+      label: "Saya",
+      href: getDashboardHref(),
+      icon: User,
     },
   ]
 
-  const visibleItems = items.filter((item) => !item.hideWhen)
-
   return (
-    <nav 
+    <nav
       className="lg:hidden fixed bottom-0 w-full z-50 bg-surface border-t border-outline-variant/30 shadow-[0_-4px_20px_rgba(0,0,0,0.08)] pb-[env(safe-area-inset-bottom)]"
       aria-label="Navigasi Publik Mobile"
     >
       <div className="flex items-center justify-around mx-auto max-w-lg overflow-x-auto no-scrollbar">
-        {visibleItems.map((item) => {
+        {items.map((item) => {
           const Icon = item.icon
           const active = pathname === item.href || (item.href !== "/catalog" && pathname.startsWith(item.href))
           return (
@@ -73,7 +78,7 @@ export function PublicBottomBar({ isLoggedIn, isSeller, role }: Props) {
               }`}>
                 <Icon className="w-5 h-5" />
                 {item.hasBadge && (
-                  <span className="absolute top-1 right-2.5 w-2.5 h-2.5 rounded-full bg-accent-gold border-2 border-primary animate-pulse" />
+                  <span className="absolute top-1 right-2.5 w-2.5 h-2.5 rounded-full bg-accent-gold border-2 border-surface animate-pulse" />
                 )}
               </div>
               <span className={`text-[10px] leading-tight text-center max-w-full truncate ${
