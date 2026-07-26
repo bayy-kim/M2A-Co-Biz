@@ -54,6 +54,7 @@ export function PublicHeader({ session, showSearch = false, searchQuery = "" }: 
       <nav className="hidden md:flex items-center gap-xxl" aria-label="Navigasi Publik Desktop">
         <Link 
           href="/" 
+          aria-label="Halaman Beranda M2A Co-Biz"
           className={`py-1 text-body-md transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-md ${
             isBerandaActive 
               ? "text-primary font-bold border-b-2 border-primary" 
@@ -65,6 +66,7 @@ export function PublicHeader({ session, showSearch = false, searchQuery = "" }: 
         
         <Link 
           href="/catalog" 
+          aria-label="Katalog Produk dan Jasa"
           className={`py-1 text-body-md transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-md ${
             isKatalogActive 
               ? "text-primary font-bold border-b-2 border-primary" 
@@ -76,6 +78,7 @@ export function PublicHeader({ session, showSearch = false, searchQuery = "" }: 
         
         <Link 
           href="/#about" 
+          aria-label="Tentang Al-Mubarok II"
           className="py-1 text-body-md text-on-surface-variant hover:text-primary transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-md"
         >
           Tentang
@@ -83,6 +86,7 @@ export function PublicHeader({ session, showSearch = false, searchQuery = "" }: 
         
         <Link 
           href="/#location" 
+          aria-label="Kontak dan Lokasi Kami"
           className="py-1 text-body-md text-on-surface-variant hover:text-primary transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-md"
         >
           Kontak

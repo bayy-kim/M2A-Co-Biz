@@ -123,6 +123,8 @@
 
   --radius-xl: 0.75rem;
   --radius-lg: 0.5rem;
+
+  --header-height: 64px;
 }
 
 body {

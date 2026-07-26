@@ -85,7 +85,10 @@ export function LandingClient({ session, company }: LandingClientProps) {
                 <img 
                   src="https://images.unsplash.com/photo-1556740758-90de374c12ad?auto=format&fit=crop&w=800&q=80" 
                   alt="Wirausaha UMKM M2A Co-Biz" 
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  width={568}
+                  height={568}
+                  loading="eager"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 aspect-square"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-primary/60 via-transparent to-transparent opacity-60" />
               </div>
@@ -138,7 +141,10 @@ export function LandingClient({ session, company }: LandingClientProps) {
                     <img 
                       src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80" 
                       alt="Komunitas Al-Mubarok II Banjarwaringin" 
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                      width={800}
+                      height={600}
+                      loading="lazy"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 aspect-[4/3]"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-primary/50 via-transparent to-transparent opacity-40" />
                   </div>

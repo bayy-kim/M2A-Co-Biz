@@ -38,7 +38,7 @@ export function Logo({
 
   if (href) {
     return (
-      <Link href={href} className="inline-flex outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-xl">
+      <Link href={href} aria-label="Beranda M2A Co-Biz" className="inline-flex outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-xl">
         {content}
       </Link>
     )
