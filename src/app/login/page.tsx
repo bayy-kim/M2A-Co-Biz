@@ -134,8 +134,8 @@ export default function LoginPage() {
                 </div>
                 <div className="space-y-xs">
                   <div className="flex justify-between items-center px-1">
-                      <label className="text-label-md text-on-surface-variant" htmlFor="password">Kata Sandi</label>
-                    <Link className="text-label-sm text-primary hover:underline" href="#">Lupa kata sandi?</Link>
+                    <label className="text-label-md text-on-surface-variant" htmlFor="password">Kata Sandi</label>
+                    <a className="text-label-sm text-primary hover:underline" href="https://wa.me/6281234567890?text=Halo%20Admin%20M2A%20Co-Biz,%20saya%20butuh%20bantuan%20reset%20kata%20sandi" target="_blank" rel="noopener noreferrer">Lupa kata sandi?</a>
                   </div>
                   <div className="relative group">
                     <Key className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-outline group-focus-within:text-primary transition-colors" />
@@ -218,9 +218,9 @@ export default function LoginPage() {
                     {pending ? "Memverifikasi..." : "Verifikasi & Masuk"}
                     {!pending && <Verified className="w-5 h-5" />}
                   </button>
-                  <button className="text-label-md text-on-surface-variant hover:text-primary py-2 transition-colors" type="button">
-                    Tidak menerima kode? <span className="font-bold">Kirim Ulang</span>
-                  </button>
+                  <p className="text-label-sm text-center text-on-surface-variant py-2">
+                    Kode 6 digit selalu diperbarui otomatis di aplikasi <span className="font-bold text-primary">Authenticator</span> HP Anda.
+                  </p>
                 </div>
               </form>
             </div>
@@ -228,7 +228,7 @@ export default function LoginPage() {
         </div>
 
         <div className="mt-xl flex flex-wrap justify-center gap-xl">
-          <Link className="text-label-sm text-on-surface-variant hover:text-primary transition-colors flex items-center gap-xs" href="#"><HelpCircle className="w-[16px] h-[16px]" /> Pusat Bantuan</Link>
+          <a className="text-label-sm text-on-surface-variant hover:text-primary transition-colors flex items-center gap-xs" href="https://wa.me/6281234567890?text=Halo%20Admin%20M2A%20Co-Biz,%20saya%20butuh%20bantuan" target="_blank" rel="noopener noreferrer"><HelpCircle className="w-[16px] h-[16px]" /> Pusat Bantuan</a>
           <Link className="text-label-sm text-on-surface-variant hover:text-primary transition-colors flex items-center gap-xs" href="/privacy"><FileText className="w-[16px] h-[16px]" /> Kebijakan Privasi</Link>
           <Link className="text-label-sm text-on-surface-variant hover:text-primary transition-colors flex items-center gap-xs" href="/terms"><FileText className="w-[16px] h-[16px]" /> Ketentuan</Link>
         </div>
