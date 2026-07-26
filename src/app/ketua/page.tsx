@@ -7,9 +7,9 @@ import { TrendChart } from "@/components/line-chart"
 import Link from "next/link"
 import { DashboardShell } from "@/components/dashboard-shell"
 
-const SIDEBAR: { label: string; href: string; icon: LucideIcon }[] = [
-  { label: "Ringkasan", href: "/ketua", icon: LayoutDashboard },
-  { label: "Aktivitas", href: "/ketua?tab=activity", icon: Activity },
+const SIDEBAR: { label: string; href: string; icon: string }[] = [
+  { label: "Ringkasan", href: "/ketua", icon: "LayoutDashboard" },
+  { label: "Aktivitas", href: "/ketua?tab=activity", icon: "Activity" },
 ]
 
 async function KetuaDashboard({ searchParams }: { searchParams: Promise<{ tab?: string }> }) {

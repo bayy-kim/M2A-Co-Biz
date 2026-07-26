@@ -9,13 +9,13 @@ import { AdminCategoriesTab } from "./categories-tab"
 import { AdminUsersTab } from "./users-tab"
 import { AdminCompanyTab } from "./company-tab"
 
-const SIDEBAR: { label: string; href: string; icon: LucideIcon }[] = [
-  { label: "Ringkasan", href: "/admin", icon: LayoutDashboard },
-  { label: "Antrian Persetujuan", href: "/admin?tab=approvals", icon: Clock },
-  { label: "Kategori", href: "/admin?tab=categories", icon: Tag },
-  { label: "Pengguna", href: "/admin?tab=users", icon: Users },
-  { label: "Profil Perusahaan", href: "/admin?tab=company", icon: Building2 },
-  { label: "Log Aktivitas", href: "/admin?tab=activity", icon: List },
+const SIDEBAR: { label: string; href: string; icon: string }[] = [
+  { label: "Ringkasan", href: "/admin", icon: "LayoutDashboard" },
+  { label: "Antrian Persetujuan", href: "/admin?tab=approvals", icon: "Clock" },
+  { label: "Kategori", href: "/admin?tab=categories", icon: "Tag" },
+  { label: "Pengguna", href: "/admin?tab=users", icon: "Users" },
+  { label: "Profil Perusahaan", href: "/admin?tab=company", icon: "Building2" },
+  { label: "Log Aktivitas", href: "/admin?tab=activity", icon: "List" },
 ]
 
 async function AdminDashboard({ searchParams }: { searchParams: Promise<{ tab?: string }> }) {

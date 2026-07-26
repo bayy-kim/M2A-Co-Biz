@@ -9,11 +9,11 @@ import { DashboardShell } from "@/components/dashboard-shell"
 import { NewProductForm } from "./new-product-form"
 import { RequestPayoutForm } from "./request-payout-form"
 
-const SIDEBAR: { label: string; href: string; icon: LucideIcon }[] = [
-  { label: "Ringkasan", href: "/seller", icon: LayoutDashboard },
-  { label: "Produk", href: "/seller?tab=products", icon: Package },
-  { label: "Penjualan", href: "/seller?tab=sales", icon: ShoppingCart },
-  { label: "Pencairan", href: "/seller?tab=payouts", icon: Wallet },
+const SIDEBAR: { label: string; href: string; icon: string }[] = [
+  { label: "Ringkasan", href: "/seller", icon: "LayoutDashboard" },
+  { label: "Produk", href: "/seller?tab=products", icon: "Package" },
+  { label: "Penjualan", href: "/seller?tab=sales", icon: "ShoppingCart" },
+  { label: "Pencairan", href: "/seller?tab=payouts", icon: "Wallet" },
 ]
 
 async function SellerDashboard({ searchParams }: { searchParams: Promise<{ tab?: string }> }) {

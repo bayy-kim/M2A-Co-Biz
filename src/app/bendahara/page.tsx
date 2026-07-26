@@ -10,12 +10,12 @@ import { CommissionRuleForm } from "./commission-form"
 import { PayoutAction } from "./payout-action"
 import { ConfirmPaymentButton } from "./confirm-payment-button"
 
-const SIDEBAR: { label: string; href: string; icon: LucideIcon }[] = [
-  { label: "Ringkasan", href: "/bendahara", icon: LayoutDashboard },
-  { label: "Pembayaran", href: "/bendahara?tab=payments", icon: CreditCard },
-  { label: "Aturan Komisi", href: "/bendahara?tab=commissions", icon: Percent },
-  { label: "Pencairan", href: "/bendahara?tab=payouts", icon: Wallet },
-  { label: "Buku Besar", href: "/bendahara?tab=ledger", icon: BookOpen },
+const SIDEBAR: { label: string; href: string; icon: string }[] = [
+  { label: "Ringkasan", href: "/bendahara", icon: "LayoutDashboard" },
+  { label: "Pembayaran", href: "/bendahara?tab=payments", icon: "CreditCard" },
+  { label: "Aturan Komisi", href: "/bendahara?tab=commissions", icon: "Percent" },
+  { label: "Pencairan", href: "/bendahara?tab=payouts", icon: "Wallet" },
+  { label: "Buku Besar", href: "/bendahara?tab=ledger", icon: "BookOpen" },
 ]
 
 async function BendaharaDashboard({ searchParams }: { searchParams: Promise<{ tab?: string }> }) {

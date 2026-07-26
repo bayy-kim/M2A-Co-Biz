@@ -1,14 +1,34 @@
 "use client"
 
 import Link from "next/link"
-import { ChevronRight, Store, Menu, X, User, type LucideIcon } from "lucide-react"
+import { 
+  ChevronRight, Store, Menu, X, User, LayoutDashboard, Clock, Tag, Users, Building2, List, 
+  Activity, CreditCard, Percent, Wallet, BookOpen, Package, ShoppingCart, type LucideIcon 
+} from "lucide-react"
 import { LogoutButton } from "@/components/logout-button"
-import { useState } from "react"
+import { useState, ComponentType } from "react"
+
+const ICON_MAP: Record<string, LucideIcon> = {
+  LayoutDashboard,
+  Clock,
+  Tag,
+  Users,
+  Building2,
+  List,
+  Activity,
+  CreditCard,
+  Percent,
+  Wallet,
+  BookOpen,
+  Package,
+  ShoppingCart,
+  Store,
+}
 
 interface SidebarItem {
   label: string
   href: string
-  icon?: LucideIcon
+  icon?: LucideIcon | string
 }
 
 interface DashboardShellProps {
@@ -33,14 +53,12 @@ export function DashboardShell({
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   const isActive = (item: SidebarItem) => {
-    // Exact match for the dashboard home or partial match for tabs
     if (item.href === `/${roleLabel}`) {
       return tab === "overview" || tab === ""
     }
     return item.href.includes(tab)
   }
 
-  // Format role label to be user-friendly in Bahasa
   const displayRole = {
     admin: "Administrator",
     bendahara: "Bendahara",
@@ -49,9 +67,18 @@ export function DashboardShell({
     buyer: "Pembeli",
   }[roleLabel] || roleLabel
 
+  const renderIcon = (icon?: LucideIcon | string) => {
+    if (!icon) return null
+    if (typeof icon === "string") {
+      const Comp = ICON_MAP[icon]
+      return Comp ? <Comp className="w-5 h-5 shrink-0" /> : null
+    }
+    const Comp = icon as ComponentType<{ className?: string }>
+    return <Comp className="w-5 h-5 shrink-0" />
+  }
+
   return (
     <div className="min-h-screen bg-background flex flex-col lg:flex-row">
-      {/* a11y [WCAG 1.3.1]: Landmark navigation for main dashboard menu */}
       <aside 
         className="w-64 bg-surface-container-low border-r border-outline-variant/30 hidden lg:flex flex-col shrink-0"
         aria-label="Navigasi Utama"
@@ -68,7 +95,6 @@ export function DashboardShell({
           </div>
         </div>
 
-        {/* User profile card in sidebar */}
         {userName && (
           <div className="p-lg mx-md mt-lg rounded-xl bg-surface-container-high border border-outline-variant/20 flex items-center gap-3">
             <div className="w-10 h-10 bg-primary-container text-on-primary-container rounded-full flex items-center justify-center shrink-0">
@@ -85,7 +111,6 @@ export function DashboardShell({
 
         <nav className="flex-1 p-md space-y-1.5 overflow-y-auto mt-md" aria-label="Navigasi Dashboard">
           {sidebarItems.map((item) => {
-            const Icon = item.icon
             const active = isActive(item)
             return (
               <Link
@@ -98,7 +123,7 @@ export function DashboardShell({
                 }`}
                 aria-current={active ? "page" : undefined}
               >
-                {Icon && <Icon className="w-5 h-5 shrink-0" />}
+                {renderIcon(item.icon)}
                 {item.label}
               </Link>
             )
@@ -117,18 +142,14 @@ export function DashboardShell({
         </div>
       </aside>
 
-      {/* Main content wrapper */}
       <div className="flex-1 flex flex-col min-w-0 pb-20 lg:pb-0">
-        {/* Header */}
         <header className="sticky top-0 z-40 bg-surface/90 backdrop-blur-md border-b border-outline-variant/30 flex items-center justify-between px-lg h-16">
           <div className="flex items-center gap-lg">
-            {/* Desktop breadcrumb */}
             <div className="hidden lg:flex items-center gap-2">
               <span className="text-label-sm text-on-surface-variant">{displayRole}</span>
               <ChevronRight className="w-4 h-4 text-on-surface-variant" />
               <span className="text-label-sm font-bold text-on-surface capitalize">{tab.replace(/-/g, " ") || "Ringkasan"}</span>
             </div>
-            {/* Mobile navigation toggle */}
             <div className="lg:hidden flex items-center gap-3">
               <button
                 onClick={() => setIsMobileMenuOpen(true)}
@@ -146,22 +167,18 @@ export function DashboardShell({
           </div>
         </header>
 
-        {/* Content */}
         <main className="flex-1 p-lg space-y-lg overflow-auto">
           {children}
         </main>
       </div>
 
-      {/* Mobile Drawer (Overlay Navigation) */}
       {isMobileMenuOpen && (
         <div className="fixed inset-0 z-50 lg:hidden" role="dialog" aria-modal="true">
-          {/* Backdrop */}
           <div 
             className="fixed inset-0 bg-black/40 backdrop-blur-xs transition-opacity" 
             onClick={() => setIsMobileMenuOpen(false)}
           />
           
-          {/* Drawer content */}
           <aside className="fixed inset-y-0 left-0 w-72 bg-surface-container-low flex flex-col shadow-2xl z-50 animate-slide-in">
             <div className="p-lg border-b border-outline-variant/30 flex items-center justify-between">
               <div className="flex items-center gap-3">
@@ -199,7 +216,6 @@ export function DashboardShell({
 
             <nav className="flex-1 p-lg space-y-md overflow-y-auto" aria-label="Navigasi Menu Mobile">
               {sidebarItems.map((item) => {
-                const Icon = item.icon
                 const active = isActive(item)
                 return (
                   <Link
@@ -213,7 +229,7 @@ export function DashboardShell({
                     }`}
                     aria-current={active ? "page" : undefined}
                   >
-                    {Icon && <Icon className="w-5 h-5 shrink-0" />}
+                    {renderIcon(item.icon)}
                     {item.label}
                   </Link>
                 )
@@ -235,14 +251,12 @@ export function DashboardShell({
         </div>
       )}
 
-      {/* Mobile Bottom Navigation Bar */}
       <nav 
         className="lg:hidden fixed bottom-0 w-full z-50 bg-surface border-t border-outline-variant/30 shadow-[0_-4px_20px_rgba(0,0,0,0.08)] pb-[env(safe-area-inset-bottom)]"
         aria-label="Navigasi Bawah Mobile"
       >
         <div className="flex items-center justify-around mx-auto max-w-lg">
           {sidebarItems.map((item) => {
-            const Icon = item.icon
             const active = isActive(item)
             return (
               <Link
@@ -256,7 +270,7 @@ export function DashboardShell({
                 <div className={`flex items-center justify-center w-12 h-8 rounded-full transition-all duration-200 ${
                   active ? "bg-primary-container text-primary" : "hover:bg-surface-container-high"
                 }`}>
-                  {Icon && <Icon className="w-5 h-5" />}
+                  {renderIcon(item.icon)}
                 </div>
                 <span className={`text-[10px] leading-tight text-center max-w-full truncate ${
                   active ? "font-bold text-primary" : "text-on-surface-variant"
