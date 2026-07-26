@@ -163,14 +163,14 @@ async function CatalogPage({ searchParams }: { searchParams: Promise<{ q?: strin
                     </div>
                     <div className="p-md sm:p-lg flex flex-col flex-1 min-w-0">
                       <div className="flex justify-between items-start mb-sm">
-                        <h3 className="text-label-md sm:text-headline-md text-on-surface leading-tight line-clamp-2">{product.title}</h3>
+                        <h3 className="text-label-md sm:text-body-lg font-semibold text-on-surface leading-tight line-clamp-2">{product.title}</h3>
                       </div>
                       <div className="mt-auto">
                         <p className="text-on-surface-variant text-label-xs sm:text-label-sm mb-xs truncate">
                           by <span className="text-primary font-bold truncate">{product.seller.businessName}</span>
                         </p>
                         <div className="flex items-center justify-between gap-1">
-                          <span className="text-headline-md sm:text-headline-lg text-primary truncate">{formatRupiah(product.priceRupiah)}</span>
+                          <span className="text-body-lg sm:text-headline-md font-bold text-primary truncate">{formatRupiah(product.priceRupiah)}</span>
                           <span className="bg-primary text-on-primary px-2 sm:px-md py-1 sm:py-2 rounded-xl text-label-xs sm:text-label-md whitespace-nowrap hover:opacity-90 transition-opacity">
                             Detail
                           </span>
@@ -248,14 +248,14 @@ async function CatalogPage({ searchParams }: { searchParams: Promise<{ q?: strin
                   </div>
                   <div className="p-md sm:p-lg flex flex-col flex-1 min-w-0">
                     <div className="flex justify-between items-start mb-sm">
-                      <h3 className="text-label-md sm:text-headline-md text-on-surface leading-tight line-clamp-2">{product.title}</h3>
+                      <h3 className="text-label-md sm:text-body-lg font-semibold text-on-surface leading-tight line-clamp-2">{product.title}</h3>
                     </div>
                     <div className="mt-auto">
                       <p className="text-on-surface-variant text-label-xs sm:text-label-sm mb-xs truncate">
                         by <span className="text-primary font-bold truncate">{product.seller.businessName}</span>
                       </p>
                       <div className="flex items-center justify-between gap-1">
-                        <span className="text-headline-md sm:text-headline-lg text-primary truncate">{formatRupiah(product.priceRupiah)}</span>
+                        <span className="text-body-lg sm:text-headline-md font-bold text-primary truncate">{formatRupiah(product.priceRupiah)}</span>
                       </div>
                     </div>
                   </div>
