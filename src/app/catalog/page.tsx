@@ -7,6 +7,7 @@ import { CatalogFilterSort } from "./filter-sort"
 import { PublicBottomBar } from "@/components/public-bottom-bar"
 import { Logo } from "@/components/logo"
 import { PublicHeader } from "@/components/public-header"
+import { AnimateStagger, AnimateItem, AnimateCard } from "@/components/animate-section"
 
 const ITEMS_PER_PAGE = 8
 
@@ -148,35 +149,39 @@ async function CatalogPage({ searchParams }: { searchParams: Promise<{ q?: strin
             <p className="text-body-md text-on-surface-variant">Coba ubah kata kunci atau filter pencarian.</p>
           </div>
         ) : (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-md md:gap-gutter">
+          <AnimateStagger className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-md md:gap-gutter">
             {products.map((product) => (
-              <Link key={product.id} href={`/catalog/${product.id}`} className="group bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 flex flex-col">
-                <div className="relative h-36 sm:h-44 overflow-hidden bg-surface-container-high flex items-center justify-center">
-                  {product.images.length > 0 ? (
-                    <img alt={product.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src={product.images[0]} />
-                  ) : (
-                    <ShoppingBag className="w-12 h-12 sm:w-16 sm:h-16 text-primary" />
-                  )}
-                </div>
-                <div className="p-md sm:p-lg flex flex-col flex-1 min-w-0">
-                  <div className="flex justify-between items-start mb-sm">
-                    <h3 className="text-label-md sm:text-headline-md text-on-surface leading-tight line-clamp-2">{product.title}</h3>
-                  </div>
-                  <div className="mt-auto">
-                    <p className="text-on-surface-variant text-label-xs sm:text-label-sm mb-xs truncate">
-                      by <span className="text-primary font-bold truncate">{product.seller.businessName}</span>
-                    </p>
-                    <div className="flex items-center justify-between gap-1">
-                      <span className="text-headline-md sm:text-headline-lg text-primary truncate">{formatRupiah(product.priceRupiah)}</span>
-                      <span className="bg-primary text-on-primary px-2 sm:px-md py-1 sm:py-2 rounded-lg text-label-xs sm:text-label-md whitespace-nowrap hover:opacity-90 transition-opacity">
-                        Detail
-                      </span>
+              <AnimateItem key={product.id}>
+                <AnimateCard>
+                  <Link href={`/catalog/${product.id}`} className="group bg-surface-container-lowest rounded-2xl overflow-hidden shadow-xs hover:shadow-md border border-outline-variant/20 transition-all duration-300 flex flex-col h-full">
+                    <div className="relative h-36 sm:h-44 overflow-hidden bg-surface-container-high flex items-center justify-center">
+                      {product.images.length > 0 ? (
+                        <img alt={product.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src={product.images[0]} />
+                      ) : (
+                        <ShoppingBag className="w-12 h-12 sm:w-16 sm:h-16 text-primary" />
+                      )}
                     </div>
-                  </div>
-                </div>
-              </Link>
+                    <div className="p-md sm:p-lg flex flex-col flex-1 min-w-0">
+                      <div className="flex justify-between items-start mb-sm">
+                        <h3 className="text-label-md sm:text-headline-md text-on-surface leading-tight line-clamp-2">{product.title}</h3>
+                      </div>
+                      <div className="mt-auto">
+                        <p className="text-on-surface-variant text-label-xs sm:text-label-sm mb-xs truncate">
+                          by <span className="text-primary font-bold truncate">{product.seller.businessName}</span>
+                        </p>
+                        <div className="flex items-center justify-between gap-1">
+                          <span className="text-headline-md sm:text-headline-lg text-primary truncate">{formatRupiah(product.priceRupiah)}</span>
+                          <span className="bg-primary text-on-primary px-2 sm:px-md py-1 sm:py-2 rounded-xl text-label-xs sm:text-label-md whitespace-nowrap hover:opacity-90 transition-opacity">
+                            Detail
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                </AnimateCard>
+              </AnimateItem>
             ))}
-          </div>
+          </AnimateStagger>
         )}
 
         {totalPages > 1 && (

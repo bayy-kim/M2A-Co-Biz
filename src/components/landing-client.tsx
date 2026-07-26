@@ -3,7 +3,7 @@
 import { TrendingUp, ShieldCheck, Zap, Users, BarChart3, MapPin, Phone, Mail, ArrowRight, ShoppingBag } from "lucide-react"
 import Link from "next/link"
 import { motion } from "framer-motion"
-import { AnimateSection, AnimateStagger } from "@/components/animate-section"
+import { AnimateSection, AnimateStagger, AnimateItem, AnimateTap, AnimateFloat, AnimateCard } from "@/components/animate-section"
 import { Logo } from "@/components/logo"
 import { PublicHeader } from "@/components/public-header"
 
@@ -91,12 +91,7 @@ export function LandingClient({ session, company }: LandingClientProps) {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-primary/60 via-transparent to-transparent opacity-60" />
               </div>
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, ease: "easeOut", delay: 0.5 }}
-                className="absolute -bottom-6 -left-6 bg-surface/90 backdrop-blur-md p-xl rounded-2xl shadow-xl z-30 max-w-xs border border-white/30"
-              >
+              <AnimateFloat className="absolute -bottom-6 -left-6 bg-surface/90 backdrop-blur-md p-xl rounded-2xl shadow-xl z-30 max-w-xs border border-white/30">
                 <div className="flex items-center gap-lg">
                   <div className="w-12 h-12 bg-accent-gold/20 rounded-full flex items-center justify-center text-accent-gold shrink-0">
                     <TrendingUp className="w-6 h-6" />
@@ -106,7 +101,7 @@ export function LandingClient({ session, company }: LandingClientProps) {
                     <p className="text-label-sm text-on-surface-variant">Tumbuh Bersama Kami</p>
                   </div>
                 </div>
-              </motion.div>
+              </AnimateFloat>
             </motion.div>
           </div>
         </section>
@@ -158,24 +153,26 @@ export function LandingClient({ session, company }: LandingClientProps) {
                   <p className="text-body-lg text-on-surface-variant leading-relaxed">
                     M2A Co-Biz merupakan inisiatif strategis dari organisasi kepemudaan Al-Mubarok II untuk menjawab tantangan ekonomi digital bagi pelaku usaha lokal di Banjarwaringin.
                   </p>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-lg">
+                  <AnimateStagger className="grid grid-cols-1 sm:grid-cols-2 gap-lg">
                     {[
                       { icon: ShieldCheck, title: "Legalitas Terjamin", desc: "Pendampingan perizinan dan sertifikasi produk." },
                       { icon: Zap, title: "Akses Pasar", desc: "Menghubungkan UMKM ke pasar nasional." },
                       { icon: Users, title: "Komunitas Support", desc: "Networking sesama pelaku usaha muda." },
                       { icon: BarChart3, title: "Pelatihan Intensif", desc: "Digital marketing & pengelolaan keuangan." },
                     ].map((item) => (
-                      <div key={item.title} className="flex gap-md">
-                        <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
-                          <item.icon className="w-5 h-5" />
-                        </div>
-                        <div>
-                          <h5 className="font-bold text-on-surface">{item.title}</h5>
-                          <p className="text-label-md text-on-surface-variant">{item.desc}</p>
-                        </div>
-                      </div>
+                      <AnimateItem key={item.title}>
+                        <AnimateCard className="flex gap-md p-md rounded-2xl bg-surface-container-lowest/80 border border-outline-variant/20 shadow-xs">
+                          <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+                            <item.icon className="w-5 h-5" />
+                          </div>
+                          <div>
+                            <h5 className="font-bold text-on-surface text-label-md">{item.title}</h5>
+                            <p className="text-label-sm text-on-surface-variant">{item.desc}</p>
+                          </div>
+                        </AnimateCard>
+                      </AnimateItem>
                     ))}
-                  </div>
+                  </AnimateStagger>
                 </div>
               </div>
             </div>
