@@ -37,21 +37,21 @@ export function LandingClient({ session, company }: LandingClientProps) {
     <>
       <PublicHeader session={session} />
 
-      <main>
-        <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
-          <div className="container mx-auto px-margin relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-4xl items-center">
+      <main className="pb-24 lg:pb-0">
+        <section className="relative min-h-[90vh] flex items-center pt-24 pb-16 overflow-hidden">
+          <div className="container mx-auto px-margin relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-3xl lg:gap-4xl items-center">
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
               className="space-y-xl max-w-2xl"
             >
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-container/10 border border-primary-container/20 text-primary-container text-[10px] uppercase tracking-[0.15em] font-medium">
-                <span className="w-1.5 h-1.5 rounded-full bg-primary" />
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary-container/10 border border-primary-container/20 text-primary-container text-[10px] uppercase tracking-[0.15em] font-bold">
+                <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
                 Ekonomi Komunitas
               </div>
-              <h1 className="text-display-lg text-primary tracking-tight leading-tight">
-                Pusat Bisnis & UMKM <br /> <span className="text-accent-gold">Al-Mubarok II</span>
+              <h1 className="text-display-lg sm:text-[3.25rem] text-primary tracking-tight leading-[1.12]">
+                Pusat Bisnis & UMKM <span className="block sm:inline text-accent-gold">Al-Mubarok II</span>
               </h1>
               <p className="text-body-lg text-on-surface-variant leading-relaxed max-w-xl">
                 Memberdayakan potensi ekonomi lokal melalui ekosistem bisnis digital yang terintegrasi. Wadah bagi wirausaha muda untuk bertumbuh dan berinovasi di Banjarwaringin.
@@ -229,45 +229,49 @@ export function LandingClient({ session, company }: LandingClientProps) {
         </AnimateSection>
 
         <AnimateSection>
-          <section className="py-5xl relative overflow-hidden bg-primary my-4xl rounded-[2.5rem] mx-4 sm:mx-8 md:mx-12 shadow-2xl border border-white/10">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(217,164,65,0.15),transparent_70%)] pointer-events-none" />
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_80%,rgba(144,210,209,0.1),transparent_60%)] pointer-events-none" />
-            
-            <div className="container mx-auto px-margin relative z-10 text-center text-on-primary">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/15 backdrop-blur-md mb-xl">
-                <span className="w-2 h-2 rounded-full bg-accent-gold animate-pulse" />
-                <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-accent-gold">
-                  Mulai Langkah Pertama
-                </span>
-              </div>
-
-              <h2 className="text-display-lg md:text-[2.75rem] font-bold mb-xl max-w-3xl mx-auto leading-[1.15] tracking-tight">
-                Siap Membangun Masa Depan Bisnis Anda?
-              </h2>
-
-              <p className="text-body-lg text-on-primary/80 mb-4xl max-w-xl mx-auto leading-relaxed">
-                Bergabunglah dengan puluhan wirausaha muda lainnya dan nikmati fasilitas ekosistem M2A Co-Biz untuk meningkatkan skala bisnis Anda.
-              </p>
-
-              <div className="flex flex-col sm:flex-row gap-lg justify-center items-center">
-                <Link
-                  href="/register"
-                  className="p-[1px] rounded-xl bg-gradient-to-b from-accent-gold to-accent-gold/50 shadow-lg shadow-accent-gold/20 hover:scale-105 active:scale-[0.98] transition-all duration-300 group"
-                >
-                  <span className="px-xxl py-4 bg-accent-gold text-on-primary-fixed font-bold rounded-[calc(0.75rem-1px)] inline-flex items-center gap-3">
-                    Daftar sebagai UMKM
-                    <span className="w-7 h-7 rounded-full bg-on-primary-fixed/20 flex items-center justify-center group-hover:translate-x-1 transition-transform duration-300">
-                      <ArrowRight className="w-4 h-4 text-on-primary-fixed" />
+          <section className="py-3xl lg:py-4xl">
+            <div className="container mx-auto px-margin">
+              <div className="relative overflow-hidden bg-primary rounded-[2rem] sm:rounded-[2.5rem] p-xl sm:p-3xl lg:p-4xl shadow-2xl border border-white/10 text-center text-on-primary">
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(217,164,65,0.18),transparent_70%)] pointer-events-none" />
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_80%,rgba(144,210,209,0.12),transparent_60%)] pointer-events-none" />
+                
+                <div className="relative z-10 max-w-3xl mx-auto">
+                  <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/15 backdrop-blur-md mb-lg sm:mb-xl">
+                    <span className="w-2 h-2 rounded-full bg-accent-gold animate-pulse" />
+                    <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-accent-gold">
+                      Mulai Langkah Pertama
                     </span>
-                  </span>
-                </Link>
+                  </div>
 
-                <Link
-                  href={whatsappNumber ? `https://wa.me/${whatsappNumber.replace(/\D/g, "")}` : "/catalog"}
-                  className="px-xxl py-4 bg-white/10 backdrop-blur-md border border-white/20 text-white font-bold rounded-xl hover:bg-white/20 active:scale-[0.98] transition-all duration-300"
-                >
-                  Konsultasi Bisnis
-                </Link>
+                  <h2 className="text-headline-lg sm:text-display-md lg:text-display-lg font-bold mb-lg sm:mb-xl leading-tight tracking-tight">
+                    Siap Membangun Masa Depan Bisnis Anda?
+                  </h2>
+
+                  <p className="text-body-md sm:text-body-lg text-on-primary/80 mb-xxl max-w-xl mx-auto leading-relaxed">
+                    Bergabunglah dengan puluhan wirausaha muda lainnya dan nikmati fasilitas ekosistem M2A Co-Biz untuk meningkatkan skala bisnis Anda.
+                  </p>
+
+                  <div className="flex flex-col sm:flex-row gap-md sm:gap-lg justify-center items-center">
+                    <Link
+                      href="/register"
+                      className="w-full sm:w-auto p-[1px] rounded-xl bg-gradient-to-b from-accent-gold to-accent-gold/50 shadow-lg shadow-accent-gold/20 hover:scale-105 active:scale-[0.98] transition-all duration-300 group"
+                    >
+                      <span className="w-full sm:w-auto px-xxl py-3.5 sm:py-4 bg-accent-gold text-on-primary-fixed font-bold rounded-[calc(0.75rem-1px)] inline-flex items-center justify-center gap-3">
+                        Daftar sebagai UMKM
+                        <span className="w-7 h-7 rounded-full bg-on-primary-fixed/20 flex items-center justify-center group-hover:translate-x-1 transition-transform duration-300">
+                          <ArrowRight className="w-4 h-4 text-on-primary-fixed" />
+                        </span>
+                      </span>
+                    </Link>
+
+                    <Link
+                      href={whatsappNumber ? `https://wa.me/${whatsappNumber.replace(/\D/g, "")}` : "/catalog"}
+                      className="w-full sm:w-auto px-xxl py-3.5 sm:py-4 bg-white/10 backdrop-blur-md border border-white/20 text-white font-bold rounded-xl hover:bg-white/20 active:scale-[0.98] transition-all duration-300 text-center"
+                    >
+                      Konsultasi Bisnis
+                    </Link>
+                  </div>
+                </div>
               </div>
             </div>
           </section>
