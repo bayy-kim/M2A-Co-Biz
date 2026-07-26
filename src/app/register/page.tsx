@@ -24,6 +24,13 @@ function RegisterContent() {
   const totalSteps = 3
   const formRef = useRef<HTMLFormElement>(null)
 
+  const [fullName, setFullName] = useState("")
+  const [email, setEmail] = useState("")
+  const [phone, setPhone] = useState("")
+  const [businessType, setBusinessType] = useState<"UMKM" | "JASA">("UMKM")
+  const [businessName, setBusinessName] = useState("")
+  const [password, setPassword] = useState("")
+
   const [files, setFiles] = useState<Record<string, { name: string } | null>>({})
   const [state, formAction, pending] = useActionState<RegisterState, FormData>(
     role === "seller" ? register : registerBuyer,
@@ -34,29 +41,21 @@ function RegisterContent() {
 
   const nextStep = () => {
     setStepError("")
-    const form = formRef.current
-    if (!form) return
 
     if (step === 1) {
-      const fullName = (form.querySelector("#fullName") as HTMLInputElement)?.value
-      const email = (form.querySelector("#email") as HTMLInputElement)?.value
-      const phone = (form.querySelector("#phone") as HTMLInputElement)?.value
-      const businessName = (form.querySelector("#businessName") as HTMLInputElement)?.value
-      const password = (form.querySelector("#password") as HTMLInputElement)?.value
-
-      if (!fullName || fullName.trim().length < 3) {
+      if (!fullName.trim() || fullName.trim().length < 3) {
         setStepError("Nama lengkap minimal 3 karakter.")
         return
       }
-      if (!email || !email.includes("@")) {
+      if (!email.trim() || !email.includes("@")) {
         setStepError("Email tidak valid.")
         return
       }
-      if (!phone || phone.trim().length < 8) {
+      if (!phone.trim() || phone.trim().length < 8) {
         setStepError("Nomor telepon minimal 8 karakter.")
         return
       }
-      if (!businessName || businessName.trim().length < 3) {
+      if (!businessName.trim() || businessName.trim().length < 3) {
         setStepError("Nama toko/usaha minimal 3 karakter.")
         return
       }
@@ -186,7 +185,7 @@ function RegisterContent() {
                 </div>
               )}
 
-              <form ref={formRef} onSubmit={handleSubmit} className="bg-surface/80 backdrop-blur-md rounded-xl p-lg md:p-xxl shadow-lg border border-white/30">
+              <form key={role} ref={formRef} onSubmit={handleSubmit} className="bg-surface/80 backdrop-blur-md rounded-xl p-lg md:p-xxl shadow-lg border border-white/30">
                 {role === "buyer" ? (
                   <>
                     <div className="mb-xl">
@@ -196,22 +195,22 @@ function RegisterContent() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-lg">
                       <div className="flex flex-col gap-xs">
                         <label className="text-label-md text-on-surface" htmlFor="fullName">Nama Lengkap</label>
-                        <input className="rounded-lg border-outline-variant focus:ring-2 focus-visible:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" id="fullName" name="fullName" placeholder="Nama lengkap" type="text" required />
+                        <input className="rounded-lg border-outline-variant focus:ring-2 focus-visible:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" id="fullName" name="fullName" placeholder="Nama lengkap" type="text" value={fullName} onChange={(e) => setFullName(e.target.value)} required />
                         {state.errors?.fullName && <span className="text-error text-label-sm">{state.errors.fullName[0]}</span>}
                       </div>
                       <div className="flex flex-col gap-xs">
                         <label className="text-label-md text-on-surface" htmlFor="email">Email</label>
-                        <input className="rounded-lg border-outline-variant focus:ring-2 focus-visible:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" id="email" name="email" placeholder="nama@email.com" type="email" required />
+                        <input className="rounded-lg border-outline-variant focus:ring-2 focus-visible:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" id="email" name="email" placeholder="nama@email.com" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
                         {state.errors?.email && <span className="text-error text-label-sm">{state.errors.email[0]}</span>}
                       </div>
                       <div className="flex flex-col gap-xs">
                         <label className="text-label-md text-on-surface" htmlFor="phone">No. Telepon</label>
-                        <input className="rounded-lg border-outline-variant focus:ring-2 focus-visible:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" id="phone" name="phone" placeholder="+62 812 XXXX XXXX" type="tel" required />
+                        <input className="rounded-lg border-outline-variant focus:ring-2 focus-visible:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" id="phone" name="phone" placeholder="+62 812 XXXX XXXX" type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} required />
                         {state.errors?.phone && <span className="text-error text-label-sm">{state.errors.phone[0]}</span>}
                       </div>
                       <div className="flex flex-col gap-xs">
                         <label className="text-label-md text-on-surface" htmlFor="password">Password</label>
-                        <input className="rounded-lg border-outline-variant focus:ring-2 focus-visible:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" id="password" name="password" placeholder="Min. 8 karakter" type="password" required />
+                        <input className="rounded-lg border-outline-variant focus:ring-2 focus-visible:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" id="password" name="password" placeholder="Min. 8 karakter" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
                         {state.errors?.password && <span className="text-error text-label-sm">{state.errors.password[0]}</span>}
                       </div>
                     </div>
@@ -267,22 +266,22 @@ function RegisterContent() {
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-lg">
                         <div className="flex flex-col gap-xs">
                           <label className="text-label-md text-on-surface" htmlFor="fullName">Nama Lengkap</label>
-                          <input className="rounded-lg border-outline-variant focus:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" id="fullName" name="fullName" placeholder="Nama sesuai KTP" type="text" required />
+                          <input className="rounded-lg border-outline-variant focus:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" id="fullName" name="fullName" placeholder="Nama sesuai KTP" type="text" value={fullName} onChange={(e) => setFullName(e.target.value)} required />
                           {state.errors?.fullName && <span className="text-error text-label-sm">{state.errors.fullName[0]}</span>}
                         </div>
                         <div className="flex flex-col gap-xs">
                           <label className="text-label-md text-on-surface" htmlFor="email">Email</label>
-                          <input className="rounded-lg border-outline-variant focus:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" id="email" name="email" placeholder="name@business.com" type="email" required />
+                          <input className="rounded-lg border-outline-variant focus:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" id="email" name="email" placeholder="name@business.com" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
                           {state.errors?.email && <span className="text-error text-label-sm">{state.errors.email[0]}</span>}
                         </div>
                         <div className="flex flex-col gap-xs">
                           <label className="text-label-md text-on-surface" htmlFor="phone">No. Telepon</label>
-                          <input className="rounded-lg border-outline-variant focus:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" id="phone" name="phone" placeholder="+62 812 XXXX XXXX" type="tel" required />
+                          <input className="rounded-lg border-outline-variant focus:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" id="phone" name="phone" placeholder="+62 812 XXXX XXXX" type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} required />
                           {state.errors?.phone && <span className="text-error text-label-sm">{state.errors.phone[0]}</span>}
                         </div>
                         <div className="flex flex-col gap-xs">
                           <label className="text-label-md text-on-surface" htmlFor="businessType">Jenis Usaha</label>
-                          <select className="rounded-lg border-outline-variant focus:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" id="businessType" name="businessType" required>
+                          <select className="rounded-lg border-outline-variant focus:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" id="businessType" name="businessType" value={businessType} onChange={(e) => setBusinessType(e.target.value as "UMKM" | "JASA")} required>
                             <option value="UMKM">UMKM (Product)</option>
                             <option value="JASA">Jasa (Service)</option>
                           </select>
@@ -290,12 +289,12 @@ function RegisterContent() {
                         </div>
                         <div className="flex flex-col gap-xs md:col-span-2">
                           <label className="text-label-md text-on-surface" htmlFor="businessName">Nama Toko / Usaha</label>
-                          <input className="rounded-lg border-outline-variant focus:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" id="businessName" name="businessName" placeholder="Nama brand usaha Anda" type="text" required />
+                          <input className="rounded-lg border-outline-variant focus:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" id="businessName" name="businessName" placeholder="Nama brand usaha Anda" type="text" value={businessName} onChange={(e) => setBusinessName(e.target.value)} required />
                           {state.errors?.businessName && <span className="text-error text-label-sm">{state.errors.businessName[0]}</span>}
                         </div>
                         <div className="flex flex-col gap-xs md:col-span-2">
                         <label className="text-label-md text-on-surface" htmlFor="password">Kata Sandi</label>
-                          <input className="rounded-lg border-outline-variant focus:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" id="password" name="password" placeholder="Min. 8 karakter" type="password" required />
+                          <input className="rounded-lg border-outline-variant focus:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" id="password" name="password" placeholder="Min. 8 karakter" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
                           {state.errors?.password && <span className="text-error text-label-sm">{state.errors.password[0]}</span>}
                         </div>
                       </div>

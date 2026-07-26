@@ -19,11 +19,11 @@ const fileSchema = z
   .nullable()
 
 const registerSchema = z.object({
-  fullName: z.string().min(3, "Nama minimal 3 karakter"),
-  email: z.string().email("Email tidak valid"),
-  phone: z.string().min(8, "Nomor telepon tidak valid"),
+  fullName: z.string().transform((v) => v?.trim() || "").refine((v) => v.length >= 3, "Nama minimal 3 karakter"),
+  email: z.string().transform((v) => v?.trim() || "").refine((v) => v.includes("@"), "Email tidak valid"),
+  phone: z.string().transform((v) => v?.trim() || "").refine((v) => v.length >= 8, "Nomor telepon tidak valid"),
   businessType: z.enum(["UMKM", "JASA"]),
-  businessName: z.string().min(3, "Nama usaha minimal 3 karakter"),
+  businessName: z.string().transform((v) => v?.trim() || "").refine((v) => v.length >= 3, "Nama usaha minimal 3 karakter"),
   password: z.string().min(8, "Kata sandi minimal 8 karakter"),
   ktp: fileSchema,
   kartuKeluarga: fileSchema,
@@ -142,9 +142,9 @@ export async function register(prevState: RegisterState, formData: FormData): Pr
 }
 
 const buyerRegisterSchema = z.object({
-  fullName: z.string().min(1, "Nama wajib diisi"),
-  email: z.string().email("Email tidak valid"),
-  phone: z.string().min(8, "Nomor telepon tidak valid"),
+  fullName: z.string().transform((v) => v?.trim() || "").refine((v) => v.length >= 1, "Nama wajib diisi"),
+  email: z.string().transform((v) => v?.trim() || "").refine((v) => v.includes("@"), "Email tidak valid"),
+  phone: z.string().transform((v) => v?.trim() || "").refine((v) => v.length >= 8, "Nomor telepon tidak valid"),
   password: z.string().min(8, "Kata sandi minimal 8 karakter"),
   consent: z.string().refine((v) => v === "on", "Anda harus menyetujui ketentuan"),
 })
