@@ -21,12 +21,16 @@ function createRatelimit() {
 
 let ratelimit: Ratelimit | null = null
 
-export async function checkRateLimit(identifier: string): Promise<{ allowed: boolean; remaining: number }> {
+export async function checkRateLimit(identifier: string, failClosed = false): Promise<{ allowed: boolean; remaining: number }> {
   if (!ratelimit) {
     ratelimit = createRatelimit()
   }
   if (!ratelimit) {
-    console.warn("[rate-limit] Redis not configured — allowing request (fail open for unconfigured environment)")
+    if (failClosed) {
+      console.warn("[rate-limit] Redis not configured — denying request (fail closed)")
+      return { allowed: false, remaining: 0 }
+    }
+    console.warn("[rate-limit] Redis not configured — allowing request (fail open for non-critical)")
     return { allowed: true, remaining: 999 }
   }
   const result = await ratelimit.limit(identifier)

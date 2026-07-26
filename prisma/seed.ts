@@ -345,10 +345,11 @@ const admin = await prisma.user.upsert({
   console.log("  ✓ Company profile created")
 
   // ── Summary ─────────────────────────────────────────────
+  const masked = (pw: string) => pw.slice(0, 4) + "****"
   console.log("\n── Seed Complete ──")
-  console.log("Admin:      muhamadaibayu@gmail.com / admin123      (2FA TOTP enabled)")
+  console.log(`Admin:      muhamadaibayu@gmail.com / ${masked(adminPassword)} (2FA TOTP enabled)`)
   console.log("Ketua:      ketua@m2acobiz.com / ketua123")
-  console.log("Bendahara:  bendahara@m2acobiz.com / bendahara123 (2FA TOTP enabled)")
+  console.log(`Bendahara:  bendahara@m2acobiz.com / ${masked(bendaharaPassword)} (2FA TOTP enabled)`)
   console.log("Seller 1:   seller1@m2acobiz.com / seller123  (Asep Craft, APPROVED, w/ & w/o category)")
   console.log("Seller 2:   seller2@m2acobiz.com / seller123  (Budi Service, APPROVED)")
   console.log("Seller 3:   seller3@m2acobiz.com / seller123  (Citra Catering, PENDING)")

@@ -10,7 +10,7 @@ import { checkRateLimit } from "./rate-limit"
 export const { handlers, signIn, signOut, auth } = NextAuth({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   adapter: PrismaAdapter(prisma) as any,
-  session: { strategy: "jwt" },
+  session: { strategy: "jwt", maxAge: 24 * 60 * 60, updateAge: 60 * 60 },
   pages: {
     signIn: "/login",
   },
@@ -29,7 +29,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) return null
 
-        const rl = await checkRateLimit(`login:${credentials.email}`)
+        const rl = await checkRateLimit(`login:${credentials.email}`, true)
         if (!rl.allowed) return null
 
         const user = await prisma.user.findUnique({
@@ -70,6 +70,15 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     }),
   ],
   callbacks: {
+    async signIn({ account, user }) {
+      if (account?.provider === "google") {
+        const dbUser = await prisma.user.findUnique({ where: { email: user.email! } })
+        if (dbUser && (dbUser.role === "ADMIN" || dbUser.role === "BENDAHARA")) {
+          return false
+        }
+      }
+      return true
+    },
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id
