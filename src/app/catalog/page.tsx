@@ -6,6 +6,7 @@ import { auth } from "@/lib/auth"
 import { CatalogFilterSort } from "./filter-sort"
 import { PublicBottomBar } from "@/components/public-bottom-bar"
 import { Logo } from "@/components/logo"
+import { PublicHeader } from "@/components/public-header"
 
 const ITEMS_PER_PAGE = 8
 
@@ -93,26 +94,7 @@ async function CatalogPage({ searchParams }: { searchParams: Promise<{ q?: strin
 
   return (
     <>
-      <header className="fixed top-0 w-full z-50 flex justify-between items-center px-lg h-16 bg-surface shadow-sm">
-        <div className="flex items-center gap-xl">
-          <Logo size="sm" />
-          <form action="/catalog" method="GET" className="hidden md:flex relative items-center w-96">
-            <Search className="absolute left-3 w-5 h-5 text-primary" />
-            <input className="w-full bg-surface-container-low border-none rounded-xl pl-10 pr-4 py-2 focus:ring-2 focus:ring-primary/20 transition-all text-body-md" defaultValue={query} name="q" placeholder="Cari produk..." type="text" />
-          </form>
-        </div>
-        <div className="flex items-center gap-md">
-          {session?.user ? (
-            <Link href={getDashboardHref()} className="flex items-center gap-2 px-4 py-2 bg-primary text-on-primary rounded-full hover:opacity-90 transition-all text-label-md">
-              Dasbor
-            </Link>
-          ) : (
-            <Link href="/login" className="flex items-center gap-2 px-4 py-2 bg-primary text-on-primary rounded-full hover:opacity-90 transition-all text-label-md">
-              Masuk
-            </Link>
-          )}
-        </div>
-      </header>
+      <PublicHeader session={session} showSearch={true} searchQuery={query} />
 
       <main className="pt-20 pb-24 md:pb-8 px-gutter min-h-screen">
         <div className="md:hidden mb-lg">

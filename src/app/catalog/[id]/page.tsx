@@ -2,11 +2,13 @@ import { notFound } from "next/navigation"
 import Link from "next/link"
 import { prisma } from "@/lib/db"
 import { formatRupiah } from "@/lib/utils"
+import { auth } from "@/lib/auth"
 import { ShoppingBag, Store, ArrowLeft, ChevronRight, ShieldCheck, Heart, Sparkles } from "lucide-react"
 import { PublicBottomBar } from "@/components/public-bottom-bar"
+import { PublicHeader } from "@/components/public-header"
 
 async function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params
+  const [{ id }, session] = await Promise.all([params, auth()])
   const product = await prisma.product.findUnique({
     where: { id },
     include: { seller: { select: { businessName: true, type: true } }, category: true },
@@ -16,17 +18,8 @@ async function ProductDetailPage({ params }: { params: Promise<{ id: string }> }
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="sticky top-0 z-50 bg-surface/90 backdrop-blur-md border-b border-outline-variant/30 flex items-center px-lg h-16 shadow-xs">
-        <Link 
-          href="/catalog" 
-          className="flex items-center gap-2 text-label-md text-on-surface-variant hover:text-primary transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-primary py-2 rounded-lg"
-        >
-          <ArrowLeft className="w-5 h-5" />
-          Kembali ke Katalog
-        </Link>
-      </header>
-
-      <main className="px-gutter py-lg max-w-6xl mx-auto pb-32 lg:pb-16">
+      <PublicHeader session={session} />
+      <main className="px-gutter pt-20 py-lg max-w-6xl mx-auto pb-32 lg:pb-16">
         <nav className="flex items-center gap-2 text-label-sm text-on-surface-variant mb-lg overflow-x-auto no-scrollbar py-1">
           <Link href="/" className="hover:text-primary transition-colors whitespace-nowrap">Beranda</Link>
           <ChevronRight className="w-4 h-4 shrink-0" />

@@ -5,6 +5,7 @@ import Link from "next/link"
 import { motion } from "framer-motion"
 import { AnimateSection, AnimateStagger } from "@/components/animate-section"
 import { Logo } from "@/components/logo"
+import { PublicHeader } from "@/components/public-header"
 
 interface LandingClientProps {
   session: {
@@ -34,31 +35,7 @@ export function LandingClient({ session, company }: LandingClientProps) {
 
   return (
     <>
-      <motion.header
-        initial={{ y: -20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.3, ease: "easeOut" }}
-        className="fixed top-0 w-full z-50 flex justify-between items-center px-lg h-16 bg-surface shadow-sm"
-      >
-        <Logo size="sm" />
-        <nav className="hidden md:flex items-center gap-xxl">
-          <Link className="text-primary font-bold border-b-2 border-primary text-body-md" href="/">Beranda</Link>
-          <Link className="text-on-surface-variant hover:text-primary transition-colors text-body-md" href="/catalog">Katalog</Link>
-          <Link className="text-on-surface-variant hover:text-primary transition-colors text-body-md" href="#about">Tentang</Link>
-          <Link className="text-on-surface-variant hover:text-primary transition-colors text-body-md" href="#location">Kontak</Link>
-        </nav>
-        <div className="flex items-center gap-md">
-          {session?.user ? (
-            <Link href={getDashboardHref()} className="flex items-center gap-2 px-4 py-2 bg-primary text-on-primary rounded-full hover:opacity-90 transition-all text-label-md">
-              <span>Dasbor</span>
-            </Link>
-          ) : (
-            <Link href="/login" className="flex items-center gap-2 px-4 py-2 bg-primary text-on-primary rounded-full hover:opacity-90 transition-all text-label-md">
-                <span>Masuk</span>
-            </Link>
-          )}
-        </div>
-      </motion.header>
+      <PublicHeader session={session} />
 
       <main>
         <section className="relative min-h-[90vh] flex items-center pt-16 overflow-hidden">
