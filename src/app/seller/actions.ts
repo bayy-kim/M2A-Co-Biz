@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/db"
-import type { ProductStatus } from "@prisma/client"
+import type { ProductStatus, FulfillmentStatus } from "@prisma/client"
 import { z } from "zod"
 import { put } from "@vercel/blob"
 
@@ -206,5 +206,37 @@ export async function updateProductStatus(productId: string, status: ProductStat
     return { success: true }
   } catch (e) {
     return { error: e instanceof Error ? e.message : "Gagal mengupdate produk" }
+  }
+}
+
+export async function updateFulfillmentStatus(orderId: string, fulfillmentStatus: FulfillmentStatus) {
+  const session = await auth()
+  if (!session?.user) return { error: "Unauthorized" }
+
+  try {
+    const seller = await prisma.sellerProfile.findUnique({
+      where: { userId: session.user.id },
+    })
+    if (!seller) return { error: "Seller tidak ditemukan" }
+
+    const order = await prisma.order.findUnique({
+      where: { id: orderId },
+      include: { items: true },
+    })
+    if (!order) return { error: "Pesanan tidak ditemukan" }
+
+    const hasSellerItem = order.items.some((item) => item.sellerId === seller.id)
+    if (!hasSellerItem) return { error: "Akses ditolak" }
+
+    await prisma.order.update({
+      where: { id: orderId },
+      data: { fulfillmentStatus },
+    })
+
+    revalidatePath("/seller")
+    revalidatePath("/pesanan-saya")
+    return { success: true }
+  } catch (e) {
+    return { error: e instanceof Error ? e.message : "Gagal mengupdate status pengerjaan" }
   }
 }

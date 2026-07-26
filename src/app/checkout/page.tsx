@@ -3,7 +3,7 @@ import Link from "next/link"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/db"
 import { formatRupiah } from "@/lib/utils"
-import { ShoppingBag, ArrowLeft, ChevronRight, QrCode } from "lucide-react"
+import { ShoppingBag, ArrowLeft, ChevronRight, QrCode, Banknote, Truck } from "lucide-react"
 import { CheckoutForm } from "./checkout-form"
 
 async function CheckoutPage({
@@ -46,39 +46,54 @@ async function CheckoutPage({
             </div>
           </div>
 
-            <div className="bg-primary/5 border border-primary/20 rounded-lg p-lg mb-lg text-left">
-              <h3 className="text-label-md font-bold text-on-surface mb-md flex items-center gap-2">
-                <QrCode className="w-5 h-5 text-primary" />
-                Petunjuk Pembayaran
-              </h3>
-              <div className="bg-surface-container-lowest rounded-lg p-md mb-md flex items-center justify-center border border-outline-variant/20">
-                <img
-                  src={company?.qrisImageUrl || "/images/qris-placeholder.svg"}
-                  alt="QRIS Payment"
-                  className="w-48 h-48 object-contain"
-                />
-              </div>
-              {company?.bankName && (
-                <div className="space-y-2 text-label-sm">
-                  <p className="text-on-surface font-bold">Transfer Bank</p>
-                  <div className="flex justify-between">
-                    <span className="text-on-surface-variant">Bank</span>
-                    <span className="text-on-surface font-bold">{company.bankName}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-on-surface-variant">No. Rekening</span>
-                    <span className="text-on-surface font-bold">{company.bankAccountNo}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-on-surface-variant">Atas Nama</span>
-                    <span className="text-on-surface font-bold">{company.bankAccountName}</span>
-                  </div>
+            {order.paymentMethod === "COD" ? (
+              <div className="bg-success/5 border border-success/20 rounded-lg p-lg mb-lg text-left">
+                <h3 className="text-label-md font-bold text-on-surface mb-md flex items-center gap-2">
+                  <Banknote className="w-5 h-5 text-success" />
+                  Metode Pembayaran: COD (Bayar di Tempat)
+                </h3>
+                <div className="bg-surface-container-lowest rounded-lg p-md mb-md flex items-center gap-3 border border-outline-variant/20">
+                  <Truck className="w-8 h-8 text-success shrink-0" />
+                  <p className="text-label-sm text-on-surface-variant">
+                    Pesanan Anda telah diteruskan ke Penjual. Pembayaran tunai sebesar <span className="font-bold text-primary">{formatRupiah(order.totalRupiah)}</span> dilakukan saat barang/jasa sampai atau dikerjakan.
+                  </p>
                 </div>
-              )}
-              <p className="text-label-sm text-on-surface-variant mt-md">
-                Scan QRIS atau transfer ke rekening di atas. Tim kami akan mengonfirmasi pembayaran secara manual.
-              </p>
-            </div>
+              </div>
+            ) : (
+              <div className="bg-primary/5 border border-primary/20 rounded-lg p-lg mb-lg text-left">
+                <h3 className="text-label-md font-bold text-on-surface mb-md flex items-center gap-2">
+                  <QrCode className="w-5 h-5 text-primary" />
+                  Petunjuk Pembayaran
+                </h3>
+                <div className="bg-surface-container-lowest rounded-lg p-md mb-md flex items-center justify-center border border-outline-variant/20">
+                  <img
+                    src={company?.qrisImageUrl || "/images/qris-placeholder.svg"}
+                    alt="QRIS Payment"
+                    className="w-48 h-48 object-contain"
+                  />
+                </div>
+                {company?.bankName && (
+                  <div className="space-y-2 text-label-sm">
+                    <p className="text-on-surface font-bold">Transfer Bank</p>
+                    <div className="flex justify-between">
+                      <span className="text-on-surface-variant">Bank</span>
+                      <span className="text-on-surface font-bold">{company.bankName}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-on-surface-variant">No. Rekening</span>
+                      <span className="text-on-surface font-bold">{company.bankAccountNo}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-on-surface-variant">Atas Nama</span>
+                      <span className="text-on-surface font-bold">{company.bankAccountName}</span>
+                    </div>
+                  </div>
+                )}
+                <p className="text-label-sm text-on-surface-variant mt-md">
+                  Scan QRIS atau transfer ke rekening di atas. Tim kami akan mengonfirmasi pembayaran secara manual.
+                </p>
+              </div>
+            )}
 
           <p className="text-label-sm text-on-surface-variant mb-lg">
             Kami akan menghubungi Anda di {order.buyerPhone} setelah pembayaran dikonfirmasi.

@@ -13,6 +13,7 @@ const checkoutSchema = z.object({
   qty: z.coerce.number().int().positive("Jumlah minimal 1"),
   buyerId: z.string().optional(),
   serviceNotes: z.string().optional().nullable(),
+  paymentMethod: z.enum(["TRANSFER", "COD"]).default("TRANSFER"),
 })
 
 export async function createCheckout(formData: FormData) {
@@ -25,6 +26,7 @@ export async function createCheckout(formData: FormData) {
     buyerId: (formData.get("buyerId") as string) || undefined,
     qty: formData.get("qty") as string,
     serviceNotes: (formData.get("serviceNotes") as string) || undefined,
+    paymentMethod: (formData.get("paymentMethod") as string) || "TRANSFER",
   }
 
   if (raw.buyerId) {
@@ -39,7 +41,7 @@ export async function createCheckout(formData: FormData) {
   const result = checkoutSchema.safeParse(raw)
   if (!result.success) return { error: "Perbaiki isian form" }
 
-  const { productId, buyerName, buyerPhone, buyerId, qty, serviceNotes } = result.data
+  const { productId, buyerName, buyerPhone, buyerId, qty, serviceNotes, paymentMethod } = result.data
 
   const product = await prisma.product.findUnique({
     where: { id: productId },
@@ -65,6 +67,7 @@ export async function createCheckout(formData: FormData) {
         buyerPhone,
         buyerId: buyerId || null,
         serviceNotes: serviceNotes || null,
+        paymentMethod,
         totalRupiah,
         items: {
           create: {

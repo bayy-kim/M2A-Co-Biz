@@ -51,6 +51,19 @@ enum CommissionScope {
   SELLER
 }
 
+enum PaymentMethod {
+  TRANSFER
+  COD
+}
+
+enum FulfillmentStatus {
+  PENDING
+  PROCESSING
+  IN_TRANSIT
+  COMPLETED
+  CANCELLED
+}
+
 enum PaymentStatus {
   PENDING
   PAID
@@ -168,16 +181,18 @@ model CommissionRule {
 }
 
 model Order {
-  id              String   @id @default(cuid())
-  buyerName       String
-  buyerPhone      String
-  buyerId         String?
-  buyer           User?    @relation(fields: [buyerId], references: [id])
-  serviceNotes    String?
-  totalRupiah     Int
-  paymentStatus PaymentStatus @default(PENDING)
-  items         OrderItem[]
-  createdAt       DateTime @default(now())
+  id                String            @id @default(cuid())
+  buyerName         String
+  buyerPhone        String
+  buyerId           String?
+  buyer             User?             @relation(fields: [buyerId], references: [id])
+  serviceNotes      String?
+  totalRupiah       Int
+  paymentMethod     PaymentMethod     @default(TRANSFER)
+  paymentStatus     PaymentStatus     @default(PENDING)
+  fulfillmentStatus FulfillmentStatus @default(PENDING)
+  items             OrderItem[]
+  createdAt         DateTime          @default(now())
 }
 
 model OrderItem {

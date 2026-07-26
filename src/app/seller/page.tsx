@@ -8,6 +8,7 @@ import Link from "next/link"
 import { DashboardShell } from "@/components/dashboard-shell"
 import { NewProductForm } from "./new-product-form"
 import { RequestPayoutForm } from "./request-payout-form"
+import { FulfillmentStatusAction } from "./fulfillment-action"
 
 const SIDEBAR: { label: string; href: string; icon: string }[] = [
   { label: "Ringkasan", href: "/seller", icon: "LayoutDashboard" },
@@ -59,8 +60,8 @@ async function SellerDashboard({ searchParams }: { searchParams: Promise<{ tab?:
   })
 
   const salesItems = await prisma.orderItem.findMany({
-    where: { sellerId: seller.id, order: { paymentStatus: "PAID" } },
-    include: { order: { select: { buyerName: true, createdAt: true } } },
+    where: { sellerId: seller.id },
+    include: { order: { select: { id: true, buyerName: true, buyerPhone: true, paymentMethod: true, fulfillmentStatus: true, serviceNotes: true, createdAt: true } } },
     orderBy: { order: { createdAt: "desc" } },
     take: 50,
   })
@@ -272,20 +273,34 @@ async function SellerDashboard({ searchParams }: { searchParams: Promise<{ tab?:
                   <thead>
                     <tr className="text-label-sm text-on-surface-variant border-b border-outline-variant/30">
                       <th className="px-lg py-3 font-medium">Pembeli</th>
+                      <th className="px-lg py-3 font-medium">Metode</th>
                       <th className="px-lg py-3 font-medium">Total</th>
-                      <th className="px-lg py-3 font-medium">Komisi</th>
                       <th className="px-lg py-3 font-medium">Bersih</th>
-                      <th className="px-lg py-3 font-medium">Tanggal</th>
+                      <th className="px-lg py-3 font-medium">Status Pengerjaan</th>
                     </tr>
                   </thead>
                   <tbody>
                     {salesItems.map((item) => (
                       <tr key={item.id} className="border-b border-outline-variant/20 hover:bg-surface-container-low transition-colors">
-                        <td className="px-lg py-3 text-label-md text-on-surface">{item.order.buyerName}</td>
+                        <td className="px-lg py-3">
+                          <p className="text-label-md font-bold text-on-surface">{item.order.buyerName}</p>
+                          <p className="text-label-sm text-on-surface-variant">{item.order.buyerPhone}</p>
+                          {item.order.serviceNotes && (
+                            <p className="text-[11px] text-primary italic max-w-xs mt-1">Catatan: {item.order.serviceNotes}</p>
+                          )}
+                        </td>
+                        <td className="px-lg py-3">
+                          <span className={`inline-flex px-md py-0.5 rounded-full text-[11px] font-bold ${
+                            item.order.paymentMethod === "COD" ? "bg-success/10 text-success" : "bg-primary/10 text-primary"
+                          }`}>
+                            {item.order.paymentMethod}
+                          </span>
+                        </td>
                         <td className="px-lg py-3 text-label-md text-on-surface">{formatRupiah(item.priceRupiah * item.qty)}</td>
-                        <td className="px-lg py-3 text-label-sm text-on-surface-variant">{formatRupiah(item.commissionRupiah)} ({Number(item.commissionPercent)}%)</td>
                         <td className="px-lg py-3 text-label-md text-on-surface font-bold">{formatRupiah(item.sellerNetRupiah)}</td>
-                        <td className="px-lg py-3 text-label-sm text-on-surface-variant">{item.order.createdAt.toLocaleDateString()}</td>
+                        <td className="px-lg py-3">
+                          <FulfillmentStatusAction orderId={item.order.id} currentStatus={item.order.fulfillmentStatus} />
+                        </td>
                       </tr>
                     ))}
                   </tbody>

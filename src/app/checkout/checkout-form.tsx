@@ -1,8 +1,8 @@
 "use client"
 
-import { useActionState } from "react"
+import { useActionState, useState } from "react"
 import { useRouter } from "next/navigation"
-import { CreditCard, Loader2, ArrowRight, User, Phone, Package, CheckCircle } from "lucide-react"
+import { CreditCard, Banknote, Loader2, ArrowRight, User, Phone, Package, CheckCircle, Truck } from "lucide-react"
 import { createCheckout } from "./actions"
 
 export function CheckoutForm({
@@ -17,6 +17,7 @@ export function CheckoutForm({
   defaultPhone?: string
 }) {
   const router = useRouter()
+  const [paymentMethod, setPaymentMethod] = useState<"TRANSFER" | "COD">("TRANSFER")
 
   const checkout = async (_prev: unknown, formData: FormData) => {
     formData.set("productId", productId)
@@ -82,9 +83,50 @@ export function CheckoutForm({
         />
       </div>
 
-      <div className="bg-warning/5 border border-warning/20 rounded-lg p-md text-label-sm text-on-surface flex items-start gap-2">
-        <CreditCard className="w-5 h-5 text-warning flex-shrink-0 mt-0.5" />
-        <span>Pembayaran melalui QRIS atau transfer bank. Petunjuk pembayaran akan muncul setelah pesanan dibuat.</span>
+      <div className="flex flex-col gap-xs">
+        <label className="text-label-md text-on-surface">Metode Pembayaran</label>
+        <input type="hidden" name="paymentMethod" value={paymentMethod} />
+        <div className="grid grid-cols-2 gap-md">
+          <button
+            type="button"
+            onClick={() => setPaymentMethod("TRANSFER")}
+            className={`p-lg rounded-xl border flex flex-col items-center gap-2 transition-all outline-none focus-visible:ring-2 focus-visible:ring-primary ${
+              paymentMethod === "TRANSFER"
+                ? "border-primary bg-primary/5 text-primary font-bold shadow-xs"
+                : "border-outline-variant/40 bg-surface-bright text-on-surface-variant hover:bg-surface-container-low"
+            }`}
+          >
+            <CreditCard className="w-6 h-6 shrink-0" />
+            <span className="text-label-md">Transfer / QRIS</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setPaymentMethod("COD")}
+            className={`p-lg rounded-xl border flex flex-col items-center gap-2 transition-all outline-none focus-visible:ring-2 focus-visible:ring-primary ${
+              paymentMethod === "COD"
+                ? "border-primary bg-primary/5 text-primary font-bold shadow-xs"
+                : "border-outline-variant/40 bg-surface-bright text-on-surface-variant hover:bg-surface-container-low"
+            }`}
+          >
+            <Banknote className="w-6 h-6 shrink-0" />
+            <span className="text-label-md">COD (Bayar di Tempat)</span>
+          </button>
+        </div>
+      </div>
+
+      <div className="bg-surface-container-low border border-outline-variant/30 rounded-xl p-md text-label-sm text-on-surface flex items-start gap-3">
+        {paymentMethod === "TRANSFER" ? (
+          <>
+            <CreditCard className="w-5 h-5 text-primary shrink-0 mt-0.5" />
+            <span>Pembayaran melalui QRIS atau transfer bank resmi. Instruksi akan ditampilkan setelah pesanan dibuat.</span>
+          </>
+        ) : (
+          <>
+            <Truck className="w-5 h-5 text-success shrink-0 mt-0.5" />
+            <span>Bayar tunai secara langsung kepada penjual / kurir saat barang atau jasa telah sampai/selesai dikerjakan.</span>
+          </>
+        )}
       </div>
 
       {state && 'error' in state && typeof state.error === 'string' && (
