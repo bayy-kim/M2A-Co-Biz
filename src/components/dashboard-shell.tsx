@@ -92,24 +92,24 @@ export function DashboardShell({
   return (
     <div className="min-h-screen bg-background flex flex-col lg:flex-row">
       <aside 
-        className="w-64 bg-surface-container-low border-r border-outline-variant/30 hidden lg:flex flex-col shrink-0"
+        className="w-64 bg-[#022424] text-white border-r border-white/10 hidden lg:flex flex-col shrink-0"
         aria-label="Navigasi Utama"
       >
-        <div className="p-lg border-b border-outline-variant/30">
+        <div className="p-lg border-b border-white/10">
           <Logo showSubtitle subtitleText={title} />
         </div>
 
         {userName && (
           <div className="mx-md mt-lg">
-            <div className="p-[1px] rounded-[1rem] bg-gradient-to-b from-outline-variant/30 to-transparent">
-              <div className="rounded-[calc(1rem-1px)] bg-surface-container-high flex items-center gap-3 p-lg">
-                <div className="w-10 h-10 bg-primary-container text-on-primary-container rounded-full flex items-center justify-center shrink-0 shadow-[inset_0_1px_1px_rgba(255,255,255,0.3)]">
-                  <User className="w-5 h-5" />
+            <div className="p-[1px] rounded-[1rem] bg-gradient-to-b from-white/20 to-transparent">
+              <div className="rounded-[calc(1rem-1px)] bg-white/5 flex items-center gap-3 p-md">
+                <div className="w-9 h-9 bg-accent-gold text-on-primary-fixed font-bold rounded-full flex items-center justify-center shrink-0 shadow-xs text-label-md">
+                  {userName.slice(0, 2).toUpperCase()}
                 </div>
                 <div className="min-w-0">
-                  <p className="text-label-md font-bold text-on-surface truncate">{userName}</p>
-                  <span className="inline-flex px-2 py-0.5 rounded-full text-[10px] font-bold bg-primary/10 text-primary capitalize">
-                    {displayRole}
+                  <p className="text-label-md font-bold text-white truncate">{userName}</p>
+                  <span className="inline-flex px-2 py-0.5 rounded-full text-[10px] font-bold bg-white/15 text-accent-gold uppercase tracking-wider">
+                    {roleLabel}
                   </span>
                 </div>
               </div>
@@ -124,24 +124,26 @@ export function DashboardShell({
               <Link
                 key={item.label}
                 href={item.href}
-                className={`flex items-center gap-3 px-md py-3 rounded-xl text-label-md transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-primary ${
+                className={`flex items-center justify-between px-md py-3 rounded-xl text-label-md transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-accent-gold ${
                   active
-                    ? "bg-primary-container text-on-primary-container font-bold shadow-sm ring-1 ring-primary/20"
-                    : "text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface"
+                    ? "bg-[#0f5c5c] text-white font-bold shadow-md ring-1 ring-white/20"
+                    : "text-white/70 hover:bg-white/10 hover:text-white"
                 }`}
                 aria-current={active ? "page" : undefined}
               >
-                {renderIcon(item.icon)}
-                {item.label}
+                <div className="flex items-center gap-3">
+                  {renderIcon(item.icon)}
+                  {item.label}
+                </div>
               </Link>
             )
           })}
         </nav>
 
-        <div className="p-lg border-t border-outline-variant/30 space-y-2">
+        <div className="p-lg border-t border-white/10 space-y-2">
           <Link
             href="/catalog"
-            className="flex items-center gap-3 px-md py-3 rounded-xl text-label-md text-primary font-bold hover:bg-primary/5 transition-colors duration-200 outline-none focus-visible:ring-2 focus-visible:ring-primary"
+            className="flex items-center gap-3 px-md py-3 rounded-xl text-label-md text-accent-gold font-bold hover:bg-white/5 transition-colors duration-200 outline-none focus-visible:ring-2 focus-visible:ring-accent-gold"
           >
             <Store className="w-5 h-5" />
             Lihat Produk
@@ -170,8 +172,21 @@ export function DashboardShell({
               <span className="text-label-md font-bold text-on-surface">{title}</span>
             </div>
           </div>
-          <div className="flex items-center gap-md">
+          <div className="flex items-center gap-lg">
             {extraHeader}
+            {userName && (
+              <div className="hidden sm:flex items-center gap-3 pl-md border-l border-outline-variant/30">
+                <div className="flex flex-col items-end">
+                  <span className="text-label-md font-bold text-on-surface leading-none">{userName}</span>
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-primary bg-primary/10 px-2 py-0.5 rounded-full mt-1">
+                    {roleLabel}
+                  </span>
+                </div>
+                <div className="w-9 h-9 bg-primary text-on-primary font-bold rounded-full flex items-center justify-center text-label-md shadow-xs shrink-0 ring-2 ring-primary/20">
+                  {userName.slice(0, 2).toUpperCase()}
+                </div>
+              </div>
+            )}
           </div>
         </header>
 

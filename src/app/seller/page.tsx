@@ -92,47 +92,65 @@ async function SellerDashboard({ searchParams }: { searchParams: Promise<{ tab?:
       {tab === "overview" && (
         <>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-lg">
-            <div className="bg-surface-container-lowest rounded-xl p-lg border border-outline-variant/30">
-              <div className="flex items-center gap-lg">
-                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
-                  <Store className="w-6 h-6 text-primary" />
+            {/* Card 1 */}
+            <div className="p-[1px] rounded-[1.25rem] bg-gradient-to-b from-outline-variant/30 to-transparent">
+              <div className="rounded-[calc(1.25rem-1px)] bg-surface-container-lowest p-lg border border-outline-variant/10 shadow-xs space-y-md">
+                <div className="flex items-center justify-between">
+                  <div className="w-10 h-10 rounded-xl bg-teal-500/10 text-teal-700 dark:text-teal-300 flex items-center justify-center font-bold">
+                    <Store className="w-5 h-5" />
+                  </div>
+                  <span className="text-label-sm font-bold text-primary bg-primary/10 px-2.5 py-0.5 rounded-full">
+                    {seller.type}
+                  </span>
                 </div>
                 <div>
-                  <p className="text-display-md font-bold text-on-surface">{seller.businessName}</p>
-                  <p className="text-label-sm text-on-surface-variant">{seller.type}</p>
+                  <p className="text-label-sm text-on-surface-variant font-medium">Nama Usaha</p>
+                  <p className="text-headline-md font-bold text-on-surface mt-1 truncate">{seller.businessName}</p>
                 </div>
               </div>
             </div>
-            <div className="bg-surface-container-lowest rounded-xl p-lg border border-outline-variant/30">
-              <div className="flex items-center gap-lg">
-                <div className="w-12 h-12 rounded-xl bg-success/10 flex items-center justify-center">
-                  <ShoppingBag className="w-6 h-6 text-success" />
+
+            {/* Card 2 */}
+            <div className="p-[1px] rounded-[1.25rem] bg-gradient-to-b from-outline-variant/30 to-transparent">
+              <div className="rounded-[calc(1.25rem-1px)] bg-surface-container-lowest p-lg border border-outline-variant/10 shadow-xs space-y-md">
+                <div className="flex items-center justify-between">
+                  <div className="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-700 dark:text-blue-300 flex items-center justify-center font-bold">
+                    <ShoppingBag className="w-5 h-5" />
+                  </div>
                 </div>
                 <div>
-                  <p className="text-display-md font-bold text-on-surface">{seller.products.length}</p>
-                  <p className="text-label-sm text-on-surface-variant">Total Produk</p>
+                  <p className="text-label-sm text-on-surface-variant font-medium">Total Produk</p>
+                  <p className="text-display-md font-bold text-on-surface mt-1">{seller.products.length}</p>
                 </div>
               </div>
             </div>
-            <div className="bg-surface-container-lowest rounded-xl p-lg border border-outline-variant/30">
-              <div className="flex items-center gap-lg">
-                <div className="w-12 h-12 rounded-xl bg-secondary/10 flex items-center justify-center">
-                  <TrendingUp className="w-6 h-6 text-secondary" />
+
+            {/* Card 3 */}
+            <div className="p-[1px] rounded-[1.25rem] bg-gradient-to-b from-outline-variant/30 to-transparent">
+              <div className="rounded-[calc(1.25rem-1px)] bg-surface-container-lowest p-lg border border-outline-variant/10 shadow-xs space-y-md">
+                <div className="flex items-center justify-between">
+                  <div className="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 flex items-center justify-center font-bold">
+                    <TrendingUp className="w-5 h-5" />
+                  </div>
                 </div>
                 <div>
-                  <p className="text-display-md font-bold text-on-surface">{formatRupiah(totalSales._sum.sellerNetRupiah || 0)}</p>
-                  <p className="text-label-sm text-on-surface-variant">Total Pendapatan</p>
+                  <p className="text-label-sm text-on-surface-variant font-medium">Total Pendapatan</p>
+                  <p className="text-headline-lg font-bold text-on-surface mt-1">{formatRupiah(totalSales._sum.sellerNetRupiah || 0)}</p>
                 </div>
               </div>
             </div>
-            <div className="bg-surface-container-lowest rounded-xl p-lg border border-outline-variant/30">
-              <div className="flex items-center gap-lg">
-                <div className="w-12 h-12 rounded-xl bg-warning/10 flex items-center justify-center">
-                  <Wallet className="w-6 h-6 text-warning" />
+
+            {/* Card 4 */}
+            <div className="p-[1px] rounded-[1.25rem] bg-gradient-to-b from-outline-variant/30 to-transparent">
+              <div className="rounded-[calc(1.25rem-1px)] bg-surface-container-lowest p-lg border border-outline-variant/10 shadow-xs space-y-md">
+                <div className="flex items-center justify-between">
+                  <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-700 dark:text-amber-300 flex items-center justify-center font-bold">
+                    <Wallet className="w-5 h-5" />
+                  </div>
                 </div>
                 <div>
-                  <p className="text-display-md font-bold text-on-surface">{formatRupiah(pendingPayouts._sum.amountRupiah || 0)}</p>
-                  <p className="text-label-sm text-on-surface-variant">Pencairan Tertunda</p>
+                  <p className="text-label-sm text-on-surface-variant font-medium">Pencairan Tertunda</p>
+                  <p className="text-headline-lg font-bold text-on-surface mt-1">{formatRupiah(pendingPayouts._sum.amountRupiah || 0)}</p>
                 </div>
               </div>
             </div>

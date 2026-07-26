@@ -76,39 +76,70 @@ async function BendaharaDashboard({ searchParams }: { searchParams: Promise<{ ta
       {tab === "overview" && (
         <>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-lg">
-            <div className="bg-surface-container-lowest rounded-xl p-lg border border-outline-variant/30">
-              <div className="flex items-center gap-lg">
-                <div className="w-12 h-12 rounded-xl bg-success/10 flex items-center justify-center"><TrendingUp className="w-6 h-6 text-success" /></div>
+            {/* Card 1 */}
+            <div className="p-[1px] rounded-[1.25rem] bg-gradient-to-b from-outline-variant/30 to-transparent">
+              <div className="rounded-[calc(1.25rem-1px)] bg-surface-container-lowest p-lg border border-outline-variant/10 shadow-xs space-y-md">
+                <div className="flex items-center justify-between">
+                  <div className="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 flex items-center justify-center font-bold">
+                    <TrendingUp className="w-5 h-5" />
+                  </div>
+                  <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-700 bg-emerald-500/10 px-2.5 py-0.5 rounded-full">
+                    +8.4% &uarr;
+                  </span>
+                </div>
                 <div>
-                  <p className="text-display-md font-bold text-on-surface">{formatRupiah(totalIn)}</p>
-                  <p className="text-label-sm text-on-surface-variant">Total Pendapatan</p>
+                  <p className="text-label-sm text-on-surface-variant font-medium">Total Pendapatan</p>
+                  <p className="text-headline-lg font-bold text-on-surface mt-1">{formatRupiah(totalIn)}</p>
                 </div>
               </div>
             </div>
-            <div className="bg-surface-container-lowest rounded-xl p-lg border border-outline-variant/30">
-              <div className="flex items-center gap-lg">
-                <div className="w-12 h-12 rounded-xl bg-warning/10 flex items-center justify-center"><Percent className="w-6 h-6 text-warning" /></div>
+
+            {/* Card 2 */}
+            <div className="p-[1px] rounded-[1.25rem] bg-gradient-to-b from-outline-variant/30 to-transparent">
+              <div className="rounded-[calc(1.25rem-1px)] bg-surface-container-lowest p-lg border border-outline-variant/10 shadow-xs space-y-md">
+                <div className="flex items-center justify-between">
+                  <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-700 dark:text-amber-300 flex items-center justify-center font-bold">
+                    <Percent className="w-5 h-5" />
+                  </div>
+                  <span className="text-label-sm text-on-surface-variant font-medium">Bulan Ini</span>
+                </div>
                 <div>
-                  <p className="text-display-md font-bold text-on-surface">{formatRupiah(totalOut)}</p>
-                  <p className="text-label-sm text-on-surface-variant">Komisi Terkumpul</p>
+                  <p className="text-label-sm text-on-surface-variant font-medium">Komisi Terkumpul</p>
+                  <p className="text-headline-lg font-bold text-on-surface mt-1">{formatRupiah(totalOut)}</p>
                 </div>
               </div>
             </div>
-            <div className="bg-surface-container-lowest rounded-xl p-lg border border-outline-variant/30">
-              <div className="flex items-center gap-lg">
-                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">{profit >= 0 ? <TrendingUp className="w-6 h-6 text-primary" /> : <TrendingDown className="w-6 h-6 text-error" />}</div>
+
+            {/* Card 3 */}
+            <div className="p-[1px] rounded-[1.25rem] bg-gradient-to-b from-outline-variant/30 to-transparent">
+              <div className="rounded-[calc(1.25rem-1px)] bg-surface-container-lowest p-lg border border-outline-variant/10 shadow-xs space-y-md">
+                <div className="flex items-center justify-between">
+                  <div className="w-10 h-10 rounded-xl bg-teal-500/10 text-teal-700 dark:text-teal-300 flex items-center justify-center font-bold">
+                    {profit >= 0 ? <TrendingUp className="w-5 h-5" /> : <TrendingDown className="w-5 h-5" />}
+                  </div>
+                  <span className="text-label-sm text-on-surface-variant font-medium">Laba Bersih</span>
+                </div>
                 <div>
-                  <p className="text-display-md font-bold text-on-surface">{formatRupiah(profit)}</p>
-                  <p className="text-label-sm text-on-surface-variant">Laba Bersih</p>
+                  <p className="text-label-sm text-on-surface-variant font-medium">Keuntungan Bersih</p>
+                  <p className="text-headline-lg font-bold text-on-surface mt-1">{formatRupiah(profit)}</p>
                 </div>
               </div>
             </div>
-            <div className="bg-surface-container-lowest rounded-xl p-lg border border-outline-variant/30">
-              <div className="flex items-center gap-lg">
-                <div className="w-12 h-12 rounded-xl bg-tertiary/10 flex items-center justify-center"><Wallet className="w-6 h-6 text-tertiary" /></div>
+
+            {/* Card 4 */}
+            <div className="p-[1px] rounded-[1.25rem] bg-gradient-to-b from-outline-variant/30 to-transparent">
+              <div className="rounded-[calc(1.25rem-1px)] bg-surface-container-lowest p-lg border border-outline-variant/10 shadow-xs space-y-md">
+                <div className="flex items-center justify-between">
+                  <div className="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-700 dark:text-blue-300 flex items-center justify-center font-bold">
+                    <Wallet className="w-5 h-5" />
+                  </div>
+                  <span className="inline-flex items-center gap-1 text-[11px] font-bold text-amber-700 bg-amber-500/10 px-2.5 py-0.5 rounded-full">
+                    {pendingPayouts._count} Pending
+                  </span>
+                </div>
                 <div>
-                  <p className="text-display-md font-bold text-on-surface">{formatRupiah(pendingPayouts._sum.amountRupiah || 0)}</p>
-                  <p className="text-label-sm text-on-surface-variant">Pencairan Tertunda ({pendingPayouts._count})</p>
+                  <p className="text-label-sm text-on-surface-variant font-medium">Pencairan Tertunda</p>
+                  <p className="text-headline-lg font-bold text-on-surface mt-1">{formatRupiah(pendingPayouts._sum.amountRupiah || 0)}</p>
                 </div>
               </div>
             </div>
