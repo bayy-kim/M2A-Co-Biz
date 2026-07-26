@@ -29,10 +29,11 @@ export async function createCheckout(formData: FormData) {
     paymentMethod: (formData.get("paymentMethod") as string) || "TRANSFER",
   }
 
-  if (raw.buyerId) {
-    if (!session?.user || session.user.id !== raw.buyerId) {
-      return { error: "Sesi tidak valid" }
-    }
+  if (!session?.user) {
+    return { error: "Harus login untuk checkout" }
+  }
+  if (raw.buyerId && session.user.id !== raw.buyerId) {
+    return { error: "Sesi tidak valid" }
   }
 
   const rl = await checkRateLimit(`checkout:${raw.buyerPhone || "anonymous"}`)

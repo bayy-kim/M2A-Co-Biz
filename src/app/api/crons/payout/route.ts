@@ -5,7 +5,11 @@ import { processPayoutById } from "@/lib/payout-utils"
 export async function GET(request: Request) {
   const authHeader = request.headers.get("authorization")
   const expected = process.env.CRON_SECRET
-  if (expected && authHeader !== `Bearer ${expected}`) {
+  if (!expected) {
+    console.error("[cron/payout] CRON_SECRET not set — payout cron disabled")
+    return NextResponse.json({ error: "Server misconfiguration" }, { status: 500 })
+  }
+  if (authHeader !== `Bearer ${expected}`) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
   }
 

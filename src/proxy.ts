@@ -3,6 +3,7 @@ import { auth } from "@/lib/auth"
 
 const roleRoutes: Record<string, string[]> = {
   "/admin": ["ADMIN"],
+  "/api/admin": ["ADMIN"],
   "/ketua": ["KETUA"],
   "/bendahara": ["BENDAHARA", "ADMIN"],
   "/seller": ["SELLER"],
@@ -36,7 +37,9 @@ export default auth((req: any) => {
     const allowedRoles = matchedRoute[1]
 
     if (allowedRoles.length > 0 && !allowedRoles.includes(session?.user?.role)) {
-      return NextResponse.redirect(new URL("/", req.url))
+      const loginUrl = new URL("/login", req.url)
+      loginUrl.searchParams.set("callbackUrl", pathname)
+      return NextResponse.redirect(loginUrl)
     }
   }
 
@@ -44,5 +47,5 @@ export default auth((req: any) => {
 })
 
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
 }
