@@ -15,7 +15,7 @@ export default function TermsPage() {
         <div className="space-y-lg text-body-md text-on-surface-variant leading-relaxed">
           <section>
             <h2 className="text-headline-md text-on-surface font-bold mb-md">1. Penerimaan Ketentuan</h2>
-            <p>Dengan mendaftar dan menggunakan platform M2A Co-Biz ("Platform"), Anda menyatakan telah membaca, memahami, dan menyetujui seluruh ketentuan layanan ini. Jika Anda tidak setuju dengan ketentuan ini, jangan gunakan Platform.</p>
+            <p>Dengan mendaftar dan menggunakan platform M2A Co-Biz (&quot;Platform&quot;), Anda menyatakan telah membaca, memahami, dan menyetujui seluruh ketentuan layanan ini. Jika Anda tidak setuju dengan ketentuan ini, jangan gunakan Platform.</p>
           </section>
 
           <section>

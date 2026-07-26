@@ -15,7 +15,7 @@ export default function PrivacyPage() {
         <div className="space-y-lg text-body-md text-on-surface-variant leading-relaxed">
           <section>
             <h2 className="text-headline-md text-on-surface font-bold mb-md">1. Pendahuluan</h2>
-            <p>Al-Mubarok II ("kami", "kita") berkomitmen untuk melindungi privasi Pengguna platform M2A Co-Biz. Kebijakan ini menjelaskan bagaimana kami mengumpulkan, menggunakan, menyimpan, dan melindungi data pribadi Anda sesuai dengan Undang-Undang Perlindungan Data Pribadi (UU PDP) Republik Indonesia.</p>
+            <p>Al-Mubarok II (&quot;kami&quot;, &quot;kita&quot;) berkomitmen untuk melindungi privasi Pengguna platform M2A Co-Biz. Kebijakan ini menjelaskan bagaimana kami mengumpulkan, menggunakan, menyimpan, dan melindungi data pribadi Anda sesuai dengan Undang-Undang Perlindungan Data Pribadi (UU PDP) Republik Indonesia.</p>
           </section>
 
           <section>

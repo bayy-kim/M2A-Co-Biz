@@ -13,9 +13,9 @@ const ITEMS_PER_PAGE = 8
 
 type SortOption = "newest" | "price_asc" | "price_desc"
 
-async function CatalogPage({ searchParams }: { searchParams: Promise<{ q?: string; category?: string; page?: string; sort?: string; minPrice?: string; maxPrice?: string }> }) {
+async function CatalogPage({ searchParams }: { searchParams: Promise<{ q?: string; search?: string; category?: string; page?: string; sort?: string; minPrice?: string; maxPrice?: string }> }) {
   const params = await searchParams
-  const query = params.q || ""
+  const query = params.search || params.q || ""
   const categoryFilter = params.category || ""
   const sortParam = (params.sort || "newest") as SortOption
   const minPrice = params.minPrice ? Number(params.minPrice) : undefined
@@ -70,20 +70,9 @@ async function CatalogPage({ searchParams }: { searchParams: Promise<{ q?: strin
 
   const session = await auth()
 
-  const getDashboardHref = () => {
-    if (!session?.user?.role) return "/login"
-    const role = session.user.role
-    if (role === "ADMIN") return "/admin"
-    if (role === "BENDAHARA") return "/bendahara"
-    if (role === "KETUA") return "/ketua"
-    if (role === "SELLER") return "/seller"
-    if (role === "BUYER") return "/pesanan-saya"
-    return "/catalog"
-  }
-
   const buildQuery = (overrides: Record<string, string | undefined>) => {
     const qs: Record<string, string> = {}
-    if (query && overrides.q !== "") qs.q = query
+    if (query && overrides.search !== "" && overrides.q !== "") qs.search = query
     if (categoryFilter && overrides.category !== "") qs.category = categoryFilter
     if (sortParam !== "newest") qs.sort = sortParam
     if (minPrice !== undefined) qs.minPrice = String(minPrice)
@@ -102,7 +91,7 @@ async function CatalogPage({ searchParams }: { searchParams: Promise<{ q?: strin
           <h2 className="text-headline-lg text-primary mb-sm">Katalog</h2>
           <form action="/catalog" method="GET" className="relative items-center flex">
             <Search className="absolute left-3 w-5 h-5 text-primary" />
-            <input className="w-full bg-surface-container-low border-none rounded-xl pl-10 pr-4 py-3 focus:ring-2 focus:ring-primary/20 transition-all text-body-md" defaultValue={query} name="q" placeholder="Cari produk..." type="text" />
+            <input className="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl pl-10 pr-4 py-3 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all text-body-md" defaultValue={query} name="search" placeholder="Cari produk..." type="text" />
           </form>
         </div>
 

@@ -217,18 +217,7 @@ export function DashboardShell({
             <nav className="flex-1 p-lg space-y-md overflow-y-auto" aria-label="Navigasi Menu Mobile">
               {sidebarItems.map((item) => {
                 const active = isActive(item)
-  const getNotificationItem = (): SidebarItem => {
-    if (roleLabel === "admin") return { label: "Notifikasi", href: "/admin?tab=approvals", icon: "Bell" }
-    if (roleLabel === "bendahara") return { label: "Notifikasi", href: "/bendahara?tab=payments", icon: "Bell" }
-    if (roleLabel === "ketua") return { label: "Notifikasi", href: "/ketua?tab=activity", icon: "Bell" }
-    if (roleLabel === "seller") return { label: "Notifikasi", href: "/seller?tab=sales", icon: "Bell" }
-    return { label: "Notifikasi", href: "/pesanan-saya", icon: "Bell" }
-  }
-
-  // Combine sidebar items with notification item for mobile bottom bar
-  const mobileNavItems = [...sidebarItems, getNotificationItem()]
-
-  return (
+                return (
                   <Link
                     key={item.label}
                     href={item.href}

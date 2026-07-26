@@ -41,9 +41,9 @@ export function PublicHeader({ session, showSearch = false, searchQuery = "" }: 
           <form action="/catalog" method="GET" className="hidden md:flex relative items-center w-80">
             <Search className="absolute left-3 w-4 h-4 text-primary" />
             <input 
-              className="w-full bg-surface-container-low border-none rounded-xl pl-9 pr-4 py-2 text-body-md focus:ring-2 focus:ring-primary/20 transition-all outline-none" 
+              className="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl pl-9 pr-4 py-2 text-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none" 
               defaultValue={searchQuery} 
-              name="q" 
+              name="search" 
               placeholder="Cari produk & jasa..." 
               type="text" 
             />
@@ -93,16 +93,20 @@ export function PublicHeader({ session, showSearch = false, searchQuery = "" }: 
         {session?.user ? (
           <Link 
             href={getDashboardHref()} 
-            className="flex items-center gap-2 px-5 py-2 bg-primary text-on-primary rounded-full hover:opacity-90 active:scale-95 transition-all text-label-md font-bold shadow-xs outline-none focus-visible:ring-2 focus-visible:ring-primary"
+            className="p-[1px] rounded-full bg-gradient-to-b from-primary to-primary-container hover:shadow-md transition-all active:scale-95 group"
           >
-            Dasbor
+            <span className="flex items-center gap-2 px-5 py-2 bg-primary text-on-primary rounded-full text-label-md font-bold transition-all group-hover:bg-primary-container">
+              Dasbor
+            </span>
           </Link>
         ) : (
           <Link 
             href="/login" 
-            className="flex items-center gap-2 px-5 py-2 bg-primary text-on-primary rounded-full hover:opacity-90 active:scale-95 transition-all text-label-md font-bold shadow-xs outline-none focus-visible:ring-2 focus-visible:ring-primary"
+            className="p-[1px] rounded-full bg-gradient-to-b from-primary to-primary-container hover:shadow-md transition-all active:scale-95 group"
           >
-            Masuk
+            <span className="flex items-center gap-2 px-5 py-2 bg-primary text-on-primary rounded-full text-label-md font-bold transition-all group-hover:bg-primary-container">
+              Masuk
+            </span>
           </Link>
         )}
       </div>

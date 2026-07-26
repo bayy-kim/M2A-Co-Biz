@@ -86,30 +86,34 @@ async function ProductDetailPage({ params }: { params: Promise<{ id: string }> }
               </div>
             </div>
 
-            <div className="p-xl rounded-2xl bg-surface-container-lowest border border-outline-variant/30 shadow-xs space-y-md">
-              <p className="text-label-sm text-on-surface-variant font-medium uppercase tracking-wider">Harga Terbaik</p>
-              <div className="flex items-baseline gap-2">
-                <p className="text-display-md sm:text-display-lg text-primary font-bold">{formatRupiah(product.priceRupiah)}</p>
+            <div className="p-[1px] rounded-[1.25rem] bg-gradient-to-b from-outline-variant/30 to-transparent">
+              <div className="rounded-[calc(1.25rem-1px)] bg-surface-container-lowest p-xl border border-outline-variant/10 shadow-xs space-y-md">
+                <p className="text-label-sm text-on-surface-variant font-medium uppercase tracking-wider">Harga Terbaik</p>
+                <div className="flex items-baseline gap-2">
+                  <p className="text-display-md sm:text-display-lg text-primary font-bold">{formatRupiah(product.priceRupiah)}</p>
+                </div>
               </div>
             </div>
 
             {/* Seller profile card */}
-            <div className="bg-surface-container-low rounded-2xl p-xl border border-outline-variant/20 shadow-xs flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
-                  <Store className="w-6 h-6 text-primary" />
+            <div className="p-[1px] rounded-[1.25rem] bg-gradient-to-b from-outline-variant/30 to-transparent">
+              <div className="rounded-[calc(1.25rem-1px)] bg-surface-container-low p-xl border border-outline-variant/10 shadow-xs flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center shadow-[inset_0_1px_1px_rgba(255,255,255,0.3)]">
+                    <Store className="w-6 h-6 text-primary" />
+                  </div>
+                  <div>
+                    <p className="text-label-md font-bold text-on-surface leading-snug">{product.seller.businessName}</p>
+                    <p className="text-label-sm text-on-surface-variant">{product.seller.type === "UMKM" ? "UMKM Mitra" : "Penyedia Jasa Mitra"}</p>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-label-md font-bold text-on-surface leading-snug">{product.seller.businessName}</p>
-                  <p className="text-label-sm text-on-surface-variant">{product.seller.type === "UMKM" ? "UMKM Mitra" : "Penyedia Jasa Mitra"}</p>
-                </div>
+                <Link 
+                  href={`/catalog?search=${encodeURIComponent(product.seller.businessName)}`}
+                  className="text-label-sm text-primary font-bold hover:underline"
+                >
+                  Lihat Toko
+                </Link>
               </div>
-              <Link 
-                href={`/catalog?q=${encodeURIComponent(product.seller.businessName)}`}
-                className="text-label-sm text-primary font-bold hover:underline"
-              >
-                Lihat Toko
-              </Link>
             </div>
 
             {/* Description */}
@@ -134,7 +138,7 @@ async function ProductDetailPage({ params }: { params: Promise<{ id: string }> }
           </div>
         </div>
       </main>
-      <PublicBottomBar />
+      <PublicBottomBar isLoggedIn={!!session?.user} isSeller={session?.user?.role === "SELLER"} role={session?.user?.role} />
     </div>
   )
 }

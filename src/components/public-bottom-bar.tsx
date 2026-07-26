@@ -34,12 +34,12 @@ export function PublicBottomBar({ isLoggedIn, isSeller, role }: Props) {
   const items = [
     {
       label: "Beranda",
-      href: "/catalog",
+      href: "/",
       icon: Home,
     },
     {
-      label: "Pesanan",
-      href: isLoggedIn ? "/pesanan-saya" : "/login",
+      label: "Katalog",
+      href: "/catalog",
       icon: ShoppingBag,
     },
     {
@@ -63,12 +63,12 @@ export function PublicBottomBar({ isLoggedIn, isSeller, role }: Props) {
       <div className="flex items-center justify-around mx-auto max-w-lg overflow-x-auto no-scrollbar">
         {items.map((item) => {
           const Icon = item.icon
-          const active = pathname === item.href || (item.href !== "/catalog" && pathname.startsWith(item.href))
+          const active = pathname === item.href || (item.href !== "/" && item.href !== "/catalog" && pathname.startsWith(item.href))
           return (
             <Link
               key={item.label}
               href={item.href}
-              className={`flex flex-col items-center justify-center gap-1 min-w-0 flex-shrink-0 h-16 w-16 px-1 transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-primary ${
+              className={`flex flex-col items-center justify-center gap-1 min-w-0 flex-shrink-0 h-16 w-16 px-1 transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-primary active:scale-95 ${
                 active ? "text-primary font-bold" : "text-on-surface-variant hover:text-on-surface"
               }`}
               aria-current={active ? "page" : undefined}

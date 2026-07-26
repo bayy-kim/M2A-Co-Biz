@@ -30,7 +30,51 @@ function RegisterContent() {
     {},
   )
 
+  const [stepError, setStepError] = useState<string>("")
+
   const nextStep = () => {
+    setStepError("")
+    const form = formRef.current
+    if (!form) return
+
+    if (step === 1) {
+      const fullName = (form.querySelector("#fullName") as HTMLInputElement)?.value
+      const email = (form.querySelector("#email") as HTMLInputElement)?.value
+      const phone = (form.querySelector("#phone") as HTMLInputElement)?.value
+      const businessName = (form.querySelector("#businessName") as HTMLInputElement)?.value
+      const password = (form.querySelector("#password") as HTMLInputElement)?.value
+
+      if (!fullName || fullName.trim().length < 3) {
+        setStepError("Nama lengkap minimal 3 karakter.")
+        return
+      }
+      if (!email || !email.includes("@")) {
+        setStepError("Email tidak valid.")
+        return
+      }
+      if (!phone || phone.trim().length < 8) {
+        setStepError("Nomor telepon minimal 8 karakter.")
+        return
+      }
+      if (!businessName || businessName.trim().length < 3) {
+        setStepError("Nama toko/usaha minimal 3 karakter.")
+        return
+      }
+      if (!password || password.length < 8) {
+        setStepError("Kata sandi minimal 8 karakter.")
+        return
+      }
+    } else if (step === 2) {
+      if (!files.ktp) {
+        setStepError("Dokumen KTP wajib diunggah.")
+        return
+      }
+      if (!files.kartuKeluarga) {
+        setStepError("Dokumen Kartu Keluarga wajib diunggah.")
+        return
+      }
+    }
+
     if (step < totalSteps) setStep(step + 1)
   }
   const prevStep = () => {
@@ -129,6 +173,12 @@ function RegisterContent() {
                   Penjual
                 </button>
               </div>
+
+              {stepError && (
+                <div className="mb-lg p-lg bg-error-container text-on-error-container rounded-lg text-label-md">
+                  {stepError}
+                </div>
+              )}
 
               {state.message && !state.success && (
                 <div className="mb-lg p-lg bg-error-container text-on-error-container rounded-lg text-label-md">

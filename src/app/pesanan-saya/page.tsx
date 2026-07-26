@@ -74,56 +74,58 @@ async function PesananSayaPage() {
             {orders.map((order) => {
               const StatusIcon = statusIcon[order.paymentStatus]
               return (
-                <div key={order.id} className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 overflow-hidden">
-                  <div className="flex items-center justify-between px-lg py-md border-b border-outline-variant/20 flex-wrap gap-2">
-                    <div className="flex items-center gap-2">
-                      <ShoppingBag className="w-4 h-4 text-outline-variant" />
-                      <span className="text-label-sm text-on-surface-variant font-mono">
-                        #{order.id.slice(0, 8)}
-                      </span>
-                      <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-bold ${
-                        order.paymentMethod === "COD" ? "bg-success/10 text-success" : "bg-primary/10 text-primary"
-                      }`}>
-                        {order.paymentMethod === "COD" ? <Banknote className="w-3 h-3" /> : <CreditCard className="w-3 h-3" />}
-                        {order.paymentMethod}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <div className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-label-sm font-bold ${statusColor[order.paymentStatus]}`}>
-                        <StatusIcon className="w-3.5 h-3.5" />
-                        {statusLabel[order.paymentStatus]}
+                <div key={order.id} className="p-[1px] rounded-[1.25rem] bg-gradient-to-b from-outline-variant/30 to-transparent">
+                  <div className="rounded-[calc(1.25rem-1px)] bg-surface-container-lowest border border-outline-variant/10 overflow-hidden">
+                    <div className="flex items-center justify-between px-lg py-md border-b border-outline-variant/20 flex-wrap gap-2">
+                      <div className="flex items-center gap-2">
+                        <ShoppingBag className="w-4 h-4 text-outline-variant" />
+                        <span className="text-label-sm text-on-surface-variant font-mono">
+                          #{order.id.slice(0, 8)}
+                        </span>
+                        <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-bold ${
+                          order.paymentMethod === "COD" ? "bg-success/10 text-success" : "bg-primary/10 text-primary"
+                        }`}>
+                          {order.paymentMethod === "COD" ? <Banknote className="w-3 h-3" /> : <CreditCard className="w-3 h-3" />}
+                          {order.paymentMethod}
+                        </span>
                       </div>
-                      <div className="flex items-center gap-1 px-2.5 py-1 rounded-full text-label-sm font-bold bg-primary/10 text-primary">
-                        {order.fulfillmentStatus === "COMPLETED" ? <CheckCircle className="w-3.5 h-3.5 text-success" /> : order.fulfillmentStatus === "IN_TRANSIT" ? <Truck className="w-3.5 h-3.5 text-warning" /> : <PackageCheck className="w-3.5 h-3.5" />}
-                        <span className="capitalize">{order.fulfillmentStatus.replace(/_/g, " ").toLowerCase()}</span>
+                      <div className="flex items-center gap-2">
+                        <div className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-label-sm font-bold ${statusColor[order.paymentStatus]}`}>
+                          <StatusIcon className="w-3.5 h-3.5" />
+                          {statusLabel[order.paymentStatus]}
+                        </div>
+                        <div className="flex items-center gap-1 px-2.5 py-1 rounded-full text-label-sm font-bold bg-primary/10 text-primary">
+                          {order.fulfillmentStatus === "COMPLETED" ? <CheckCircle className="w-3.5 h-3.5 text-success" /> : order.fulfillmentStatus === "IN_TRANSIT" ? <Truck className="w-3.5 h-3.5 text-warning" /> : <PackageCheck className="w-3.5 h-3.5" />}
+                          <span className="capitalize">{order.fulfillmentStatus.replace(/_/g, " ").toLowerCase()}</span>
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  <div className="px-lg py-md space-y-2">
-                    {order.items.map((item) => (
-                      <div key={item.id} className="flex justify-between text-label-md">
-                        <span className="text-on-surface-variant">Produk x{item.qty}</span>
-                        <span className="text-on-surface font-bold">{formatRupiah(item.priceRupiah * item.qty)}</span>
+                    <div className="px-lg py-md space-y-2">
+                      {order.items.map((item) => (
+                        <div key={item.id} className="flex justify-between text-label-md">
+                          <span className="text-on-surface-variant">Produk x{item.qty}</span>
+                          <span className="text-on-surface font-bold">{formatRupiah(item.priceRupiah * item.qty)}</span>
+                        </div>
+                      ))}
+                      {order.serviceNotes && (
+                        <div className="p-md rounded-lg bg-surface-container-high text-label-sm text-on-surface mt-2">
+                          <span className="font-bold block text-primary">Catatan / Alamat Layanan:</span>
+                          {order.serviceNotes}
+                        </div>
+                      )}
+                      <div className="border-t border-outline-variant/20 pt-2 flex justify-between text-label-md font-bold">
+                        <span className="text-on-surface">Total</span>
+                        <span className="text-primary">{formatRupiah(order.totalRupiah)}</span>
                       </div>
-                    ))}
-                    {order.serviceNotes && (
-                      <div className="p-md rounded-lg bg-surface-container-high text-label-sm text-on-surface mt-2">
-                        <span className="font-bold block text-primary">Catatan / Alamat Layanan:</span>
-                        {order.serviceNotes}
-                      </div>
-                    )}
-                    <div className="border-t border-outline-variant/20 pt-2 flex justify-between text-label-md font-bold">
-                      <span className="text-on-surface">Total</span>
-                      <span className="text-primary">{formatRupiah(order.totalRupiah)}</span>
                     </div>
-                  </div>
 
-                  <div className="px-lg py-md bg-surface-container-low/50 border-t border-outline-variant/20 flex items-center justify-between text-label-sm">
-                    <span className="text-on-surface-variant">{order.buyerName} &middot; {order.buyerPhone}</span>
-                    <span className="text-on-surface-variant">
-                      {new Date(order.createdAt).toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" })}
-                    </span>
+                    <div className="px-lg py-md bg-surface-container-low/50 border-t border-outline-variant/20 flex items-center justify-between text-label-sm">
+                      <span className="text-on-surface-variant">{order.buyerName} &middot; {order.buyerPhone}</span>
+                      <span className="text-on-surface-variant">
+                        {new Date(order.createdAt).toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" })}
+                      </span>
+                    </div>
                   </div>
                 </div>
               )
