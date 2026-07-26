@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { 
   ChevronRight, Store, Menu, X, User, LayoutDashboard, Clock, Tag, Users, Building2, List, 
-  Activity, CreditCard, Percent, Wallet, BookOpen, Package, ShoppingCart, type LucideIcon 
+  Activity, CreditCard, Percent, Wallet, BookOpen, Package, ShoppingCart, Bell, type LucideIcon 
 } from "lucide-react"
 import { LogoutButton } from "@/components/logout-button"
 import { Logo } from "@/components/logo"
@@ -24,6 +24,7 @@ const ICON_MAP: Record<string, LucideIcon> = {
   Package,
   ShoppingCart,
   Store,
+  Bell,
 }
 
 interface SidebarItem {
@@ -77,6 +78,16 @@ export function DashboardShell({
     const Comp = icon as ComponentType<{ className?: string }>
     return <Comp className="w-5 h-5 shrink-0" />
   }
+
+  const getNotificationItem = (): SidebarItem => {
+    if (roleLabel === "admin") return { label: "Notifikasi", href: "/admin?tab=approvals", icon: "Bell" }
+    if (roleLabel === "bendahara") return { label: "Notifikasi", href: "/bendahara?tab=payments", icon: "Bell" }
+    if (roleLabel === "ketua") return { label: "Notifikasi", href: "/ketua?tab=activity", icon: "Bell" }
+    if (roleLabel === "seller") return { label: "Notifikasi", href: "/seller?tab=sales", icon: "Bell" }
+    return { label: "Notifikasi", href: "/pesanan-saya", icon: "Bell" }
+  }
+
+  const mobileNavItems = [...sidebarItems, getNotificationItem()]
 
   return (
     <div className="min-h-screen bg-background flex flex-col lg:flex-row">
@@ -202,7 +213,18 @@ export function DashboardShell({
             <nav className="flex-1 p-lg space-y-md overflow-y-auto" aria-label="Navigasi Menu Mobile">
               {sidebarItems.map((item) => {
                 const active = isActive(item)
-                return (
+  const getNotificationItem = (): SidebarItem => {
+    if (roleLabel === "admin") return { label: "Notifikasi", href: "/admin?tab=approvals", icon: "Bell" }
+    if (roleLabel === "bendahara") return { label: "Notifikasi", href: "/bendahara?tab=payments", icon: "Bell" }
+    if (roleLabel === "ketua") return { label: "Notifikasi", href: "/ketua?tab=activity", icon: "Bell" }
+    if (roleLabel === "seller") return { label: "Notifikasi", href: "/seller?tab=sales", icon: "Bell" }
+    return { label: "Notifikasi", href: "/pesanan-saya", icon: "Bell" }
+  }
+
+  // Combine sidebar items with notification item for mobile bottom bar
+  const mobileNavItems = [...sidebarItems, getNotificationItem()]
+
+  return (
                   <Link
                     key={item.label}
                     href={item.href}
@@ -240,22 +262,26 @@ export function DashboardShell({
         className="lg:hidden fixed bottom-0 w-full z-50 bg-surface border-t border-outline-variant/30 shadow-[0_-4px_20px_rgba(0,0,0,0.08)] pb-[env(safe-area-inset-bottom)]"
         aria-label="Navigasi Bawah Mobile"
       >
-        <div className="flex items-center justify-around mx-auto max-w-lg">
-          {sidebarItems.map((item) => {
+        <div className="flex items-center justify-around mx-auto max-w-lg overflow-x-auto no-scrollbar">
+          {mobileNavItems.map((item) => {
             const active = isActive(item)
+            const isNotification = item.label === "Notifikasi"
             return (
               <Link
                 key={item.label}
                 href={item.href}
-                className={`flex flex-col items-center justify-center gap-1 min-w-0 flex-1 h-16 px-1 transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-primary ${
+                className={`flex flex-col items-center justify-center gap-1 min-w-0 flex-shrink-0 h-16 w-16 px-1 transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-primary ${
                   active ? "text-primary" : "text-on-surface-variant hover:text-on-surface"
                 }`}
                 aria-current={active ? "page" : undefined}
               >
-                <div className={`flex items-center justify-center w-12 h-8 rounded-full transition-all duration-200 ${
+                <div className={`relative flex items-center justify-center w-12 h-8 rounded-full transition-all duration-200 ${
                   active ? "bg-primary-container text-primary" : "hover:bg-surface-container-high"
                 }`}>
                   {renderIcon(item.icon)}
+                  {isNotification && (
+                    <span className="absolute top-1 right-2.5 w-2 h-2 rounded-full bg-error animate-pulse" />
+                  )}
                 </div>
                 <span className={`text-[10px] leading-tight text-center max-w-full truncate ${
                   active ? "font-bold text-primary" : "text-on-surface-variant"

@@ -79,33 +79,30 @@ export function LandingClient({ session, company }: LandingClientProps) {
               transition={{ duration: 0.5, ease: "easeOut", delay: 0.15 }}
               className="relative hidden lg:block"
             >
-              <div className="relative aspect-square rounded-3xl overflow-hidden shadow-2xl z-20 bg-gradient-to-br from-primary/5 to-primary-container/20 flex items-center justify-center p-xxl">
-                <svg viewBox="0 0 400 400" className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="200" cy="200" r="120" fill="none" stroke="var(--primary)" strokeWidth="2" strokeDasharray="8 4" opacity="0.3" />
-                  <circle cx="200" cy="200" r="80" fill="none" stroke="var(--primary)" strokeWidth="1.5" strokeDasharray="6 3" opacity="0.2" />
-                  <path d="M120 200 Q160 140 200 180 Q240 220 280 160" fill="none" stroke="var(--accent-gold)" strokeWidth="3" strokeLinecap="round" opacity="0.5" />
-                  <path d="M140 220 Q180 170 220 200 Q260 230 300 190" fill="none" stroke="var(--primary)" strokeWidth="2" strokeLinecap="round" opacity="0.3" />
-                  <circle cx="160" cy="170" r="6" fill="var(--primary)" opacity="0.4" />
-                  <circle cx="240" cy="190" r="6" fill="var(--accent-gold)" opacity="0.4" />
-                  <circle cx="200" cy="150" r="8" fill="var(--primary)" opacity="0.2" />
-                  <circle cx="280" cy="220" r="5" fill="var(--accent-gold)" opacity="0.3" />
-                  <circle cx="130" cy="230" r="4" fill="var(--primary)" opacity="0.3" />
-                  <rect x="155" y="240" width="90" height="8" rx="4" fill="var(--primary)" opacity="0.15" />
-                  <rect x="170" y="255" width="60" height="6" rx="3" fill="var(--primary-container)" opacity="0.2" />
-                </svg>
+              <div className="relative aspect-square rounded-3xl overflow-hidden shadow-2xl z-20 border-4 border-surface bg-surface-container-high group">
+                <img 
+                  src="/images/hero-umkm.jpg" 
+                  onError={(e) => {
+                    // Fallback to high quality Indonesian UMKM image if local file not found yet
+                    e.currentTarget.src = "https://images.unsplash.com/photo-1556740758-90de374c12ad?auto=format&fit=crop&w=800&q=80"
+                  }}
+                  alt="Wirausaha UMKM M2A Co-Biz" 
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-primary/60 via-transparent to-transparent opacity-60" />
               </div>
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, ease: "easeOut", delay: 0.5 }}
-                className="absolute -bottom-6 -left-6 bg-surface/80 backdrop-blur-md p-xl rounded-xl shadow-xl z-30 max-w-xs border border-white/30"
+                className="absolute -bottom-6 -left-6 bg-surface/90 backdrop-blur-md p-xl rounded-2xl shadow-xl z-30 max-w-xs border border-white/30"
               >
                 <div className="flex items-center gap-lg">
-                  <div className="w-12 h-12 bg-accent-gold/20 rounded-full flex items-center justify-center text-accent-gold">
+                  <div className="w-12 h-12 bg-accent-gold/20 rounded-full flex items-center justify-center text-accent-gold shrink-0">
                     <TrendingUp className="w-6 h-6" />
                   </div>
                   <div>
-                    <p className="text-on-surface font-bold">50+ UMKM Aktif</p>
+                    <p className="text-on-surface font-bold text-label-md">50+ UMKM Binaan</p>
                     <p className="text-label-sm text-on-surface-variant">Tumbuh Bersama Kami</p>
                   </div>
                 </div>
@@ -142,15 +139,17 @@ export function LandingClient({ session, company }: LandingClientProps) {
             <div className="container mx-auto px-margin">
               <div className="flex flex-col lg:flex-row gap-xxl items-center">
                 <div className="lg:w-1/2 relative">
-                  <div className="relative z-10 rounded-2xl overflow-hidden shadow-2xl border-8 border-surface bg-gradient-to-br from-primary/5 to-primary-container/20 aspect-[4/3] flex items-center justify-center p-xxl">
-                    <svg viewBox="0 0 400 300" className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-                      <rect x="80" y="60" width="240" height="180" rx="12" fill="none" stroke="var(--primary)" strokeWidth="2" opacity="0.3" />
-                      <rect x="100" y="80" width="200" height="140" rx="8" fill="none" stroke="var(--accent-gold)" strokeWidth="1.5" opacity="0.25" />
-                      <circle cx="200" cy="125" r="20" fill="var(--primary)" opacity="0.15" />
-                      <path d="M170 170 Q200 150 230 170" fill="none" stroke="var(--accent-gold)" strokeWidth="2" strokeLinecap="round" opacity="0.4" />
-                      <rect x="130" y="160" width="140" height="6" rx="3" fill="var(--primary)" opacity="0.15" />
-                      <rect x="145" y="172" width="110" height="4" rx="2" fill="var(--primary-container)" opacity="0.2" />
-                    </svg>
+                  <div className="relative z-10 rounded-3xl overflow-hidden shadow-2xl border-4 border-surface bg-surface-container-high aspect-[4/3] group">
+                    <img 
+                      src="/images/about-community.jpg" 
+                      onError={(e) => {
+                        // Fallback to high quality Indonesian Community / Workshop image if local file not found
+                        e.currentTarget.src = "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80"
+                      }}
+                      alt="Komunitas Al-Mubarok II Banjarwaringin" 
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-primary/50 via-transparent to-transparent opacity-40" />
                   </div>
                 </div>
                 <div className="lg:w-1/2 space-y-xl">
