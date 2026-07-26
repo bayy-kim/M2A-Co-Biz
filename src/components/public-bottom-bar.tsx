@@ -64,16 +64,16 @@ export function PublicBottomBar({ isLoggedIn, isSeller, role }: Props) {
               key={item.label}
               href={item.href}
               className={`flex flex-col items-center justify-center gap-1 min-w-0 flex-shrink-0 h-16 w-16 px-1 transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-primary ${
-                active ? "text-primary" : "text-on-surface-variant hover:text-on-surface"
+                active ? "text-primary font-bold" : "text-on-surface-variant hover:text-on-surface"
               }`}
               aria-current={active ? "page" : undefined}
             >
               <div className={`relative flex items-center justify-center w-12 h-8 rounded-full transition-all duration-200 ${
-                active ? "bg-primary-container text-primary" : "hover:bg-surface-container-high"
+                active ? "bg-primary text-white shadow-xs" : "hover:bg-surface-container-high text-on-surface-variant"
               }`}>
                 <Icon className="w-5 h-5" />
                 {item.hasBadge && (
-                  <span className="absolute top-1 right-2.5 w-2 h-2 rounded-full bg-error animate-pulse" />
+                  <span className="absolute top-1 right-2.5 w-2.5 h-2.5 rounded-full bg-accent-gold border-2 border-primary animate-pulse" />
                 )}
               </div>
               <span className={`text-[10px] leading-tight text-center max-w-full truncate ${

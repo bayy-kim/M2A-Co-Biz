@@ -63,7 +63,17 @@ function RegisterContent() {
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <header className="fixed top-0 w-full z-50 bg-surface shadow-sm h-16 flex items-center px-lg md:px-xl justify-between">
-        <Logo size="sm" />
+        <div className="flex items-center gap-md">
+          <button
+            onClick={() => router.back()}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-surface-container-low border border-outline-variant/30 text-label-sm font-bold text-on-surface hover:bg-surface-container hover:text-primary transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-primary"
+            type="button"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            <span>Kembali</span>
+          </button>
+          <Logo size="sm" />
+        </div>
         <div className="hidden md:block">
           <span className="text-on-surface-variant text-label-md">
             Sudah daftar?{" "}

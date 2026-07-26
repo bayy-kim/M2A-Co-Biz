@@ -98,8 +98,19 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-gutter bg-surface">
-      <div className="w-full max-w-[440px] flex flex-col items-center">
+    <div className="min-h-screen flex flex-col items-center justify-center p-gutter bg-surface relative">
+      <div className="absolute top-6 left-6 z-10">
+        <button
+          onClick={() => router.back()}
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-surface-container-low border border-outline-variant/30 text-label-md font-bold text-on-surface hover:bg-surface-container hover:text-primary transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-primary shadow-xs"
+          type="button"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          <span>Kembali</span>
+        </button>
+      </div>
+
+      <div className="w-full max-w-[440px] flex flex-col items-center mt-12 sm:mt-0">
         <div className="mb-xxl text-center flex justify-center">
           <Logo size="lg" showSubtitle subtitleText="Pusat Komunitas Bisnis" />
         </div>
