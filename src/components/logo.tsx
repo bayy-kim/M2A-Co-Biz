@@ -15,24 +15,22 @@ export function Logo({
   subtitleText = "Pusat Komunitas Bisnis",
   size = "md",
 }: LogoProps) {
-  const iconSize = size === "sm" ? "w-8 h-8 text-label-md" : size === "lg" ? "w-12 h-12 text-headline-lg" : "w-10 h-10 text-headline-md"
-  const textSize = size === "sm" ? "text-label-md" : size === "lg" ? "text-display-md" : "text-headline-md"
+  const imgHeight = size === "sm" ? "h-9" : size === "lg" ? "h-14" : "h-11"
 
   const content = (
     <div className={`flex items-center gap-3 ${className}`}>
-      <div className={`${iconSize} bg-primary text-on-primary rounded-xl flex items-center justify-center font-bold shadow-xs shrink-0`}>
-        <span>M</span>
-      </div>
-      <div className="flex flex-col">
-        <span className={`${textSize} font-bold text-primary tracking-tight leading-none`}>
-          M2A Co-Biz
-        </span>
-        {showSubtitle && (
-          <span className="text-label-sm text-on-surface-variant font-medium mt-0.5">
+      <img
+        src="/images/logo.png"
+        alt="Logo M2A Co-Biz"
+        className={`${imgHeight} w-auto object-contain shrink-0`}
+      />
+      {showSubtitle && (
+        <div className="flex flex-col justify-center">
+          <span className="text-label-sm text-on-surface-variant font-medium">
             {subtitleText}
           </span>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   )
 
