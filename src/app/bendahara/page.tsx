@@ -234,6 +234,9 @@ async function BendaharaDashboard({ searchParams }: { searchParams: Promise<{ ta
                       <td className="px-lg py-3">
                         <p className="text-label-md text-on-surface font-bold">{o.buyerName}</p>
                         <p className="text-label-sm text-on-surface-variant">{o.buyerPhone}</p>
+                        {o.serviceNotes && (
+                          <p className="text-[11px] text-primary italic max-w-xs mt-1">Catatan: {o.serviceNotes}</p>
+                        )}
                       </td>
                       <td className="px-lg py-3 text-label-sm text-on-surface-variant">{o.items.length} item(s)</td>
                       <td className="px-lg py-3 text-label-md text-primary font-bold">{formatRupiah(o.totalRupiah)}</td>

@@ -95,6 +95,12 @@ async function PesananSayaPage() {
                         <span className="text-on-surface font-bold">{formatRupiah(item.priceRupiah * item.qty)}</span>
                       </div>
                     ))}
+                    {order.serviceNotes && (
+                      <div className="p-md rounded-lg bg-surface-container-high text-label-sm text-on-surface mt-2">
+                        <span className="font-bold block text-primary">Catatan / Alamat Layanan:</span>
+                        {order.serviceNotes}
+                      </div>
+                    )}
                     <div className="border-t border-outline-variant/20 pt-2 flex justify-between text-label-md font-bold">
                       <span className="text-on-surface">Total</span>
                       <span className="text-primary">{formatRupiah(order.totalRupiah)}</span>

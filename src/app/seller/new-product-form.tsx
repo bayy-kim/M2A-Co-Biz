@@ -9,12 +9,20 @@ interface CategoryOption {
   name: string
 }
 
-export function NewProductForm({ categories = [] }: { categories?: CategoryOption[] }) {
+export function NewProductForm({ 
+  categories = [], 
+  sellerType = "UMKM" 
+}: { 
+  categories?: CategoryOption[]
+  sellerType?: "UMKM" | "JASA"
+}) {
   const [state, action, pending] = useActionState(createProduct, null)
   const [showPropose, setShowPropose] = useState(false)
   const [proposeState, proposeAction, proposePending] = useActionState(proposeCategory, null)
   const [previews, setPreviews] = useState<string[]>([])
   const fileRef = useRef<HTMLInputElement>(null)
+
+  const isJasa = sellerType === "JASA"
 
   const handleFiles = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || [])
@@ -30,15 +38,35 @@ export function NewProductForm({ categories = [] }: { categories?: CategoryOptio
   return (
     <form action={action} className="grid grid-cols-1 md:grid-cols-2 gap-lg">
       <div className="flex flex-col gap-xs md:col-span-2">
-        <label className="text-label-md text-on-surface" htmlFor="title">Nama Produk</label>
-        <input className="rounded-lg border-outline-variant focus:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" id="title" name="title" placeholder="Contoh: Keripik Singkong Pedas" required type="text" />
+        <label className="text-label-md text-on-surface" htmlFor="title">
+          {isJasa ? "Nama Layanan Jasa" : "Nama Produk"}
+        </label>
+        <input 
+          className="rounded-lg border-outline-variant focus:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all text-body-md" 
+          id="title" 
+          name="title" 
+          placeholder={isJasa ? "Contoh: Jasa Servis Motor Matic / Editing Video / Pijat Refleksi" : "Contoh: Keripik Singkong Pedas"} 
+          required 
+          type="text" 
+        />
       </div>
       <div className="flex flex-col gap-xs md:col-span-2">
-        <label className="text-label-md text-on-surface" htmlFor="description">Deskripsi</label>
-        <textarea className="rounded-lg border-outline-variant focus:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" id="description" name="description" placeholder="Deskripsikan produk Anda..." required rows={3} />
+        <label className="text-label-md text-on-surface" htmlFor="description">
+          {isJasa ? "Deskripsi Layanan & Ketentuan" : "Deskripsi"}
+        </label>
+        <textarea 
+          className="rounded-lg border-outline-variant focus:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all text-body-md" 
+          id="description" 
+          name="description" 
+          placeholder={isJasa ? "Jelaskan estimasi pengerjaan, garansi, fasilitas, atau ketentuan panggilan..." : "Deskripsikan produk Anda..."} 
+          required 
+          rows={3} 
+        />
       </div>
       <div className="md:col-span-2">
-        <label className="text-label-md text-on-surface block mb-xs">Gambar Produk</label>
+        <label className="text-label-md text-on-surface block mb-xs">
+          {isJasa ? "Foto Layanan / Banner Portofolio" : "Gambar Produk"}
+        </label>
         <div className="flex flex-wrap gap-3 items-start">
           <label className="flex flex-col items-center justify-center w-24 h-24 border-2 border-dashed border-outline-variant rounded-xl hover:border-primary hover:bg-primary/5 transition-all cursor-pointer">
             <Upload className="w-5 h-5 text-on-surface-variant" />
@@ -56,8 +84,10 @@ export function NewProductForm({ categories = [] }: { categories?: CategoryOptio
         </div>
       </div>
       <div className="flex flex-col gap-xs">
-        <label className="text-label-md text-on-surface" htmlFor="priceRupiah">Harga (Rupiah)</label>
-        <input className="rounded-lg border-outline-variant focus:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" id="priceRupiah" name="priceRupiah" placeholder="50000" required type="number" min="1" />
+        <label className="text-label-md text-on-surface" htmlFor="priceRupiah">
+          {isJasa ? "Tarif / Biaya Jasa (Rupiah)" : "Harga (Rupiah)"}
+        </label>
+        <input className="rounded-lg border-outline-variant focus:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all text-body-md" id="priceRupiah" name="priceRupiah" placeholder="50000" required type="number" min="1" />
       </div>
       <div className="flex flex-col gap-xs">
         <label className="text-label-md text-on-surface" htmlFor="categoryId">Kategori</label>

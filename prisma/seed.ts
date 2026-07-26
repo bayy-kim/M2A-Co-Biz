@@ -163,20 +163,38 @@ const admin = await prisma.user.upsert({
   // ── Categories ──────────────────────────────────────────
   const catKuliner = await prisma.category.upsert({
     where: { id: "seed-cat-kuliner" },
-    update: { name: "Kuliner", defaultCommissionPercent: 5 },
-    create: { id: "seed-cat-kuliner", name: "Kuliner", defaultCommissionPercent: 5 },
+    update: { name: "Kuliner", defaultCommissionPercent: 5, status: "APPROVED" },
+    create: { id: "seed-cat-kuliner", name: "Kuliner", defaultCommissionPercent: 5, status: "APPROVED" },
   })
 
   const catKerajinan = await prisma.category.upsert({
     where: { id: "seed-cat-kerajinan" },
-    update: { name: "Kerajinan", defaultCommissionPercent: 3 },
-    create: { id: "seed-cat-kerajinan", name: "Kerajinan", defaultCommissionPercent: 3 },
+    update: { name: "Kerajinan", defaultCommissionPercent: 3, status: "APPROVED" },
+    create: { id: "seed-cat-kerajinan", name: "Kerajinan", defaultCommissionPercent: 3, status: "APPROVED" },
   })
 
   const catJasa = await prisma.category.upsert({
     where: { id: "seed-cat-jasa" },
-    update: { name: "Jasa", defaultCommissionPercent: 2 },
-    create: { id: "seed-cat-jasa", name: "Jasa", defaultCommissionPercent: 2 },
+    update: { name: "Jasa & Servis", defaultCommissionPercent: 2, status: "APPROVED" },
+    create: { id: "seed-cat-jasa", name: "Jasa & Servis", defaultCommissionPercent: 2, status: "APPROVED" },
+  })
+
+  await prisma.category.upsert({
+    where: { id: "seed-cat-jasa-digital" },
+    update: { name: "Jasa Digital & Kreatif", defaultCommissionPercent: 2, status: "APPROVED" },
+    create: { id: "seed-cat-jasa-digital", name: "Jasa Digital & Kreatif", defaultCommissionPercent: 2, status: "APPROVED" },
+  })
+
+  await prisma.category.upsert({
+    where: { id: "seed-cat-jasa-otomotif" },
+    update: { name: "Servis Otomotif & Mesin", defaultCommissionPercent: 2, status: "APPROVED" },
+    create: { id: "seed-cat-jasa-otomotif", name: "Servis Otomotif & Mesin", defaultCommissionPercent: 2, status: "APPROVED" },
+  })
+
+  await prisma.category.upsert({
+    where: { id: "seed-cat-jasa-kesehatan" },
+    update: { name: "Pijat & Kesehatan", defaultCommissionPercent: 2, status: "APPROVED" },
+    create: { id: "seed-cat-jasa-kesehatan", name: "Pijat & Kesehatan", defaultCommissionPercent: 2, status: "APPROVED" },
   })
 
   console.log("  ✓ Categories created")

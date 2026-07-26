@@ -62,11 +62,24 @@ export function CheckoutForm({
       )}
 
       <div className="flex flex-col gap-xs">
-            <label className="text-label-md text-on-surface" htmlFor="qty">Jumlah</label>
+        <label className="text-label-md text-on-surface" htmlFor="qty">Jumlah / Qty</label>
         <div className="relative group">
           <Package className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-outline group-focus-within:text-primary transition-colors" />
           <input className="w-full pl-10 pr-4 py-3 rounded-lg border border-outline-variant bg-surface-bright focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-body-md" defaultValue="1" id="qty" min="1" name="qty" required type="number" />
         </div>
+      </div>
+
+      <div className="flex flex-col gap-xs">
+        <label className="text-label-md text-on-surface" htmlFor="serviceNotes">
+          Catatan / Alamat Lokasi Pengerjaan <span className="text-on-surface-variant font-normal text-label-sm">(Opsional khusus Jasa)</span>
+        </label>
+        <textarea 
+          className="w-full px-4 py-3 rounded-lg border border-outline-variant bg-surface-bright focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-body-md" 
+          id="serviceNotes" 
+          name="serviceNotes" 
+          placeholder="Contoh: Alamat rumah untuk pengerjaan servis AC/Motor, atau catatan spesifikasi pesanan..." 
+          rows={2} 
+        />
       </div>
 
       <div className="bg-warning/5 border border-warning/20 rounded-lg p-md text-label-sm text-on-surface flex items-start gap-2">

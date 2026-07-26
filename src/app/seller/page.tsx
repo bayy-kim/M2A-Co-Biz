@@ -204,8 +204,10 @@ async function SellerDashboard({ searchParams }: { searchParams: Promise<{ tab?:
       {tab === "products" && (
         <div className="space-y-lg">
           <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 p-lg">
-            <h3 className="text-headline-md text-on-surface font-bold mb-lg">Tambah Produk Baru</h3>
-            <NewProductForm categories={sellerCategories} />
+            <h3 className="text-headline-md text-on-surface font-bold mb-lg">
+              {seller.type === "JASA" ? "Tambah Layanan Jasa Baru" : "Tambah Produk Baru"}
+            </h3>
+            <NewProductForm categories={sellerCategories} sellerType={seller.type} />
           </div>
 
           <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 overflow-hidden">

@@ -173,6 +173,7 @@ model Order {
   buyerPhone      String
   buyerId         String?
   buyer           User?    @relation(fields: [buyerId], references: [id])
+  serviceNotes    String?
   totalRupiah     Int
   paymentStatus PaymentStatus @default(PENDING)
   items         OrderItem[]
