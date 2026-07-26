@@ -81,11 +81,7 @@ export function LandingClient({ session, company }: LandingClientProps) {
             >
               <div className="relative aspect-square rounded-3xl overflow-hidden shadow-2xl z-20 border-4 border-surface bg-surface-container-high group">
                 <img 
-                  src="/images/hero-umkm.jpg" 
-                  onError={(e) => {
-                    // Fallback to high quality Indonesian UMKM image if local file not found yet
-                    e.currentTarget.src = "https://images.unsplash.com/photo-1556740758-90de374c12ad?auto=format&fit=crop&w=800&q=80"
-                  }}
+                  src="https://images.unsplash.com/photo-1556740758-90de374c12ad?auto=format&fit=crop&w=800&q=80" 
                   alt="Wirausaha UMKM M2A Co-Biz" 
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />
@@ -136,11 +132,7 @@ export function LandingClient({ session, company }: LandingClientProps) {
                 <div className="lg:w-1/2 relative">
                   <div className="relative z-10 rounded-3xl overflow-hidden shadow-2xl border-4 border-surface bg-surface-container-high aspect-[4/3] group">
                     <img 
-                      src="/images/about-community.jpg" 
-                      onError={(e) => {
-                        // Fallback to high quality Indonesian Community / Workshop image if local file not found
-                        e.currentTarget.src = "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80"
-                      }}
+                      src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80" 
                       alt="Komunitas Al-Mubarok II Banjarwaringin" 
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                     />

@@ -4,7 +4,7 @@ const ContentSecurityPolicy = `
   default-src 'self';
   script-src 'self' 'unsafe-inline' 'unsafe-eval';
   style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
-  img-src 'self' data: blob: https://*.public.blob.vercel-storage.com;
+  img-src 'self' data: blob: https://*.public.blob.vercel-storage.com https://images.unsplash.com;
   font-src 'self' https://fonts.gstatic.com;
   connect-src 'self';
   frame-src 'self' https://www.google.com;
@@ -23,6 +23,10 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "*.public.blob.vercel-storage.com",
+      },
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
       },
     ],
   },
