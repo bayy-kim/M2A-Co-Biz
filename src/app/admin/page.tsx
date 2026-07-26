@@ -55,132 +55,125 @@ async function AdminDashboard({ searchParams }: { searchParams: Promise<{ tab?: 
     >
       {tab === "overview" && (
         <>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-lg">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-lg">
             {/* Card 1 */}
-            <div className="p-[1px] rounded-[1.25rem] bg-gradient-to-b from-outline-variant/30 to-transparent">
-              <div className="rounded-[calc(1.25rem-1px)] bg-surface-container-lowest p-lg border border-outline-variant/10 shadow-xs space-y-md">
-                <div className="flex items-center justify-between">
-                  <div className="w-10 h-10 rounded-xl bg-teal-500/10 text-teal-700 dark:text-teal-300 flex items-center justify-center font-bold">
-                    <Clock className="w-5 h-5" />
-                  </div>
-                  <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-700 bg-emerald-500/10 px-2.5 py-0.5 rounded-full">
-                    +12% &uarr;
-                  </span>
+            <div className="bg-surface-container-lowest p-xl rounded-xl shadow-sm border border-outline-variant/30 flex flex-col justify-between">
+              <div className="flex justify-between items-start">
+                <div className="w-10 h-10 rounded-lg bg-primary-fixed text-primary flex items-center justify-center font-bold">
+                  <Clock className="w-5 h-5" />
                 </div>
-                <div>
-                  <p className="text-label-sm text-on-surface-variant font-medium">Pending Approvals</p>
-                  <p className="text-display-md font-bold text-on-surface mt-1">{pendingSellers.length}</p>
-                </div>
+                <span className="text-success font-label-sm flex items-center gap-1 font-bold">
+                  +12% &uarr;
+                </span>
+              </div>
+              <div className="mt-4">
+                <p className="text-on-surface-variant font-label-md">Pending Approvals</p>
+                <h3 className="font-display-md text-primary mt-1">{pendingSellers.length}</h3>
               </div>
             </div>
 
             {/* Card 2 */}
-            <div className="p-[1px] rounded-[1.25rem] bg-gradient-to-b from-outline-variant/30 to-transparent">
-              <div className="rounded-[calc(1.25rem-1px)] bg-surface-container-lowest p-lg border border-outline-variant/10 shadow-xs space-y-md">
-                <div className="flex items-center justify-between">
-                  <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-700 dark:text-amber-300 flex items-center justify-center font-bold">
-                    <Clock className="w-5 h-5" />
-                  </div>
-                  <span className="text-label-sm text-on-surface-variant font-medium">Average Wait</span>
+            <div className="bg-surface-container-lowest p-xl rounded-xl shadow-sm border border-outline-variant/30 flex flex-col justify-between">
+              <div className="flex justify-between items-start">
+                <div className="w-10 h-10 rounded-lg bg-accent-gold/10 text-accent-gold flex items-center justify-center font-bold">
+                  <Clock className="w-5 h-5" />
                 </div>
-                <div>
-                  <p className="text-label-sm text-on-surface-variant font-medium">Approval Time</p>
-                  <p className="text-display-md font-bold text-on-surface mt-1">1.2d</p>
-                </div>
+                <span className="text-on-surface-variant font-label-sm">Average Wait</span>
+              </div>
+              <div className="mt-4">
+                <p className="text-on-surface-variant font-label-md">Approval Time</p>
+                <h3 className="font-display-md text-primary mt-1">1.2d</h3>
               </div>
             </div>
 
             {/* Card 3 */}
-            <div className="p-[1px] rounded-[1.25rem] bg-gradient-to-b from-outline-variant/30 to-transparent">
-              <div className="rounded-[calc(1.25rem-1px)] bg-surface-container-lowest p-lg border border-outline-variant/10 shadow-xs space-y-md">
-                <div className="flex items-center justify-between">
-                  <div className="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-700 dark:text-blue-300 flex items-center justify-center font-bold">
-                    <Users className="w-5 h-5" />
-                  </div>
-                  <span className="text-label-sm text-on-surface-variant font-medium">This Month</span>
+            <div className="bg-surface-container-lowest p-xl rounded-xl shadow-sm border border-outline-variant/30 flex flex-col justify-between">
+              <div className="flex justify-between items-start">
+                <div className="w-10 h-10 rounded-lg bg-secondary-fixed text-secondary flex items-center justify-center font-bold">
+                  <Users className="w-5 h-5" />
                 </div>
-                <div>
-                  <p className="text-label-sm text-on-surface-variant font-medium">Total Approved</p>
-                  <p className="text-display-md font-bold text-on-surface mt-1">{totalSellers}</p>
-                </div>
+                <span className="text-on-surface-variant font-label-sm">This Month</span>
+              </div>
+              <div className="mt-4">
+                <p className="text-on-surface-variant font-label-md">Total Approved</p>
+                <h3 className="font-display-md text-primary mt-1">{totalSellers}</h3>
               </div>
             </div>
 
             {/* Card 4 */}
-            <div className="p-[1px] rounded-[1.25rem] bg-gradient-to-b from-outline-variant/30 to-transparent">
-              <div className="rounded-[calc(1.25rem-1px)] bg-surface-container-lowest p-lg border border-outline-variant/10 shadow-xs space-y-md">
-                <div className="flex items-center justify-between">
-                  <div className="w-10 h-10 rounded-xl bg-rose-500/10 text-rose-700 dark:text-rose-300 flex items-center justify-center font-bold">
-                    <AlertTriangle className="w-5 h-5" />
-                  </div>
-                  <span className="inline-flex items-center gap-1 text-[11px] font-bold text-rose-700 bg-rose-500/10 px-2.5 py-0.5 rounded-full">
-                    High Rejection
-                  </span>
+            <div className="bg-surface-container-lowest p-xl rounded-xl shadow-sm border border-outline-variant/30 flex flex-col justify-between">
+              <div className="flex justify-between items-start">
+                <div className="w-10 h-10 rounded-lg bg-error-container text-danger flex items-center justify-center font-bold">
+                  <AlertTriangle className="w-5 h-5" />
                 </div>
-                <div>
-                  <p className="text-label-sm text-on-surface-variant font-medium">Rejected Apps</p>
-                  <p className="text-display-md font-bold text-on-surface mt-1">08</p>
-                </div>
+                <span className="text-danger font-label-sm font-bold">High Rejection</span>
+              </div>
+              <div className="mt-4">
+                <p className="text-on-surface-variant font-label-md">Rejected Apps</p>
+                <h3 className="font-display-md text-primary mt-1">08</h3>
               </div>
             </div>
           </div>
 
-          <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 overflow-hidden">
-            <div className="p-lg border-b border-outline-variant/30 flex items-center justify-between">
-              <h3 className="text-headline-md text-on-surface font-bold">Persetujuan Penjual Tertunda</h3>
-              <Link href="/admin?tab=approvals" className="text-label-md text-primary hover:underline">Lihat Semua</Link>
+          <section className="bg-surface-container-lowest rounded-xl shadow-lg border border-outline-variant/30 overflow-hidden">
+            <div className="p-lg border-b border-outline-variant/30 flex justify-between items-center bg-surface-container-low/30">
+              <h4 className="font-headline-md text-on-surface font-bold">Queue ({pendingSellers.length})</h4>
+              <div className="flex gap-md">
+                <Link href="/admin?tab=approvals" className="flex items-center gap-2 px-4 py-2 border border-outline text-on-surface-variant rounded-lg hover:bg-surface-container transition-all font-label-md">
+                  Filter
+                </Link>
+                <Link href="/admin?tab=approvals" className="flex items-center gap-2 px-4 py-2 border border-outline text-on-surface-variant rounded-lg hover:bg-surface-container transition-all font-label-md">
+                  Export
+                </Link>
+              </div>
             </div>
             {pendingSellers.length === 0 ? (
-              <div className="p-lg text-center text-on-surface-variant text-body-md">Tidak ada yang menunggu persetujuan.</div>
+              <div className="p-lg text-center text-on-surface-variant text-body-md py-xxl">Tidak ada yang menunggu persetujuan.</div>
             ) : (
               <div className="overflow-x-auto">
-                <table className="w-full text-left">
-                  <thead>
-                    <tr className="text-label-sm text-on-surface-variant border-b border-outline-variant/30">
-                      <th className="px-lg py-3 font-medium">Seller Name</th>
-                      <th className="px-lg py-3 font-medium">Business Category</th>
-                      <th className="px-lg py-3 font-medium">Registration Date</th>
-                      <th className="px-lg py-3 font-medium">Status</th>
-                      <th className="px-lg py-3 font-medium text-right">Actions</th>
+                <table className="w-full text-left border-collapse">
+                  <thead className="bg-surface-container-low text-on-surface-variant font-label-md">
+                    <tr>
+                      <th className="px-lg py-4 border-b border-outline-variant">Seller Name</th>
+                      <th className="px-lg py-4 border-b border-outline-variant">Business Category</th>
+                      <th className="px-lg py-4 border-b border-outline-variant">Registration Date</th>
+                      <th className="px-lg py-4 border-b border-outline-variant">Status</th>
+                      <th className="px-lg py-4 border-b border-outline-variant text-right">Actions</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody className="divide-y divide-outline-variant/30">
                     {pendingSellers.slice(0, 5).map((seller) => {
                       const initials = seller.businessName
                         ? seller.businessName.split(" ").map((n) => n[0]).join("").slice(0, 2).toUpperCase()
                         : "UM"
                       return (
-                        <tr key={seller.id} className="border-b border-outline-variant/20 hover:bg-surface-container-low transition-colors">
-                          <td className="px-lg py-3">
+                        <tr key={seller.id} className="hover:bg-surface-container-low/50 transition-colors">
+                          <td className="px-lg py-4">
                             <div className="flex items-center gap-3">
-                              <div className="w-10 h-10 rounded-xl bg-surface-container-high text-on-surface font-bold flex items-center justify-center shrink-0 text-label-md border border-outline-variant/20">
+                              <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary font-bold shrink-0">
                                 {initials}
                               </div>
                               <div>
-                                <p className="text-label-md font-bold text-on-surface leading-snug">{seller.businessName}</p>
-                                <p className="text-label-sm text-on-surface-variant">{seller.user.email}</p>
+                                <p className="font-headline-md text-body-lg text-on-surface font-bold">{seller.businessName}</p>
+                                <p className="text-on-surface-variant text-[12px]">{seller.user.email}</p>
                               </div>
                             </div>
                           </td>
-                          <td className="px-lg py-3 text-label-md text-on-surface">
-                            <span className={`inline-flex px-md py-1 rounded-full text-label-sm font-bold ${seller.type === "UMKM" ? "bg-primary/10 text-primary" : "bg-tertiary/10 text-tertiary"}`}>
-                              {seller.type}
-                            </span>
-                          </td>
-                          <td className="px-lg py-3 text-label-md text-on-surface-variant">
+                          <td className="px-lg py-4 text-on-surface-variant font-label-md">{seller.type}</td>
+                          <td className="px-lg py-4 text-on-surface-variant font-label-md">
                             {seller.createdAt.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
                           </td>
-                          <td className="px-lg py-3">
-                            <span className="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-bold bg-amber-500/10 text-amber-800 border border-amber-500/20">
+                          <td className="px-lg py-4">
+                            <span className="px-3 py-1 rounded-full bg-warning/10 text-warning font-label-sm border border-warning/20">
                               Pending Review
                             </span>
                           </td>
-                          <td className="px-lg py-3 text-right">
+                          <td className="px-lg py-4 text-right">
                             <Link
                               href="/admin?tab=approvals"
-                              className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-on-primary rounded-xl text-label-sm font-bold hover:brightness-110 active:scale-95 transition-all shadow-xs"
+                              className="bg-primary text-on-primary px-4 py-2 rounded-lg font-label-md hover:shadow-md transition-all active:scale-95 inline-block"
                             >
-                              <Eye className="w-3.5 h-3.5" /> Review Documents
+                              Review Documents
                             </Link>
                           </td>
                         </tr>
@@ -190,7 +183,13 @@ async function AdminDashboard({ searchParams }: { searchParams: Promise<{ tab?: 
                 </table>
               </div>
             )}
-          </div>
+            <div className="p-lg border-t border-outline-variant/30 flex justify-between items-center text-on-surface-variant font-label-sm">
+              <span>Showing {Math.min(5, pendingSellers.length)} of {pendingSellers.length} applications</span>
+              <div className="flex gap-xs">
+                <button className="px-3 py-1 bg-primary text-on-primary rounded-lg font-bold">1</button>
+              </div>
+            </div>
+          </section>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-lg">
             <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 p-lg">

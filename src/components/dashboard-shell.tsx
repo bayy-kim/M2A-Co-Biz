@@ -92,23 +92,23 @@ export function DashboardShell({
   return (
     <div className="min-h-screen bg-background flex flex-col lg:flex-row">
       <aside 
-        className="w-64 bg-[#022424] text-white border-r border-white/10 hidden lg:flex flex-col shrink-0"
+        className="w-64 bg-gradient-to-b from-[#12263A] to-[#004343] text-white border-r border-white/10 hidden lg:flex flex-col shrink-0 py-xl shadow-lg z-50"
         aria-label="Navigasi Utama"
       >
-        <div className="p-lg border-b border-white/10">
+        <div className="px-lg mb-xxl">
           <Logo showSubtitle subtitleText={title} />
         </div>
 
         {userName && (
-          <div className="mx-md mt-lg">
-            <div className="p-[1px] rounded-[1rem] bg-gradient-to-b from-white/20 to-transparent">
-              <div className="rounded-[calc(1rem-1px)] bg-white/5 flex items-center gap-3 p-md">
-                <div className="w-9 h-9 bg-accent-gold text-on-primary-fixed font-bold rounded-full flex items-center justify-center shrink-0 shadow-xs text-label-md">
+          <div className="mx-2 mb-md">
+            <div className="p-[1px] rounded-lg bg-gradient-to-b from-white/20 to-transparent">
+              <div className="rounded-[calc(0.5rem-1px)] bg-white/5 flex items-center gap-3 p-md">
+                <div className="w-10 h-10 bg-accent-gold text-on-primary-fixed font-bold rounded-full flex items-center justify-center shrink-0 shadow-xs text-label-md">
                   {userName.slice(0, 2).toUpperCase()}
                 </div>
                 <div className="min-w-0">
                   <p className="text-label-md font-bold text-white truncate">{userName}</p>
-                  <span className="inline-flex px-2 py-0.5 rounded-full text-[10px] font-bold bg-white/15 text-accent-gold uppercase tracking-wider">
+                  <span className="inline-flex px-2 py-0.5 rounded text-[10px] font-bold bg-white/15 text-accent-gold uppercase tracking-wider">
                     {roleLabel}
                   </span>
                 </div>
@@ -117,36 +117,39 @@ export function DashboardShell({
           </div>
         )}
 
-        <nav className="flex-1 p-md space-y-1.5 overflow-y-auto mt-md" aria-label="Navigasi Dashboard">
+        <nav className="flex-1 space-y-1" aria-label="Navigasi Dashboard">
           {sidebarItems.map((item) => {
             const active = isActive(item)
             return (
               <Link
                 key={item.label}
                 href={item.href}
-                className={`flex items-center justify-between px-md py-3 rounded-xl text-label-md transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-accent-gold ${
+                className={`flex items-center gap-3 mx-2 px-4 py-3 rounded-lg font-label-md transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-accent-gold ${
                   active
-                    ? "bg-[#0f5c5c] text-white font-bold shadow-md ring-1 ring-white/20"
-                    : "text-white/70 hover:bg-white/10 hover:text-white"
+                    ? "bg-[#0f5c5c] text-[#90d2d1] font-bold shadow-md"
+                    : "text-white/80 hover:bg-white/10 hover:text-white"
                 }`}
                 aria-current={active ? "page" : undefined}
               >
-                <div className="flex items-center gap-3">
-                  {renderIcon(item.icon)}
-                  {item.label}
-                </div>
+                {renderIcon(item.icon)}
+                <span>{item.label}</span>
+                {item.label.includes("Antrian") && (
+                  <span className="ml-auto bg-accent-gold text-[#002020] text-[10px] px-1.5 py-0.5 rounded-full font-bold">
+                    12
+                  </span>
+                )}
               </Link>
             )
           })}
         </nav>
 
-        <div className="p-lg border-t border-white/10 space-y-2">
+        <div className="mt-auto px-2 space-y-2">
           <Link
             href="/catalog"
-            className="flex items-center gap-3 px-md py-3 rounded-xl text-label-md text-accent-gold font-bold hover:bg-white/5 transition-colors duration-200 outline-none focus-visible:ring-2 focus-visible:ring-accent-gold"
+            className="flex items-center gap-3 text-accent-gold hover:bg-white/10 mx-2 px-4 py-3 transition-all rounded-lg font-label-md font-bold"
           >
             <Store className="w-5 h-5" />
-            Lihat Produk
+            <span>Lihat Produk</span>
           </Link>
           <LogoutButton />
         </div>
