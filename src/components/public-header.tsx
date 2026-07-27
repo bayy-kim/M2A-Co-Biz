@@ -33,7 +33,7 @@ export function PublicHeader({ session, showSearch = false, searchQuery = "" }: 
   const isKatalogActive = pathname.startsWith("/catalog")
 
   return (
-    <header className="fixed top-0 w-full z-50 flex justify-between items-center px-lg h-16 bg-surface/90 backdrop-blur-md border-b border-outline-variant/30 shadow-xs">
+    <header className="fixed top-0 w-full z-50 flex justify-between items-center px-lg h-[var(--header-height)] bg-surface/90 backdrop-blur-md border-b border-outline-variant/30 shadow-xs">
       <div className="flex items-center gap-xl">
         <Logo size="sm" />
         

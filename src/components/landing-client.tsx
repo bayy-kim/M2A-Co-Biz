@@ -49,7 +49,7 @@ export function LandingClient({ session, company, featuredProducts = [] }: Landi
       <PublicHeader session={session} />
 
       <main className="pb-24 lg:pb-0">
-        <section className="relative min-h-[90vh] flex items-center pt-24 pb-16 overflow-hidden">
+        <section className="relative min-h-[90vh] flex items-center pt-[calc(var(--header-height)+2rem)] pb-16 overflow-hidden">
           <div className="container mx-auto px-margin relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-3xl lg:gap-4xl items-center">
             <motion.div
               initial={{ opacity: 0, x: -30 }}
