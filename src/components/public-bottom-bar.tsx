@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Home, ShoppingBag, Bell, User } from "lucide-react"
+import { Home, ShoppingBag, Package, User } from "lucide-react"
 
 interface Props {
   isLoggedIn?: boolean
@@ -10,17 +10,8 @@ interface Props {
   role?: string
 }
 
-export function PublicBottomBar({ isLoggedIn, isSeller, role }: Props) {
+export function PublicBottomBar({ isLoggedIn, role }: Props) {
   const pathname = usePathname()
-
-  const getNotificationHref = () => {
-    if (!isLoggedIn) return "/login"
-    if (role === "ADMIN") return "/admin?tab=approvals"
-    if (role === "BENDAHARA") return "/bendahara?tab=payments"
-    if (role === "KETUA") return "/ketua?tab=activity"
-    if (role === "SELLER") return "/seller?tab=sales"
-    return "/pesanan-saya"
-  }
 
   const getDashboardHref = () => {
     if (!isLoggedIn) return "/login"
@@ -28,7 +19,7 @@ export function PublicBottomBar({ isLoggedIn, isSeller, role }: Props) {
     if (role === "BENDAHARA") return "/bendahara"
     if (role === "KETUA") return "/ketua"
     if (role === "SELLER") return "/seller"
-    return "/pesanan-saya"
+    return "/pesanan-saya?tab=account"
   }
 
   const items = [
@@ -43,10 +34,9 @@ export function PublicBottomBar({ isLoggedIn, isSeller, role }: Props) {
       icon: ShoppingBag,
     },
     {
-      label: "Notifikasi",
-      href: getNotificationHref(),
-      icon: Bell,
-      hasBadge: true,
+      label: "Pesanan",
+      href: isLoggedIn ? "/pesanan-saya" : "/login",
+      icon: Package,
     },
     {
       label: "Saya",
@@ -54,6 +44,21 @@ export function PublicBottomBar({ isLoggedIn, isSeller, role }: Props) {
       icon: User,
     },
   ]
+
+  const isItemActive = (label: string) => {
+    if (label === "Beranda") return pathname === "/"
+    if (label === "Katalog") return pathname.startsWith("/catalog")
+    if (label === "Pesanan") return pathname === "/pesanan-saya" && !pathname.includes("tab=account")
+    if (label === "Saya") {
+      if (!isLoggedIn) return pathname === "/login"
+      if (role === "ADMIN") return pathname.startsWith("/admin")
+      if (role === "BENDAHARA") return pathname.startsWith("/bendahara")
+      if (role === "KETUA") return pathname.startsWith("/ketua")
+      if (role === "SELLER") return pathname.startsWith("/seller")
+      return pathname.startsWith("/pesanan-saya") && pathname.includes("tab=account")
+    }
+    return false
+  }
 
   return (
     <nav
@@ -63,7 +68,7 @@ export function PublicBottomBar({ isLoggedIn, isSeller, role }: Props) {
       <div className="flex items-center justify-around mx-auto max-w-lg overflow-x-auto no-scrollbar">
         {items.map((item) => {
           const Icon = item.icon
-          const active = pathname === item.href || (item.href !== "/" && item.href !== "/catalog" && pathname.startsWith(item.href))
+          const active = isItemActive(item.label)
           return (
             <Link
               key={item.label}
@@ -77,9 +82,6 @@ export function PublicBottomBar({ isLoggedIn, isSeller, role }: Props) {
                 active ? "bg-primary text-white shadow-xs" : "hover:bg-surface-container-high text-on-surface-variant"
               }`}>
                 <Icon className="w-5 h-5" />
-                {item.hasBadge && (
-                  <span className="absolute top-1 right-2.5 w-2.5 h-2.5 rounded-full bg-accent-gold border-2 border-surface animate-pulse" />
-                )}
               </div>
               <span className={`text-[10px] leading-tight text-center max-w-full truncate ${
                 active ? "font-bold text-primary" : "text-on-surface-variant"

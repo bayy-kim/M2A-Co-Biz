@@ -1,11 +1,21 @@
 "use client"
 
-import { TrendingUp, ShieldCheck, Zap, Users, BarChart3, MapPin, Phone, Mail, ArrowRight, ShoppingBag } from "lucide-react"
+import { TrendingUp, ShieldCheck, Zap, Users, BarChart3, MapPin, Phone, Mail, ArrowRight, ShoppingBag, Store } from "lucide-react"
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { AnimateSection, AnimateStagger, AnimateItem, AnimateTap, AnimateFloat, AnimateCard } from "@/components/animate-section"
 import { Logo } from "@/components/logo"
 import { PublicHeader } from "@/components/public-header"
+import { formatRupiah } from "@/lib/utils"
+
+interface FeaturedProduct {
+  id: string
+  title: string
+  priceRupiah: number
+  images: string[]
+  seller: { businessName: string; type: string }
+  category: { name: string } | null
+}
 
 interface LandingClientProps {
   session: {
@@ -18,6 +28,7 @@ interface LandingClientProps {
     bankAccountName?: string | null
     bankName?: string | null
   } | null
+  featuredProducts?: FeaturedProduct[]
 }
 
 export function LandingClient({ session, company }: LandingClientProps) {
@@ -110,12 +121,63 @@ export function LandingClient({ session, company }: LandingClientProps) {
         <AnimateSection>
           <section className="py-4xl bg-surface-container-low" id="products">
             <div className="container mx-auto px-margin">
-              <div className="text-center max-w-3xl mx-auto mb-4xl">
+              <div className="text-center max-w-3xl mx-auto mb-3xl">
                 <h2 className="text-display-md text-primary mb-md">Produk Unggulan Kami</h2>
                 <p className="text-body-md text-on-surface-variant">
                   Koleksi pilihan dari para pelaku UMKM binaan Al-Mubarok II, mulai dari kerajinan tangan hingga kuliner khas daerah.
                 </p>
               </div>
+
+              {featuredProducts && featuredProducts.length > 0 && (
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-md md:gap-lg mb-3xl">
+                  {featuredProducts.map((product) => (
+                    <div key={product.id} className="p-[1px] rounded-[1.25rem] bg-gradient-to-b from-outline-variant/30 to-transparent hover:shadow-lg transition-all duration-300">
+                      <div className="rounded-[calc(1.25rem-1px)] bg-surface-container-lowest border border-outline-variant/10 overflow-hidden flex flex-col h-full group">
+                        <div className="relative h-36 sm:h-44 bg-surface-container-high overflow-hidden flex items-center justify-center">
+                          {product.images && product.images.length > 0 ? (
+                            <img
+                              src={product.images[0]}
+                              alt={product.title}
+                              width={300}
+                              height={300}
+                              loading="lazy"
+                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            />
+                          ) : (
+                            <ShoppingBag className="w-10 h-10 text-outline-variant" />
+                          )}
+                          {product.category && (
+                            <span className="absolute top-2 left-2 bg-primary/90 text-on-primary text-[10px] font-bold px-2 py-0.5 rounded-full backdrop-blur-xs">
+                              {product.category.name}
+                            </span>
+                          )}
+                        </div>
+                        <div className="p-3 sm:p-4 flex flex-col flex-1 justify-between gap-2">
+                          <div>
+                            <p className="text-label-xs text-on-surface-variant flex items-center gap-1">
+                              <Store className="w-3 h-3 text-primary shrink-0" />
+                              <span className="truncate">{product.seller.businessName}</span>
+                            </p>
+                            <h4 className="text-label-md font-bold text-on-surface line-clamp-2 mt-1 group-hover:text-primary transition-colors">
+                              {product.title}
+                            </h4>
+                          </div>
+                          <div className="flex items-center justify-between pt-2 border-t border-outline-variant/10">
+                            <span className="text-label-md font-bold text-primary">{formatRupiah(product.priceRupiah)}</span>
+                            <Link
+                              href={`/catalog/${product.id}`}
+                              className="px-2.5 py-1 bg-primary/10 text-primary hover:bg-primary hover:text-white rounded-lg text-label-xs font-bold transition-all"
+                            >
+                              Detail
+                            </Link>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
               <div className="text-center">
                 <Link
                   href="/catalog"

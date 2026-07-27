@@ -55,6 +55,9 @@ export function DashboardShell({
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   const isActive = (item: SidebarItem) => {
+    if (item.label === "Notifikasi") {
+      return tab === "approvals" || tab === "payments" || tab === "activity" || tab === "sales"
+    }
     if (item.href === `/${roleLabel}`) {
       return tab === "overview" || tab === ""
     }
@@ -199,13 +202,13 @@ export function DashboardShell({
       </div>
 
       {isMobileMenuOpen && (
-        <div className="fixed inset-0 z-50 lg:hidden" role="dialog" aria-modal="true">
+        <div className="fixed inset-0 z-[70] lg:hidden" role="dialog" aria-modal="true">
           <div 
-            className="fixed inset-0 bg-black/40 backdrop-blur-xs transition-opacity" 
+            className="fixed inset-0 bg-black/50 backdrop-blur-xs transition-opacity" 
             onClick={() => setIsMobileMenuOpen(false)}
           />
           
-          <aside className="fixed inset-y-0 left-0 w-72 bg-surface-container-low flex flex-col shadow-2xl z-50 animate-slide-in">
+          <aside className="fixed inset-y-0 left-0 w-72 bg-[#022424] text-white flex flex-col shadow-2xl z-[75] animate-slide-in pb-[calc(5rem+env(safe-area-inset-bottom))]">
             <div className="p-lg border-b border-outline-variant/30 flex items-center justify-between">
               <Logo size="sm" showSubtitle subtitleText={displayRole} />
               <button
@@ -219,13 +222,13 @@ export function DashboardShell({
             </div>
 
             {userName && (
-              <div className="p-lg border-b border-outline-variant/30 flex items-center gap-3 bg-surface-container-high/50">
-                <div className="w-10 h-10 bg-primary-container text-on-primary-container rounded-full flex items-center justify-center shrink-0">
-                  <User className="w-5 h-5" />
+              <div className="p-lg border-b border-white/10 flex items-center gap-3 bg-white/5">
+                <div className="w-10 h-10 bg-accent-gold text-on-primary-fixed font-bold rounded-full flex items-center justify-center shrink-0 shadow-xs text-label-md">
+                  {userName.slice(0, 2).toUpperCase()}
                 </div>
                 <div className="min-w-0">
-                  <p className="text-label-md font-bold text-on-surface truncate">{userName}</p>
-                  <span className="inline-flex px-2 py-0.5 rounded-full text-[10px] font-bold bg-primary/10 text-primary capitalize">
+                  <p className="text-label-md font-bold text-white truncate">{userName}</p>
+                  <span className="inline-flex px-2 py-0.5 rounded text-[10px] font-bold bg-white/15 text-accent-gold uppercase tracking-wider">
                     {displayRole}
                   </span>
                 </div>
@@ -240,10 +243,10 @@ export function DashboardShell({
                     key={item.label}
                     href={item.href}
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className={`flex items-center gap-4 px-lg py-3.5 rounded-2xl text-label-md transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-primary ${
+                    className={`flex items-center gap-4 px-lg py-3.5 rounded-2xl text-label-md transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-accent-gold ${
                       active
-                        ? "bg-primary-container text-on-primary-container font-bold shadow-sm"
-                        : "text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface"
+                        ? "bg-[#0f5c5c] text-white font-bold shadow-md"
+                        : "text-white/80 hover:bg-white/10 hover:text-white"
                     }`}
                     aria-current={active ? "page" : undefined}
                   >
@@ -254,11 +257,11 @@ export function DashboardShell({
               })}
             </nav>
 
-            <div className="p-lg border-t border-outline-variant/30 space-y-3 bg-surface-container-high/20">
+            <div className="p-lg border-t border-white/10 space-y-3 bg-black/20">
               <Link
                 href="/catalog"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="flex items-center gap-4 px-lg py-3.5 rounded-2xl text-label-md text-primary font-bold hover:bg-primary/5 transition-colors outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                className="flex items-center gap-4 px-lg py-3.5 rounded-2xl text-label-md text-accent-gold font-bold hover:bg-white/10 transition-colors outline-none focus-visible:ring-2 focus-visible:ring-accent-gold"
               >
                 <Store className="w-5 h-5" />
                 Lihat Produk
