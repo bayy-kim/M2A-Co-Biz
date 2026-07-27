@@ -31,7 +31,7 @@ interface LandingClientProps {
   featuredProducts?: FeaturedProduct[]
 }
 
-export function LandingClient({ session, company }: LandingClientProps) {
+export function LandingClient({ session, company, featuredProducts = [] }: LandingClientProps) {
   const whatsappNumber = company?.whatsappNumber
   const getDashboardHref = () => {
     if (!session?.user?.role) return "/login"
