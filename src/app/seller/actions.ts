@@ -1,12 +1,14 @@
 "use server"
 
+import "server-only"
 import { revalidatePath } from "next/cache"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/db"
 import type { ProductStatus, FulfillmentStatus } from "@prisma/client"
 import { z } from "zod"
-import { put } from "@vercel/blob"
+import { put, del } from "@vercel/blob"
 import sharp from "sharp"
+import filterXSS from "xss"
 
 const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp"]
 const MAX_FILE_SIZE = 5 * 1024 * 1024
@@ -84,27 +86,40 @@ export async function createProduct(prevState: ProductState, formData: FormData)
 
     const initialStock = result.data.stock
 
-    await prisma.product.create({
-      data: {
-        sellerId: seller.id,
-        title: result.data.title,
-        description: result.data.description,
-        priceRupiah: result.data.priceRupiah,
-        categoryId: result.data.categoryId || undefined,
-        images: imageUrls,
-        variants: {
-          create: variantArray.map((v) => ({
-            name: v,
-            stock: initialStock,
-          })),
+    try {
+      await prisma.product.create({
+        data: {
+          sellerId: seller.id,
+          title: filterXSS(result.data.title),
+          description: filterXSS(result.data.description),
+          priceRupiah: result.data.priceRupiah,
+          categoryId: result.data.categoryId || undefined,
+          images: imageUrls,
+          variants: {
+            create: variantArray.map((v) => ({
+              name: filterXSS(v),
+              stock: initialStock,
+            })),
+          },
         },
-      },
-    })
+      })
+    } catch (dbError) {
+      // Cleanup uploaded images from Vercel Blob on DB failure to prevent orphaned storage waste
+      for (const url of imageUrls) {
+        try {
+          await del(url)
+        } catch (cleanupError) {
+          console.error("Failed to cleanup orphaned blob:", url, cleanupError)
+        }
+      }
+      throw dbError
+    }
 
     revalidatePath("/seller")
     return { success: true }
   } catch (e) {
-    return { error: e instanceof Error ? e.message : "Gagal membuat produk" }
+    console.error("createProduct Error:", e)
+    return { error: "Gagal menyimpan produk. Silakan coba kembali." } // Safe error message hiding DB stack traces
   }
 }
 

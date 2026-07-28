@@ -1,5 +1,6 @@
 "use server"
 
+import "server-only"
 import { z } from "zod"
 import { prisma } from "@/lib/db"
 import { auth } from "@/lib/auth"
@@ -7,6 +8,7 @@ import { checkRateLimit } from "@/lib/rate-limit"
 import { put, del } from "@vercel/blob"
 import { encrypt } from "@/lib/encryption"
 import type { SellerType, DocumentType } from "@prisma/client"
+import filterXSS from "xss"
 
 const ACCEPTED_FILE_TYPES = ["image/jpeg", "image/png", "application/pdf"]
 const MAX_FILE_SIZE = 5 * 1024 * 1024
@@ -54,7 +56,7 @@ async function uploadAndEncrypt(file: File, prefix: string): Promise<{ encrypted
 
   const uniqueName = `docs-${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}.enc`
   const blob = await put(uniqueName, encrypted, {
-    access: "public",
+    access: "private", // Set to private access since upgraded @vercel/blob supports it now
     contentType: "text/plain",
     addRandomSuffix: false,
   })
@@ -86,7 +88,7 @@ export async function completeBuyerProfile(prevState: ProfileUpdateState, formDa
     await prisma.user.update({
       where: { id: session.user.id },
       data: {
-        name: result.data.fullName,
+        name: filterXSS(result.data.fullName),
         phone: result.data.phone,
         role: isStaff ? undefined : "BUYER", // Staff keep their current role
       },
@@ -184,14 +186,14 @@ export async function completeSellerProfile(prevState: ProfileUpdateState, formD
         where: { id: session.user.id },
         data: {
           role: "SELLER",
-          name: result.data.fullName,
+          name: filterXSS(result.data.fullName),
           phone: result.data.phone,
         },
       })
       await tx.sellerProfile.create({
         data: {
           userId: session.user.id!,
-          businessName: result.data.businessName,
+          businessName: filterXSS(result.data.businessName),
           type: result.data.businessType as SellerType,
           status: "PENDING",
           documents: {
