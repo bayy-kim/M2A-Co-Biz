@@ -39,15 +39,54 @@ async function CatalogPage({ searchParams }: { searchParams: Promise<{ q?: strin
     sortParam === "price_desc" ? { priceRupiah: "desc" } :
     { createdAt: "desc" }
 
-  const [total, products, company] = await Promise.all([
-    prisma.product.count({ where }),
-    prisma.product.findMany({
-      where,
-      include: { seller: { select: { businessName: true } } },
-      orderBy,
-      skip: (currentPage - 1) * ITEMS_PER_PAGE,
-      take: ITEMS_PER_PAGE,
-    }),
+  // Perform standard query
+  let products = await prisma.product.findMany({
+    where,
+    include: { seller: { select: { businessName: true } } },
+    orderBy,
+    skip: (currentPage - 1) * ITEMS_PER_PAGE,
+    take: ITEMS_PER_PAGE,
+  })
+
+  let total = await prisma.product.count({ where })
+  let isFuzzyResult = false
+
+  // Fallback to fuzzy pg_trgm similarity search if standard search returns no results
+  if (products.length === 0 && query.trim().length > 0) {
+    try {
+      // Find similar active products using raw SQL trigram similarity threshold (0.2)
+      const fuzzyProducts = await prisma.$queryRaw<any[]>`
+        SELECT p.*, s."businessName" as "sellerName"
+        FROM "Product" p
+        JOIN "SellerProfile" s ON p."sellerId" = s.id
+        WHERE p.status = 'ACTIVE'
+        AND similarity(p.title, ${query}) > 0.2
+        ORDER BY similarity(p.title, ${query}) DESC
+        LIMIT ${ITEMS_PER_PAGE};
+      `
+
+      if (fuzzyProducts.length > 0) {
+        products = fuzzyProducts.map((p) => ({
+          id: p.id,
+          sellerId: p.sellerId,
+          categoryId: p.categoryId,
+          title: p.title,
+          description: p.description,
+          priceRupiah: p.priceRupiah,
+          images: p.images,
+          status: p.status,
+          createdAt: p.createdAt,
+          seller: { businessName: p.sellerName },
+        }))
+        total = fuzzyProducts.length
+        isFuzzyResult = true
+      }
+    } catch (e) {
+      console.error("Fuzzy search error:", e)
+    }
+  }
+
+  const [company] = await Promise.all([
     prisma.companyProfile.findFirst(),
   ])
 
@@ -90,8 +129,9 @@ async function CatalogPage({ searchParams }: { searchParams: Promise<{ q?: strin
         <div className="md:hidden mb-lg">
           <h2 className="text-headline-lg text-primary mb-sm">Katalog</h2>
           <form action="/catalog" method="GET" className="relative items-center flex">
+            <label htmlFor="mobileSearchInput" className="sr-only">Cari produk dan jasa</label>
             <Search className="absolute left-3 w-5 h-5 text-primary" />
-            <input className="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl pl-10 pr-4 py-3 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all text-body-md" defaultValue={query} name="search" placeholder="Cari produk..." type="text" />
+            <input id="mobileSearchInput" className="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl pl-10 pr-4 py-3 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all text-body-md" defaultValue={query} name="search" placeholder="Cari produk..." type="text" />
           </form>
         </div>
 
@@ -130,6 +170,13 @@ async function CatalogPage({ searchParams }: { searchParams: Promise<{ q?: strin
 
           <div className="border-b border-outline-variant/20" />
         </section>
+
+        {isFuzzyResult && (
+          <div className="mb-lg p-lg bg-primary/5 border border-primary/20 rounded-2xl text-body-md text-primary flex items-center gap-2">
+            <Sparkles className="w-5 h-5 text-accent-gold shrink-0" />
+            <span>Pencarian tepat tidak ditemukan. Menampilkan hasil kemiripan ejaan untuk <strong>&quot;{query}&quot;</strong>:</span>
+          </div>
+        )}
 
         {products.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-xxl text-center">

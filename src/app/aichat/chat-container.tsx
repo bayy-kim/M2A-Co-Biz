@@ -27,12 +27,12 @@ export function ChatContainer() {
       text: "Apa saja barang atau jasa yang paling laris/populer di katalog M2A Co-Biz saat ini? Tolong sebutkan juga nama tokonya.",
     },
     {
-      label: "🏪 Daftar Jadi Penjual",
-      text: "Bagaimana cara mendaftar sebagai penjual (Seller) di platform M2A Co-Biz dan apa saja berkas yang harus saya siapkan?",
+      label: "💡 Konsultasi Ide Bisnis & UMKM",
+      text: "Saya ingin memulai usaha kecil/UMKM di daerah Banjarwaringin tetapi bingung jualan apa. Bisa berikan beberapa rekomendasi ide bisnis yang cocok dan cara memasarkannya?",
     },
     {
-      label: "💰 Aturan Potongan Komisi",
-      text: "Bagaimana sistem perhitungan potongan komisi bagi UMKM dan Jasa di Al-Mubarok II?",
+      label: "🏪 Cara Daftar Jadi Penjual",
+      text: "Bagaimana cara mendaftar sebagai penjual (Seller) di platform M2A Co-Biz dan apa saja berkas yang harus saya siapkan?",
     },
   ]
 
@@ -142,16 +142,39 @@ export function ChatContainer() {
                 </div>
               )}
 
-              {/* Error fallback */}
+              {/* Error fallback & Graceful Downgrade to WhatsApp/Email */}
               {error && (
-                <div className="p-lg bg-rose-500/10 border border-rose-500/20 text-rose-700 rounded-2xl text-body-md flex items-center justify-between gap-md">
-                  <span>Gagal mengirim pesan. Pastikan sambungan internet dan API Key sudah terpasang.</span>
-                  <button
-                    onClick={() => reload()}
-                    className="p-2 bg-rose-500/20 rounded-lg hover:bg-rose-500/30 transition-colors"
-                  >
-                    <RefreshCw className="w-4 h-4" />
-                  </button>
+                <div className="p-xl bg-surface-container-lowest border border-rose-500/30 rounded-2xl shadow-lg space-y-lg animate-slide-in">
+                  <div className="flex items-start gap-md">
+                    <div className="p-3 bg-rose-500/10 rounded-xl text-rose-600 shrink-0">
+                      <HelpCircle className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <h4 className="text-headline-md text-primary font-bold">Kapasitas Asisten AI Penuh</h4>
+                      <p className="text-body-md text-on-surface-variant mt-1">
+                        Mohon maaf, saat ini asisten AI kami sedang melayani kapasitas maksimal. Jangan khawatir, Anda dapat melanjutkan konsultasi langsung bersama tim kami.
+                      </p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex flex-col sm:flex-row gap-md pt-2">
+                    <a
+                      href="https://wa.me/6285217126862?text=Halo%20Admin%20M2A%20Co-Biz,%20saya%20ingin%20berkonsultasi%20mengenai%20layanan%20usaha%20atau%20pembelian."
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-1 py-3 px-lg bg-emerald-600 text-white rounded-xl text-label-md font-bold shadow-md hover:bg-emerald-700 active:scale-95 transition-all flex items-center justify-center gap-2 min-h-[44px]"
+                    >
+                      <Bot className="w-5 h-5" />
+                      Lanjut via WhatsApp
+                    </a>
+                    
+                    <a
+                      href="mailto:muhamadaibayu@gmail.com?subject=Konsultasi%20Bisnis%20M2A%20Co-Biz"
+                      className="flex-1 py-3 px-lg bg-surface-container border border-outline-variant/30 text-on-surface-variant rounded-xl text-label-md font-bold hover:bg-surface-container-high active:scale-95 transition-all flex items-center justify-center gap-2 min-h-[44px]"
+                    >
+                      Hubungi via Email
+                    </a>
+                  </div>
                 </div>
               )}
             </div>
