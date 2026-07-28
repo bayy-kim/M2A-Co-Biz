@@ -2,6 +2,7 @@ import { NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/db"
 import { decrypt } from "@/lib/encryption"
+import { getDownloadUrl } from "@vercel/blob"
 
 export async function GET(
   _request: Request,
@@ -30,7 +31,10 @@ export async function GET(
   })
 
   try {
-    const resp = await fetch(doc.encryptedBlobUrl)
+    // Generate signed URL for the private blob (returns string directly)
+    const signedUrl = await getDownloadUrl(doc.encryptedBlobUrl)
+
+    const resp = await fetch(signedUrl)
     if (!resp.ok) return new NextResponse("Failed to fetch document", { status: 500 })
 
     const encryptedText = await resp.text()

@@ -8,19 +8,24 @@ function getRedis() {
   return new Redis({ url, token })
 }
 
-const ipRateLimitStore = new Map<string, { count: number; resetAt: number }>()
-const IP_WINDOW_MS = 60_000
-const IP_MAX_REQUESTS = 20
-
 export async function checkIpRateLimit(ip: string): Promise<boolean> {
-  const now = Date.now()
-  const entry = ipRateLimitStore.get(ip)
-  if (!entry || now > entry.resetAt) {
-    ipRateLimitStore.set(ip, { count: 1, resetAt: now + IP_WINDOW_MS })
+  const redis = getRedis()
+  if (!redis) {
+    console.warn("[rate-limit] Redis not configured for IP rate limiting — allowing request")
     return true
   }
-  entry.count++
-  if (entry.count > IP_MAX_REQUESTS) return false
+
+  const key = `ip:${ip}`
+  const now = Date.now()
+  const windowMs = 60_000
+  const maxRequests = 20
+
+  const count = await redis.incr(key)
+  if (count === 1) {
+    await redis.expire(key, Math.ceil(windowMs / 1000))
+  }
+
+  if (count > maxRequests) return false
   return true
 }
 

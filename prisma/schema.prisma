@@ -172,6 +172,10 @@ model Product {
   createdAt   DateTime @default(now())
   reviews     Review[]
   variants    ProductVariant[]
+
+  @@index([status])
+  @@index([sellerId])
+  @@index([categoryId])
 }
 
 model CommissionRule {
@@ -198,6 +202,11 @@ model Order {
   items             OrderItem[]
   createdAt         DateTime          @default(now())
   reviews           Review[]
+
+  @@index([buyerId])
+  @@index([paymentStatus])
+  @@index([createdAt])
+  @@index([paymentMethod])
 }
 
 model ProductVariant {
@@ -234,6 +243,10 @@ model OrderItem {
   commissionPercent Decimal @db.Decimal(5,2)
   commissionRupiah  Int
   sellerNetRupiah   Int
+
+  @@index([sellerId])
+  @@index([orderId])
+  @@index([productId])
 }
 
 model Payout {
