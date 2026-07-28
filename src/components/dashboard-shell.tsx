@@ -120,6 +120,12 @@ export function DashboardShell({
                   <span className="inline-flex px-2 py-0.5 rounded text-[10px] font-bold bg-white/15 text-accent-gold uppercase tracking-wider">
                     {roleLabel}
                   </span>
+                  <Link
+                    href="/lengkapi-profil"
+                    className="block text-[10px] text-white/60 hover:text-accent-gold transition-colors mt-0.5"
+                  >
+                    Edit Profil
+                  </Link>
                 </div>
               </div>
             </div>

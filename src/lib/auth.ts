@@ -142,9 +142,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           
           if (dbUser.role === "SELLER") {
             token.isProfileComplete = !!(dbUser.phone && dbUser.sellerProfile)
-          } else {
-            // For BUYER, ADMIN, KETUA, BENDAHARA
+          } else if (dbUser.role === "BUYER") {
             token.isProfileComplete = !!dbUser.phone
+          } else {
+            // ADMIN, BENDAHARA, KETUA — always can access dashboard, phone is optional
+            token.isProfileComplete = true
           }
         }
       }

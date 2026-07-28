@@ -13,9 +13,10 @@ export function ProfileForm({ user, defaultRole }: { user: any; defaultRole: "bu
   const { update } = useSession()
   const callbackUrl = searchParams.get("callbackUrl")
 
+  const isStaff = user.role === "ADMIN" || user.role === "BENDAHARA" || user.role === "KETUA"
   const [role, setRole] = useState<"buyer" | "seller">(defaultRole)
   const [step, setStep] = useState(1)
-  const totalSteps = role === "seller" ? 3 : 1
+  const totalSteps = role === "seller" && !isStaff ? 3 : 1
   const formRef = useRef<HTMLFormElement>(null)
 
   const [fullName, setFullName] = useState(user.name || "")
@@ -25,7 +26,7 @@ export function ProfileForm({ user, defaultRole }: { user: any; defaultRole: "bu
 
   const [files, setFiles] = useState<Record<string, { name: string } | null>>({})
   const [state, formAction, pending] = useActionState<ProfileUpdateState, FormData>(
-    role === "seller" ? completeSellerProfile : completeBuyerProfile,
+    role === "seller" && !isStaff ? completeSellerProfile : completeBuyerProfile,
     {},
   )
 
@@ -55,6 +56,12 @@ export function ProfileForm({ user, defaultRole }: { user: any; defaultRole: "bu
     // Use the callback URL if available, otherwise use default role-based routing
     if (callbackUrl && callbackUrl !== "/login" && callbackUrl !== "/register") {
       router.push(callbackUrl)
+    } else if (isStaff) {
+      // Staff redirect to their own dashboard
+      if (user.role === "ADMIN") router.push("/admin")
+      else if (user.role === "BENDAHARA") router.push("/bendahara")
+      else if (user.role === "KETUA") router.push("/ketua")
+      else router.push("/")
     } else {
       router.push(role === "seller" ? "/seller" : "/catalog")
     }

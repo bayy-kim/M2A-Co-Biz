@@ -37,8 +37,13 @@ export default auth((req: any) => {
     }
   }
 
-  // Profile completion enforcement
+  // Profile completion enforcement (skip for staff roles — ADMIN, BENDAHARA, KETUA)
   if (session?.user && !session.user.isProfileComplete && !pathname.startsWith("/lengkapi-profil") && !pathname.startsWith("/api/auth")) {
+    // Staff roles bypass — they can access their dashboard without completing profile
+    if (session.user.role === "ADMIN" || session.user.role === "BENDAHARA" || session.user.role === "KETUA") {
+      return NextResponse.next()
+    }
+
     // Force user to complete their profile before accessing dashboard or protected routes
     const isProtectedRoute = needsAuth || (matchedRoute && matchedRoute[1].length > 0)
     if (isProtectedRoute) {

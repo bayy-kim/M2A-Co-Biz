@@ -14,11 +14,10 @@ export default async function LengkapiProfilPage({
   // If not logged in at all, redirect to login
   if (!session?.user) redirect("/login")
   
-  // If user profile is already complete, redirect away
+  // If user profile is already complete, redirect away (except for staff who can still edit)
   // @ts-expect-error custom session prop
-  if (session.user.isProfileComplete) {
+  if (session.user.isProfileComplete && session.user.role !== "ADMIN" && session.user.role !== "BENDAHARA" && session.user.role !== "KETUA") {
     if (session.user.role === "SELLER") redirect("/seller")
-    if (session.user.role === "ADMIN") redirect("/admin")
     redirect("/catalog")
   }
 

@@ -66,10 +66,7 @@ export async function completeBuyerProfile(prevState: ProfileUpdateState, formDa
   const session = await auth()
   if (!session?.user) return { message: "Unauthorized" }
 
-  // Prevent Privilege Downgrade Vulnerability
-  if (session.user.role === "ADMIN" || session.user.role === "BENDAHARA" || session.user.role === "KETUA") {
-    return { message: "Akun Anda tidak dapat diubah menjadi Pembeli." }
-  }
+  const isStaff = session.user.role === "ADMIN" || session.user.role === "BENDAHARA" || session.user.role === "KETUA"
 
   const raw = {
     fullName: formData.get("fullName") as string,
@@ -91,7 +88,7 @@ export async function completeBuyerProfile(prevState: ProfileUpdateState, formDa
       data: {
         name: result.data.fullName,
         phone: result.data.phone,
-        role: "BUYER",
+        role: isStaff ? undefined : "BUYER", // Staff keep their current role
       },
     })
     return { success: true, message: "Profil berhasil diperbarui!" }
