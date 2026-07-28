@@ -11,9 +11,10 @@ const roleRoutes: Record<string, string[]> = {
   "/login": [],
   "/register": [],
   "/lengkapi-profil": [],
+  "/aichat": [],
 }
 
-const authRequiredPrefixes = ["/checkout"]
+const authRequiredPrefixes = ["/checkout", "/aichat"]
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default auth((req: any) => {

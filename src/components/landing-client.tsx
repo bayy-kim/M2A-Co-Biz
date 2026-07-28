@@ -332,8 +332,8 @@ export function LandingClient({ session, company, featuredProducts = [] }: Landi
                       </span>
                     </Link>
 
-                    <Link
-                      href={whatsappNumber ? `https://wa.me/${whatsappNumber.replace(/\D/g, "")}` : "/catalog"}
+                     <Link
+                      href={whatsappNumber ? `https://wa.me/${whatsappNumber.replace(/\D/g, "")}` : "/aichat"}
                       className="w-full sm:w-auto px-xxl py-3.5 sm:py-4 bg-white/10 backdrop-blur-md border border-white/20 text-white font-bold rounded-xl hover:bg-white/20 active:scale-[0.98] transition-all duration-300 text-center"
                     >
                       Konsultasi Bisnis
