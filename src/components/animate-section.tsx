@@ -71,10 +71,12 @@ export function AnimateItem({ children, className }: { children: React.ReactNode
 
 // Interactive Touch/Click Feedback (Scale Tap for Mobile & Desktop)
 export function AnimateTap({ children, className, onClick }: { children: React.ReactNode; className?: string; onClick?: () => void }) {
+  const shouldReduceMotion = useReducedMotion()
+
   return (
     <motion.div
       className={className}
-      whileTap={{ scale: 0.95 }}
+      whileTap={shouldReduceMotion ? undefined : { scale: 0.95 }}
       transition={{ type: "spring", stiffness: 400, damping: 25 }}
       onClick={onClick}
     >

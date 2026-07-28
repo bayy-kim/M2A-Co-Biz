@@ -96,6 +96,12 @@ export function NewProductForm({
         <input className="rounded-lg border-outline-variant focus:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all text-body-md" id="variants" name="variants" placeholder="Contoh: Merah, Biru, Hijau atau S, M, L" type="text" />
       </div>
       <div className="flex flex-col gap-xs">
+        <label className="text-label-md text-on-surface" htmlFor="stock">
+          Stok Awal <span className="text-on-surface-variant font-normal text-label-sm">(Default: 10)</span>
+        </label>
+        <input className="rounded-lg border-outline-variant focus:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all text-body-md" id="stock" name="stock" defaultValue="10" type="number" min="0" />
+      </div>
+      <div className="flex flex-col gap-xs">
         <label className="text-label-md text-on-surface" htmlFor="categoryId">Kategori</label>
         <div className="flex gap-2">
           <select className="flex-1 rounded-lg border-outline-variant focus:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" id="categoryId" name="categoryId">
@@ -112,13 +118,20 @@ export function NewProductForm({
       {showPropose && (
         <div className="md:col-span-2 bg-surface-container-low rounded-xl p-lg border border-outline-variant/30">
           <p className="text-label-md font-bold text-on-surface mb-md">Usulkan Kategori Baru</p>
-          <form action={proposeAction} onSubmit={(e) => { e.stopPropagation(); proposeAction(new FormData(e.currentTarget)) }} className="flex gap-2">
-            <input className="flex-1 rounded-lg border-outline-variant focus:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" name="categoryName" placeholder="Nama kategori..." required />
-            <button className="px-xl py-md bg-primary text-on-primary rounded-lg text-label-md hover:bg-primary-container transition-colors disabled:opacity-50 flex items-center gap-2" disabled={proposePending} type="submit">
+          <div className="flex gap-2">
+            <input className="flex-1 rounded-lg border-outline-variant focus:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" id="categoryNameInput" name="categoryName" placeholder="Nama kategori..." required />
+            <button type="button" className="px-xl py-md bg-primary text-on-primary rounded-lg text-label-md hover:bg-primary-container transition-colors disabled:opacity-50 flex items-center gap-2" disabled={proposePending} onClick={async () => {
+              const input = document.getElementById("categoryNameInput") as HTMLInputElement
+              if (!input.value.trim()) return
+              const fd = new FormData()
+              fd.set("categoryName", input.value)
+              await proposeAction(fd)
+              input.value = ""
+            }}>
               {proposePending ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
               Kirim
             </button>
-          </form>
+          </div>
           {proposeState && 'error' in proposeState && <p className="mt-md text-label-sm text-error">{proposeState.error}</p>}
           {proposeState && 'success' in proposeState && proposeState.success === true && (
             <p className="mt-md text-label-sm text-success">Kategori diusulkan! Admin akan meninjaunya.</p>

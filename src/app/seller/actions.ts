@@ -16,6 +16,7 @@ const productSchema = z.object({
   priceRupiah: z.coerce.number().int().positive("Harga harus lebih dari 0"),
   categoryId: z.string().optional().nullable(),
   variants: z.string().optional().nullable(),
+  stock: z.coerce.number().int().min(0).default(10),
 })
 
 type ProductState = { error?: string | Record<string, string[]>; success?: boolean } | null
@@ -47,6 +48,7 @@ export async function createProduct(prevState: ProductState, formData: FormData)
       priceRupiah: formData.get("priceRupiah") as string,
       categoryId: formData.get("categoryId") as string || null,
       variants: formData.get("variants") as string || null,
+      stock: formData.get("stock") as string || "10",
     }
 
     const result = productSchema.safeParse(raw)
@@ -68,6 +70,8 @@ export async function createProduct(prevState: ProductState, formData: FormData)
       ? result.data.variants.split(",").map((v) => v.trim()).filter(Boolean)
       : []
 
+    const initialStock = result.data.stock
+
     await prisma.product.create({
       data: {
         sellerId: seller.id,
@@ -79,7 +83,7 @@ export async function createProduct(prevState: ProductState, formData: FormData)
         variants: {
           create: variantArray.map((v) => ({
             name: v,
-            stock: 10, // Default stock of 10 for newly added variants
+            stock: initialStock,
           })),
         },
       },

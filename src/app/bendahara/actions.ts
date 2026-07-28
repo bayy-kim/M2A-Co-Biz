@@ -84,6 +84,11 @@ export async function confirmPayment(orderId: string): Promise<ConfirmState> {
     })
     if (!order || order.paymentStatus !== "PENDING") return { error: "Pesanan tidak valid" }
 
+    // Check if payment proof exists for TRANSFER payments
+    if (order.paymentMethod === "TRANSFER" && !order.paymentProofUrl) {
+      return { error: "Pembeli belum mengunggah bukti transfer. Konfirmasi ditolak." }
+    }
+
     await prisma.$transaction([
       prisma.order.update({
         where: { id: orderId },
