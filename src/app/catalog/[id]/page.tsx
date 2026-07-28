@@ -76,16 +76,16 @@ async function ProductDetailPage({ params }: { params: Promise<{ id: string }> }
               )}
             </div>
             
-            {/* Gallery thumbnails fallback (jika ada lebih dari 1 gambar) */}
+            {/* Gallery collection display */}
             {product.images.length > 1 && (
-              <div className="flex gap-sm overflow-x-auto pb-1 no-scrollbar">
+              <div className="grid grid-cols-5 gap-sm">
                 {product.images.map((img, idx) => (
-                  <button 
+                  <div 
                     key={idx}
-                    className={`w-20 h-20 rounded-xl overflow-hidden border-2 shrink-0 ${idx === 0 ? "border-primary" : "border-outline-variant/30"}`}
+                    className={`rounded-xl overflow-hidden border-2 ${idx === 0 ? "border-primary" : "border-outline-variant/30"} aspect-square bg-surface-container-high`}
                   >
-                    <img src={img} alt={`${product.title} preview ${idx + 1}`} className="w-full h-full object-cover" />
-                  </button>
+                    <img src={img} alt={`${product.title} foto ${idx + 1}`} className="w-full h-full object-cover" />
+                  </div>
                 ))}
               </div>
             )}

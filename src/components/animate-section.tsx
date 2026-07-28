@@ -108,6 +108,10 @@ export function AnimateFloat({ children, className }: { children: React.ReactNod
 
 // Hover Glow Card for Desktop
 export function AnimateCard({ children, className }: { children: React.ReactNode; className?: string }) {
+  const shouldReduceMotion = useReducedMotion()
+
+  if (shouldReduceMotion) return <div className={className}>{children}</div>
+
   return (
     <motion.div
       className={className}
