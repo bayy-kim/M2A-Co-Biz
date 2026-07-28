@@ -2,7 +2,7 @@ import { redirect } from "next/navigation"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/db"
 import { formatRupiah } from "@/lib/utils"
-import { TrendingUp, TrendingDown, Wallet, Percent, LayoutDashboard, CreditCard, BookOpen, type LucideIcon } from "lucide-react"
+import { TrendingUp, TrendingDown, Wallet, Percent, LayoutDashboard, CreditCard, BookOpen, Bot, type LucideIcon } from "lucide-react"
 import { FinanceBarChart } from "@/components/bar-chart"
 import { RevenuePieChart } from "@/components/pie-chart"
 import { DashboardShell } from "@/components/dashboard-shell"
@@ -16,6 +16,7 @@ const SIDEBAR: { label: string; href: string; icon: string }[] = [
   { label: "Aturan Komisi", href: "/bendahara?tab=commissions", icon: "Percent" },
   { label: "Pencairan", href: "/bendahara?tab=payouts", icon: "Wallet" },
   { label: "Buku Besar", href: "/bendahara?tab=ledger", icon: "BookOpen" },
+  { label: "Asisten AI", href: "/aichat-bendahara", icon: "Bot" },
 ]
 
 async function BendaharaDashboard({ searchParams }: { searchParams: Promise<{ tab?: string }> }) {

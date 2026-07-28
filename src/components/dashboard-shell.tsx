@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { 
   ChevronRight, Store, User, LayoutDashboard, Clock, Tag, Users, Building2, List, 
-  Activity, CreditCard, Percent, Wallet, BookOpen, Package, ShoppingCart, Bell, LogOut, type LucideIcon 
+  Activity, CreditCard, Percent, Wallet, BookOpen, Package, ShoppingCart, Bell, LogOut, Bot, type LucideIcon 
 } from "lucide-react"
 import { signOut } from "next-auth/react"
 import { ComponentType } from "react"
@@ -25,6 +25,7 @@ const ICON_MAP: Record<string, LucideIcon> = {
   ShoppingCart,
   Store,
   Bell,
+  Bot,
 }
 
 interface SidebarItem {
