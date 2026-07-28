@@ -237,7 +237,7 @@ async function SellerDashboard({ searchParams }: { searchParams: Promise<{ tab?:
               <div className="p-lg text-center text-on-surface-variant text-body-md py-xl">Belum ada produk.</div>
             ) : (
               <div className="overflow-x-auto">
-                <table className="w-full text-left">
+                <table className="w-full text-left min-w-[640px]">
                   <thead>
                     <tr className="text-label-sm text-on-surface-variant border-b border-outline-variant/30">
                       <th className="px-lg py-3 font-medium">Judul</th>
@@ -249,9 +249,9 @@ async function SellerDashboard({ searchParams }: { searchParams: Promise<{ tab?:
                   <tbody>
                     {seller.products.map((p) => (
                       <tr key={p.id} className="border-b border-outline-variant/20 hover:bg-surface-container-low transition-colors">
-                        <td className="px-lg py-3 text-label-md text-on-surface">{p.title}</td>
-                        <td className="px-lg py-3 text-label-sm text-on-surface-variant">{p.category?.name || "-"}</td>
-                        <td className="px-lg py-3 text-label-md text-on-surface">{formatRupiah(p.priceRupiah)}</td>
+                        <td className="px-lg py-3 text-label-md text-on-surface whitespace-nowrap">{p.title}</td>
+                        <td className="px-lg py-3 text-label-sm text-on-surface-variant whitespace-nowrap">{p.category?.name || "-"}</td>
+                        <td className="px-lg py-3 text-label-md text-on-surface whitespace-nowrap">{formatRupiah(p.priceRupiah)}</td>
                         <td className="px-lg py-3">
                           <span className={`inline-flex px-md py-0.5 rounded-full text-label-sm font-bold ${p.status === "ACTIVE" ? "bg-success/10 text-success" : "bg-surface-container-highest text-on-surface-variant"}`}>{p.status === "ACTIVE" ? "Aktif" : "Nonaktif"}</span>
                         </td>
@@ -287,7 +287,7 @@ async function SellerDashboard({ searchParams }: { searchParams: Promise<{ tab?:
               <div className="p-lg text-center text-on-surface-variant text-body-md py-xl">Belum ada penjualan.</div>
             ) : (
               <div className="overflow-x-auto">
-                <table className="w-full text-left">
+                <table className="w-full text-left min-w-[700px]">
                   <thead>
                     <tr className="text-label-sm text-on-surface-variant border-b border-outline-variant/30">
                       <th className="px-lg py-3 font-medium">Pembeli</th>
@@ -301,8 +301,8 @@ async function SellerDashboard({ searchParams }: { searchParams: Promise<{ tab?:
                     {salesItems.map((item) => (
                       <tr key={item.id} className="border-b border-outline-variant/20 hover:bg-surface-container-low transition-colors">
                         <td className="px-lg py-3">
-                          <p className="text-label-md font-bold text-on-surface">{item.order.buyerName}</p>
-                          <p className="text-label-sm text-on-surface-variant">{item.order.buyerPhone}</p>
+                          <p className="text-label-md font-bold text-on-surface whitespace-nowrap">{item.order.buyerName}</p>
+                          <p className="text-label-sm text-on-surface-variant whitespace-nowrap">{item.order.buyerPhone}</p>
                           {item.order.serviceNotes && (
                             <p className="text-[11px] text-primary italic max-w-xs mt-1">Catatan: {item.order.serviceNotes}</p>
                           )}
@@ -310,12 +310,12 @@ async function SellerDashboard({ searchParams }: { searchParams: Promise<{ tab?:
                         <td className="px-lg py-3">
                           <span className={`inline-flex px-md py-0.5 rounded-full text-[11px] font-bold ${
                             item.order.paymentMethod === "COD" ? "bg-success/10 text-success" : "bg-primary/10 text-primary"
-                          }`}>
+                          } whitespace-nowrap`}>
                             {item.order.paymentMethod}
                           </span>
                         </td>
-                        <td className="px-lg py-3 text-label-md text-on-surface">{formatRupiah(item.priceRupiah * item.qty)}</td>
-                        <td className="px-lg py-3 text-label-md text-on-surface font-bold">{formatRupiah(item.sellerNetRupiah)}</td>
+                        <td className="px-lg py-3 text-label-md text-on-surface whitespace-nowrap">{formatRupiah(item.priceRupiah * item.qty)}</td>
+                        <td className="px-lg py-3 text-label-md text-on-surface font-bold whitespace-nowrap">{formatRupiah(item.sellerNetRupiah)}</td>
                         <td className="px-lg py-3">
                           <FulfillmentStatusAction orderId={item.order.id} currentStatus={item.order.fulfillmentStatus} />
                         </td>

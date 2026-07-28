@@ -1,14 +1,25 @@
 "use client"
 
-import { useState, useRef, type KeyboardEvent, FormEvent } from "react"
+import { useState, useRef, type KeyboardEvent, FormEvent, Suspense, useEffect } from "react"
 import { Lock, Mail, Key, ArrowRight, ArrowLeft, ShieldCheck, Verified, HelpCircle, FileText, Loader2 } from "lucide-react"
 import Link from "next/link"
 import { signIn } from "next-auth/react"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { Logo } from "@/components/logo"
 
 export default function LoginPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-surface" />}>
+      <LoginContent />
+    </Suspense>
+  )
+}
+
+function LoginContent() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const urlError = searchParams.get("error")
+  
   const [step, setStep] = useState(1)
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -16,6 +27,14 @@ export default function LoginPage() {
   const [error, setError] = useState("")
   const [pending, setPending] = useState(false)
   const inputRefs = useRef<(HTMLInputElement | null)[]>([])
+
+  useEffect(() => {
+    if (urlError === "OAuthAccountNotLinked") {
+      setError("Akun email ini sudah terdaftar. Silakan masuk menggunakan Email dan Kata Sandi.")
+    } else if (urlError) {
+      setError("Terjadi kesalahan saat masuk dengan Google.")
+    }
+  }, [urlError])
 
   const handleCodeChange = (index: number, value: string) => {
     if (value.length > 1) return
@@ -133,7 +152,7 @@ export default function LoginPage() {
                   <div className="relative group">
                     <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-outline group-focus-within:text-primary transition-colors" />
                     <input
-                      className="w-full pl-10 pr-4 py-3 rounded-lg border border-outline-variant bg-surface-bright focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-body-md"
+                      className="w-full pl-10 pr-4 py-3.5 rounded-lg border border-outline-variant bg-surface-bright focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-body-md"
                       id="email"
                       placeholder="name@business.com"
                       required
@@ -151,7 +170,7 @@ export default function LoginPage() {
                   <div className="relative group">
                     <Key className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-outline group-focus-within:text-primary transition-colors" />
                     <input
-                      className="w-full pl-10 pr-4 py-3 rounded-lg border border-outline-variant bg-surface-bright focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-body-md"
+                      className="w-full pl-10 pr-4 py-3.5 rounded-lg border border-outline-variant bg-surface-bright focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-body-md"
                       id="password"
                       placeholder="••••••••"
                       required
@@ -210,12 +229,12 @@ export default function LoginPage() {
                 <div className="mb-lg p-md bg-error-container text-on-error-container rounded-lg text-label-sm">{error}</div>
               )}
               <form className="space-y-xl" onSubmit={handleTotpSubmit}>
-                <div className="flex justify-between gap-sm">
+                <div className="flex justify-between gap-1 sm:gap-sm">
                   {code.map((digit, i) => (
                     <input
                       key={i}
                       ref={(el) => { inputRefs.current[i] = el }}
-                      className="w-12 h-14 text-center rounded-lg border border-outline-variant bg-surface-bright text-display-md focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                      className="w-10 h-12 sm:w-12 sm:h-14 text-center rounded-lg border border-outline-variant bg-surface-bright text-headline-lg sm:text-display-md focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all flex-1 min-w-0"
                       maxLength={1} required type="text" inputMode="numeric"
                       value={digit}
                       onChange={(e) => handleCodeChange(i, e.target.value)}

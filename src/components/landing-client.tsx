@@ -61,7 +61,7 @@ export function LandingClient({ session, company, featuredProducts = [] }: Landi
                 <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
                 Ekonomi Komunitas
               </div>
-              <h1 className="text-display-lg sm:text-[3.25rem] text-primary tracking-tight leading-[1.12]">
+              <h1 className="text-display-md-mobile sm:text-display-lg lg:text-[3.25rem] text-primary tracking-tight leading-[1.12]">
                 Pusat Bisnis & UMKM <span className="block sm:inline text-accent-gold">Al-Mubarok II</span>
               </h1>
               <p className="text-body-lg text-on-surface-variant leading-relaxed max-w-xl">
@@ -162,11 +162,11 @@ export function LandingClient({ session, company, featuredProducts = [] }: Landi
                               {product.title}
                             </h4>
                           </div>
-                          <div className="flex items-center justify-between pt-2 border-t border-outline-variant/10">
+                           <div className="flex items-center justify-between pt-2 border-t border-outline-variant/10">
                             <span className="text-label-md font-bold text-primary">{formatRupiah(product.priceRupiah)}</span>
                             <Link
                               href={`/catalog/${product.id}`}
-                              className="px-2.5 py-1 bg-primary/10 text-primary hover:bg-primary hover:text-white rounded-lg text-label-xs font-bold transition-all"
+                              className="px-3 py-2 sm:px-2.5 sm:py-1 bg-primary/10 text-primary hover:bg-primary hover:text-white rounded-lg text-label-xs font-bold transition-all min-h-[44px] flex items-center justify-center"
                             >
                               Detail
                             </Link>

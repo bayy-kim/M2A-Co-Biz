@@ -1,9 +1,10 @@
 "use client"
 
+import { useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Logo } from "@/components/logo"
-import { Search } from "lucide-react"
+import { Search, Menu, X } from "lucide-react"
 
 interface PublicHeaderProps {
   session?: {
@@ -17,6 +18,7 @@ interface PublicHeaderProps {
 
 export function PublicHeader({ session, showSearch = false, searchQuery = "" }: PublicHeaderProps) {
   const pathname = usePathname()
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   const getDashboardHref = () => {
     if (!session?.user?.role) return "/login"
@@ -33,7 +35,7 @@ export function PublicHeader({ session, showSearch = false, searchQuery = "" }: 
   const isKatalogActive = pathname.startsWith("/catalog")
 
   return (
-    <header className="fixed top-0 w-full z-50 flex justify-between items-center px-lg h-[var(--header-height)] bg-surface/90 backdrop-blur-md border-b border-outline-variant/30 shadow-xs">
+    <header className="fixed top-0 w-full z-50 flex justify-between items-center px-lg h-[var(--header-height)] bg-surface/90 backdrop-blur-md border-b border-outline-variant/30 shadow-xs relative">
       <div className="flex items-center gap-xl">
         <Logo size="sm" />
         
@@ -99,7 +101,7 @@ export function PublicHeader({ session, showSearch = false, searchQuery = "" }: 
             href={getDashboardHref()} 
             className="p-[1px] rounded-full bg-gradient-to-b from-primary to-primary-container hover:shadow-md transition-all active:scale-95 group"
           >
-            <span className="flex items-center gap-2 px-5 py-2 bg-primary text-on-primary rounded-full text-label-md font-bold transition-all group-hover:bg-primary-container">
+            <span className="flex items-center gap-2 px-5 py-2.5 bg-primary text-on-primary rounded-full text-label-md font-bold transition-all group-hover:bg-primary-container min-h-[44px]">
               Dasbor
             </span>
           </Link>
@@ -108,12 +110,31 @@ export function PublicHeader({ session, showSearch = false, searchQuery = "" }: 
             href="/login" 
             className="p-[1px] rounded-full bg-gradient-to-b from-primary to-primary-container hover:shadow-md transition-all active:scale-95 group"
           >
-            <span className="flex items-center gap-2 px-5 py-2 bg-primary text-on-primary rounded-full text-label-md font-bold transition-all group-hover:bg-primary-container">
+            <span className="flex items-center gap-2 px-5 py-2.5 bg-primary text-on-primary rounded-full text-label-md font-bold transition-all group-hover:bg-primary-container min-h-[44px]">
               Masuk
             </span>
           </Link>
         )}
+
+        <button
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          className="md:hidden p-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors focus-visible:ring-2 focus-visible:ring-primary outline-none min-h-[44px] min-w-[44px] flex items-center justify-center"
+          aria-label={mobileMenuOpen ? "Tutup menu" : "Buka menu"}
+        >
+          {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+        </button>
       </div>
+
+      {mobileMenuOpen && (
+        <div className="absolute top-full left-0 w-full bg-surface/95 backdrop-blur-md border-b border-outline-variant/30 shadow-lg md:hidden z-50 animate-slide-in">
+          <nav className="flex flex-col px-lg py-md gap-xs">
+            <Link href="/" onClick={() => setMobileMenuOpen(false)} className="py-3 px-md rounded-xl text-body-md text-on-surface hover:bg-surface-container transition-colors min-h-[44px] flex items-center">Beranda</Link>
+            <Link href="/catalog" onClick={() => setMobileMenuOpen(false)} className="py-3 px-md rounded-xl text-body-md text-on-surface hover:bg-surface-container transition-colors min-h-[44px] flex items-center">Katalog</Link>
+            <Link href="/#about" onClick={() => setMobileMenuOpen(false)} className="py-3 px-md rounded-xl text-body-md text-on-surface hover:bg-surface-container transition-colors min-h-[44px] flex items-center">Tentang</Link>
+            <Link href="/#location" onClick={() => setMobileMenuOpen(false)} className="py-3 px-md rounded-xl text-body-md text-on-surface hover:bg-surface-container transition-colors min-h-[44px] flex items-center">Kontak</Link>
+          </nav>
+        </div>
+      )}
     </header>
   )
 }

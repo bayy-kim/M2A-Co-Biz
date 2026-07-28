@@ -121,24 +121,50 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   callbacks: {
     async signIn({ account, user }) {
       if (account?.provider === "google") {
-        const dbUser = await prisma.user.findUnique({ where: { email: user.email! } })
+        const dbUser = await prisma.user.findUnique({ where: { email: user.email! }, include: { sellerProfile: true } })
         if (dbUser && (dbUser.role === "ADMIN" || dbUser.role === "BENDAHARA")) {
           return false
         }
+        // Save the Google profile picture as image if needed, or just let it pass
       }
       return true
     },
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger, session }) {
       if (user) {
         token.id = user.id
         token.role = (user as { role?: string }).role
+        
+        // Check profile completeness for newly signed-in user
+        const dbUser = await prisma.user.findUnique({ where: { id: user.id! }, include: { sellerProfile: true } })
+        if (dbUser) {
+          token.phone = dbUser.phone
+          token.role = dbUser.role
+          
+          if (dbUser.role === "SELLER") {
+            token.isProfileComplete = !!(dbUser.phone && dbUser.sellerProfile)
+          } else {
+            // For BUYER, ADMIN, KETUA, BENDAHARA
+            token.isProfileComplete = !!dbUser.phone
+          }
+        }
       }
+      
+      // Allow session updates to trigger token updates
+      if (trigger === "update" && session) {
+        if (session.phone) token.phone = session.phone
+        if (session.role) token.role = session.role
+        if (session.isProfileComplete !== undefined) token.isProfileComplete = session.isProfileComplete
+      }
+      
       return token
     },
     async session({ session, token }) {
       if (session.user) {
         session.user.id = token.id as string
         session.user.role = token.role as string
+        // Add custom fields to session.user
+        ;(session.user as any).phone = token.phone
+        ;(session.user as any).isProfileComplete = token.isProfileComplete
       }
       return session
     },

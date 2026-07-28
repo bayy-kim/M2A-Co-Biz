@@ -131,14 +131,14 @@ async function AdminDashboard({ searchParams }: { searchParams: Promise<{ tab?: 
               <div className="p-lg text-center text-on-surface-variant text-body-md py-xxl">Tidak ada yang menunggu persetujuan.</div>
             ) : (
               <div className="overflow-x-auto">
-                <table className="w-full text-left border-collapse">
+                <table className="w-full text-left border-collapse min-w-[700px]">
                   <thead className="bg-surface-container-low text-on-surface-variant font-label-md">
                     <tr>
-                      <th className="px-lg py-4 border-b border-outline-variant">Seller Name</th>
-                      <th className="px-lg py-4 border-b border-outline-variant">Business Category</th>
-                      <th className="px-lg py-4 border-b border-outline-variant">Registration Date</th>
+                      <th className="px-lg py-4 border-b border-outline-variant">Nama Penjual</th>
+                      <th className="px-lg py-4 border-b border-outline-variant">Kategori Usaha</th>
+                      <th className="px-lg py-4 border-b border-outline-variant">Tanggal Registrasi</th>
                       <th className="px-lg py-4 border-b border-outline-variant">Status</th>
-                      <th className="px-lg py-4 border-b border-outline-variant text-right">Actions</th>
+                      <th className="px-lg py-4 border-b border-outline-variant text-right">Aksi</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-outline-variant/30">
@@ -154,26 +154,26 @@ async function AdminDashboard({ searchParams }: { searchParams: Promise<{ tab?: 
                                 {initials}
                               </div>
                               <div>
-                                <p className="font-headline-md text-body-lg text-on-surface font-bold">{seller.businessName}</p>
-                                <p className="text-on-surface-variant text-[12px]">{seller.user.email}</p>
+                                <p className="font-headline-md text-body-lg text-on-surface font-bold whitespace-nowrap">{seller.businessName}</p>
+                                <p className="text-on-surface-variant text-[12px] whitespace-nowrap">{seller.user.email}</p>
                               </div>
                             </div>
                           </td>
-                          <td className="px-lg py-4 text-on-surface-variant font-label-md">{seller.type}</td>
-                          <td className="px-lg py-4 text-on-surface-variant font-label-md">
-                            {seller.createdAt.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                          <td className="px-lg py-4 text-on-surface-variant font-label-md whitespace-nowrap">{seller.type}</td>
+                          <td className="px-lg py-4 text-on-surface-variant font-label-md whitespace-nowrap">
+                            {seller.createdAt.toLocaleDateString("id-ID", { month: "short", day: "numeric", year: "numeric" })}
                           </td>
                           <td className="px-lg py-4">
-                            <span className="px-3 py-1 rounded-full bg-warning/10 text-warning font-label-sm border border-warning/20">
-                              Pending Review
+                            <span className="px-3 py-1 rounded-full bg-warning/10 text-warning font-label-sm border border-warning/20 whitespace-nowrap">
+                              Menunggu Review
                             </span>
                           </td>
                           <td className="px-lg py-4 text-right">
                             <Link
                               href="/admin?tab=approvals"
-                              className="bg-primary text-on-primary px-4 py-2 rounded-lg font-label-md hover:shadow-md transition-all active:scale-95 inline-block"
+                              className="bg-primary text-on-primary px-4 py-2 rounded-lg font-label-md hover:shadow-md transition-all active:scale-95 inline-block whitespace-nowrap"
                             >
-                              Review Documents
+                              Tinjau Dokumen
                             </Link>
                           </td>
                         </tr>
@@ -228,15 +228,15 @@ async function AdminDashboard({ searchParams }: { searchParams: Promise<{ tab?: 
             <div className="p-lg text-center text-on-surface-variant text-body-md py-xxl">Tidak ada yang menunggu. Semua bersih!</div>
           ) : (
             <div className="overflow-x-auto">
-              <table className="w-full text-left">
+              <table className="w-full text-left min-w-[800px]">
                 <thead>
                   <tr className="text-label-sm text-on-surface-variant border-b border-outline-variant/30">
-                    <th className="px-lg py-3 font-medium">Seller Name</th>
-                    <th className="px-lg py-3 font-medium">Business Category</th>
-                    <th className="px-lg py-3 font-medium">Registration Date</th>
+                    <th className="px-lg py-3 font-medium">Nama Penjual</th>
+                    <th className="px-lg py-3 font-medium">Kategori Usaha</th>
+                    <th className="px-lg py-3 font-medium">Tanggal Registrasi</th>
                     <th className="px-lg py-3 font-medium">Status</th>
                     <th className="px-lg py-3 font-medium">Dokumen</th>
-                    <th className="px-lg py-3 font-medium text-right">Actions</th>
+                    <th className="px-lg py-3 font-medium text-right">Aksi</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -252,33 +252,33 @@ async function AdminDashboard({ searchParams }: { searchParams: Promise<{ tab?: 
                               {initials}
                             </div>
                             <div>
-                              <p className="text-label-md font-bold text-on-surface leading-snug">{seller.businessName}</p>
-                              <p className="text-label-sm text-on-surface-variant">{seller.user.email}</p>
+                              <p className="text-label-md font-bold text-on-surface leading-snug whitespace-nowrap">{seller.businessName}</p>
+                              <p className="text-label-sm text-on-surface-variant whitespace-nowrap">{seller.user.email}</p>
                             </div>
                           </div>
                         </td>
                         <td className="px-lg py-3">
-                          <span className={`inline-flex px-md py-1 rounded-full text-label-sm font-bold ${seller.type === "UMKM" ? "bg-primary/10 text-primary" : "bg-tertiary/10 text-tertiary"}`}>
+                          <span className={`inline-flex px-md py-1 rounded-full text-label-sm font-bold ${seller.type === "UMKM" ? "bg-primary/10 text-primary" : "bg-tertiary/10 text-tertiary"} whitespace-nowrap`}>
                             {seller.type}
                           </span>
                         </td>
-                        <td className="px-lg py-3 text-label-sm text-on-surface-variant">
-                          {seller.createdAt.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                        <td className="px-lg py-3 text-label-sm text-on-surface-variant whitespace-nowrap">
+                          {seller.createdAt.toLocaleDateString("id-ID", { month: "short", day: "numeric", year: "numeric" })}
                         </td>
                         <td className="px-lg py-3">
-                          <span className="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-bold bg-amber-500/10 text-amber-800 border border-amber-500/20">
-                            Pending Review
+                          <span className="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-bold bg-amber-500/10 text-amber-800 border border-amber-500/20 whitespace-nowrap">
+                            Menunggu Review
                           </span>
                         </td>
                         <td className="px-lg py-3">
                           <div className="flex flex-col gap-1">
                             {seller.documents.map((doc) => (
-                              <a key={doc.id} href={`/api/admin/documents/${doc.id}`} target="_blank" rel="noopener noreferrer" className="text-label-sm text-primary flex items-center gap-1 hover:underline">
+                              <a key={doc.id} href={`/api/admin/documents/${doc.id}`} target="_blank" rel="noopener noreferrer" className="text-label-sm text-primary flex items-center gap-1 hover:underline whitespace-nowrap">
                                 <Eye className="w-3 h-3" />
                                 {doc.type}
                               </a>
                             ))}
-                            {seller.documents.length === 0 && <span className="text-label-sm text-on-surface-variant italic">Tidak ada</span>}
+                            {seller.documents.length === 0 && <span className="text-label-sm text-on-surface-variant italic whitespace-nowrap">Tidak ada</span>}
                           </div>
                         </td>
                         <td className="px-lg py-3 text-right">

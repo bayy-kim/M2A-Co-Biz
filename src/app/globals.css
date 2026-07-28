@@ -97,6 +97,10 @@
   --text-label-sm--line-height: 16px;
   --text-label-sm--font-weight: 500;
 
+  --text-label-xs: 10px;
+  --text-label-xs--line-height: 14px;
+  --text-label-xs--font-weight: 500;
+
   --spacing-xs: 4px;
   --spacing-sm: 8px;
   --spacing-md: 12px;
@@ -125,6 +129,20 @@
   --radius-lg: 0.5rem;
 
   --header-height: 64px;
+  --animate-slide-in: slide-in 0.25s ease-out;
+}
+
+@keyframes slide-in {
+  from { transform: translateX(-100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }
 
 body {

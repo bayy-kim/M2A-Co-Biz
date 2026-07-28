@@ -10,6 +10,7 @@ const roleRoutes: Record<string, string[]> = {
   "/pesanan-saya": ["BUYER", "SELLER", "ADMIN", "KETUA", "BENDAHARA"],
   "/login": [],
   "/register": [],
+  "/lengkapi-profil": [],
 }
 
 const authRequiredPrefixes = ["/checkout"]
@@ -25,11 +26,23 @@ export default auth((req: any) => {
 
   const needsAuth = authRequiredPrefixes.some((prefix) => pathname.startsWith(prefix))
 
+  // Redirect to login if auth is needed
   if (needsAuth) {
     if (!session?.user) {
       const loginUrl = new URL("/login", req.url)
       loginUrl.searchParams.set("callbackUrl", pathname)
       return NextResponse.redirect(loginUrl)
+    }
+  }
+
+  // Profile completion enforcement
+  if (session?.user && !session.user.isProfileComplete && !pathname.startsWith("/lengkapi-profil") && !pathname.startsWith("/api/auth")) {
+    // Force user to complete their profile before accessing dashboard or protected routes
+    const isProtectedRoute = needsAuth || (matchedRoute && matchedRoute[1].length > 0)
+    if (isProtectedRoute) {
+      const completionUrl = new URL("/lengkapi-profil", req.url)
+      completionUrl.searchParams.set("callbackUrl", pathname)
+      return NextResponse.redirect(completionUrl)
     }
   }
 

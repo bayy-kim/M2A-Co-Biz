@@ -133,7 +133,7 @@ async function PesananSayaPage() {
           </div>
         )}
       </main>
-      <PublicBottomBar isLoggedIn={true} isSeller={session.user.role === "SELLER"} />
+      <PublicBottomBar isLoggedIn={true} role={session.user.role} isSeller={session.user.role === "SELLER"} />
     </div>
   )
 }

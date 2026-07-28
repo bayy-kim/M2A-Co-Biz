@@ -161,7 +161,7 @@ async function CatalogPage({ searchParams }: { searchParams: Promise<{ q?: strin
                         </p>
                         <div className="flex items-center justify-between gap-1">
                           <span className="text-body-lg sm:text-headline-md font-bold text-primary truncate">{formatRupiah(product.priceRupiah)}</span>
-                          <span className="bg-primary text-on-primary px-2 sm:px-md py-1 sm:py-2 rounded-xl text-label-xs sm:text-label-md whitespace-nowrap hover:opacity-90 transition-opacity">
+                          <span className="bg-primary text-on-primary px-3 py-2 sm:px-md sm:py-2 rounded-xl text-label-sm sm:text-label-md whitespace-nowrap hover:opacity-90 transition-opacity min-h-[44px] flex items-center justify-center">
                             Detail
                           </span>
                         </div>
@@ -259,7 +259,7 @@ async function CatalogPage({ searchParams }: { searchParams: Promise<{ q?: strin
         )}
       </main>
 
-      <PublicBottomBar isLoggedIn={!!session?.user} isSeller={session?.user?.role === "SELLER"} />
+      <PublicBottomBar isLoggedIn={!!session?.user} role={session?.user?.role} isSeller={session?.user?.role === "SELLER"} />
     </>
   )
 }
