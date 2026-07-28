@@ -347,21 +347,72 @@ export function LandingClient({ session, company, featuredProducts = [] }: Landi
         </AnimateSection>
       </main>
 
-      <footer className="bg-surface py-xl border-t border-outline-variant">
+      <footer className="bg-surface border-t border-outline-variant/30 py-xxl">
         <div className="container mx-auto px-margin">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-xl">
-            <div className="space-y-sm text-center md:text-left">
-              <h3 className="text-headline-md font-bold text-primary">M2A Co-Biz</h3>
-              <p className="text-label-md text-on-surface-variant">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-xl md:gap-xxl">
+            {/* Column 1: Brand & Description */}
+            <div className="space-y-md">
+              <h3 className="text-headline-lg font-bold text-primary">M2A Co-Biz</h3>
+              <p className="text-body-md text-on-surface-variant leading-relaxed">
+                Platform digital pemberdayaan ekonomi lokal, menghubungkan pembeli dengan produk dan layanan terbaik buatan pemuda & pelaku UMKM Desa Banjarwaringin.
+              </p>
+              <p className="text-label-sm text-on-surface-variant/70">
                 &copy; {new Date().getFullYear()} Al-Mubarok II. Hak cipta dilindungi.
               </p>
             </div>
-            <div className="flex gap-xxl">
-              {whatsappNumber ? (
-                <a className="text-on-surface-variant hover:text-primary transition-colors" href={`https://wa.me/${whatsappNumber.replace(/\D/g, "")}`} target="_blank" rel="noopener noreferrer">WhatsApp</a>
-              ) : (
-                <span className="text-on-surface-variant/50">WhatsApp</span>
-              )}
+
+            {/* Column 2: Quick Links */}
+            <div className="space-y-md">
+              <h4 className="text-label-md font-bold text-on-surface uppercase tracking-wider">Jelajahi</h4>
+              <ul className="space-y-xs text-body-md">
+                <li>
+                  <Link href="/catalog" className="text-on-surface-variant hover:text-primary transition-colors block py-1">Katalog Produk</Link>
+                </li>
+                <li>
+                  <Link href="/register" className="text-on-surface-variant hover:text-primary transition-colors block py-1">Mulai Jualan</Link>
+                </li>
+                <li>
+                  <Link href="/aichat" className="text-on-surface-variant hover:text-primary transition-colors block py-1">Asisten AI Cerdas</Link>
+                </li>
+              </ul>
+            </div>
+
+            {/* Column 3: Help & Terms */}
+            <div className="space-y-md">
+              <h4 className="text-label-md font-bold text-on-surface uppercase tracking-wider">Bantuan & Syarat</h4>
+              <ul className="space-y-xs text-body-md">
+                <li>
+                  {whatsappNumber ? (
+                    <a href={`https://wa.me/${whatsappNumber.replace(/\D/g, "")}`} target="_blank" rel="noopener noreferrer" className="text-on-surface-variant hover:text-primary transition-colors block py-1">Pusat Bantuan</a>
+                  ) : (
+                    <span className="text-on-surface-variant/50 block py-1">Pusat Bantuan</span>
+                  )}
+                </li>
+                <li>
+                  <Link href="/privacy" className="text-on-surface-variant hover:text-primary transition-colors block py-1">Kebijakan Privasi</Link>
+                </li>
+                <li>
+                  <Link href="/terms" className="text-on-surface-variant hover:text-primary transition-colors block py-1">Ketentuan Layanan</Link>
+                </li>
+              </ul>
+            </div>
+
+            {/* Column 4: Contact info */}
+            <div className="space-y-md">
+              <h4 className="text-label-md font-bold text-on-surface uppercase tracking-wider">Hubungi Kami</h4>
+              <ul className="space-y-xs text-body-md text-on-surface-variant">
+                <li className="leading-relaxed">
+                  <strong>Alamat:</strong> Banjarwaringin, Salopa, Tasikmalaya, Jawa Barat
+                </li>
+                <li>
+                  <strong>Email:</strong> info@m2acobiz.com
+                </li>
+                <li>
+                  {whatsappNumber && (
+                    <p><strong>WhatsApp:</strong> {whatsappNumber}</p>
+                  )}
+                </li>
+              </ul>
             </div>
           </div>
         </div>

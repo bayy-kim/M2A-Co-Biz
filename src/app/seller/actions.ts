@@ -6,6 +6,7 @@ import { prisma } from "@/lib/db"
 import type { ProductStatus, FulfillmentStatus } from "@prisma/client"
 import { z } from "zod"
 import { put } from "@vercel/blob"
+import sharp from "sharp"
 
 const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp"]
 const MAX_FILE_SIZE = 5 * 1024 * 1024
@@ -22,11 +23,22 @@ const productSchema = z.object({
 type ProductState = { error?: string | Record<string, string[]>; success?: boolean } | null
 
 async function uploadImage(file: File, sellerId: string): Promise<string> {
-  const buffer = Buffer.from(await file.arrayBuffer())
-  const uniqueName = `product-${sellerId}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`
-  const blob = await put(uniqueName, buffer, {
+  const inputBuffer = Buffer.from(await file.arrayBuffer())
+  
+  // Compress and convert to WebP using sharp
+  const compressedBuffer = await sharp(inputBuffer)
+    .rotate() // Auto-rotate based on EXIF
+    .resize(1080, null, { // Resize to max-width 1080px maintaining aspect ratio
+      fit: "inside",
+      withoutEnlargement: true
+    })
+    .webp({ quality: 80 }) // Convert to WebP format with 80% quality
+    .toBuffer()
+
+  const uniqueName = `product-${sellerId}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}.webp`
+  const blob = await put(uniqueName, compressedBuffer, {
     access: "public",
-    contentType: file.type,
+    contentType: "image/webp",
     addRandomSuffix: false,
   })
   return blob.url
