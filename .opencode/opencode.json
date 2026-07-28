@@ -1,6 +1,5 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "plugin": [".opencode/plugins/graphify.js"],
   "instructions": ["AGENTS.md", "PRD.md", "SAR.md", "DESIGN.md"],
   "agent": {
     "build": {
