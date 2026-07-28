@@ -3,7 +3,7 @@ import Link from "next/link"
 import { prisma } from "@/lib/db"
 import { formatRupiah } from "@/lib/utils"
 import { auth } from "@/lib/auth"
-import { ShoppingBag, Store, ArrowLeft, ChevronRight, ShieldCheck, Heart, Sparkles } from "lucide-react"
+import { ShoppingBag, Store, ArrowLeft, ChevronRight, ShieldCheck, Heart, Sparkles, Star } from "lucide-react"
 import { PublicBottomBar } from "@/components/public-bottom-bar"
 import { PublicHeader } from "@/components/public-header"
 import { ShareButton } from "@/components/share-button"
@@ -12,10 +12,27 @@ async function ProductDetailPage({ params }: { params: Promise<{ id: string }> }
   const [{ id }, session] = await Promise.all([params, auth()])
   const product = await prisma.product.findUnique({
     where: { id },
-    include: { seller: { select: { businessName: true, type: true } }, category: true },
+    include: { 
+      seller: { select: { businessName: true, type: true } }, 
+      category: true,
+      reviews: {
+        include: {
+          buyer: {
+            select: { name: true }
+          }
+        },
+        orderBy: { createdAt: "desc" }
+      }
+    },
   })
 
   if (!product || product.status !== "ACTIVE") notFound()
+
+  // Calculate average rating
+  const totalReviews = product.reviews.length
+  const avgRating = totalReviews > 0
+    ? (product.reviews.reduce((sum, r) => sum + r.rating, 0) / totalReviews).toFixed(1)
+    : null
 
   return (
     <div className="min-h-screen bg-background">
@@ -79,10 +96,16 @@ async function ProductDetailPage({ params }: { params: Promise<{ id: string }> }
               <h1 className="text-display-md sm:text-display-lg text-on-surface font-bold tracking-tight leading-tight">
                 {product.title}
               </h1>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-md flex-wrap">
                 <span className="inline-flex items-center gap-1 text-label-sm text-success font-bold">
                   <ShieldCheck className="w-4 h-4" /> Binaan Al-Mubarok II
                 </span>
+                {avgRating && (
+                  <span className="inline-flex items-center gap-1 text-label-sm font-bold text-on-surface bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/20">
+                    <Star className="w-4 h-4 text-accent-gold fill-accent-gold" />
+                    {avgRating} &middot; {totalReviews} Ulasan
+                  </span>
+                )}
               </div>
             </div>
 
@@ -92,6 +115,20 @@ async function ProductDetailPage({ params }: { params: Promise<{ id: string }> }
                 <div className="flex items-baseline gap-2">
                   <p className="text-display-md sm:text-display-lg text-primary font-bold">{formatRupiah(product.priceRupiah)}</p>
                 </div>
+                
+                {/* Product Variants selector in catalog detail */}
+                {product.variants && product.variants.length > 0 && (
+                  <div className="pt-md border-t border-outline-variant/20">
+                    <p className="text-label-sm text-on-surface font-bold mb-2">Varian Tersedia:</p>
+                    <div className="flex flex-wrap gap-2">
+                      {product.variants.map((v) => (
+                        <span key={v} className="px-lg py-1.5 bg-surface-container text-on-surface rounded-full text-label-sm font-semibold border border-outline-variant/20">
+                          {v}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
 
@@ -122,6 +159,46 @@ async function ProductDetailPage({ params }: { params: Promise<{ id: string }> }
               <p className="text-body-md text-on-surface-variant leading-relaxed whitespace-pre-line bg-surface-container-lowest p-lg rounded-2xl border border-outline-variant/10">
                 {product.description}
               </p>
+            </div>
+
+            {/* Product Reviews Display */}
+            <div className="space-y-md pt-lg border-t border-outline-variant/20">
+              <h3 className="text-headline-md text-on-surface font-bold">Ulasan Pembeli ({totalReviews})</h3>
+              
+              {product.reviews.length === 0 ? (
+                <p className="text-label-sm text-on-surface-variant italic">Belum ada ulasan dari pembeli asli.</p>
+              ) : (
+                <div className="space-y-md">
+                  {product.reviews.map((rev) => {
+                    const maskedName = rev.buyer.name 
+                      ? `${rev.buyer.name.split(" ")[0]} ${rev.buyer.name.split(" ")[1]?.slice(0, 1) || ""}.` 
+                      : "Pembeli Asli"
+                    return (
+                      <div key={rev.id} className="p-md rounded-2xl bg-surface-container-low border border-outline-variant/10 space-y-2">
+                        <div className="flex justify-between items-center">
+                          <span className="text-label-md font-bold text-on-surface">{maskedName}</span>
+                          <div className="flex items-center gap-0.5">
+                            {Array.from({ length: 5 }).map((_, idx) => (
+                              <Star
+                                key={idx}
+                                className={`w-3.5 h-3.5 ${
+                                  idx < rev.rating
+                                    ? "text-accent-gold fill-accent-gold"
+                                    : "text-outline-variant/30"
+                                }`}
+                              />
+                            ))}
+                          </div>
+                        </div>
+                        {rev.comment && <p className="text-body-md text-on-surface-variant leading-relaxed">{rev.comment}</p>}
+                        <p className="text-[10px] text-on-surface-variant/70 text-right">
+                          {new Date(rev.createdAt).toLocaleDateString("id-ID")}
+                        </p>
+                      </div>
+                    )
+                  })}
+                </div>
+              )}
             </div>
 
             {/* Buy / CTA Button + Share */}

@@ -1,4 +1,4 @@
-import { Search, ChevronLeft, ChevronRight, ShoppingBag, MessageCircle, Sparkles } from "lucide-react"
+import { Search, ChevronLeft, ChevronRight, ShoppingBag, MessageCircle, Sparkles, Star } from "lucide-react"
 import Link from "next/link"
 import { prisma } from "@/lib/db"
 import { formatRupiah } from "@/lib/utils"
@@ -42,7 +42,10 @@ async function CatalogPage({ searchParams }: { searchParams: Promise<{ q?: strin
   // Perform standard query
   let products = await prisma.product.findMany({
     where,
-    include: { seller: { select: { businessName: true } } },
+    include: { 
+      seller: { select: { businessName: true } },
+      reviews: { select: { rating: true } }
+    },
     orderBy,
     skip: (currentPage - 1) * ITEMS_PER_PAGE,
     take: ITEMS_PER_PAGE,
@@ -66,6 +69,13 @@ async function CatalogPage({ searchParams }: { searchParams: Promise<{ q?: strin
       `
 
       if (fuzzyProducts.length > 0) {
+        // Fetch reviews for fuzzy products
+        const fuzzyIds = fuzzyProducts.map(p => p.id)
+        const reviews = await prisma.review.findMany({
+          where: { productId: { in: fuzzyIds } },
+          select: { productId: true, rating: true }
+        })
+
         products = fuzzyProducts.map((p) => ({
           id: p.id,
           sellerId: p.sellerId,
@@ -75,8 +85,10 @@ async function CatalogPage({ searchParams }: { searchParams: Promise<{ q?: strin
           priceRupiah: p.priceRupiah,
           images: p.images,
           status: p.status,
+          variants: p.variants || [],
           createdAt: p.createdAt,
           seller: { businessName: p.sellerName },
+          reviews: reviews.filter(r => r.productId === p.id)
         }))
         total = fuzzyProducts.length
         isFuzzyResult = true
@@ -202,6 +214,20 @@ async function CatalogPage({ searchParams }: { searchParams: Promise<{ q?: strin
                       <div className="flex justify-between items-start mb-sm">
                         <h3 className="text-label-md sm:text-body-lg font-semibold text-on-surface leading-tight line-clamp-2">{product.title}</h3>
                       </div>
+                      
+                      {/* Rating Star Badge under title */}
+                      {product.reviews && product.reviews.length > 0 && (
+                        <div className="flex items-center gap-1 mb-2">
+                          <Star className="w-3.5 h-3.5 text-accent-gold fill-accent-gold" />
+                          <span className="text-[11px] font-bold text-on-surface">
+                            {(product.reviews.reduce((sum: number, r: any) => sum + r.rating, 0) / product.reviews.length).toFixed(1)}
+                          </span>
+                          <span className="text-[11px] text-on-surface-variant">
+                            ({product.reviews.length})
+                          </span>
+                        </div>
+                      )}
+
                       <div className="mt-auto">
                         <p className="text-on-surface-variant text-label-xs sm:text-label-sm mb-xs truncate">
                           by <span className="text-primary font-bold truncate">{product.seller.businessName}</span>

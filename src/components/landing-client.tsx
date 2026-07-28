@@ -289,7 +289,7 @@ export function LandingClient({ session, company, featuredProducts = [] }: Landi
                   <div className="absolute inset-0 bg-surface-container-high flex flex-col items-center justify-center p-xl text-center z-10 group-data-[loaded=true]/map:hidden" id="map-facade">
                     <MapPin className="w-10 h-10 text-primary mb-md animate-bounce" />
                     <h4 className="text-headline-md text-primary font-bold">Peta Lokasi Al-Mubarok II</h4>
-                    <p className="text-label-sm text-on-surface-variant max-w-xs mt-xs mb-lg">Ketuk untuk memuat peta interaktif secara langsung.</p>
+                    <p className="text-label-sm text-on-surface-variant max-w-xs mt-xs mb-lg">Ketuk untuk memuat peta kawasan Desa Banjarwaringin.</p>
                     <button
                       type="button"
                       onClick={() => {
@@ -297,12 +297,12 @@ export function LandingClient({ session, company, featuredProducts = [] }: Landi
                         const iframe = document.getElementById("map-iframe") as HTMLIFrameElement;
                         if (facade && iframe) {
                           facade.style.display = "none";
-                          iframe.src = "https://www.google.com/maps?q=-7.5064759,108.2390261&output=embed";
+                          iframe.src = "https://www.google.com/maps?q=-7.5064759,108.2390261&z=16&t=k&output=embed";
                         }
                       }}
                       className="px-xl py-3 bg-primary text-on-primary rounded-xl text-label-md font-bold hover:bg-primary-container hover:text-primary transition-all active:scale-95 cursor-pointer min-h-[44px]"
                     >
-                      Muat Peta Interaktif
+                      Muat Peta Kawasan
                     </button>
                   </div>
                   <iframe

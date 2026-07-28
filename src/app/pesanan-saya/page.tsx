@@ -5,6 +5,7 @@ import { prisma } from "@/lib/db"
 import { formatRupiah } from "@/lib/utils"
 import { ShoppingBag, ChevronRight, Package, Clock, CheckCircle, XCircle, Banknote, CreditCard, Truck, PackageCheck } from "lucide-react"
 import { PublicBottomBar } from "@/components/public-bottom-bar"
+import { ReviewTrigger } from "./review-trigger"
 
 const statusIcon = {
   PENDING: Clock,
@@ -34,14 +35,19 @@ async function PesananSayaPage() {
   const orders = await prisma.order.findMany({
     where: { buyerId: session.user.id },
     include: {
-      items: {
-        include: {
-          order: false,
-        },
-      },
+      items: true,
+      reviews: true,
     },
     orderBy: { createdAt: "desc" },
   })
+
+  // Fetch product names to show in review modals
+  const productIds = orders.flatMap(o => o.items.map(i => i.productId))
+  const products = await prisma.product.findMany({
+    where: { id: { in: productIds } },
+    select: { id: true, title: true }
+  })
+  const productMap = new Map(products.map(p => [p.id, p.title]))
 
   return (
     <div className="min-h-screen bg-surface">
@@ -102,14 +108,32 @@ async function PesananSayaPage() {
                     </div>
 
                     <div className="px-lg py-md space-y-2">
-                      {order.items.map((item) => (
-                        <div key={item.id} className="flex justify-between text-label-md">
-                          <span className="text-on-surface-variant">Produk x{item.qty}</span>
-                          <span className="text-on-surface font-bold">{formatRupiah(item.priceRupiah * item.qty)}</span>
-                        </div>
-                      ))}
+                      {order.items.map((item) => {
+                        const hasReview = order.reviews.some(r => r.productId === item.productId)
+                        const productTitle = productMap.get(item.productId) || "Produk M2A"
+                        return (
+                          <div key={item.id} className="flex justify-between items-center text-label-md gap-4">
+                            <span className="text-on-surface-variant flex-1">
+                              {productTitle} <span className="font-bold">x{item.qty}</span>
+                            </span>
+                            <span className="text-on-surface font-bold whitespace-nowrap">
+                              {formatRupiah(item.priceRupiah * item.qty)}
+                            </span>
+                            {order.paymentStatus === "PAID" && order.fulfillmentStatus === "COMPLETED" && (
+                              <div className="shrink-0">
+                                <ReviewTrigger
+                                  orderId={order.id}
+                                  productId={item.productId}
+                                  productTitle={productTitle}
+                                  hasReview={hasReview}
+                                />
+                              </div>
+                            )}
+                          </div>
+                        )
+                      })}
                       {order.serviceNotes && (
-                        <div className="p-md rounded-lg bg-surface-container-high text-label-sm text-on-surface mt-2">
+                        <div className="p-md rounded-lg bg-surface-container-high text-label-sm text-on-surface mt-2 whitespace-pre-line">
                           <span className="font-bold block text-primary">Catatan / Alamat Layanan:</span>
                           {order.serviceNotes}
                         </div>

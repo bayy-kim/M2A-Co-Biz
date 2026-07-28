@@ -2,7 +2,7 @@
 
 import { useActionState, useState } from "react"
 import { useRouter } from "next/navigation"
-import { CreditCard, Banknote, Loader2, ArrowRight, User, Phone, Package, CheckCircle, Truck } from "lucide-react"
+import { CreditCard, Banknote, Loader2, ArrowRight, User, Phone, Package, CheckCircle, Truck, Store } from "lucide-react"
 import { createCheckout } from "./actions"
 
 export function CheckoutForm({
@@ -10,18 +10,31 @@ export function CheckoutForm({
   buyerId,
   defaultName,
   defaultPhone,
+  productVariants = [],
 }: {
   productId: string
   buyerId?: string
   defaultName?: string
   defaultPhone?: string
+  productVariants?: string[]
 }) {
   const router = useRouter()
   const [paymentMethod, setPaymentMethod] = useState<"TRANSFER" | "COD">("TRANSFER")
+  const [selectedVariant, setSelectedVariant] = useState<string>("")
+  const [deliveryMethod, setDeliveryMethod] = useState<"DELIVERY" | "PICKUP">("DELIVERY")
 
   const checkout = async (_prev: unknown, formData: FormData) => {
     formData.set("productId", productId)
     if (buyerId) formData.set("buyerId", buyerId)
+    
+    // Append variant & delivery method to serviceNotes
+    const userNotes = formData.get("serviceNotes") as string || ""
+    const variantText = selectedVariant ? `[Varian: ${selectedVariant}]` : ""
+    const deliveryText = `[Metode Penerimaan: ${deliveryMethod === "DELIVERY" ? "Diantar oleh Penjual" : "Ambil Sendiri di Toko"}]`
+    
+    const combinedNotes = [variantText, deliveryText, userNotes].filter(Boolean).join(" \n")
+    formData.set("serviceNotes", combinedNotes)
+
     const result = await createCheckout(formData)
     if (result?.success) {
       router.push(`/checkout?orderId=${result.orderId}`)
@@ -61,6 +74,63 @@ export function CheckoutForm({
           </div>
         </>
       )}
+
+      {productVariants && productVariants.length > 0 && (
+        <div className="flex flex-col gap-xs">
+          <label className="text-label-md text-on-surface font-bold">Pilih Varian</label>
+          <div className="flex flex-wrap gap-2">
+            {productVariants.map((variant) => (
+              <button
+                key={variant}
+                type="button"
+                onClick={() => setSelectedVariant(variant)}
+                className={`px-lg py-2.5 rounded-xl border text-label-sm font-bold transition-all cursor-pointer ${
+                  selectedVariant === variant
+                    ? "bg-primary text-on-primary border-primary"
+                    : "bg-surface border-outline-variant/30 text-on-surface-variant hover:border-primary"
+                }`}
+              >
+                {variant}
+              </button>
+            ))}
+          </div>
+          <input type="hidden" name="selectedVariant" value={selectedVariant} />
+          {productVariants.length > 0 && !selectedVariant && (
+            <span className="text-error text-label-sm">* Silakan pilih varian terlebih dahulu</span>
+          )}
+        </div>
+      )}
+
+      <div className="flex flex-col gap-xs">
+        <label className="text-label-md text-on-surface">Metode Penerimaan</label>
+        <div className="grid grid-cols-2 gap-md">
+          <button
+            type="button"
+            onClick={() => setDeliveryMethod("DELIVERY")}
+            className={`p-lg rounded-xl border flex flex-col items-center gap-2 transition-all outline-none focus-visible:ring-2 focus-visible:ring-primary cursor-pointer ${
+              deliveryMethod === "DELIVERY"
+                ? "border-primary bg-primary/5 text-primary font-bold shadow-xs"
+                : "border-outline-variant/40 bg-surface-bright text-on-surface-variant hover:bg-surface-container-low"
+            }`}
+          >
+            <Truck className="w-6 h-6 shrink-0" />
+            <span className="text-label-md">Diantar Penjual</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setDeliveryMethod("PICKUP")}
+            className={`p-lg rounded-xl border flex flex-col items-center gap-2 transition-all outline-none focus-visible:ring-2 focus-visible:ring-primary cursor-pointer ${
+              deliveryMethod === "PICKUP"
+                ? "border-primary bg-primary/5 text-primary font-bold shadow-xs"
+                : "border-outline-variant/40 bg-surface-bright text-on-surface-variant hover:bg-surface-container-low"
+            }`}
+          >
+            <Store className="w-6 h-6 shrink-0" />
+            <span className="text-label-md">Ambil di Toko</span>
+          </button>
+        </div>
+      </div>
 
       <div className="flex flex-col gap-xs">
         <label className="text-label-md text-on-surface" htmlFor="qty">Jumlah / Qty</label>
@@ -133,7 +203,11 @@ export function CheckoutForm({
         <div className="p-md bg-error-container text-on-error-container rounded-lg text-label-sm">{state.error}</div>
       )}
 
-      <button className="w-full py-3.5 bg-accent-gold text-white rounded-xl text-headline-md font-bold shadow-lg hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center gap-sm disabled:opacity-50" disabled={pending} type="submit">
+      <button 
+        disabled={pending || (productVariants.length > 0 && !selectedVariant)} 
+        className="w-full py-3.5 bg-accent-gold text-white rounded-xl text-headline-md font-bold shadow-lg hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center gap-sm disabled:opacity-50" 
+        type="submit"
+      >
         {pending ? <Loader2 className="w-5 h-5 animate-spin" /> : <ArrowRight className="w-5 h-5" />}
         {pending ? "Memproses..." : "Buat Pesanan"}
       </button>

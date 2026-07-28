@@ -90,6 +90,12 @@ export function NewProductForm({
         <input className="rounded-lg border-outline-variant focus:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all text-body-md" id="priceRupiah" name="priceRupiah" placeholder="50000" required type="number" min="1" />
       </div>
       <div className="flex flex-col gap-xs">
+        <label className="text-label-md text-on-surface" htmlFor="variants">
+          Varian {isJasa ? "Layanan" : "Produk"} <span className="text-on-surface-variant font-normal text-label-sm">(Opsional)</span>
+        </label>
+        <input className="rounded-lg border-outline-variant focus:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all text-body-md" id="variants" name="variants" placeholder="Contoh: Merah, Biru, Hijau atau S, M, L" type="text" />
+      </div>
+      <div className="flex flex-col gap-xs">
         <label className="text-label-md text-on-surface" htmlFor="categoryId">Kategori</label>
         <div className="flex gap-2">
           <select className="flex-1 rounded-lg border-outline-variant focus:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" id="categoryId" name="categoryId">

@@ -245,13 +245,14 @@ async function BendaharaDashboard({ searchParams }: { searchParams: Promise<{ ta
             <div className="p-lg text-center text-on-surface-variant text-body-md py-xxl">Tidak ada pembayaran tertunda. Semua pesanan terkonfirmasi.</div>
           ) : (
             <div className="overflow-x-auto">
-              <table className="w-full text-left">
+              <table className="w-full text-left min-w-[800px]">
                 <thead>
                   <tr className="text-label-sm text-on-surface-variant border-b border-outline-variant/30">
                     <th className="px-lg py-3 font-medium">Pesanan</th>
                     <th className="px-lg py-3 font-medium">Pembeli</th>
                     <th className="px-lg py-3 font-medium">Item</th>
                     <th className="px-lg py-3 font-medium">Total</th>
+                    <th className="px-lg py-3 font-medium">Bukti Bayar</th>
                     <th className="px-lg py-3 font-medium">Tanggal</th>
                     <th className="px-lg py-3 font-medium">Aksi</th>
                   </tr>
@@ -271,6 +272,15 @@ async function BendaharaDashboard({ searchParams }: { searchParams: Promise<{ ta
                       </td>
                       <td className="px-lg py-3 text-label-sm text-on-surface-variant">{o.items.length} item(s)</td>
                       <td className="px-lg py-3 text-label-md text-primary font-bold">{formatRupiah(o.totalRupiah)}</td>
+                      <td className="px-lg py-3 text-label-sm">
+                        {o.paymentProofUrl ? (
+                          <a href={o.paymentProofUrl} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-bold flex items-center gap-1">
+                            Lihat Bukti
+                          </a>
+                        ) : (
+                          <span className="text-on-surface-variant/50 italic">Belum diunggah</span>
+                        )}
+                      </td>
                       <td className="px-lg py-3 text-label-sm text-on-surface-variant">{o.createdAt.toLocaleDateString()}</td>
                       <td className="px-lg py-3"><ConfirmPaymentButton orderId={o.id} /></td>
                     </tr>

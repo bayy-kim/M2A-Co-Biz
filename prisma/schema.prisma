@@ -97,6 +97,7 @@ model User {
   sellerProfile   SellerProfile?
   orders          Order[]
   accounts        Account[]
+  reviews         Review[]
 }
 
 model Account {
@@ -168,7 +169,9 @@ model Product {
   priceRupiah Int
   images      String[]
   status      ProductStatus @default(ACTIVE)
+  variants    String[]  @default([])
   createdAt   DateTime @default(now())
+  reviews     Review[]
 }
 
 model CommissionRule {
@@ -191,8 +194,25 @@ model Order {
   paymentMethod     PaymentMethod     @default(TRANSFER)
   paymentStatus     PaymentStatus     @default(PENDING)
   fulfillmentStatus FulfillmentStatus @default(PENDING)
+  paymentProofUrl   String?
   items             OrderItem[]
   createdAt         DateTime          @default(now())
+  reviews           Review[]
+}
+
+model Review {
+  id           String   @id @default(cuid())
+  productId    String
+  product      Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  buyerId      String
+  buyer        User     @relation(fields: [buyerId], references: [id], onDelete: Cascade)
+  orderId      String
+  order        Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  rating       Int      // 1 to 5 stars
+  comment      String?
+  createdAt    DateTime @default(now())
+
+  @@unique([orderId, productId])
 }
 
 model OrderItem {

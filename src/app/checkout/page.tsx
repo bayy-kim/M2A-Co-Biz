@@ -3,7 +3,7 @@ import Link from "next/link"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/db"
 import { formatRupiah } from "@/lib/utils"
-import { ShoppingBag, ArrowLeft, ChevronRight, QrCode, Banknote, Truck } from "lucide-react"
+import { ShoppingBag, ArrowLeft, ChevronRight, QrCode, Banknote, Truck, CheckCircle } from "lucide-react"
 import { CheckoutForm } from "./checkout-form"
 
 async function CheckoutPage({
@@ -46,7 +46,7 @@ async function CheckoutPage({
             </div>
           </div>
 
-            {order.paymentMethod === "COD" ? (
+             {order.paymentMethod === "COD" ? (
               <div className="bg-success/5 border border-success/20 rounded-lg p-lg mb-lg text-left">
                 <h3 className="text-label-md font-bold text-on-surface mb-md flex items-center gap-2">
                   <Banknote className="w-5 h-5 text-success" />
@@ -90,8 +90,49 @@ async function CheckoutPage({
                   </div>
                 )}
                 <p className="text-label-sm text-on-surface-variant mt-md">
-                  Scan QRIS atau transfer ke rekening di atas. Tim kami akan mengonfirmasi pembayaran secara manual.
+                  Scan QRIS atau transfer ke rekening di atas.
                 </p>
+
+                {/* Proof of Payment Upload Form */}
+                <div className="mt-lg pt-lg border-t border-outline-variant/30">
+                  <p className="text-label-sm font-bold text-on-surface mb-sm">Unggah Bukti Transfer (Pencegahan Pembayaran Palsu)</p>
+                  
+                  {order.paymentProofUrl ? (
+                    <div className="p-md bg-success/10 border border-success/30 text-success rounded-xl text-label-sm flex items-center gap-2">
+                      <CheckCircle className="w-4 h-4" />
+                      <span>Bukti transfer berhasil diunggah. Menunggu konfirmasi dari Bendahara.</span>
+                    </div>
+                  ) : (
+                    <form action={async (fd) => {
+                      "use server"
+                      const file = fd.get("proof") as File
+                      if (file && file.size > 0) {
+                        try {
+                          const { put } = await import("@vercel/blob")
+                          const uniqueName = `proof-${order.id}-${Date.now()}`
+                          const blob = await put(uniqueName, file, { access: "public" })
+                          
+                          await prisma.order.update({
+                            where: { id: order.id },
+                            data: { paymentProofUrl: blob.url }
+                          })
+                          
+                          const { revalidatePath } = await import("next/cache")
+                          revalidatePath("/checkout")
+                        } catch (err) {
+                          console.error("Proof upload error:", err)
+                        }
+                      }
+                    }} className="flex flex-col gap-2">
+                      <div className="flex items-center gap-2">
+                        <input name="proof" type="file" accept="image/jpeg,image/png" required className="text-label-sm w-full border border-outline-variant/50 p-2 rounded-lg bg-surface" />
+                        <button type="submit" className="px-lg py-2 bg-primary text-on-primary rounded-lg text-label-sm font-bold shadow-xs hover:opacity-90 active:scale-95 transition-all cursor-pointer whitespace-nowrap min-h-[44px]">
+                          Kirim Bukti
+                        </button>
+                      </div>
+                    </form>
+                  )}
+                </div>
               </div>
             )}
 
@@ -165,6 +206,7 @@ async function CheckoutPage({
               buyerId={session?.user?.id}
               defaultName={userInfo?.name ?? ""}
               defaultPhone={userInfo?.phone ?? ""}
+              productVariants={product.variants}
             />
           </div>
         </div>

@@ -15,6 +15,7 @@ const productSchema = z.object({
   description: z.string().min(10, "Deskripsi minimal 10 karakter"),
   priceRupiah: z.coerce.number().int().positive("Harga harus lebih dari 0"),
   categoryId: z.string().optional().nullable(),
+  variants: z.string().optional().nullable(),
 })
 
 type ProductState = { error?: string | Record<string, string[]>; success?: boolean } | null
@@ -45,6 +46,7 @@ export async function createProduct(prevState: ProductState, formData: FormData)
       description: formData.get("description") as string,
       priceRupiah: formData.get("priceRupiah") as string,
       categoryId: formData.get("categoryId") as string || null,
+      variants: formData.get("variants") as string || null,
     }
 
     const result = productSchema.safeParse(raw)
@@ -61,6 +63,11 @@ export async function createProduct(prevState: ProductState, formData: FormData)
       }
     }
 
+    // Process comma separated variants text into array
+    const variantArray = result.data.variants
+      ? result.data.variants.split(",").map((v) => v.trim()).filter(Boolean)
+      : []
+
     await prisma.product.create({
       data: {
         sellerId: seller.id,
@@ -69,6 +76,7 @@ export async function createProduct(prevState: ProductState, formData: FormData)
         priceRupiah: result.data.priceRupiah,
         categoryId: result.data.categoryId || undefined,
         images: imageUrls,
+        variants: variantArray,
       },
     })
 
