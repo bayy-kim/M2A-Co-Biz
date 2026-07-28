@@ -287,7 +287,7 @@ async function SellerDashboard({ searchParams }: { searchParams: Promise<{ tab?:
               <div className="p-lg text-center text-on-surface-variant text-body-md py-xl">Belum ada penjualan.</div>
             ) : (
               <div className="overflow-x-auto">
-                <table className="w-full text-left min-w-[700px]">
+                <table className="w-full text-left min-w-[800px]">
                   <thead>
                     <tr className="text-label-sm text-on-surface-variant border-b border-outline-variant/30">
                       <th className="px-lg py-3 font-medium">Pembeli</th>
@@ -295,6 +295,7 @@ async function SellerDashboard({ searchParams }: { searchParams: Promise<{ tab?:
                       <th className="px-lg py-3 font-medium">Total</th>
                       <th className="px-lg py-3 font-medium">Bersih</th>
                       <th className="px-lg py-3 font-medium">Status Pengerjaan</th>
+                      <th className="px-lg py-3 font-medium text-right">Struk</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -318,6 +319,14 @@ async function SellerDashboard({ searchParams }: { searchParams: Promise<{ tab?:
                         <td className="px-lg py-3 text-label-md text-on-surface font-bold whitespace-nowrap">{formatRupiah(item.sellerNetRupiah)}</td>
                         <td className="px-lg py-3">
                           <FulfillmentStatusAction orderId={item.order.id} currentStatus={item.order.fulfillmentStatus} />
+                        </td>
+                        <td className="px-lg py-3 text-right">
+                          <Link
+                            href={`/seller/print/${item.order.id}`}
+                            className="inline-flex items-center gap-1 px-3 py-1.5 bg-surface-container border border-outline-variant/30 text-primary hover:bg-primary hover:text-white rounded-lg text-label-xs font-bold transition-all min-h-[36px]"
+                          >
+                            Cetak
+                          </Link>
                         </td>
                       </tr>
                     ))}

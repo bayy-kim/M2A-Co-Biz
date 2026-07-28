@@ -15,6 +15,7 @@ async function ProductDetailPage({ params }: { params: Promise<{ id: string }> }
     include: { 
       seller: { select: { businessName: true, type: true } }, 
       category: true,
+      variants: true,
       reviews: {
         include: {
           buyer: {
@@ -31,7 +32,7 @@ async function ProductDetailPage({ params }: { params: Promise<{ id: string }> }
   // Calculate average rating
   const totalReviews = product.reviews.length
   const avgRating = totalReviews > 0
-    ? (product.reviews.reduce((sum, r) => sum + r.rating, 0) / totalReviews).toFixed(1)
+    ? (product.reviews.reduce((sum, r) => sum + Number(r.rating), 0) / totalReviews).toFixed(1)
     : null
 
   return (
@@ -122,8 +123,8 @@ async function ProductDetailPage({ params }: { params: Promise<{ id: string }> }
                     <p className="text-label-sm text-on-surface font-bold mb-2">Varian Tersedia:</p>
                     <div className="flex flex-wrap gap-2">
                       {product.variants.map((v) => (
-                        <span key={v} className="px-lg py-1.5 bg-surface-container text-on-surface rounded-full text-label-sm font-semibold border border-outline-variant/20">
-                          {v}
+                        <span key={v.name} className="px-lg py-1.5 bg-surface-container text-on-surface rounded-full text-label-sm font-semibold border border-outline-variant/20">
+                          {v.name} {v.stock <= 3 && v.stock > 0 ? <span className="text-amber-600 font-bold">(Sisa {v.stock})</span> : v.stock === 0 ? <span className="text-error font-bold">(Habis)</span> : ""}
                         </span>
                       ))}
                     </div>
@@ -182,7 +183,7 @@ async function ProductDetailPage({ params }: { params: Promise<{ id: string }> }
                               <Star
                                 key={idx}
                                 className={`w-3.5 h-3.5 ${
-                                  idx < rev.rating
+                                   idx < Number(rev.rating)
                                     ? "text-accent-gold fill-accent-gold"
                                     : "text-outline-variant/30"
                                 }`}

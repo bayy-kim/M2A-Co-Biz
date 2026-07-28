@@ -158,7 +158,7 @@ async function CheckoutPage({
 
   const product = await prisma.product.findUnique({
     where: { id: params.productId },
-    include: { seller: { select: { businessName: true } } },
+    include: { seller: { select: { businessName: true } }, variants: true },
   })
   if (!product || product.status !== "ACTIVE") redirect("/catalog")
 
@@ -206,7 +206,7 @@ async function CheckoutPage({
               buyerId={session?.user?.id}
               defaultName={userInfo?.name ?? ""}
               defaultPhone={userInfo?.phone ?? ""}
-              productVariants={product.variants}
+              productVariants={product.variants.map((v) => v.name)}
             />
           </div>
         </div>

@@ -2,12 +2,12 @@
   "$schema": "https://opencode.ai/config.json",
   "command": {
     "build": {
-      "template": "Run `npm run build` and fix any TypeScript or build errors that appear.",
-      "description": "Build project & fix errors"
+      "template": "Run `npm run build` locally to check for build or compilation errors.",
+      "description": "Build Next.js application"
     },
     "seed": {
-      "template": "Run `npm run seed` locally to seed the database with test data. NEVER run this against production — seeding must always be a manual, local-only step.",
-      "description": "Seed database (manual only)"
+      "template": "Run `npm run seed` to seed local database mock credentials. Safe for local deployment.",
+      "description": "Seed database"
     }
   }
 }

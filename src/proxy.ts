@@ -6,7 +6,7 @@ const roleRoutes: Record<string, string[]> = {
   "/api/admin": ["ADMIN"],
   "/ketua": ["KETUA"],
   "/bendahara": ["BENDAHARA", "ADMIN"],
-  "/seller": ["SELLER"],
+  "/seller": ["SELLER", "ADMIN", "BENDAHARA"], // Allow Admin/Bendahara to print seller receipts too
   "/pesanan-saya": ["BUYER", "SELLER", "ADMIN", "KETUA", "BENDAHARA"],
   "/login": [],
   "/register": [],

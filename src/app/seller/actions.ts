@@ -76,7 +76,12 @@ export async function createProduct(prevState: ProductState, formData: FormData)
         priceRupiah: result.data.priceRupiah,
         categoryId: result.data.categoryId || undefined,
         images: imageUrls,
-        variants: variantArray,
+        variants: {
+          create: variantArray.map((v) => ({
+            name: v,
+            stock: 10, // Default stock of 10 for newly added variants
+          })),
+        },
       },
     })
 

@@ -169,9 +169,9 @@ model Product {
   priceRupiah Int
   images      String[]
   status      ProductStatus @default(ACTIVE)
-  variants    String[]  @default([])
   createdAt   DateTime @default(now())
   reviews     Review[]
+  variants    ProductVariant[]
 }
 
 model CommissionRule {
@@ -200,6 +200,14 @@ model Order {
   reviews           Review[]
 }
 
+model ProductVariant {
+  id          String   @id @default(cuid())
+  productId   String
+  product     Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  name        String   // e.g., "Pedas", "M", "L"
+  stock       Int      @default(0)
+}
+
 model Review {
   id           String   @id @default(cuid())
   productId    String
@@ -208,7 +216,7 @@ model Review {
   buyer        User     @relation(fields: [buyerId], references: [id], onDelete: Cascade)
   orderId      String
   order        Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  rating       Int      // 1 to 5 stars
+  rating       Decimal  @db.Decimal(2,1) // Changed to Decimal for float values like 4.5
   comment      String?
   createdAt    DateTime @default(now())
 
