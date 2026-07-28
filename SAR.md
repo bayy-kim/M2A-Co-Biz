@@ -26,208 +26,30 @@ Dokumen ini adalah rujukan teknis. Semua keputusan arsitektur di sini bersifat w
 
 ## 2. Skema Database (Prisma)
 
-```prisma
-  BUYER
-}
+Skema terkini berada di `prisma/schema.prisma`. Dokumen ini merujuk pada versi yang telah diimplementasikan:
 
-enum SellerType {
-  UMKM
-  JASA
-}
+**Model inti yang ada:**
+- `User` — Pengguna dengan role (`Role`) dan relasi akun NextAuth
+- `SellerProfile` — Profil penjual UMKM/Jasa dengan status persetujuan
+- `SellerDocument` — Dokumen KTP/KK/izin usaha terenkripsi
+- `Product` — Produk/jasa UMKM dengan varian dan review
+- `ProductVariant` — Varian produk (nama, stok, harga)
+- `Category` — Kategori produk dengan komisi default
+- `CommissionRule` — Aturan komisi (Seller > Category > Global)
+- `Review` — Ulasan pembeli dengan rating desimal `Decimal(2,1)` dan komentar
+- `Order` — Pesanan pembeli dengan status pembayaran & pengerjaan
+- `OrderItem` — Item dalam pesanan
+- `Payout` — Pengajuan pencairan dana penjual
+- `LedgerEntry` — Buku besar keuangan (IN/OUT)
+- `ActivityLog` — Log audit aktivitas pengguna
+- `CompanyProfile` — Profil perusahaan Al-Mubarok II
 
-enum SellerStatus {
-  PENDING
-  APPROVED
-  REJECTED
-  SUSPENDED
-}
-
-enum DocumentType {
-  KTP
-  KK
-  IZIN_USAHA
-}
-
-enum ProductStatus {
-  ACTIVE
-  INACTIVE
-  ARCHIVED
-}
-
-enum CategoryStatus {
-  PENDING
-  APPROVED
-  REJECTED
-}
-
-enum CommissionScope {
-  GLOBAL
-  CATEGORY
-  SELLER
-}
-
-enum PaymentStatus {
-  PENDING
-  PAID
-  FAILED
-  EXPIRED
-}
-
-enum PayoutStatus {
-  PENDING
-  PROCESSING
-  PAID
-  FAILED
-}
-
-enum LedgerType {
-  IN
-  OUT
-}
-
-model User {
-  id              String    @id @default(cuid())
-  role            Role
-  email           String    @unique
-  passwordHash    String
-  name            String
-  phone           String?
-  twoFactorSecret String?
-  isActive        Boolean   @default(true)
-  createdAt       DateTime  @default(now())
-  sellerProfile   SellerProfile?
-  orders          Order[]
-}
-
-model SellerProfile {
-  id              String    @id @default(cuid())
-  userId          String    @unique
-  user            User      @relation(fields: [userId], references: [id])
-  businessName    String
-  type            SellerType
-  status          SellerStatus @default(PENDING)
-  bankAccountName String?
-  bankAccountNo   String?
-  bankName        String?
-  documents       SellerDocument[]
-  products        Product[]
-  createdAt       DateTime  @default(now())
-}
-
-model SellerDocument {
-  id               String   @id @default(cuid())
-  sellerId         String
-  seller           SellerProfile @relation(fields: [sellerId], references: [id])
-  type             DocumentType
-  encryptedBlobUrl String
-  uploadedAt       DateTime @default(now())
-  verifiedAt       DateTime?
-  verifiedBy       String?
-}
-
-model Category {
-  id                String    @id @default(cuid())
-  name              String
-  status            CategoryStatus @default(PENDING)
-  requestedBySellerId String?
-  requestedBy       User?     @relation(fields: [requestedBySellerId], references: [id])
-  rejectionReason   String?
-  defaultCommissionPercent Decimal @db.Decimal(5,2)
-  products          Product[]
-  createdAt         DateTime  @default(now())
-}
-
-model Product {
-  id          String   @id @default(cuid())
-  sellerId    String
-  seller      SellerProfile @relation(fields: [sellerId], references: [id])
-  categoryId  String?
-  category    Category? @relation(fields: [categoryId], references: [id])
-  title       String
-  description String
-  priceRupiah Int
-  images      String[]
-  status      ProductStatus @default(ACTIVE)
-  createdAt   DateTime @default(now())
-}
-
-model CommissionRule {
-  id        String   @id @default(cuid())
-  scope     CommissionScope
-  refId     String?
-  percent   Decimal  @db.Decimal(5,2)
-  updatedBy String
-  createdAt DateTime @default(now())
-}
-
-model Order {
-  id              String   @id @default(cuid())
-  buyerName       String
-  buyerPhone      String
-  buyerId         String?
-  buyer           User?    @relation(fields: [buyerId], references: [id])
-  totalRupiah     Int
-  paymentStatus   PaymentStatus @default(PENDING)
-  items           OrderItem[]
-  createdAt       DateTime @default(now())
-}
-
-model OrderItem {
-  id                String @id @default(cuid())
-  orderId           String
-  order              Order @relation(fields: [orderId], references: [id])
-  productId         String
-  sellerId          String
-  qty               Int
-  priceRupiah       Int
-  commissionPercent Decimal @db.Decimal(5,2)
-  commissionRupiah  Int
-  sellerNetRupiah   Int
-}
-
-model Payout {
-  id               String   @id @default(cuid())
-  sellerId         String
-  amountRupiah     Int
-  status           PayoutStatus @default(PENDING)
-  periodStart      DateTime
-  periodEnd        DateTime
-  createdAt        DateTime @default(now())
-}
-
-model LedgerEntry {
-  id              String   @id @default(cuid())
-  type            LedgerType
-  amountRupiah    Int
-  relatedOrderId  String?
-  relatedPayoutId String?
-  createdAt       DateTime @default(now())
-}
-
-model ActivityLog {
-  id         String   @id @default(cuid())
-  actorId    String
-  action     String
-  targetType String
-  targetId   String
-  metadata   Json?
-  createdAt  DateTime @default(now())
-}
-
-model CompanyProfile {
-  id            String  @id @default(cuid())
-  name          String  @default("M2A Co-Biz")
-  address       String
-  latitude      Float?
-  longitude     Float?
-  mapEmbedUrl   String?
-  bankName      String?
-  bankAccountName String?
-  bankAccountNo String?
-  qrisImageUrl  String?
-  whatsappNumber String?
-}
-```
+**Aturan penting terkait database:**
+- Nominal uang disimpan sebagai `Int` (bukan `Float`)
+- Rating ulasan menggunakan `Decimal(2,1)` untuk presisi floating-point
+- Stok varian dikelola oleh model `ProductVariant` dengan pengurangan transaksional
+- Dokumen sensitif dienkripsi AES-256-GCM sebelum disimpan di Vercel Blob
+- Semua tabel memiliki indeks untuk performa query
 
 ## 3. Struktur Folder
 

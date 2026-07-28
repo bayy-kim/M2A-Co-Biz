@@ -106,14 +106,22 @@ export function PublicHeader({ session, showSearch = false, searchQuery = "" }: 
             </span>
           </Link>
         ) : (
-          <Link 
-            href="/login" 
-            className="p-[1px] rounded-full bg-gradient-to-b from-primary to-primary-container hover:shadow-md transition-all active:scale-95 group"
-          >
-            <span className="flex items-center gap-2 px-5 py-2.5 bg-primary text-on-primary rounded-full text-label-md font-bold transition-all group-hover:bg-primary-container min-h-[44px]">
-              Masuk
-            </span>
-          </Link>
+          <>
+            <Link
+              href="/register"
+              className="px-5 py-2.5 text-label-md font-bold text-on-surface-variant hover:text-primary transition-all min-h-[44px] flex items-center"
+            >
+              Daftar
+            </Link>
+            <Link 
+              href="/login" 
+              className="p-[1px] rounded-full bg-gradient-to-b from-primary to-primary-container hover:shadow-md transition-all active:scale-95 group"
+            >
+              <span className="flex items-center gap-2 px-5 py-2.5 bg-primary text-on-primary rounded-full text-label-md font-bold transition-all group-hover:bg-primary-container min-h-[44px]">
+                Masuk
+              </span>
+            </Link>
+          </>
         )}
 
         <button

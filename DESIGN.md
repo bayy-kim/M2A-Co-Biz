@@ -13,6 +13,7 @@ Profesional, hangat, terpercaya — kesan komunitas bisnis yang modern dan inklu
 | secondary | #4d6076 | on-secondary | #ffffff |
 | accent-gold | #D9A441 | success | #22C55E |
 | background | #f8faf9 | surface | #f8faf9 |
+| error | #ba1a1a | warning | #f59e0b |
 
 ## 3. Tipografi
 - **Font utama**: Plus Jakarta Sans — dipakai di hampir semua elemen heading & body.
@@ -22,6 +23,12 @@ Profesional, hangat, terpercaya — kesan komunitas bisnis yang modern dan inklu
 - Mobile-first, breakpoint standar Tailwind (`sm`, `md`, `lg`).
 - Spacing menggunakan skala 4/8/12/16/24/32px.
 - Card dengan rounded corner (`rounded-xl` / `rounded-2xl`) dan shadow lembut.
+- Bottom navigation bar untuk mobile dashboard & halaman publik.
 
 ## 5. Fitur Cetak Struk & Label
 - Seller Dashboard menyediakan fitur cetak struk berukuran minimalis hitam-putih ramah printer termal/PDF melalui rute khusus `/seller/print/[orderId]`.
+
+## 6. Komponen Dashboard
+- Sidebar navigasi untuk desktop (icons + label, active state dengan highlight).
+- Bottom navigation bar untuk mobile (5 item maksimal, active state icon terisi).
+- Header dengan breadcrumb + user avatar di desktop; judul halaman di mobile.
