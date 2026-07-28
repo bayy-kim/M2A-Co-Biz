@@ -86,38 +86,36 @@ export function LandingClient({ session, company, featuredProducts = [] }: Landi
               </div>
             </motion.div>
 
-            {/* Prevent float calculation in background on mobile */}
-            {typeof window !== "undefined" && window.innerWidth >= 1024 && (
-              <motion.div
-                initial={{ opacity: 0, x: 30 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, ease: "easeOut", delay: 0.15 }}
-                className="relative hidden lg:block"
-              >
-                <div className="relative aspect-square rounded-3xl overflow-hidden shadow-2xl z-20 border-4 border-surface bg-surface-container-high group">
-                  <img 
-                    src="https://images.unsplash.com/photo-1556740758-90de374c12ad?auto=format&fit=crop&w=800&q=80" 
-                    alt="Wirausaha UMKM M2A Co-Biz" 
-                    width={568}
-                    height={568}
-                    loading="eager"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 aspect-square"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-primary/60 via-transparent to-transparent opacity-60" />
-                </div>
-                <AnimateFloat className="absolute -bottom-6 -left-6 bg-surface/90 backdrop-blur-md p-xl rounded-2xl shadow-xl z-30 max-w-xs border border-white/30">
-                  <div className="flex items-center gap-lg">
-                    <div className="w-12 h-12 bg-accent-gold/20 rounded-full flex items-center justify-center text-accent-gold shrink-0">
-                      <TrendingUp className="w-6 h-6" />
-                    </div>
-                    <div>
-                      <p className="text-on-surface font-bold text-label-md">50+ UMKM Binaan</p>
-                      <p className="text-label-sm text-on-surface-variant">Tumbuh Bersama Kami</p>
-                    </div>
+            {/* Desktop hero image (hidden on mobile via CSS, no JS conditional to prevent hydration mismatch) */}
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, ease: "easeOut", delay: 0.15 }}
+              className="relative hidden lg:block"
+            >
+              <div className="relative aspect-square rounded-3xl overflow-hidden shadow-2xl z-20 border-4 border-surface bg-surface-container-high group">
+                <img 
+                  src="https://images.unsplash.com/photo-1556740758-90de374c12ad?auto=format&fit=crop&w=800&q=80" 
+                  alt="Wirausaha UMKM M2A Co-Biz" 
+                  width={568}
+                  height={568}
+                  loading="eager"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 aspect-square"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-primary/60 via-transparent to-transparent opacity-60" />
+              </div>
+              <AnimateFloat className="absolute -bottom-6 -left-6 bg-surface/90 backdrop-blur-md p-xl rounded-2xl shadow-xl z-30 max-w-xs border border-white/30">
+                <div className="flex items-center gap-lg">
+                  <div className="w-12 h-12 bg-accent-gold/20 rounded-full flex items-center justify-center text-accent-gold shrink-0">
+                    <TrendingUp className="w-6 h-6" />
                   </div>
-                </AnimateFloat>
-              </motion.div>
-            )}
+                  <div>
+                    <p className="text-on-surface font-bold text-label-md">50+ UMKM Binaan</p>
+                    <p className="text-label-sm text-on-surface-variant">Tumbuh Bersama Kami</p>
+                  </div>
+                </div>
+              </AnimateFloat>
+            </motion.div>
           </div>
         </section>
 
@@ -284,34 +282,14 @@ export function LandingClient({ session, company, featuredProducts = [] }: Landi
                     </div>
                   </div>
                 </div>
-                <div className="lg:w-2/3 h-[400px] lg:h-auto min-h-[400px] relative group/map">
-                  {/* Facade click-to-load map to prevent blocking mobile thread */}
-                  <div className="absolute inset-0 bg-surface-container-high flex flex-col items-center justify-center p-xl text-center z-10 group-data-[loaded=true]/map:hidden" id="map-facade">
-                    <MapPin className="w-10 h-10 text-primary mb-md animate-bounce" />
-                    <h4 className="text-headline-md text-primary font-bold">Peta Lokasi Al-Mubarok II</h4>
-                    <p className="text-label-sm text-on-surface-variant max-w-xs mt-xs mb-lg">Ketuk untuk memuat peta kawasan Desa Banjarwaringin.</p>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        const facade = document.getElementById("map-facade");
-                        const iframe = document.getElementById("map-iframe") as HTMLIFrameElement;
-                        if (facade && iframe) {
-                          facade.style.display = "none";
-                          iframe.src = "https://www.google.com/maps?q=-7.5064759,108.2390261&z=16&t=k&output=embed";
-                        }
-                      }}
-                      className="px-xl py-3 bg-primary text-on-primary rounded-xl text-label-md font-bold hover:bg-primary-container hover:text-primary transition-all active:scale-95 cursor-pointer min-h-[44px]"
-                    >
-                      Muat Peta Kawasan
-                    </button>
-                  </div>
+                <div className="lg:w-2/3 h-[400px] lg:h-auto min-h-[400px] relative">
                   <iframe
-                    id="map-iframe"
+                    src="https://www.google.com/maps?q=-7.5064759,108.2390261&z=16&t=k&output=embed"
                     className="w-full h-full border-0"
                     allowFullScreen
                     loading="lazy"
                     referrerPolicy="no-referrer-when-downgrade"
-                    title="Alamat M2A Co-Biz"
+                    title="Peta Kawasan M2A Co-Biz, Banjarwaringin"
                   />
                 </div>
               </div>
