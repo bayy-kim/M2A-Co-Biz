@@ -83,7 +83,7 @@ export function AnimateTap({ children, className, onClick }: { children: React.R
   )
 }
 
-// Subtle Float Motion for Badges / Hero Cards (Desktop)
+// Subtle Float Motion for Badges / Hero Cards (Desktop, view-port optimized to prevent GPU drain)
 export function AnimateFloat({ children, className }: { children: React.ReactNode; className?: string }) {
   const shouldReduceMotion = useReducedMotion()
 
@@ -92,7 +92,8 @@ export function AnimateFloat({ children, className }: { children: React.ReactNod
   return (
     <motion.div
       className={className}
-      animate={{ y: [0, -8, 0] }}
+      whileInView={{ y: [0, -8, 0] }}
+      viewport={{ once: false, margin: "-10px" }}
       transition={{
         duration: 4,
         repeat: Infinity,

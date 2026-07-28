@@ -20,13 +20,17 @@ const fileSchema = z
 
 const buyerUpdateSchema = z.object({
   fullName: z.string().transform((v) => v?.trim() || "").refine((v) => v.length >= 1, "Nama wajib diisi"),
-  phone: z.string().transform((v) => v?.trim() || "").refine((v) => v.length >= 8, "Nomor telepon tidak valid"),
+  phone: z.string().transform((v) => v?.trim() || "")
+    .refine((v) => /^[0-9]+$/.test(v), "Nomor telepon harus berupa angka")
+    .refine((v) => v.length >= 8, "Nomor telepon minimal 8 digit"),
   consent: z.string().refine((v) => v === "on", "Anda harus menyetujui ketentuan"),
 })
 
 const sellerUpdateSchema = z.object({
   fullName: z.string().transform((v) => v?.trim() || "").refine((v) => v.length >= 3, "Nama minimal 3 karakter"),
-  phone: z.string().transform((v) => v?.trim() || "").refine((v) => v.length >= 8, "Nomor telepon tidak valid"),
+  phone: z.string().transform((v) => v?.trim() || "")
+    .refine((v) => /^[0-9]+$/.test(v), "Nomor telepon harus berupa angka")
+    .refine((v) => v.length >= 8, "Nomor telepon minimal 8 digit"),
   businessType: z.enum(["UMKM", "JASA"]),
   businessName: z.string().transform((v) => v?.trim() || "").refine((v) => v.length >= 3, "Nama usaha minimal 3 karakter"),
   ktp: fileSchema,
@@ -92,6 +96,7 @@ export async function completeBuyerProfile(prevState: ProfileUpdateState, formDa
     })
     return { success: true, message: "Profil berhasil diperbarui!" }
   } catch (e) {
+    console.error("completeBuyerProfile Error:", e)
     return { message: "Gagal memperbarui profil" }
   }
 }
@@ -138,14 +143,30 @@ export async function completeSellerProfile(prevState: ProfileUpdateState, formD
   try {
     const docEntries: { type: DocumentType; encryptedBlobUrl: string }[] = []
 
-    for (const [field, docType] of [["ktp", "KTP"], ["kartuKeluarga", "KK"], ["izinUsaha", "IZIN_USAHA"]] as const) {
+    // Parallel upload and encryption to prevent serial bottleneck and orphan files
+    const fieldsToUpload = [
+      { field: "ktp", docType: "KTP" },
+      { field: "kartuKeluarga", docType: "KK" },
+      { field: "izinUsaha", docType: "IZIN_USAHA" }
+    ] as const
+
+    const uploadPromises = fieldsToUpload.map(async ({ field, docType }) => {
       const file = formData.get(field) as File | null
       if (file && file.size > 0) {
         const doc = await uploadAndEncrypt(file, field)
         if (doc) {
-          docEntries.push({ type: docType as DocumentType, encryptedBlobUrl: doc.encryptedBlobUrl })
-          uploadedUrls.push(doc.encryptedBlobUrl)
+          return { type: docType as DocumentType, encryptedBlobUrl: doc.encryptedBlobUrl }
         }
+      }
+      return null
+    })
+
+    const uploadResults = await Promise.all(uploadPromises)
+
+    for (const res of uploadResults) {
+      if (res) {
+        docEntries.push(res)
+        uploadedUrls.push(res.encryptedBlobUrl)
       }
     }
 
@@ -154,6 +175,14 @@ export async function completeSellerProfile(prevState: ProfileUpdateState, formD
     }
 
     await prisma.$transaction(async (tx) => {
+      // Re-verify existing profile under transactional lock to avoid double submit crashes
+      const txExisting = await tx.sellerProfile.findUnique({
+        where: { userId: session.user.id }
+      })
+      if (txExisting) {
+        throw new Error("Anda sudah terdaftar sebagai penjual.")
+      }
+
       await tx.user.update({
         where: { id: session.user.id },
         data: {
@@ -177,6 +206,7 @@ export async function completeSellerProfile(prevState: ProfileUpdateState, formD
 
     return { success: true, message: "Pendaftaran penjual berhasil diajukan!" }
   } catch (e) {
+    console.error("completeSellerProfile Error:", e)
     for (const url of uploadedUrls) {
       try { await del(url) } catch {}
     }

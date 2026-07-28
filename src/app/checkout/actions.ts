@@ -36,7 +36,8 @@ export async function createCheckout(formData: FormData) {
     return { error: "Sesi tidak valid" }
   }
 
-  const rl = await checkRateLimit(`checkout:${raw.buyerPhone || "anonymous"}`)
+  // Use session user id for rate limit tracking to avoid bypass by modifying buyerPhone
+  const rl = await checkRateLimit(`checkout:${session.user.id}`)
   if (!rl.allowed) return { error: "Terlalu banyak permintaan. Silakan coba lagi nanti." }
 
   const result = checkoutSchema.safeParse(raw)
@@ -89,6 +90,7 @@ export async function createCheckout(formData: FormData) {
       orderId: order.id,
     }
   } catch (e) {
-    return { error: e instanceof Error ? e.message : "Gagal membuat pesanan" }
+    console.error("Checkout Database Error:", e)
+    return { error: "Gagal memproses pesanan. Silakan coba kembali." }
   }
 }
