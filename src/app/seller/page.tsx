@@ -2,7 +2,8 @@ import { redirect } from "next/navigation"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/db"
 import { formatRupiah } from "@/lib/utils"
-import { Store, ShoppingBag, Wallet, TrendingUp, Clock, CheckCircle2, XCircle, LayoutDashboard, Package, ShoppingCart, type LucideIcon } from "lucide-react"
+import { Store, ShoppingBag, Wallet, TrendingUp, Clock, CheckCircle2, XCircle,
+LayoutDashboard, Package, ShoppingCart, HelpCircle, type LucideIcon } from "lucide-react"
 import { TrendChart } from "@/components/line-chart"
 import Link from "next/link"
 import { DashboardShell } from "@/components/dashboard-shell"
@@ -15,6 +16,7 @@ const SIDEBAR: { label: string; href: string; icon: string }[] = [
   { label: "Produk", href: "/seller?tab=products", icon: "Package" },
   { label: "Penjualan", href: "/seller?tab=sales", icon: "ShoppingCart" },
   { label: "Pencairan", href: "/seller?tab=payouts", icon: "Wallet" },
+  { label: "Panduan", href: "/seller?tab=guide", icon: "HelpCircle" },
 ]
 
 async function SellerDashboard({ searchParams }: { searchParams: Promise<{ tab?: string }> }) {
@@ -382,7 +384,33 @@ async function SellerDashboard({ searchParams }: { searchParams: Promise<{ tab?:
           </div>
         </div>
       )}
+
+      {tab === "guide" && (
+        <div className="space-y-lg max-w-2xl">
+          <h3 className="text-headline-md font-bold text-on-surface">Panduan Penggunaan — Penjual (Seller)</h3>
+          <div className="space-y-md">
+            <PanduanItemSeller icon={LayoutDashboard} title="Ringkasan" desc="Lihat ringkasan bisnis: total penjualan, pendapatan bersih (setelah komisi), jumlah produk aktif, dan saldo yang bisa dicairkan." />
+            <PanduanItemSeller icon={Package} title="Produk" desc="Tambah produk atau jasa baru. Isi nama, deskripsi, upload foto (max 5 file), harga, kategori. Bisa tambah varian (pisahkan dengan koma: contoh 'Merah, Biru, Hijau') dan stok awal varian. Edit status produk jadi Nonaktif jika stok habis." />
+            <PanduanItemSeller icon={ShoppingCart} title="Penjualan" desc="Lihat riwayat penjualan. Update status pengerjaan (Pending → Diproses → Dikirim → Selesai) untuk tiap pesanan. Klik tombol 'Cetak' untuk cetak struk/label pengiriman." />
+            <PanduanItemSeller icon={Wallet} title="Pencairan" desc="Ajukan pencairan saldo ke Bendahara. Pastikan data rekening bank sudah diisi di profil toko. Saldo akan ditransfer manual oleh Bendahara." />
+          </div>
+        </div>
+      )}
     </DashboardShell>
+  )
+}
+
+function PanduanItemSeller({ icon: Icon, title, desc }: { icon: any; title: string; desc: string }) {
+  return (
+    <div className="flex items-start gap-3 p-md rounded-xl bg-surface-container-high/50 border border-outline-variant/20">
+      <div className="p-2 rounded-lg bg-primary/10 shrink-0">
+        <Icon className="w-4 h-4 text-primary" />
+      </div>
+      <div>
+        <p className="text-label-md font-bold text-on-surface">{title}</p>
+        <p className="text-label-sm text-on-surface-variant leading-relaxed">{desc}</p>
+      </div>
+    </div>
   )
 }
 

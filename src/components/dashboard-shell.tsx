@@ -3,10 +3,10 @@
 import Link from "next/link"
 import { 
   ChevronRight, Store, User, LayoutDashboard, Clock, Tag, Users, Building2, List, 
-  Activity, CreditCard, Percent, Wallet, BookOpen, Package, ShoppingCart, Bell, LogOut, Bot, type LucideIcon 
+  Activity, CreditCard, Percent, Wallet, BookOpen, Package, ShoppingCart, Bell, LogOut, Bot, HelpCircle, X, type LucideIcon 
 } from "lucide-react"
 import { signOut } from "next-auth/react"
-import { ComponentType } from "react"
+import { ComponentType, useState } from "react"
 import { Logo } from "@/components/logo"
 
 const ICON_MAP: Record<string, LucideIcon> = {
@@ -26,6 +26,7 @@ const ICON_MAP: Record<string, LucideIcon> = {
   Store,
   Bell,
   Bot,
+  HelpCircle,
 }
 
 interface SidebarItem {
@@ -53,6 +54,8 @@ export function DashboardShell({
   extraHeader,
   userName,
 }: DashboardShellProps) {
+  const [showGuide, setShowGuide] = useState(false)
+
   const isActive = (item: SidebarItem) => {
     if (item.label === "Notifikasi") {
       return tab === "approvals" || tab === "payments" || tab === "activity" || tab === "sales"
@@ -181,6 +184,17 @@ export function DashboardShell({
           </div>
           <div className="flex items-center gap-lg">
             {extraHeader}
+
+            {/* Guide Button with Glass Effect Modal */}
+            <button
+              onClick={() => setShowGuide(true)}
+              className="w-9 h-9 rounded-xl bg-white/20 backdrop-blur-md border border-white/30 text-on-surface-variant hover:bg-white/30 hover:text-primary transition-all flex items-center justify-center shadow-xs outline-none focus-visible:ring-2 focus-visible:ring-primary"
+              aria-label="Panduan Penggunaan"
+              type="button"
+            >
+              <HelpCircle className="w-5 h-5" />
+            </button>
+
             {userName && (
               <div className="hidden sm:flex items-center gap-3 pl-md border-l border-outline-variant/30">
                 <div className="flex flex-col items-end">
@@ -201,6 +215,75 @@ export function DashboardShell({
           {children}
         </main>
       </div>
+
+      {/* Glass Effect Guide Modal */}
+      {showGuide && (
+        <div className="fixed inset-0 z-[80] flex items-center justify-center p-gutter" role="dialog" aria-modal="true">
+          <div className="fixed inset-0 bg-black/30 backdrop-blur-sm" onClick={() => setShowGuide(false)} />
+          
+          <div className="relative bg-white/70 backdrop-blur-2xl border border-white/40 shadow-2xl rounded-2xl p-lg md:p-xl max-w-lg w-full max-h-[80vh] overflow-y-auto animate-slide-in">
+            <button
+              onClick={() => setShowGuide(false)}
+              className="absolute top-3 right-3 w-9 h-9 rounded-xl bg-white/60 backdrop-blur-md border border-white/40 flex items-center justify-center text-on-surface-variant hover:bg-white/80 hover:text-primary transition-all outline-none focus-visible:ring-2 focus-visible:ring-primary"
+              type="button"
+              aria-label="Tutup panduan"
+            >
+              <X className="w-4 h-4" />
+            </button>
+
+            <div className="space-y-lg">
+              <div className="flex items-center gap-3">
+                <div className="p-2.5 rounded-xl bg-primary/10 backdrop-blur-sm border border-primary/20">
+                  <HelpCircle className="w-6 h-6 text-primary" />
+                </div>
+                <div>
+                  <h3 className="text-headline-md font-bold text-on-surface">Panduan <span className="text-primary capitalize">{roleLabel}</span></h3>
+                  <p className="text-label-sm text-on-surface-variant">Cara cepat menggunakan dashboard ini</p>
+                </div>
+              </div>
+
+              <div className="space-y-md">
+                {roleLabel === "admin" && (
+                  <>
+                    <GuideItem icon={LayoutDashboard} title="Ringkasan" desc="Lihat statistik umum: jumlah seller pending, produk aktif, dan aktivitas terbaru." />
+                    <GuideItem icon={Clock} title="Antrian Persetujuan" desc="Tinjau & setujui/tolak pendaftaran seller baru. Klik 'Review Documents' untuk lihat KTP/KK." />
+                    <GuideItem icon={Tag} title="Kategori" desc="Atur kategori produk. Kategorinya bisa di-approve atau ditolak." />
+                    <GuideItem icon={Users} title="Pengguna" desc="Lihat daftar semua pengguna yang terdaftar di platform." />
+                    <GuideItem icon={Building2} title="Profil Perusahaan" desc="Atur informasi perusahaan: alamat, rekening bank, nomor WhatsApp, QRIS." />
+                    <GuideItem icon={List} title="Log Aktivitas" desc="Semua aktivitas penting tercatat otomatis di sini untuk audit trail." />
+                  </>
+                )}
+
+                {roleLabel === "bendahara" && (
+                  <>
+                    <GuideItem icon={LayoutDashboard} title="Ringkasan" desc="Pantau total pemasukan, pengeluaran, komisi, dan pending payout." />
+                    <GuideItem icon={CreditCard} title="Pembayaran" desc="Konfirmasi pembayaran dari pembeli. Pastikan cek bukti transfer dulu sebelum klik 'Konfirmasi'." />
+                    <GuideItem icon={Percent} title="Aturan Komisi" desc="Atur persentase komisi: Global (default) > per Kategori > per Seller." />
+                    <GuideItem icon={Wallet} title="Pencairan" desc="Proses pencairan dana seller. Cek saldo seller dulu sebelum approve." />
+                    <GuideItem icon={BookOpen} title="Buku Besar" desc="Semua transaksi IN (pemasukan) dan OUT (pengeluaran) tercatat di sini." />
+                  </>
+                )}
+
+                {roleLabel === "ketua" && (
+                  <>
+                    <GuideItem icon={LayoutDashboard} title="Ringkasan" desc="Lihat gambaran umum performa platform: total seller, produk, pemasukan & komisi." />
+                    <GuideItem icon={Activity} title="Feed Aktivitas" desc="Pantau aktivitas terkini: pendaftaran baru, pembayaran, payout, dan perubahan komisi." />
+                  </>
+                )}
+
+                {roleLabel === "seller" && (
+                  <>
+                    <GuideItem icon={LayoutDashboard} title="Ringkasan" desc="Lihat total penjualan, pendapatan bersih, produk aktif, dan saldo yang bisa dicairkan." />
+                    <GuideItem icon={Package} title="Produk" desc="Tambah produk/jasa baru, lengkap dengan foto, kategori, dan varian (ukuran/warna/rasa) + stok awal." />
+                    <GuideItem icon={ShoppingCart} title="Penjualan" desc="Lihat riwayat penjualan. Update status pengerjaan pesanan di sini. Klik 'Cetak' untuk cetak struk." />
+                    <GuideItem icon={Wallet} title="Pencairan" desc="Ajukan pencairan saldo ke Bendahara. Pastikan data rekening sudah diisi di profil." />
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       <nav 
         className="lg:hidden fixed bottom-0 w-full z-50 bg-surface border-t border-outline-variant/30 shadow-[0_-4px_20px_rgba(0,0,0,0.08)] pb-[env(safe-area-inset-bottom)]"
@@ -255,6 +338,20 @@ export function DashboardShell({
           })}
         </div>
       </nav>
+    </div>
+  )
+}
+
+function GuideItem({ icon: Icon, title, desc }: { icon: LucideIcon; title: string; desc: string }) {
+  return (
+    <div className="flex items-start gap-3 p-md rounded-xl bg-white/50 backdrop-blur-sm border border-white/30 hover:bg-white/70 transition-colors">
+      <div className="p-2 rounded-lg bg-primary/10 backdrop-blur-sm shrink-0">
+        <Icon className="w-4 h-4 text-primary" />
+      </div>
+      <div className="min-w-0">
+        <p className="text-label-md font-bold text-on-surface">{title}</p>
+        <p className="text-label-sm text-on-surface-variant leading-relaxed">{desc}</p>
+      </div>
     </div>
   )
 }

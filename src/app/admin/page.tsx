@@ -1,7 +1,8 @@
 import { redirect } from "next/navigation"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/db"
-import { CheckCircle2, XCircle, Clock, Users, ShoppingBag, FileText, AlertTriangle, Eye, Search, LayoutDashboard, Tag, Building2, List, type LucideIcon } from "lucide-react"
+import { CheckCircle2, XCircle, Clock, Users, ShoppingBag, FileText, AlertTriangle, Eye,
+Search, LayoutDashboard, Tag, Building2, List, HelpCircle, type LucideIcon } from "lucide-react"
 import Link from "next/link"
 import { DashboardShell } from "@/components/dashboard-shell"
 import { ApproveButton, RejectButton } from "./approve-button"
@@ -16,6 +17,7 @@ const SIDEBAR: { label: string; href: string; icon: string }[] = [
   { label: "Pengguna", href: "/admin?tab=users", icon: "Users" },
   { label: "Profil Perusahaan", href: "/admin?tab=company", icon: "Building2" },
   { label: "Log Aktivitas", href: "/admin?tab=activity", icon: "List" },
+  { label: "Panduan", href: "/admin?tab=guide", icon: "HelpCircle" },
 ]
 
 async function AdminDashboard({ searchParams }: { searchParams: Promise<{ tab?: string }> }) {
@@ -332,7 +334,39 @@ async function AdminDashboard({ searchParams }: { searchParams: Promise<{ tab?: 
           )}
         </div>
       )}
+
+      {tab === "guide" && <PanduanAdmin />}
     </DashboardShell>
+  )
+}
+
+function PanduanAdmin() {
+  return (
+    <div className="space-y-lg max-w-2xl">
+      <h3 className="text-headline-md font-bold text-on-surface">Panduan Penggunaan — Admin</h3>
+      <div className="space-y-md">
+        <PanduanItem icon={LayoutDashboard} title="Ringkasan" desc="Lihat statistik umum: jumlah seller yang menunggu approval, total produk aktif, dan aktivitas terbaru. Ini adalah landing page pertama saat Anda login." />
+        <PanduanItem icon={Clock} title="Antrian Persetujuan" desc="Daftar seller baru yang mendaftar. Klik 'Review Documents' untuk melihat dokumen KTP/KK yang sudah dienkripsi. Setelah dicek, klik tombol centang (Approve) atau silang (Reject)." />
+        <PanduanItem icon={Tag} title="Kategori" desc="Kelola kategori produk. Kategori yang diusulkan seller butuh approval Anda dulu sebelum bisa dipakai. Anda juga bisa menambahkan kategori langsung." />
+        <PanduanItem icon={Users} title="Pengguna" desc="Lihat dan kelola semua pengguna yang terdaftar. Dari sini Anda bisa melihat role masing-masing user." />
+        <PanduanItem icon={Building2} title="Profil Perusahaan" desc="Atur informasi perusahaan Al-Mubarok II: alamat, nomor WhatsApp, rekening bank tujuan transfer, dan gambar QRIS. Data ini muncul di halaman checkout & landing page." />
+        <PanduanItem icon={List} title="Log Aktivitas" desc="Semua aktivitas penting (approve/reject seller, perubahan komisi, payout) tercatat otomatis di sini sebagai audit trail." />
+      </div>
+    </div>
+  )
+}
+
+function PanduanItem({ icon: Icon, title, desc }: { icon: any; title: string; desc: string }) {
+  return (
+    <div className="flex items-start gap-3 p-md rounded-xl bg-surface-container-high/50 border border-outline-variant/20">
+      <div className="p-2 rounded-lg bg-primary/10 shrink-0">
+        <Icon className="w-4 h-4 text-primary" />
+      </div>
+      <div className="min-w-0">
+        <p className="text-label-md font-bold text-on-surface">{title}</p>
+        <p className="text-label-sm text-on-surface-variant leading-relaxed">{desc}</p>
+      </div>
+    </div>
   )
 }
 

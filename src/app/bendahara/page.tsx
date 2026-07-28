@@ -2,7 +2,8 @@ import { redirect } from "next/navigation"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/db"
 import { formatRupiah } from "@/lib/utils"
-import { TrendingUp, TrendingDown, Wallet, Percent, LayoutDashboard, CreditCard, BookOpen, Bot, type LucideIcon } from "lucide-react"
+import { TrendingUp, TrendingDown, Wallet, Percent, LayoutDashboard, CreditCard,
+BookOpen, Bot, HelpCircle, type LucideIcon } from "lucide-react"
 import { FinanceBarChart } from "@/components/bar-chart"
 import { RevenuePieChart } from "@/components/pie-chart"
 import { DashboardShell } from "@/components/dashboard-shell"
@@ -17,6 +18,7 @@ const SIDEBAR: { label: string; href: string; icon: string }[] = [
   { label: "Pencairan", href: "/bendahara?tab=payouts", icon: "Wallet" },
   { label: "Buku Besar", href: "/bendahara?tab=ledger", icon: "BookOpen" },
   { label: "Asisten AI", href: "/aichat-bendahara", icon: "Bot" },
+  { label: "Panduan", href: "/bendahara?tab=guide", icon: "HelpCircle" },
 ]
 
 async function BendaharaDashboard({ searchParams }: { searchParams: Promise<{ tab?: string }> }) {
@@ -433,7 +435,34 @@ async function BendaharaDashboard({ searchParams }: { searchParams: Promise<{ ta
           )}
         </div>
       )}
+
+      {tab === "guide" && (
+        <div className="space-y-lg max-w-2xl">
+          <h3 className="text-headline-md font-bold text-on-surface">Panduan Penggunaan — Bendahara</h3>
+          <div className="space-y-md">
+            <PanduanItemBendahara icon={LayoutDashboard} title="Ringkasan" desc="Pantau total pemasukan (dari penjualan), total komisi/ pengeluaran, profit bersih, jumlah seller aktif, dan pending payout." />
+            <PanduanItemBendahara icon={CreditCard} title="Pembayaran" desc="Daftar pesanan yang menunggu konfirmasi. Klik 'Lihat Bukti' untuk cek bukti transfer pembeli. Baru klik 'Konfirmasi Pembayaran' setelah yakin uang masuk. Untuk COD langsung konfirmasi." />
+            <PanduanItemBendahara icon={Percent} title="Aturan Komisi" desc="Atur persentase komisi. Urutan prioritas: Seller > Kategori > Global. Pilih scope, isi persen, lalu simpan." />
+            <PanduanItemBendahara icon={Wallet} title="Pencairan" desc="Daftar pengajuan pencairan saldo dari seller. Klik 'Proses' untuk mencairkan. Pastikan saldo seller mencukupi." />
+            <PanduanItemBendahara icon={BookOpen} title="Buku Besar" desc="Semua transaksi IN (pemasukan) dan OUT (pengeluaran) tercatat otomatis untuk audit keuangan." />
+          </div>
+        </div>
+      )}
     </DashboardShell>
+  )
+}
+
+function PanduanItemBendahara({ icon: Icon, title, desc }: { icon: any; title: string; desc: string }) {
+  return (
+    <div className="flex items-start gap-3 p-md rounded-xl bg-surface-container-high/50 border border-outline-variant/20">
+      <div className="p-2 rounded-lg bg-primary/10 shrink-0">
+        <Icon className="w-4 h-4 text-primary" />
+      </div>
+      <div>
+        <p className="text-label-md font-bold text-on-surface">{title}</p>
+        <p className="text-label-sm text-on-surface-variant leading-relaxed">{desc}</p>
+      </div>
+    </div>
   )
 }
 

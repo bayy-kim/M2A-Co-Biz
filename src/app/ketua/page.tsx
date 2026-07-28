@@ -2,7 +2,7 @@ import { redirect } from "next/navigation"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/db"
 import { formatRupiah } from "@/lib/utils"
-import { BarChart3, TrendingUp, Users, ShoppingBag, Activity, LayoutDashboard, type LucideIcon } from "lucide-react"
+import { BarChart3, TrendingUp, Users, ShoppingBag, Activity, LayoutDashboard, HelpCircle, type LucideIcon } from "lucide-react"
 import { TrendChart } from "@/components/line-chart"
 import Link from "next/link"
 import { DashboardShell } from "@/components/dashboard-shell"
@@ -10,6 +10,7 @@ import { DashboardShell } from "@/components/dashboard-shell"
 const SIDEBAR: { label: string; href: string; icon: string }[] = [
   { label: "Ringkasan", href: "/ketua", icon: "LayoutDashboard" },
   { label: "Aktivitas", href: "/ketua?tab=activity", icon: "Activity" },
+  { label: "Panduan", href: "/ketua?tab=guide", icon: "HelpCircle" },
 ]
 
 async function KetuaDashboard({ searchParams }: { searchParams: Promise<{ tab?: string }> }) {
@@ -211,6 +212,32 @@ async function KetuaDashboard({ searchParams }: { searchParams: Promise<{ tab?: 
               </table>
             </div>
           )}
+        </div>
+      )}
+
+      {tab === "guide" && (
+        <div className="space-y-lg max-w-2xl">
+          <h3 className="text-headline-md font-bold text-on-surface">Panduan Penggunaan — Ketua</h3>
+          <div className="space-y-md">
+            <div className="flex items-start gap-3 p-md rounded-xl bg-surface-container-high/50 border border-outline-variant/20">
+              <div className="p-2 rounded-lg bg-primary/10 shrink-0">
+                <LayoutDashboard className="w-4 h-4 text-primary" />
+              </div>
+              <div>
+                <p className="text-label-md font-bold text-on-surface">Ringkasan</p>
+                <p className="text-label-sm text-on-surface-variant">Lihat gambaran umum performa platform: total seller & produk aktif, total pemasukan & komisi, tren penjualan 7 hari terakhir, dan komisi per seller.</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3 p-md rounded-xl bg-surface-container-high/50 border border-outline-variant/20">
+              <div className="p-2 rounded-lg bg-primary/10 shrink-0">
+                <Activity className="w-4 h-4 text-primary" />
+              </div>
+              <div>
+                <p className="text-label-md font-bold text-on-surface">Aktivitas</p>
+                <p className="text-label-sm text-on-surface-variant">Pantau semua aktivitas yang terjadi di platform secara real-time: pendaftaran seller baru, konfirmasi pembayaran, payout, dan perubahan komisi.</p>
+              </div>
+            </div>
+          </div>
         </div>
       )}
     </DashboardShell>
