@@ -19,7 +19,7 @@ const fulfillmentLabelMap: Record<string, string> = {
 }
 
 export default function BuyerDashboard() {
-  const { data: session, update } = useSession()
+  const { data: session, status, update } = useSession()
   const router = useRouter()
   const [showSellForm, setShowSellForm] = useState(false)
   const [becomeState, formAction, pending] = useActionState<BecomeSellerState, FormData>(requestBecomeSeller, {})
@@ -34,9 +34,17 @@ export default function BuyerDashboard() {
       .catch(() => setOrdersLoading(false))
   }, [])
 
+  if (status === "loading") {
+    return (
+      <div className="min-h-screen flex items-center justify-center" style={{background:"var(--color-clay-bg)"}}>
+        <Loader2 className="w-8 h-8 animate-spin" style={{color:"var(--color-primary)"}} />
+      </div>
+    )
+  }
+
   const user = session?.user as any
   if (!user) {
-    router.push("/login?callbackUrl=/dashboard-buyer")
+    if (typeof window !== "undefined") router.push("/login?callbackUrl=/dashboard-buyer")
     return null
   }
 
