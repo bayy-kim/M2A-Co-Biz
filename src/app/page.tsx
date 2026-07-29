@@ -1,4 +1,4 @@
-import { LandingClient } from "@/components/landing-client"
+import { LandingClient } from "@/components/dynamic-landing-client"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/db"
 

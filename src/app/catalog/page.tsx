@@ -6,6 +6,7 @@ import { auth } from "@/lib/auth"
 import { CatalogFilterSort } from "./filter-sort"
 import { PublicBottomBar } from "@/components/public-bottom-bar"
 import { Logo } from "@/components/logo"
+import Image from "next/image"
 import { PublicHeader } from "@/components/public-header"
 import { AnimateStagger, AnimateItem, AnimateCard } from "@/components/animate-section"
 
@@ -203,7 +204,7 @@ async function CatalogPage({ searchParams }: { searchParams: Promise<{ q?: strin
                   <Link href={`/catalog/${product.id}`} className="clay-sm overflow-hidden group hover:shadow-lg transition-all duration-300 flex flex-col h-full">
                     <div className="relative h-36 sm:h-44 overflow-hidden bg-surface-container-high flex items-center justify-center">
                       {product.images.length > 0 ? (
-                        <img alt={product.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src={product.images[0]} />
+                        <Image alt={product.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src={product.images[0]} width={400} height={400} loading="lazy" sizes="(max-width: 768px) 50vw, 25vw" />
                       ) : (
                         <ShoppingBag className="w-12 h-12 sm:w-16 sm:h-16 text-primary" />
                       )}
@@ -302,7 +303,7 @@ async function CatalogPage({ searchParams }: { searchParams: Promise<{ q?: strin
                 <Link href={`/catalog/${product.id}`} className="clay-sm overflow-hidden group hover:shadow-lg transition-all duration-300 hover:-translate-y-1 flex flex-col">
                   <div className="relative h-36 sm:h-44 overflow-hidden bg-surface-container-high flex items-center justify-center">
                     {product.images.length > 0 ? (
-                      <img alt={product.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src={product.images[0]} />
+                      <Image alt={product.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src={product.images[0]} width={400} height={400} loading="lazy" sizes="(max-width: 768px) 50vw, 25vw" />
                     ) : (
                       <ShoppingBag className="w-12 h-12 sm:w-16 sm:h-16 text-primary" />
                     )}

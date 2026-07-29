@@ -3,7 +3,7 @@ import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/db"
 import { formatRupiah } from "@/lib/utils"
 import { BarChart3, TrendingUp, Users, ShoppingBag, Activity, LayoutDashboard, HelpCircle, type LucideIcon } from "lucide-react"
-import { TrendChart } from "@/components/line-chart"
+import { TrendChart } from "@/components/dynamic-charts-client"
 import Link from "next/link"
 import { DashboardShell } from "@/components/dashboard-shell"
 

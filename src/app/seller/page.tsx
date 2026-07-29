@@ -4,10 +4,10 @@ import { prisma } from "@/lib/db"
 import { formatRupiah } from "@/lib/utils"
 import { Store, ShoppingBag, Wallet, TrendingUp, Clock, CheckCircle2, XCircle,
 LayoutDashboard, Package, ShoppingCart, HelpCircle, type LucideIcon } from "lucide-react"
-import { TrendChart } from "@/components/line-chart"
+import { TrendChart } from "@/components/dynamic-charts-client"
 import Link from "next/link"
 import { DashboardShell } from "@/components/dashboard-shell"
-import { NewProductForm } from "./new-product-form"
+import { NewProductForm } from "@/components/dynamic-new-product-form"
 import { RequestPayoutForm } from "./request-payout-form"
 import { FulfillmentStatusAction } from "./fulfillment-action"
 

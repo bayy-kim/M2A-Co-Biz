@@ -1,0 +1,128 @@
+
+> Build error occurred
+Error: Turbopack build failed with 9 errors:
+./src/app/aichat-bendahara/page.tsx:4:32
+`ssr: false` is not allowed with `next/dynamic` in Server Components. Please move it into a Client Component.
+  2 | import { auth } from "@/lib/auth"
+  3 | import dynamic from "next/dynamic"
+> 4 | const ChatContainerBendahara = dynamic(() => import("./chat-container"), { ssr: false })
+    |                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 |
+  6 | export default async function AIChatBendaharaPage() {
+  7 |   const session = await auth()
+
+Ecmascript file had an error
+
+
+./src/app/aichat/page.tsx:4:23
+`ssr: false` is not allowed with `next/dynamic` in Server Components. Please move it into a Client Component.
+  2 | import { auth } from "@/lib/auth"
+  3 | import dynamic from "next/dynamic"
+> 4 | const ChatContainer = dynamic(() => import("./chat-container"), { ssr: false })
+    |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 |
+  6 | export default async function AIChatPage() {
+  7 |   const session = await auth()
+
+Ecmascript file had an error
+
+
+./src/app/bendahara/page.tsx:8:25
+`ssr: false` is not allowed with `next/dynamic` in Server Components. Please move it into a Client Component.
+   6 | BookOpen, Bot, HelpCircle, type LucideIcon } from "lucide-react"
+   7 | import dynamic from "next/dynamic"
+>  8 | const FinanceBarChart = dynamic(() => import("@/components/bar-chart"), { ssr: false })
+     |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   9 | const RevenuePieChart = dynamic(() => import("@/components/pie-chart"), { ssr: false })
+  10 | import { DashboardShell } from "@/components/dashboard-shell"
+  11 | import { CommissionRuleForm } from "./commission-form"
+
+Ecmascript file had an error
+
+
+./src/app/bendahara/page.tsx:9:25
+`ssr: false` is not allowed with `next/dynamic` in Server Components. Please move it into a Client Component.
+   7 | import dynamic from "next/dynamic"
+   8 | const FinanceBarChart = dynamic(() => import("@/components/bar-chart"), { ssr: false })
+>  9 | const RevenuePieChart = dynamic(() => import("@/components/pie-chart"), { ssr: false })
+     |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  10 | import { DashboardShell } from "@/components/dashboard-shell"
+  11 | import { CommissionRuleForm } from "./commission-form"
+  12 | import { PayoutAction } from "./payout-action"
+
+Ecmascript file had an error
+
+
+./src/app/checkout/page.tsx:8:22
+`ssr: false` is not allowed with `next/dynamic` in Server Components. Please move it into a Client Component.
+   6 | ... { ShoppingBag, ArrowLeft, ChevronRight, QrCode, Banknote, Truck, CheckCircle } from "l...
+   7 | ... dynamic from "next/dynamic"
+>  8 | ...CheckoutForm = dynamic(() => import("./checkout-form"), { ssr: false })
+     |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   9 | ...
+  10 | ...function CheckoutPage({
+  11 | ...chParams,
+
+Ecmascript file had an error
+
+
+./src/app/ketua/page.tsx:7:20
+`ssr: false` is not allowed with `next/dynamic` in Server Components. Please move it into a Client Component.
+   5 | ... BarChart3, TrendingUp, Users, ShoppingBag, Activity, LayoutDashboard, HelpCircle, type...
+   6 | ...ynamic from "next/dynamic"
+>  7 | ...endChart = dynamic(() => import("@/components/line-chart"), { ssr: false })
+     |               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | ...ink from "next/link"
+   9 | ... DashboardShell } from "@/components/dashboard-shell"
+  10 | ...
+
+Ecmascript file had an error
+
+
+./src/app/page.tsx:2:23
+`ssr: false` is not allowed with `next/dynamic` in Server Components. Please move it into a Client Component.
+  1 | import dynamic from "next/dynamic"
+> 2 | const LandingClient = dynamic(() => import("@/components/landing-client"), { ssr: false })
+    |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 | import { auth } from "@/lib/auth"
+  4 | import { prisma } from "@/lib/db"
+  5 |
+
+Ecmascript file had an error
+
+
+./src/app/seller/page.tsx:10:20
+`ssr: false` is not allowed with `next/dynamic` in Server Components. Please move it into a Client Component.
+   8 | import Link from "next/link"
+   9 | import { DashboardShell } from "@/components/dashboard-shell"
+> 10 | const TrendChart = dynamic(() => import("@/components/line-chart"), { ssr: false })
+     |                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  11 | const NewProductForm = dynamic(() => import("./new-product-form"), { ssr: false })
+  12 | import { RequestPayoutForm } from "./request-payout-form"
+  13 | import { FulfillmentStatusAction } from "./fulfillment-action"
+
+Ecmascript file had an error
+
+
+./src/app/seller/page.tsx:11:24
+`ssr: false` is not allowed with `next/dynamic` in Server Components. Please move it into a Client Component.
+   9 | import { DashboardShell } from "@/components/dashboard-shell"
+  10 | const TrendChart = dynamic(() => import("@/components/line-chart"), { ssr: false })
+> 11 | const NewProductForm = dynamic(() => import("./new-product-form"), { ssr: false })
+     |                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  12 | import { RequestPayoutForm } from "./request-payout-form"
+  13 | import { FulfillmentStatusAction } from "./fulfillment-action"
+  14 |
+
+Ecmascript file had an error
+
+
+    at <unknown> (./src/app/aichat-bendahara/page.tsx:4:32)
+    at <unknown> (./src/app/aichat/page.tsx:4:23)
+    at <unknown> (./src/app/bendahara/page.tsx:8:25)
+    at <unknown> (./src/app/bendahara/page.tsx:9:25)
+    at <unknown> (./src/app/checkout/page.tsx:8:22)
+    at <unknown> (./src/app/ketua/page.tsx:7:20)
+    at <unknown> (./src/app/page.tsx:2:23)
+    at <unknown> (./src/app/seller/page.tsx:10:20)
+    at <unknown> (./src/app/seller/page.tsx:11:24)

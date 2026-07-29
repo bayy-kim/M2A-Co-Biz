@@ -1,33 +1,10 @@
 "use client"
 
 import Link from "next/link"
-import { 
-  ChevronRight, Store, User, LayoutDashboard, Clock, Tag, Users, Building2, List, 
-  Activity, CreditCard, Percent, Wallet, BookOpen, Package, ShoppingCart, Bell, LogOut, Bot, HelpCircle, X, type LucideIcon 
-} from "lucide-react"
+import { ChevronRight, Store, LayoutDashboard, Clock, Tag, Users, Building2, List, Activity, CreditCard, Percent, Wallet, BookOpen, Package, ShoppingCart, LogOut, HelpCircle, X, type LucideIcon } from "lucide-react"
 import { signOut } from "next-auth/react"
-import { ComponentType, useState } from "react"
+import { useState } from "react"
 import { Logo } from "@/components/logo"
-
-const ICON_MAP: Record<string, LucideIcon> = {
-  LayoutDashboard,
-  Clock,
-  Tag,
-  Users,
-  Building2,
-  List,
-  Activity,
-  CreditCard,
-  Percent,
-  Wallet,
-  BookOpen,
-  Package,
-  ShoppingCart,
-  Store,
-  Bell,
-  Bot,
-  HelpCircle,
-}
 
 interface SidebarItem {
   label: string
@@ -76,12 +53,11 @@ export function DashboardShell({
 
   const renderIcon = (icon?: LucideIcon | string) => {
     if (!icon) return null
-    if (typeof icon === "string") {
-      const Comp = ICON_MAP[icon]
-      return Comp ? <Comp className="w-5 h-5 shrink-0" /> : null
+    if (typeof icon !== "string") {
+      const Comp = icon as React.ComponentType<{ className?: string }>
+      return <Comp className="w-5 h-5 shrink-0" />
     }
-    const Comp = icon as ComponentType<{ className?: string }>
-    return <Comp className="w-5 h-5 shrink-0" />
+    return <span className="w-5 h-5 shrink-0 flex items-center justify-center text-[10px] font-bold bg-white/10 rounded" title={icon}>{icon.slice(0, 2)}</span>
   }
 
   const getNotificationItem = (): SidebarItem => {

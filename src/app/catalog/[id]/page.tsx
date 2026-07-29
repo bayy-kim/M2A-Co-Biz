@@ -6,6 +6,7 @@ import { auth } from "@/lib/auth"
 import { ShoppingBag, Store, ArrowLeft, ChevronRight, ShieldCheck, Heart, Sparkles, Star } from "lucide-react"
 import { PublicBottomBar } from "@/components/public-bottom-bar"
 import { PublicHeader } from "@/components/public-header"
+import Image from "next/image"
 import { ShareButton } from "@/components/share-button"
 
 async function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
@@ -58,10 +59,14 @@ async function ProductDetailPage({ params }: { params: Promise<{ id: string }> }
           <div className="lg:col-span-7 space-y-md">
             <div className="clay-lg aspect-[4/3] sm:aspect-video lg:aspect-square flex items-center justify-center overflow-hidden relative group">
               {product.images.length > 0 ? (
-                <img 
-                  alt={product.title} 
-                  className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500" 
-                  src={product.images[0]} 
+                <Image
+                  alt={product.title}
+                  className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500"
+                  src={product.images[0]}
+                  width={800}
+                  height={800}
+                  priority={true}
+                  sizes="(max-width: 768px) 100vw, 50vw"
                 />
               ) : (
                 <div className="flex flex-col items-center gap-3">
@@ -84,7 +89,7 @@ async function ProductDetailPage({ params }: { params: Promise<{ id: string }> }
                     key={idx}
                     className={`clay-sm overflow-hidden ${idx === 0 ? "ring-2 ring-primary" : ""} aspect-square`}
                   >
-                    <img src={img} alt={`${product.title} foto ${idx + 1}`} className="w-full h-full object-cover" />
+                    <Image src={img} alt={`${product.title} foto ${idx + 1}`} width={200} height={200} className="w-full h-full object-cover" loading="lazy" sizes="20vw" />
                   </div>
                 ))}
               </div>

@@ -4,6 +4,7 @@ import { TrendingUp, ShieldCheck, Zap, Users, BarChart3, MapPin, Phone, Mail, Ar
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { AnimateSection, AnimateStagger, AnimateItem, AnimateTap, AnimateFloat, AnimateCard } from "@/components/animate-section"
+import Image from "next/image"
 import { Logo } from "@/components/logo"
 import { PublicHeader } from "@/components/public-header"
 import { formatRupiah } from "@/lib/utils"
@@ -94,13 +95,14 @@ export function LandingClient({ session, company, featuredProducts = [] }: Landi
               className="relative hidden lg:block"
             >
               <div className="relative aspect-square rounded-3xl overflow-hidden shadow-2xl z-20 border-4 border-surface bg-surface-container-high group">
-                <img 
-                  src="https://images.unsplash.com/photo-1556740758-90de374c12ad?auto=format&fit=crop&w=800&q=80" 
-                  alt="Wirausaha UMKM M2A Co-Biz" 
+                <Image
+                  src="https://images.unsplash.com/photo-1556740758-90de374c12ad?auto=format&fit=crop&w=800&q=80"
+                  alt="Wirausaha UMKM M2A Co-Biz"
                   width={568}
                   height={568}
-                  loading="eager"
+                  priority={true}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 aspect-square"
+                  sizes="(max-width: 768px) 100vw, 50vw"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-primary/60 via-transparent to-transparent opacity-60" />
               </div>
@@ -135,13 +137,14 @@ export function LandingClient({ session, company, featuredProducts = [] }: Landi
                     <div key={product.id} className="clay-sm overflow-hidden flex flex-col h-full group hover:shadow-lg transition-all duration-300">
                         <div className="relative h-36 sm:h-44 bg-surface-container-high overflow-hidden flex items-center justify-center">
                           {product.images && product.images.length > 0 ? (
-                            <img
+                            <Image
                               src={product.images[0]}
                               alt={product.title}
                               width={300}
                               height={300}
                               loading="lazy"
                               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                              sizes="(max-width: 768px) 50vw, 25vw"
                             />
                           ) : (
                             <ShoppingBag className="w-10 h-10 text-outline-variant" />
@@ -199,13 +202,14 @@ export function LandingClient({ session, company, featuredProducts = [] }: Landi
               <div className="flex flex-col lg:flex-row gap-4xl items-center">
                 <div className="lg:w-1/2 relative">
                   <div className="relative z-10 rounded-[2rem] overflow-hidden shadow-2xl border-4 border-surface bg-surface-container-high aspect-[4/3] group">
-                    <img 
-                      src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80" 
-                      alt="Komunitas Al-Mubarok II Banjarwaringin" 
+                    <Image
+                      src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80"
+                      alt="Komunitas Al-Mubarok II Banjarwaringin"
                       width={800}
                       height={600}
                       loading="lazy"
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 aspect-[4/3]"
+                      sizes="(max-width: 768px) 100vw, 50vw"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-primary/50 via-transparent to-transparent opacity-40" />
                   </div>

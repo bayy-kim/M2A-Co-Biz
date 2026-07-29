@@ -4,7 +4,7 @@ import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/db"
 import { formatRupiah } from "@/lib/utils"
 import { ShoppingBag, ArrowLeft, ChevronRight, QrCode, Banknote, Truck, CheckCircle } from "lucide-react"
-import { CheckoutForm } from "./checkout-form"
+import { CheckoutForm } from "@/components/dynamic-checkout-form"
 
 async function CheckoutPage({
   searchParams,

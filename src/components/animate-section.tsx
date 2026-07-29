@@ -85,27 +85,9 @@ export function AnimateTap({ children, className, onClick }: { children: React.R
   )
 }
 
-// Subtle Float Motion for Badges / Hero Cards (Desktop, view-port optimized to prevent GPU drain)
+// Subtle Float Motion for Badges / Hero Cards — CSS animation, zero JS overhead
 export function AnimateFloat({ children, className }: { children: React.ReactNode; className?: string }) {
-  const shouldReduceMotion = useReducedMotion()
-
-  if (shouldReduceMotion) return <div className={className}>{children}</div>
-
-  return (
-    <motion.div
-      className={className}
-      whileInView={{ y: [0, -8, 0] }}
-      viewport={{ once: false, margin: "-10px" }}
-      transition={{
-        duration: 4,
-        repeat: Infinity,
-        repeatType: "mirror",
-        ease: "easeInOut",
-      }}
-    >
-      {children}
-    </motion.div>
-  )
+  return <div className={`${className} motion-safe:animate-[float_4s_ease-in-out_infinite]`}>{children}</div>
 }
 
 // Hover Glow Card for Desktop

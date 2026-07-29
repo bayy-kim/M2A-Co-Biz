@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation"
 import { auth } from "@/lib/auth"
-import { ChatContainer } from "./chat-container"
+import { ChatContainer } from "@/components/dynamic-chat-client"
 
 export default async function AIChatPage() {
   const session = await auth()
