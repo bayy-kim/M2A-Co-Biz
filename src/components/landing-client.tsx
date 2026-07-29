@@ -70,7 +70,7 @@ export function LandingClient({ session, company, featuredProducts = [] }: Landi
               <div className="flex flex-wrap gap-md pt-md">
                 <Link
                   href="/catalog"
-                  className="group px-xxl py-4 bg-primary text-on-primary rounded-xl text-headline-md shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 flex items-center gap-3"
+                  className="btn-clay text-headline-md group hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
                 >
                   Jelajahi Produk
                   <span className="w-7 h-7 rounded-full bg-on-primary/20 flex items-center justify-center group-hover:translate-x-0.5 group-hover:scale-105 transition-transform duration-300">
@@ -79,7 +79,7 @@ export function LandingClient({ session, company, featuredProducts = [] }: Landi
                 </Link>
                 <Link
                   href="/register"
-                  className="group px-xxl py-4 border-2 border-primary text-primary rounded-xl text-headline-md hover:bg-primary/5 active:scale-[0.98] transition-all duration-300 flex items-center gap-3"
+                  className="btn-clay-outline text-headline-md group active:scale-[0.98] transition-all duration-300"
                 >
                   Mulai Berjualan
                 </Link>
@@ -120,7 +120,7 @@ export function LandingClient({ session, company, featuredProducts = [] }: Landi
         </section>
 
         <AnimateSection>
-          <section className="py-4xl bg-surface-container-low" id="products">
+          <section className="py-4xl" id="products" style={{background:"var(--color-clay-bg)"}}>
             <div className="container mx-auto px-margin">
               <div className="text-center max-w-3xl mx-auto mb-3xl">
                 <h2 className="text-display-md text-primary mb-md">Produk Unggulan Kami</h2>
@@ -132,8 +132,7 @@ export function LandingClient({ session, company, featuredProducts = [] }: Landi
               {featuredProducts && featuredProducts.length > 0 && (
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-md md:gap-lg mb-3xl">
                   {featuredProducts.map((product) => (
-                    <div key={product.id} className="p-[1px] rounded-[1.25rem] bg-gradient-to-b from-outline-variant/30 to-transparent hover:shadow-lg transition-all duration-300">
-                      <div className="rounded-[calc(1.25rem-1px)] bg-surface-container-lowest border border-outline-variant/10 overflow-hidden flex flex-col h-full group">
+                    <div key={product.id} className="clay-sm overflow-hidden flex flex-col h-full group hover:shadow-lg transition-all duration-300">
                         <div className="relative h-36 sm:h-44 bg-surface-container-high overflow-hidden flex items-center justify-center">
                           {product.images && product.images.length > 0 ? (
                             <img
@@ -172,7 +171,6 @@ export function LandingClient({ session, company, featuredProducts = [] }: Landi
                               Detail
                             </Link>
                           </div>
-                        </div>
                       </div>
                     </div>
                   ))}
@@ -182,7 +180,7 @@ export function LandingClient({ session, company, featuredProducts = [] }: Landi
               <div className="text-center">
                 <Link
                   href="/catalog"
-                  className="group inline-flex items-center gap-3 px-xxl py-4 bg-primary text-on-primary rounded-xl text-headline-md shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
+                  className="btn-clay text-headline-md group hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
                 >
                   <ShoppingBag className="w-5 h-5" />
                   Lihat Semua Produk di Katalog
@@ -196,7 +194,7 @@ export function LandingClient({ session, company, featuredProducts = [] }: Landi
         </AnimateSection>
 
         <AnimateSection>
-          <section className="py-4xl bg-background overflow-hidden" id="about">
+          <section className="py-4xl overflow-hidden" id="about" style={{background:"var(--color-clay-bg)"}}>
             <div className="container mx-auto px-margin">
               <div className="flex flex-col lg:flex-row gap-4xl items-center">
                 <div className="lg:w-1/2 relative">
@@ -227,8 +225,7 @@ export function LandingClient({ session, company, featuredProducts = [] }: Landi
                       { icon: BarChart3, title: "Pelatihan Intensif", desc: "Digital marketing & pengelolaan keuangan." },
                     ].map((item) => (
                       <AnimateItem key={item.title}>
-                        <div className="p-[1px] rounded-[1rem] bg-gradient-to-b from-outline-variant/40 to-transparent">
-                          <AnimateCard className="flex gap-md p-lg rounded-[calc(1rem-1px)] bg-surface-container-lowest/95">
+                        <AnimateCard className="clay-sm gap-md p-lg">
                             <div className="flex-shrink-0 w-11 h-11 rounded-[0.75rem] bg-primary/10 flex items-center justify-center text-primary shadow-[inset_0_1px_1px_rgba(255,255,255,0.3)]">
                               <item.icon className="w-5 h-5" />
                             </div>
@@ -237,7 +234,6 @@ export function LandingClient({ session, company, featuredProducts = [] }: Landi
                               <p className="text-label-sm text-on-surface-variant">{item.desc}</p>
                             </div>
                           </AnimateCard>
-                        </div>
                       </AnimateItem>
                     ))}
                   </AnimateStagger>
@@ -248,9 +244,9 @@ export function LandingClient({ session, company, featuredProducts = [] }: Landi
         </AnimateSection>
 
         <AnimateSection>
-          <section className="py-4xl bg-surface-container" id="location">
+          <section className="py-4xl" id="location" style={{background:"var(--color-clay-bg)"}}>
             <div className="container mx-auto px-margin">
-              <div className="bg-surface-container-lowest rounded-[2rem] overflow-hidden shadow-xl flex flex-col lg:flex-row ring-1 ring-outline-variant/20">
+              <div className="clay-lg overflow-hidden flex flex-col lg:flex-row">
                 <div className="lg:w-1/3 p-xxl space-y-xl bg-primary text-on-primary">
                   <h2 className="text-display-md">Kunjungi Kami</h2>
                   <p className="text-on-primary/80">
@@ -347,7 +343,7 @@ export function LandingClient({ session, company, featuredProducts = [] }: Landi
         </AnimateSection>
       </main>
 
-      <footer className="bg-surface border-t border-outline-variant/30 py-xxl">
+      <footer className="border-t border-outline-variant/30 py-xxl" style={{background:"var(--color-clay-bg)"}}>
         <div className="container mx-auto px-margin">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-xl md:gap-xxl">
             {/* Column 1: Brand & Description */}

@@ -47,8 +47,7 @@ async function KetuaDashboard({ searchParams }: { searchParams: Promise<{ tab?: 
         <>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-lg">
             {/* Card 1 */}
-            <div className="p-[1px] rounded-[1.25rem] bg-gradient-to-b from-outline-variant/30 to-transparent">
-              <div className="rounded-[calc(1.25rem-1px)] bg-surface-container-lowest p-lg border border-outline-variant/10 shadow-xs space-y-md">
+            <div className="clay-lite p-lg space-y-md">
                 <div className="flex items-center justify-between">
                   <div className="w-10 h-10 rounded-xl bg-teal-500/10 text-teal-700 dark:text-teal-300 flex items-center justify-center font-bold">
                     <Users className="w-5 h-5" />
@@ -58,12 +57,10 @@ async function KetuaDashboard({ searchParams }: { searchParams: Promise<{ tab?: 
                   <p className="text-label-sm text-on-surface-variant font-medium">Penjual Aktif</p>
                   <p className="text-headline-lg font-bold text-on-surface mt-1">{totalSellers}</p>
                 </div>
-              </div>
             </div>
 
             {/* Card 2 */}
-            <div className="p-[1px] rounded-[1.25rem] bg-gradient-to-b from-outline-variant/30 to-transparent">
-              <div className="rounded-[calc(1.25rem-1px)] bg-surface-container-lowest p-lg border border-outline-variant/10 shadow-xs space-y-md">
+            <div className="clay-lite p-lg space-y-md">
                 <div className="flex items-center justify-between">
                   <div className="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-700 dark:text-blue-300 flex items-center justify-center font-bold">
                     <ShoppingBag className="w-5 h-5" />
@@ -73,12 +70,10 @@ async function KetuaDashboard({ searchParams }: { searchParams: Promise<{ tab?: 
                   <p className="text-label-sm text-on-surface-variant font-medium">Produk Aktif</p>
                   <p className="text-headline-lg font-bold text-on-surface mt-1">{totalProducts}</p>
                 </div>
-              </div>
             </div>
 
             {/* Card 3 */}
-            <div className="p-[1px] rounded-[1.25rem] bg-gradient-to-b from-outline-variant/30 to-transparent">
-              <div className="rounded-[calc(1.25rem-1px)] bg-surface-container-lowest p-lg border border-outline-variant/10 shadow-xs space-y-md">
+            <div className="clay-lite p-lg space-y-md">
                 <div className="flex items-center justify-between">
                   <div className="w-10 h-10 rounded-xl bg-purple-500/10 text-purple-700 dark:text-purple-300 flex items-center justify-center font-bold">
                     <BarChart3 className="w-5 h-5" />
@@ -88,12 +83,10 @@ async function KetuaDashboard({ searchParams }: { searchParams: Promise<{ tab?: 
                   <p className="text-label-sm text-on-surface-variant font-medium">Total Pesanan</p>
                   <p className="text-headline-lg font-bold text-on-surface mt-1">{totalOrders}</p>
                 </div>
-              </div>
             </div>
 
             {/* Card 4 */}
-            <div className="p-[1px] rounded-[1.25rem] bg-gradient-to-b from-outline-variant/30 to-transparent">
-              <div className="rounded-[calc(1.25rem-1px)] bg-surface-container-lowest p-lg border border-outline-variant/10 shadow-xs space-y-md">
+            <div className="clay-lite p-lg space-y-md">
                 <div className="flex items-center justify-between">
                   <div className="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 flex items-center justify-center font-bold">
                     <TrendingUp className="w-5 h-5" />
@@ -103,18 +96,16 @@ async function KetuaDashboard({ searchParams }: { searchParams: Promise<{ tab?: 
                   <p className="text-label-sm text-on-surface-variant font-medium">Total Omzet</p>
                   <p className="text-headline-lg font-bold text-on-surface mt-1">{formatRupiah(totalRevenue._sum.amountRupiah || 0)}</p>
                 </div>
-              </div>
             </div>
 
             {/* Card 5 */}
-            <div className="p-[1px] rounded-[1.25rem] bg-gradient-to-b from-outline-variant/30 to-transparent">
-              <div className="rounded-[calc(1.25rem-1px)] bg-surface-container-lowest p-lg border border-outline-variant/10 shadow-xs space-y-md">
+            <div className="clay-lite p-lg space-y-md">
                 <div className="flex items-center justify-between">
                   <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-700 dark:text-amber-300 flex items-center justify-center font-bold">
                     <Activity className="w-5 h-5" />
                   </div>
                   {pendingApprovals > 0 && (
-                    <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/10 text-amber-800">
+                    <span className="chip-clay text-[10px] !bg-amber-500/10 !text-amber-800">
                       Pending
                     </span>
                   )}
@@ -123,12 +114,11 @@ async function KetuaDashboard({ searchParams }: { searchParams: Promise<{ tab?: 
                   <p className="text-label-sm text-on-surface-variant font-medium">Menunggu Persetujuan</p>
                   <p className="text-headline-lg font-bold text-on-surface mt-1">{pendingApprovals}</p>
                 </div>
-              </div>
             </div>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-lg">
-            <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 p-lg">
+            <div className="clay-lite p-lg">
               <h3 className="text-headline-md text-on-surface font-bold mb-lg">Ringkasan Platform</h3>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-lg">
                 <div>
@@ -149,13 +139,13 @@ async function KetuaDashboard({ searchParams }: { searchParams: Promise<{ tab?: 
                 </div>
               </div>
             </div>
-            <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 p-lg">
+            <div className="clay-lite p-lg">
               <h3 className="text-headline-md text-on-surface font-bold mb-lg">Tren Pendapatan</h3>
               <TrendChart data={trends.map(t => ({ label: t.createdAt.toLocaleDateString("id-ID", { month: "short", day: "numeric" }), value: t._sum.amountRupiah || 0 })).reverse()} color="#22C55E" />
             </div>
           </div>
 
-          <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 overflow-hidden">
+          <div className="clay-lite overflow-hidden">
             <div className="p-lg border-b border-outline-variant/30 flex items-center justify-between">
               <h3 className="text-headline-md text-on-surface font-bold">Aktivitas Terkini</h3>
               <Link href="/ketua?tab=activity" className="text-label-md text-primary hover:underline">Lihat Semua</Link>
@@ -184,7 +174,7 @@ async function KetuaDashboard({ searchParams }: { searchParams: Promise<{ tab?: 
       )}
 
       {tab === "activity" && (
-        <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 overflow-hidden">
+        <div className="clay-lite overflow-hidden">
           <div className="p-lg border-b border-outline-variant/30">
             <h3 className="text-headline-md text-on-surface font-bold">Log Aktivitas</h3>
           </div>
@@ -193,16 +183,16 @@ async function KetuaDashboard({ searchParams }: { searchParams: Promise<{ tab?: 
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-left">
-                <thead>
-                  <tr className="text-label-sm text-on-surface-variant border-b border-outline-variant/30">
-                    <th className="px-lg py-3 font-medium">Aksi</th>
-                    <th className="px-lg py-3 font-medium">Target</th>
-                    <th className="px-lg py-3 font-medium">Tanggal</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {recentActivity.map((log) => (
-                    <tr key={log.id} className="border-b border-outline-variant/20">
+                  <thead>
+                    <tr className="text-label-sm text-on-surface-variant">
+                      <th className="px-lg py-3 font-medium">Aksi</th>
+                      <th className="px-lg py-3 font-medium">Target</th>
+                      <th className="px-lg py-3 font-medium">Tanggal</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {recentActivity.map((log) => (
+                      <tr key={log.id} className="clay-table-row">
                       <td className="px-lg py-3 text-label-md text-on-surface">{log.action}</td>
                       <td className="px-lg py-3 text-label-sm text-on-surface-variant">{log.targetType}</td>
                       <td className="px-lg py-3 text-label-sm text-on-surface-variant">{new Date(log.createdAt).toLocaleString()}</td>
@@ -219,7 +209,7 @@ async function KetuaDashboard({ searchParams }: { searchParams: Promise<{ tab?: 
         <div className="space-y-lg max-w-2xl">
           <h3 className="text-headline-md font-bold text-on-surface">Panduan Penggunaan — Ketua</h3>
           <div className="space-y-md">
-            <div className="flex items-start gap-3 p-md rounded-xl bg-surface-container-high/50 border border-outline-variant/20">
+            <div className="flex items-start gap-3 p-md clay-lite">
               <div className="p-2 rounded-lg bg-primary/10 shrink-0">
                 <LayoutDashboard className="w-4 h-4 text-primary" />
               </div>
@@ -228,7 +218,7 @@ async function KetuaDashboard({ searchParams }: { searchParams: Promise<{ tab?: 
                 <p className="text-label-sm text-on-surface-variant">Lihat gambaran umum performa platform: total seller & produk aktif, total pemasukan & komisi, tren penjualan 7 hari terakhir, dan komisi per seller.</p>
               </div>
             </div>
-            <div className="flex items-start gap-3 p-md rounded-xl bg-surface-container-high/50 border border-outline-variant/20">
+            <div className="flex items-start gap-3 p-md clay-lite">
               <div className="p-2 rounded-lg bg-primary/10 shrink-0">
                 <Activity className="w-4 h-4 text-primary" />
               </div>

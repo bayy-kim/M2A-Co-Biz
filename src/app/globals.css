@@ -1,6 +1,21 @@
 @import "tailwindcss";
 
 @theme inline {
+  /* === Claymorphic tokens === */
+  --color-clay-bg: #F5F0EB;
+  --color-clay-surface: #FFFCF9;
+  --color-clay-surface-variant: #E8E4DE;
+
+  --shadow-clay-sm: 4px 4px 10px rgba(0,0,0,0.06), -4px -4px 10px rgba(255,255,255,0.70);
+  --shadow-clay-md: 7px 7px 18px rgba(0,0,0,0.07), -7px -7px 18px rgba(255,255,255,0.60);
+  --shadow-clay-lg: 12px 12px 30px rgba(0,0,0,0.08), -10px -10px 26px rgba(255,255,255,0.50);
+  --shadow-clay-inset: inset 2px 2px 5px rgba(0,0,0,0.04), inset -2px -2px 5px rgba(255,255,255,0.40);
+  --shadow-clay-lite: 3px 3px 8px rgba(0,0,0,0.045), -3px -3px 8px rgba(255,255,255,0.50);
+  --shadow-clay-lite-lg: 6px 6px 16px rgba(0,0,0,0.05), -5px -5px 14px rgba(255,255,255,0.45);
+
+  --radius-clay: 20px;
+  --radius-clay-lg: 28px;
+  --radius-clay-input: 14px;
   --color-on-error-container: #93000a;
   --color-on-secondary-container: #53667d;
   --color-on-primary-fixed-variant: #004f50;
@@ -152,3 +167,48 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+/* === Claymorphic utility classes === */
+.clay { background: var(--color-clay-surface); border-radius: var(--radius-clay); box-shadow: var(--shadow-clay-md); }
+.clay-lg { background: var(--color-clay-surface); border-radius: var(--radius-clay-lg); box-shadow: var(--shadow-clay-lg); }
+.clay-sm { background: var(--color-clay-surface); border-radius: var(--radius-clay); box-shadow: var(--shadow-clay-sm); }
+.clay-pill { background: var(--color-clay-surface); border-radius: 9999px; box-shadow: var(--shadow-clay-sm); }
+.clay-inset { box-shadow: var(--shadow-clay-inset); background: var(--color-clay-surface-variant); }
+.clay-input { background: var(--color-clay-surface); border-radius: var(--radius-clay-input); box-shadow: var(--shadow-clay-inset); border: none; outline: none; }
+.clay-input:focus { box-shadow: var(--shadow-clay-inset), 0 0 0 2px var(--color-primary); }
+.clay-lite { background: var(--color-clay-surface); border-radius: 16px; box-shadow: var(--shadow-clay-lite); }
+.clay-lite-lg { background: var(--color-clay-surface); border-radius: var(--radius-clay); box-shadow: var(--shadow-clay-lite-lg); }
+.btn-clay {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  background: var(--color-primary); color: var(--color-on-primary); font-weight: 700;
+  padding: 12px 28px; border-radius: var(--radius-clay); border: none;
+  box-shadow: 5px 5px 12px rgba(0,0,0,0.08), -4px -4px 10px rgba(255,255,255,0.30);
+  font-family: "Plus Jakarta Sans", sans-serif; font-size: 15px; cursor: pointer;
+  transition: all 0.15s ease;
+}
+.btn-clay:hover { filter: brightness(1.08); }
+.btn-clay:active { transform: scale(0.97); }
+.btn-clay-gold { background: var(--color-accent-gold); color: #1A150E; }
+.btn-clay-outline {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  background: var(--color-clay-surface); color: var(--color-primary); font-weight: 600;
+  padding: 10px 22px; border-radius: var(--radius-clay); border: none;
+  box-shadow: var(--shadow-clay-sm); font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 14px; cursor: pointer; transition: all 0.15s ease;
+}
+.btn-clay-outline:hover { box-shadow: var(--shadow-clay-md); }
+.chip-clay {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 18px; border-radius: 9999px;
+  background: var(--color-clay-surface); font-size: 13px; font-weight: 500; color: var(--color-on-surface-variant);
+  box-shadow: 3px 3px 8px rgba(0,0,0,0.04), -3px -3px 8px rgba(255,255,255,0.5);
+  font-family: "Inter", sans-serif;
+}
+.chip-clay.active { background: var(--color-primary); color: var(--color-on-primary); }
+.chip-clay.gold { background: var(--color-accent-gold); color: #1A150E; }
+
+/* Claymorphic table rows */
+.clay-table-row > * { background: var(--color-clay-surface); }
+.clay-table-row > :first-child { border-radius: 14px 0 0 14px; }
+.clay-table-row > :last-child { border-radius: 0 14px 14px 0; }
+.clay-table-row { box-shadow: var(--shadow-clay-lite); border-radius: 14px; display: block; margin-bottom: 6px; }

@@ -41,12 +41,12 @@ export function ChatContainer() {
   }
 
   return (
-    <div className="min-h-screen bg-background flex flex-col pt-16 pb-24 md:pb-8 px-gutter">
-      <header className="fixed top-0 left-0 w-full z-50 bg-surface/90 backdrop-blur-md shadow-xs h-16 flex items-center justify-between px-lg border-b border-outline-variant/30">
+    <div className="min-h-screen flex flex-col pt-16 pb-24 md:pb-8 px-gutter" style={{background:"var(--color-clay-bg)"}}>
+      <header className="fixed top-0 left-0 w-full z-50 clay-pill mx-4 mt-3 px-4 py-2.5 flex items-center justify-between max-w-4xl lg:mx-auto" style={{boxShadow:"var(--shadow-clay-md)",width:"auto",left:0,right:0}}>
         <div className="flex items-center gap-md">
           <button
             onClick={() => router.back()}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-surface-container-low border border-outline-variant/30 text-label-sm font-bold text-on-surface hover:bg-surface-container hover:text-primary transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-primary min-h-[44px]"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[14px] btn-clay-outline text-xs min-h-[44px]"
             type="button"
           >
             <ArrowLeft className="w-4 h-4" />
@@ -54,9 +54,9 @@ export function ChatContainer() {
           </button>
           <Logo size="sm" />
         </div>
-        <div className="flex items-center gap-sm bg-primary/10 text-primary px-3 py-1.5 rounded-full text-label-sm font-bold">
-          <Sparkles className="w-4 h-4 text-accent-gold animate-pulse" />
-          <span>Gemini AI Assistant</span>
+        <div className="flex items-center gap-sm chip-clay gold text-xs">
+          <Sparkles className="w-4 h-4 animate-pulse" />
+          <span>Gemini AI</span>
         </div>
       </header>
 
@@ -65,27 +65,28 @@ export function ChatContainer() {
         <div className="flex-grow overflow-y-auto space-y-lg py-md pr-1">
           {messages.length === 0 ? (
             <div className="flex flex-col items-center justify-center text-center py-xxl my-auto space-y-xl">
-              <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center shadow-lg">
-                <Bot className="w-8 h-8 text-primary" />
+              <div className="w-16 h-16 rounded-full clay flex items-center justify-center" style={{boxShadow:"var(--shadow-clay-md)"}}>
+                <Bot className="w-8 h-8" style={{color:"var(--color-primary)"}} />
               </div>
               <div>
-                <h1 className="text-display-md text-primary font-bold tracking-tight">Tanya Asisten M2A Co-Biz</h1>
-                <p className="text-body-md text-on-surface-variant mt-2 max-w-md mx-auto">
+                <h1 className="text-display-md font-bold tracking-tight" style={{color:"var(--color-primary)"}}>Tanya Asisten M2A Co-Biz</h1>
+                <p className="text-body-md mt-2 max-w-md mx-auto" style={{color:"var(--color-on-surface-variant)"}}>
                   Selamat datang! Saya adalah asisten kecerdasan buatan Al-Mubarok II yang siap membantu kebutuhan informasi usaha Anda.
                 </p>
               </div>
 
               {/* Starter chips */}
               <div className="w-full space-y-md pt-lg">
-                <p className="text-label-sm font-bold text-on-surface-variant uppercase tracking-wider flex items-center justify-center gap-1">
-                  <HelpCircle className="w-4 h-4 text-primary" /> Pilih Pertanyaan Cepat:
+                <p className="text-label-sm font-bold uppercase tracking-wider flex items-center justify-center gap-1" style={{color:"var(--color-on-surface-variant)"}}>
+                  <HelpCircle className="w-4 h-4" style={{color:"var(--color-primary)"}} /> Pilih Pertanyaan Cepat:
                 </p>
                 <div className="flex flex-col gap-sm max-w-md mx-auto">
                   {starterQuestions.map((q, idx) => (
                     <button
                       key={idx}
                       onClick={() => handleStarterClick(q.text)}
-                      className="w-full text-left p-lg bg-surface-container-lowest border border-outline-variant/30 hover:border-primary hover:bg-primary/5 rounded-2xl text-body-md text-on-surface transition-all duration-200 active:scale-[0.98] shadow-xs cursor-pointer"
+                      className="w-full text-left clay-sm px-5 py-4 text-body-md transition-all active:scale-[0.98] cursor-pointer font-medium"
+                      style={{color:"var(--color-on-surface)"}}
                     >
                       {q.label}
                     </button>
@@ -101,20 +102,20 @@ export function ChatContainer() {
                   className={`flex gap-md max-w-full ${m.role === "user" ? "justify-end" : "justify-start"}`}
                 >
                   {m.role !== "user" && (
-                    <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center shrink-0 border border-primary/20 shadow-xs">
-                      <Bot className="w-5 h-5 text-primary" />
+                    <div className="w-9 h-9 rounded-full clay-sm flex items-center justify-center shrink-0">
+                      <Bot className="w-5 h-5" style={{color:"var(--color-primary)"}} />
                     </div>
                   )}
 
                   <div className="flex flex-col max-w-[85%] sm:max-w-[75%] gap-xs">
-                    <div className="text-label-sm text-on-surface-variant px-1 font-semibold">
+                    <div className="text-label-sm px-1 font-semibold" style={{color:"var(--color-on-surface-variant)"}}>
                       {m.role === "user" ? "Anda" : "Asisten AI"}
                     </div>
                     <div
-                      className={`p-lg rounded-2xl border text-body-md leading-relaxed whitespace-pre-line shadow-xs ${
+                      className={`p-lg rounded-2xl text-body-md leading-relaxed whitespace-pre-line ${
                         m.role === "user"
-                          ? "bg-primary text-on-primary border-primary/20 rounded-tr-none"
-                          : "bg-surface-container-lowest text-on-surface border-outline-variant/20 rounded-tl-none"
+                          ? "btn-clay text-left rounded-tr-none"
+                          : "clay-sm rounded-tl-none"
                       }`}
                     >
                       {m.content}
@@ -122,8 +123,8 @@ export function ChatContainer() {
                   </div>
 
                   {m.role === "user" && (
-                    <div className="w-9 h-9 rounded-full bg-accent-gold/10 flex items-center justify-center shrink-0 border border-accent-gold/20 shadow-xs">
-                      <User className="w-5 h-5 text-accent-gold" />
+                    <div className="w-9 h-9 rounded-full clay-sm flex items-center justify-center shrink-0" style={{background:"var(--color-accent-gold)",color:"#1A150E"}}>
+                      <User className="w-5 h-5" />
                     </div>
                   )}
                 </div>
@@ -132,26 +133,26 @@ export function ChatContainer() {
               {/* Status Loading saat AI beraksi */}
               {isLoading && messages[messages.length - 1]?.role === "user" && (
                 <div className="flex gap-md justify-start items-center">
-                  <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center shrink-0 animate-pulse">
-                    <Bot className="w-5 h-5 text-primary" />
+                  <div className="w-9 h-9 rounded-full clay-sm flex items-center justify-center shrink-0 animate-pulse">
+                    <Bot className="w-5 h-5" style={{color:"var(--color-primary)"}} />
                   </div>
-                  <div className="flex items-center gap-2 p-lg bg-surface-container-lowest text-on-surface-variant border border-outline-variant/20 rounded-2xl rounded-tl-none shadow-xs text-body-md">
-                    <Loader2 className="w-4 h-4 animate-spin text-primary" />
-                    <span>Menganalisis data katalog...</span>
+                  <div className="flex items-center gap-2 clay-sm px-5 py-4 rounded-2xl rounded-tl-none text-body-md">
+                    <Loader2 className="w-4 h-4 animate-spin" style={{color:"var(--color-primary)"}} />
+                    <span style={{color:"var(--color-on-surface-variant)"}}>Menganalisis data katalog...</span>
                   </div>
                 </div>
               )}
 
-              {/* Error fallback & Graceful Downgrade to WhatsApp/Email */}
+              {/* Error fallback */}
               {error && (
-                <div className="p-xl bg-surface-container-lowest border border-rose-500/30 rounded-2xl shadow-lg space-y-lg animate-slide-in">
+                <div className="clay-lg p-6 space-y-lg animate-slide-in" style={{border:"2px solid var(--color-error)"}}>
                   <div className="flex items-start gap-md">
-                    <div className="p-3 bg-rose-500/10 rounded-xl text-rose-600 shrink-0">
+                    <div className="p-3 rounded-xl shrink-0" style={{background:"var(--color-error)",color:"white"}}>
                       <HelpCircle className="w-6 h-6" />
                     </div>
                     <div>
-                      <h4 className="text-headline-md text-primary font-bold">Kapasitas Asisten AI Penuh</h4>
-                      <p className="text-body-md text-on-surface-variant mt-1">
+                      <h4 className="text-headline-md font-bold" style={{color:"var(--color-primary)"}}>Kapasitas Asisten AI Penuh</h4>
+                      <p className="text-body-md mt-1" style={{color:"var(--color-on-surface-variant)"}}>
                         Mohon maaf, saat ini asisten AI kami sedang melayani kapasitas maksimal. Jangan khawatir, Anda dapat melanjutkan konsultasi langsung bersama tim kami.
                       </p>
                     </div>
@@ -162,15 +163,14 @@ export function ChatContainer() {
                       href="https://wa.me/6285217126862?text=Halo%20Admin%20M2A%20Co-Biz,%20saya%20ingin%20berkonsultasi%20mengenai%20layanan%20usaha%20atau%20pembelian."
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex-1 py-3 px-lg bg-emerald-600 text-white rounded-xl text-label-md font-bold shadow-md hover:bg-emerald-700 active:scale-95 transition-all flex items-center justify-center gap-2 min-h-[44px]"
+                      className="flex-1 btn-clay text-sm justify-center min-h-[44px]"
                     >
-                      <Bot className="w-5 h-5" />
                       Lanjut via WhatsApp
                     </a>
                     
                     <a
                       href="mailto:muhamadaibayu@gmail.com?subject=Konsultasi%20Bisnis%20M2A%20Co-Biz"
-                      className="flex-1 py-3 px-lg bg-surface-container border border-outline-variant/30 text-on-surface-variant rounded-xl text-label-md font-bold hover:bg-surface-container-high active:scale-95 transition-all flex items-center justify-center gap-2 min-h-[44px]"
+                      className="flex-1 btn-clay-outline text-sm justify-center min-h-[44px]"
                     >
                       Hubungi via Email
                     </a>
@@ -183,7 +183,7 @@ export function ChatContainer() {
         </div>
 
         {/* Input Bar Section */}
-        <div className="fixed bottom-0 left-0 w-full bg-gradient-to-t from-background via-background to-transparent pt-lg pb-md md:pb-xl px-gutter z-40">
+        <div className="fixed bottom-0 left-0 w-full pt-lg pb-md md:pb-xl px-gutter z-40" style={{background:"linear-gradient(to top, var(--color-clay-bg), transparent)"}}>
           <form
             onSubmit={(e) => {
               e.preventDefault()
@@ -191,19 +191,20 @@ export function ChatContainer() {
             }}
             className="max-w-3xl mx-auto w-full"
           >
-            <div className="relative flex items-center shadow-lg rounded-2xl border border-outline-variant/40 bg-surface-container-lowest overflow-hidden">
+            <div className="clay-pill flex items-center px-2 py-1.5" style={{boxShadow:"var(--shadow-clay-md)"}}>
               <input
-                className="w-full bg-transparent pl-5 pr-14 py-4 text-body-md focus:outline-none placeholder-outline"
+                className="w-full bg-transparent pl-4 pr-3 py-3 text-body-md focus:outline-none font-inter"
                 placeholder="Tulis pertanyaan Anda di sini..."
                 type="text"
                 value={input}
                 onChange={handleInputChange}
                 disabled={isLoading}
+                style={{color:"var(--color-on-surface)"}}
               />
               <button
                 disabled={isLoading || !input.trim()}
                 type="submit"
-                className="absolute right-2 px-3.5 py-2 bg-primary text-on-primary rounded-xl hover:bg-primary-container hover:text-primary active:scale-95 transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-primary min-h-[44px] min-w-[44px] flex items-center justify-center disabled:opacity-30 disabled:pointer-events-none"
+                className="btn-clay rounded-full px-4 py-2.5 text-sm min-h-[44px] min-w-[44px] disabled:opacity-30 disabled:pointer-events-none"
                 aria-label="Kirim pesan"
               >
                 {isLoading ? (

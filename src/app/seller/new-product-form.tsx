@@ -42,7 +42,7 @@ export function NewProductForm({
           {isJasa ? "Nama Layanan Jasa" : "Nama Produk"}
         </label>
         <input 
-          className="rounded-lg border-outline-variant focus:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all text-body-md" 
+          className="clay-input px-lg py-md text-body-md" 
           id="title" 
           name="title" 
           placeholder={isJasa ? "Contoh: Jasa Servis Motor Matic / Editing Video / Pijat Refleksi" : "Contoh: Keripik Singkong Pedas"} 
@@ -55,7 +55,7 @@ export function NewProductForm({
           {isJasa ? "Deskripsi Layanan & Ketentuan" : "Deskripsi"}
         </label>
         <textarea 
-          className="rounded-lg border-outline-variant focus:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all text-body-md" 
+          className="clay-input px-lg py-md text-body-md" 
           id="description" 
           name="description" 
           placeholder={isJasa ? "Jelaskan estimasi pengerjaan, garansi, fasilitas, atau ketentuan panggilan..." : "Deskripsikan produk Anda..."} 
@@ -87,40 +87,40 @@ export function NewProductForm({
         <label className="text-label-md text-on-surface" htmlFor="priceRupiah">
           {isJasa ? "Tarif / Biaya Jasa (Rupiah)" : "Harga (Rupiah)"}
         </label>
-        <input className="rounded-lg border-outline-variant focus:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all text-body-md" id="priceRupiah" name="priceRupiah" placeholder="50000" required type="number" min="1" />
+        <input className="clay-input px-lg py-md text-body-md" id="priceRupiah" name="priceRupiah" placeholder="50000" required type="number" min="1" />
       </div>
       <div className="flex flex-col gap-xs">
         <label className="text-label-md text-on-surface" htmlFor="variants">
           Varian {isJasa ? "Layanan" : "Produk"} <span className="text-on-surface-variant font-normal text-label-sm">(Opsional)</span>
         </label>
-        <input className="rounded-lg border-outline-variant focus:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all text-body-md" id="variants" name="variants" placeholder="Contoh: Merah, Biru, Hijau atau S, M, L" type="text" />
+        <input className="clay-input px-lg py-md text-body-md" id="variants" name="variants" placeholder="Contoh: Merah, Biru, Hijau atau S, M, L" type="text" />
       </div>
       <div className="flex flex-col gap-xs">
         <label className="text-label-md text-on-surface" htmlFor="stock">
           Stok Awal <span className="text-on-surface-variant font-normal text-label-sm">(Default: 10)</span>
         </label>
-        <input className="rounded-lg border-outline-variant focus:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all text-body-md" id="stock" name="stock" defaultValue="10" type="number" min="0" />
+        <input className="clay-input px-lg py-md text-body-md" id="stock" name="stock" defaultValue="10" type="number" min="0" />
       </div>
       <div className="flex flex-col gap-xs">
         <label className="text-label-md text-on-surface" htmlFor="categoryId">Kategori</label>
         <div className="flex gap-2">
-          <select className="flex-1 rounded-lg border-outline-variant focus:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" id="categoryId" name="categoryId">
+          <select className="clay-input flex-1 px-lg py-md" id="categoryId" name="categoryId">
             <option value="">Tanpa kategori</option>
             {categories.map((cat) => (
               <option key={cat.id} value={cat.id}>{cat.name}</option>
             ))}
           </select>
-          <button type="button" onClick={() => setShowPropose(!showPropose)} className="px-md py-md rounded-lg border border-outline-variant text-on-surface-variant hover:bg-surface-container transition-colors" title="Propose new category">
+          <button type="button" onClick={() => setShowPropose(!showPropose)} className="btn-clay-outline !px-md !py-md" title="Propose new category">
             <Lightbulb className="w-5 h-5" />
           </button>
         </div>
       </div>
       {showPropose && (
-        <div className="md:col-span-2 bg-surface-container-low rounded-xl p-lg border border-outline-variant/30">
+        <div className="md:col-span-2 clay-lite p-lg">
           <p className="text-label-md font-bold text-on-surface mb-md">Usulkan Kategori Baru</p>
           <div className="flex gap-2">
-            <input className="flex-1 rounded-lg border-outline-variant focus:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" id="categoryNameInput" name="categoryName" placeholder="Nama kategori..." required />
-            <button type="button" className="px-xl py-md bg-primary text-on-primary rounded-lg text-label-md hover:bg-primary-container transition-colors disabled:opacity-50 flex items-center gap-2" disabled={proposePending} onClick={async () => {
+            <input className="clay-input flex-1 px-lg py-md" id="categoryNameInput" name="categoryName" placeholder="Nama kategori..." required />
+            <button type="button" className="btn-clay" disabled={proposePending} onClick={async () => {
               const input = document.getElementById("categoryNameInput") as HTMLInputElement
               if (!input.value.trim()) return
               const fd = new FormData()
@@ -139,7 +139,7 @@ export function NewProductForm({
         </div>
       )}
       <div className="md:col-span-2 flex justify-end pt-md">
-        <button className="px-xl py-lg bg-primary text-on-primary rounded-lg text-label-md shadow-sm hover:bg-primary-container active:scale-[0.97] transition-all flex items-center gap-2 disabled:opacity-50" disabled={pending} type="submit">
+        <button className="btn-clay" disabled={pending} type="submit">
           {pending ? <Loader2 className="w-5 h-5 animate-spin" /> : <Plus className="w-5 h-5" />}
           {pending ? "Menambahkan..." : "Tambah Produk"}
         </button>

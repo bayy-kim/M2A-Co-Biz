@@ -49,7 +49,7 @@ async function AdminDashboard({ searchParams }: { searchParams: Promise<{ tab?: 
         <div className="flex items-center gap-md">
           <div className="relative hidden md:block">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-outline" />
-            <input className="w-64 bg-surface-container-low border-none rounded-lg pl-9 pr-3 py-1.5 text-label-md focus:ring-2 focus:ring-primary/20 transition-all" placeholder="Cari..." type="text" />
+            <input className="clay-input w-64 pl-9 pr-3 py-1.5 text-label-md" placeholder="Cari..." type="text" />
           </div>
           <div className="w-2 h-2 rounded-full bg-danger animate-pulse" title={`${pendingSellers.length} pending`} />
         </div>
@@ -59,7 +59,7 @@ async function AdminDashboard({ searchParams }: { searchParams: Promise<{ tab?: 
         <>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-lg">
             {/* Card 1 */}
-            <div className="bg-surface-container-lowest p-xl rounded-xl shadow-sm border border-outline-variant/30 flex flex-col justify-between">
+            <div className="clay-lite p-xl flex flex-col justify-between">
               <div className="flex justify-between items-start">
                 <div className="w-10 h-10 rounded-lg bg-primary-fixed text-primary flex items-center justify-center font-bold">
                   <Clock className="w-5 h-5" />
@@ -75,7 +75,7 @@ async function AdminDashboard({ searchParams }: { searchParams: Promise<{ tab?: 
             </div>
 
             {/* Card 2 */}
-            <div className="bg-surface-container-lowest p-xl rounded-xl shadow-sm border border-outline-variant/30 flex flex-col justify-between">
+            <div className="clay-lite p-xl flex flex-col justify-between">
               <div className="flex justify-between items-start">
                 <div className="w-10 h-10 rounded-lg bg-accent-gold/10 text-accent-gold flex items-center justify-center font-bold">
                   <Clock className="w-5 h-5" />
@@ -89,7 +89,7 @@ async function AdminDashboard({ searchParams }: { searchParams: Promise<{ tab?: 
             </div>
 
             {/* Card 3 */}
-            <div className="bg-surface-container-lowest p-xl rounded-xl shadow-sm border border-outline-variant/30 flex flex-col justify-between">
+            <div className="clay-lite p-xl flex flex-col justify-between">
               <div className="flex justify-between items-start">
                 <div className="w-10 h-10 rounded-lg bg-secondary-fixed text-secondary flex items-center justify-center font-bold">
                   <Users className="w-5 h-5" />
@@ -103,7 +103,7 @@ async function AdminDashboard({ searchParams }: { searchParams: Promise<{ tab?: 
             </div>
 
             {/* Card 4 */}
-            <div className="bg-surface-container-lowest p-xl rounded-xl shadow-sm border border-outline-variant/30 flex flex-col justify-between">
+            <div className="clay-lite p-xl flex flex-col justify-between">
               <div className="flex justify-between items-start">
                 <div className="w-10 h-10 rounded-lg bg-error-container text-danger flex items-center justify-center font-bold">
                   <AlertTriangle className="w-5 h-5" />
@@ -117,14 +117,14 @@ async function AdminDashboard({ searchParams }: { searchParams: Promise<{ tab?: 
             </div>
           </div>
 
-          <section className="bg-surface-container-lowest rounded-xl shadow-lg border border-outline-variant/30 overflow-hidden">
+          <section className="clay-lite overflow-hidden">
             <div className="p-lg border-b border-outline-variant/30 flex justify-between items-center bg-surface-container-low/30">
               <h4 className="font-headline-md text-on-surface font-bold">Queue ({pendingSellers.length})</h4>
               <div className="flex gap-md">
-                <Link href="/admin?tab=approvals" className="flex items-center gap-2 px-4 py-2 border border-outline text-on-surface-variant rounded-lg hover:bg-surface-container transition-all font-label-md">
+                <Link href="/admin?tab=approvals" className="btn-clay-outline">
                   Filter
                 </Link>
-                <Link href="/admin?tab=approvals" className="flex items-center gap-2 px-4 py-2 border border-outline text-on-surface-variant rounded-lg hover:bg-surface-container transition-all font-label-md">
+                <Link href="/admin?tab=approvals" className="btn-clay-outline">
                   Export
                 </Link>
               </div>
@@ -134,22 +134,22 @@ async function AdminDashboard({ searchParams }: { searchParams: Promise<{ tab?: 
             ) : (
               <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse min-w-[700px]">
-                  <thead className="bg-surface-container-low text-on-surface-variant font-label-md">
+                  <thead className="text-on-surface-variant font-label-md">
                     <tr>
-                      <th className="px-lg py-4 border-b border-outline-variant">Nama Penjual</th>
-                      <th className="px-lg py-4 border-b border-outline-variant">Kategori Usaha</th>
-                      <th className="px-lg py-4 border-b border-outline-variant">Tanggal Registrasi</th>
-                      <th className="px-lg py-4 border-b border-outline-variant">Status</th>
-                      <th className="px-lg py-4 border-b border-outline-variant text-right">Aksi</th>
+                      <th className="px-lg py-4">Nama Penjual</th>
+                      <th className="px-lg py-4">Kategori Usaha</th>
+                      <th className="px-lg py-4">Tanggal Registrasi</th>
+                      <th className="px-lg py-4">Status</th>
+                      <th className="px-lg py-4 text-right">Aksi</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-outline-variant/30">
+                  <tbody>
                     {pendingSellers.slice(0, 5).map((seller) => {
                       const initials = seller.businessName
                         ? seller.businessName.split(" ").map((n) => n[0]).join("").slice(0, 2).toUpperCase()
                         : "UM"
                       return (
-                        <tr key={seller.id} className="hover:bg-surface-container-low/50 transition-colors">
+                        <tr key={seller.id} className="clay-table-row">
                           <td className="px-lg py-4">
                             <div className="flex items-center gap-3">
                               <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary font-bold shrink-0">
@@ -166,14 +166,14 @@ async function AdminDashboard({ searchParams }: { searchParams: Promise<{ tab?: 
                             {seller.createdAt.toLocaleDateString("id-ID", { month: "short", day: "numeric", year: "numeric" })}
                           </td>
                           <td className="px-lg py-4">
-                            <span className="px-3 py-1 rounded-full bg-warning/10 text-warning font-label-sm border border-warning/20 whitespace-nowrap">
+                            <span className="chip-clay gold text-label-sm">
                               Menunggu Review
                             </span>
                           </td>
                           <td className="px-lg py-4 text-right">
                             <Link
                               href="/admin?tab=approvals"
-                              className="bg-primary text-on-primary px-4 py-2 rounded-lg font-label-md hover:shadow-md transition-all active:scale-95 inline-block whitespace-nowrap"
+                              className="btn-clay"
                             >
                               Tinjau Dokumen
                             </Link>
@@ -188,13 +188,13 @@ async function AdminDashboard({ searchParams }: { searchParams: Promise<{ tab?: 
             <div className="p-lg border-t border-outline-variant/30 flex justify-between items-center text-on-surface-variant font-label-sm">
               <span>Showing {Math.min(5, pendingSellers.length)} of {pendingSellers.length} applications</span>
               <div className="flex gap-xs">
-                <button className="px-3 py-1 bg-primary text-on-primary rounded-lg font-bold">1</button>
+                <button className="btn-clay !px-3 !py-1">1</button>
               </div>
             </div>
           </section>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-lg">
-            <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 p-lg">
+            <div className="clay-lite p-lg">
               <h3 className="text-headline-md text-on-surface font-bold mb-lg">Aktivitas Terbaru</h3>
               {recentActivity.length === 0 ? (
                 <p className="text-body-md text-on-surface-variant text-center py-lg">Belum ada aktivitas.</p>
@@ -221,7 +221,7 @@ async function AdminDashboard({ searchParams }: { searchParams: Promise<{ tab?: 
       )}
 
       {tab === "approvals" && (
-        <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 overflow-hidden">
+        <div className="clay-lite overflow-hidden">
           <div className="p-lg border-b border-outline-variant/30">
             <h3 className="text-headline-md text-on-surface font-bold">Antrian Persetujuan</h3>
             <p className="text-label-sm text-on-surface-variant mt-1">{pendingSellers.length} penjual menunggu review</p>
@@ -231,23 +231,23 @@ async function AdminDashboard({ searchParams }: { searchParams: Promise<{ tab?: 
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-left min-w-[800px]">
-                <thead>
-                  <tr className="text-label-sm text-on-surface-variant border-b border-outline-variant/30">
-                    <th className="px-lg py-3 font-medium">Nama Penjual</th>
-                    <th className="px-lg py-3 font-medium">Kategori Usaha</th>
-                    <th className="px-lg py-3 font-medium">Tanggal Registrasi</th>
-                    <th className="px-lg py-3 font-medium">Status</th>
-                    <th className="px-lg py-3 font-medium">Dokumen</th>
-                    <th className="px-lg py-3 font-medium text-right">Aksi</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {pendingSellers.map((seller) => {
-                    const initials = seller.businessName
-                      ? seller.businessName.split(" ").map((n) => n[0]).join("").slice(0, 2).toUpperCase()
-                      : "UM"
-                    return (
-                      <tr key={seller.id} className="border-b border-outline-variant/20 hover:bg-surface-container-low transition-colors">
+                  <thead>
+                    <tr className="text-label-sm text-on-surface-variant">
+                      <th className="px-lg py-3 font-medium">Nama Penjual</th>
+                      <th className="px-lg py-3 font-medium">Kategori Usaha</th>
+                      <th className="px-lg py-3 font-medium">Tanggal Registrasi</th>
+                      <th className="px-lg py-3 font-medium">Status</th>
+                      <th className="px-lg py-3 font-medium">Dokumen</th>
+                      <th className="px-lg py-3 font-medium text-right">Aksi</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {pendingSellers.map((seller) => {
+                      const initials = seller.businessName
+                        ? seller.businessName.split(" ").map((n) => n[0]).join("").slice(0, 2).toUpperCase()
+                        : "UM"
+                      return (
+                        <tr key={seller.id} className="clay-table-row">
                         <td className="px-lg py-3">
                           <div className="flex items-center gap-3">
                             <div className="w-10 h-10 rounded-xl bg-surface-container-high text-on-surface font-bold flex items-center justify-center shrink-0 text-label-md border border-outline-variant/20">
@@ -260,7 +260,7 @@ async function AdminDashboard({ searchParams }: { searchParams: Promise<{ tab?: 
                           </div>
                         </td>
                         <td className="px-lg py-3">
-                          <span className={`inline-flex px-md py-1 rounded-full text-label-sm font-bold ${seller.type === "UMKM" ? "bg-primary/10 text-primary" : "bg-tertiary/10 text-tertiary"} whitespace-nowrap`}>
+                          <span className={`chip-clay text-label-sm ${seller.type === "UMKM" ? "!bg-primary/10 !text-primary" : "!bg-tertiary/10 !text-tertiary"} whitespace-nowrap`}>
                             {seller.type}
                           </span>
                         </td>
@@ -268,7 +268,7 @@ async function AdminDashboard({ searchParams }: { searchParams: Promise<{ tab?: 
                           {seller.createdAt.toLocaleDateString("id-ID", { month: "short", day: "numeric", year: "numeric" })}
                         </td>
                         <td className="px-lg py-3">
-                          <span className="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-bold bg-amber-500/10 text-amber-800 border border-amber-500/20 whitespace-nowrap">
+                          <span className="chip-clay gold text-[11px] whitespace-nowrap">
                             Menunggu Review
                           </span>
                         </td>
@@ -306,23 +306,23 @@ async function AdminDashboard({ searchParams }: { searchParams: Promise<{ tab?: 
       {tab === "company" && <AdminCompanyTab />}
 
       {tab === "activity" && (
-        <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 p-lg">
+        <div className="clay-lite p-lg">
           <h3 className="text-headline-md text-on-surface font-bold mb-lg">Activity Log</h3>
           {recentActivity.length === 0 ? (
             <p className="text-body-md text-on-surface-variant">Belum ada aktivitas tercatat.</p>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-left">
-                <thead>
-                  <tr className="text-label-sm text-on-surface-variant border-b border-outline-variant/30">
-                    <th className="px-lg py-3 font-medium">Aksi</th>
-                    <th className="px-lg py-3 font-medium">Target</th>
-                    <th className="px-lg py-3 font-medium">Tanggal</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {recentActivity.map((log) => (
-                    <tr key={log.id} className="border-b border-outline-variant/20">
+                  <thead>
+                    <tr className="text-label-sm text-on-surface-variant">
+                      <th className="px-lg py-3 font-medium">Aksi</th>
+                      <th className="px-lg py-3 font-medium">Target</th>
+                      <th className="px-lg py-3 font-medium">Tanggal</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {recentActivity.map((log) => (
+                      <tr key={log.id} className="clay-table-row">
                       <td className="px-lg py-3 text-label-md text-on-surface">{log.action}</td>
                       <td className="px-lg py-3 text-label-md text-on-surface-variant">{log.targetType} #{log.targetId?.slice(0, 8)}</td>
                       <td className="px-lg py-3 text-label-sm text-on-surface-variant">{new Date(log.createdAt).toLocaleString()}</td>
@@ -358,7 +358,7 @@ function PanduanAdmin() {
 
 function PanduanItem({ icon: Icon, title, desc }: { icon: any; title: string; desc: string }) {
   return (
-    <div className="flex items-start gap-3 p-md rounded-xl bg-surface-container-high/50 border border-outline-variant/20">
+    <div className="flex items-start gap-3 p-md clay-lite">
       <div className="p-2 rounded-lg bg-primary/10 shrink-0">
         <Icon className="w-4 h-4 text-primary" />
       </div>

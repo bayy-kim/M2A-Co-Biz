@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>M2A Co-Biz — Claymorphic Mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  /* === CLAYMORPHIC TOKENS === */
+  :root {
+    --clay-bg: #F5F0EB;
+    --clay-surface: #FFFCF9;
+    --clay-surface-variant: #E8E4DE;
+    --clay-primary: #004343;
+    --clay-on-primary: #FFFFFF;
+    --clay-primary-container: #E0F2F1;
+    --clay-accent: #D9A441;
+    --clay-on-surface: #302A24;
+    --clay-on-surface-variant: #78746E;
+    --clay-outline: #D4CFC9;
+    --clay-error: #BA1A1A;
+    --clay-success: #22C55E;
+
+    --clay-shadow-sm: 4px 4px 10px rgba(0,0,0,0.06), -4px -4px 10px rgba(255,255,255,0.70);
+    --clay-shadow-md: 7px 7px 18px rgba(0,0,0,0.07), -7px -7px 18px rgba(255,255,255,0.60);
+    --clay-shadow-lg: 12px 12px 30px rgba(0,0,0,0.08), -10px -10px 26px rgba(255,255,255,0.50);
+    --clay-shadow-inset: inset 2px 2px 5px rgba(0,0,0,0.04), inset -2px -2px 5px rgba(255,255,255,0.40);
+    --clay-shadow-lite: 3px 3px 8px rgba(0,0,0,0.045), -3px -3px 8px rgba(255,255,255,0.50);
+    --clay-shadow-lite-lg: 6px 6px 16px rgba(0,0,0,0.05), -5px -5px 14px rgba(255,255,255,0.45);
+    --clay-radius: 20px;
+    --clay-radius-lg: 28px;
+    --clay-radius-input: 14px;
+    --clay-radius-pill: 9999px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: var(--clay-bg);
+    color: var(--clay-on-surface);
+    -webkit-font-smoothing: antialiased;
+  }
+  .font-inter { font-family: 'Inter', sans-serif; }
+
+  /* Claymorphic utility classes */
+  .clay { background: var(--clay-surface); border-radius: var(--clay-radius); box-shadow: var(--clay-shadow-md); }
+  .clay-lg { background: var(--clay-surface); border-radius: var(--clay-radius-lg); box-shadow: var(--clay-shadow-lg); }
+  .clay-sm { background: var(--clay-surface); border-radius: var(--clay-radius); box-shadow: var(--clay-shadow-sm); }
+  .clay-pill { background: var(--clay-surface); border-radius: var(--clay-radius-pill); box-shadow: var(--clay-shadow-sm); }
+  .clay-inset { box-shadow: var(--clay-shadow-inset); background: var(--clay-surface-variant); }
+  .clay-input { background: var(--clay-surface); border-radius: var(--clay-radius-input); box-shadow: var(--clay-shadow-inset); border: none; outline: none; }
+  .clay-input:focus { box-shadow: var(--clay-shadow-inset), 0 0 0 2px var(--clay-primary); }
+
+  .clay-lite { background: var(--clay-surface); border-radius: 16px; box-shadow: var(--clay-shadow-lite); }
+  .clay-lite-lg { background: var(--clay-surface); border-radius: var(--clay-radius); box-shadow: var(--clay-shadow-lite-lg); }
+
+  .btn-clay {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    background: var(--clay-primary); color: var(--clay-on-primary); font-weight: 700;
+    padding: 12px 28px; border-radius: var(--clay-radius); border: none; cursor: default;
+    box-shadow: 5px 5px 12px rgba(0,0,0,0.08), -4px -4px 10px rgba(255,255,255,0.30);
+    font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px;
+    transition: all 0.2s ease;
+  }
+  .btn-clay-gold {
+    background: var(--clay-accent); color: #1A150E;
+    box-shadow: 5px 5px 12px rgba(0,0,0,0.08), -4px -4px 10px rgba(255,255,255,0.30);
+  }
+  .btn-clay-outline {
+    background: var(--clay-surface); color: var(--clay-primary); font-weight: 600;
+    box-shadow: var(--clay-shadow-sm);
+  }
+  .btn-clay-outline-danger {
+    background: var(--clay-surface); color: var(--clay-error); font-weight: 600;
+    box-shadow: var(--clay-shadow-sm);
+  }
+
+  .chip-clay {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 8px 18px; border-radius: var(--clay-radius-pill);
+    background: var(--clay-surface); font-size: 13px; font-weight: 500; color: var(--clay-on-surface-variant);
+    box-shadow: 3px 3px 8px rgba(0,0,0,0.04), -3px -3px 8px rgba(255,255,255,0.5);
+    cursor: default; transition: all 0.2s;
+    font-family: 'Inter', sans-serif;
+  }
+  .chip-clay.active { background: var(--clay-primary); color: var(--clay-on-primary); }
+  .chip-clay.gold { background: var(--clay-accent); color: #1A150E; }
+
+  .tab-clay {
+    padding: 10px 24px; border-radius: var(--clay-radius-pill); cursor: default;
+    font-weight: 600; font-size: 14px; transition: all 0.2s;
+  }
+  .tab-clay.active { background: var(--clay-surface); box-shadow: var(--clay-shadow-sm); color: var(--clay-primary); }
+  .tab-clay:not(.active) { color: var(--clay-on-surface-variant); }
+
+  .clay-table { border-collapse: separate; border-spacing: 0 6px; width: 100%; }
+  .clay-table th { text-align: left; padding: 12px 16px; font-size: 12px; font-weight: 600; color: var(--clay-on-surface-variant); text-transform: uppercase; letter-spacing: 0.05em; font-family: 'Inter', sans-serif; }
+  .clay-table td { padding: 14px 16px; background: var(--clay-surface); font-size: 14px; }
+  .clay-table tr td:first-child { border-radius: var(--clay-radius) 0 0 var(--clay-radius); box-shadow: var(--clay-shadow-lite); }
+  .clay-table tr td:last-child { border-radius: 0 var(--clay-radius) var(--clay-radius) 0; }
+
+  .badge-clay {
+    display: inline-block; padding: 4px 14px; border-radius: var(--clay-radius-pill);
+    font-size: 12px; font-weight: 600; font-family: 'Inter', sans-serif;
+    background: var(--clay-surface); box-shadow: var(--clay-shadow-sm);
+  }
+
+  .stat-card { padding: 20px; }
+  .stat-card .number { font-size: 28px; font-weight: 800; line-height: 1.2; }
+  .stat-card .label { font-size: 13px; color: var(--clay-on-surface-variant); font-weight: 500; margin-top: 4px; }
+
+  .app-frame { border-radius: var(--clay-radius-lg); box-shadow: var(--clay-shadow-lg); overflow: hidden; margin-bottom: 40px; background: var(--clay-bg); }
+
+  /* Product card grid */
+  .prod-card { border-radius: var(--clay-radius); background: var(--clay-surface); box-shadow: var(--clay-shadow-md); overflow: hidden; }
+
+  .nav-link { color: var(--clay-on-surface-variant); font-weight: 500; font-size: 14px; cursor: default; text-decoration: none; }
+  .nav-link.active { color: var(--clay-primary); font-weight: 700; }
+
+  .sidebar-item {
+    padding: 12px 16px; border-radius: var(--clay-radius); cursor: default;
+    font-size: 14px; font-weight: 500; color: var(--clay-on-surface-variant); transition: all 0.15s;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .sidebar-item.active { background: var(--clay-primary-container); color: var(--clay-primary); font-weight: 700; box-shadow: var(--clay-shadow-inset); }
+
+  /* Bottom nav */
+  .bnav-item {
+    display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: default;
+    padding: 6px 16px; border-radius: var(--clay-radius-pill); transition: all 0.2s;
+    color: var(--clay-on-surface-variant); font-size: 11px; font-weight: 500;
+  }
+  .bnav-item.active { background: var(--clay-surface); box-shadow: var(--clay-shadow-sm); color: var(--clay-primary); font-weight: 700; }
+
+  .tab-btn { padding: 10px 20px; border-radius: var(--clay-radius); cursor: default; font-weight: 600; transition: all 0.15s; text-align: center; }
+  .tab-btn.active { background: var(--clay-surface); box-shadow: var(--clay-shadow-sm); }
+
+  /* Scrollbar styling */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--clay-outline); border-radius: 3px; }
+
+  .section-label {
+    display: inline-block; padding: 4px 14px; border-radius: var(--clay-radius-pill);
+    font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em;
+    background: var(--clay-primary-container); color: var(--clay-primary); margin-bottom: 12px;
+  }
+
+  @media (max-width: 768px) {
+    :root { --clay-radius: 16px; --clay-radius-lg: 22px; }
+    .stat-card .number { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================================================ -->
+<!-- PAGE LABEL + NAV -->
+<!-- ============================================================ -->
+<div class="sticky top-0 z-50" style="background:var(--clay-bg);padding:12px 16px 8px">
+  <div class="max-w-7xl mx-auto flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-full flex items-center justify-center text-sm font-extrabold tracking-tight shadow-[3px_3px_6px_rgba(0,0,0,0.06),-3px_-3px_6px_rgba(255,255,255,0.5)]" style="background:var(--clay-primary);color:var(--clay-on-primary)">M2</div>
+      <span class="font-bold text-lg">M2A Co-Biz <span class="text-xs font-normal text-on-surface-variant ml-1">claymorphic mockup</span></span>
+    </div>
+    <div class="flex gap-2 text-xs font-inter">
+      <span class="chip-clay">9 screens</span>
+      <span class="chip-clay gold">Redesign</span>
+    </div>
+  </div>
+</div>
+
+<main class="max-w-7xl mx-auto px-4 py-6">
+
+<!-- ============================================================ -->
+<!-- SCREEN 1: LANDING PAGE -->
+<!-- ============================================================ -->
+<div class="app-frame">
+  <!-- Nav -->
+  <div class="flex items-center justify-between px-6 py-4" style="background:var(--clay-bg)">
+    <div class="flex items-center gap-2">
+      <div class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shadow-[3px_3px_6px_rgba(0,0,0,0.06),-3px_-3px_6px_rgba(255,255,255,0.5)]" style="background:var(--clay-primary);color:var(--clay-on-primary)">M2</div>
+      <span class="font-bold">M2A</span>
+    </div>
+    <div class="hidden md:flex items-center gap-6">
+      <a class="nav-link active">Beranda</a>
+      <a class="nav-link">Katalog</a>
+      <a class="nav-link">Tentang</a>
+      <a class="nav-link">Kontak</a>
+    </div>
+    <div class="flex items-center gap-3">
+      <button class="btn-clay-outline text-sm px-5 py-2.5 rounded-xl">Masuk</button>
+      <button class="btn-clay text-sm px-5 py-2.5">Daftar</button>
+    </div>
+  </div>
+
+  <!-- Hero -->
+  <div class="px-6 md:px-12 py-16 md:py-24" style="background:var(--clay-bg)">
+    <div class="max-w-4xl mx-auto text-center">
+      <span class="section-label">Platform UMKM Banjarwaringin</span>
+      <h1 class="text-[40px] md:text-[56px] font-extrabold leading-[1.1] tracking-[-0.03em] mt-4" style="color:var(--clay-primary)">
+        Bangun & Kembangkan<br>Bisnis Lokal Anda
+      </h1>
+      <p class="text-lg mt-5 max-w-xl mx-auto" style="color:var(--clay-on-surface-variant);line-height:1.7">
+        Marketplace dan sistem manajemen terpadu untuk UMKM dan penyedia jasa di Desa Banjarwaringin. 
+        Kelola produk, pantau penjualan, dan kembangkan usaha Anda.
+      </p>
+      <div class="flex flex-wrap items-center justify-center gap-4 mt-8">
+        <button class="btn-clay text-base px-8 py-3.5 text-[15px]">Jelajahi Produk</button>
+        <button class="btn-clay-outline text-base px-8 py-3.5 text-[15px]">Daftar Jadi Mitra</button>
+      </div>
+      <div class="flex items-center justify-center gap-6 mt-8 text-sm font-inter" style="color:var(--clay-on-surface-variant)">
+        <span>✓ 50+ UMKM Aktif</span>
+        <span>✓ 200+ Produk</span>
+        <span>✓ Gratis Bergabung</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fitur Cards -->
+  <div class="px-6 md:px-12 py-16" style="background:var(--clay-bg)">
+    <div class="max-w-5xl mx-auto">
+      <h2 class="text-2xl font-bold text-center mb-3" style="color:var(--clay-primary)">Kenapa M2A Co-Biz?</h2>
+      <p class="text-center mb-10 text-sm" style="color:var(--clay-on-surface-variant)">Solusi lengkap untuk UMKM hiper-lokal</p>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="clay p-6">
+          <div class="w-12 h-12 rounded-[16px] flex items-center justify-center mb-4 shadow-[3px_3px_6px_rgba(0,0,0,0.04),-3px_-3px_6px_rgba(255,255,255,0.4)]" style="background:var(--clay-primary-container)">
+            <svg class="w-6 h-6" style="color:var(--clay-primary)" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          </div>
+          <h3 class="font-bold mb-2">Toko Online</h3>
+          <p class="text-sm leading-relaxed" style="color:var(--clay-on-surface-variant)">Buka toko digital Anda sendiri dalam hitungan menit. Kelola produk, stok varian, dan pesanan.</p>
+        </div>
+        <div class="clay p-6">
+          <div class="w-12 h-12 rounded-[16px] flex items-center justify-center mb-4 shadow-[3px_3px_6px_rgba(0,0,0,0.04),-3px_-3px_6px_rgba(255,255,255,0.4)]" style="background:var(--clay-primary-container)">
+            <svg class="w-6 h-6" style="color:var(--clay-primary)" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 100 4h4a2 2 0 110 4H8"/><path d="M12 18V6"/></svg>
+          </div>
+          <h3 class="font-bold mb-2">Pencairan Saldo</h3>
+          <p class="text-sm leading-relaxed" style="color:var(--clay-on-surface-variant)">Cairkan penghasilan kapan saja. Sistem komisi transparan dan pencairan manual terverifikasi.</p>
+        </div>
+        <div class="clay p-6">
+          <div class="w-12 h-12 rounded-[16px] flex items-center justify-center mb-4 shadow-[3px_3px_6px_rgba(0,0,0,0.04),-3px_-3px_6px_rgba(255,255,255,0.4)]" style="background:var(--clay-primary-container)">
+            <svg class="w-6 h-6" style="color:var(--clay-primary)" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <h3 class="font-bold mb-2">Aman & Terpercaya</h3>
+          <p class="text-sm leading-relaxed" style="color:var(--clay-on-surface-variant)">Enkripsi dokumen, verifikasi 2FA, dan audit log untuk keamanan maksimal transaksi Anda.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Testimoni -->
+  <div class="px-6 md:px-12 py-16" style="background:var(--clay-bg)">
+    <div class="max-w-4xl mx-auto text-center">
+      <h2 class="text-2xl font-bold mb-8" style="color:var(--clay-primary)">Apa Kata Mitra Kami</h2>
+      <div class="clay-lg p-8 md:p-10 max-w-2xl mx-auto">
+        <div class="flex justify-center mb-4">
+          <span class="text-yellow-500 text-xl">★★★★★</span>
+        </div>
+        <p class="text-base leading-relaxed italic" style="color:var(--clay-on-surface)">
+          "Sejak bergabung di M2A, omzet toko saya naik 40%. Sistemnya mudah dipahami, 
+          dan tim Admin sangat membantu proses verifikasi. Sangat direkomendasikan untuk UMKM Banjarwaringin!"
+        </p>
+        <div class="mt-6 flex items-center justify-center gap-3">
+          <div class="w-12 h-12 rounded-full shadow-[3px_3px_6px_rgba(0,0,0,0.06),-3px_-3px_6px_rgba(255,255,255,0.5)]" style="background:var(--clay-primary-container)"></div>
+          <div class="text-left">
+            <p class="font-bold text-sm">Siti Nurhaliza</p>
+            <p class="text-xs" style="color:var(--clay-on-surface-variant)">Pemilik Dapur Haliza — Kategori Makanan</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="px-6 md:px-12 py-16" style="background:var(--clay-bg)">
+    <div class="clay-lg p-10 text-center max-w-3xl mx-auto" style="background:var(--clay-primary);color:var(--clay-on-primary)">
+      <h2 class="text-2xl font-extrabold">Siap Memulai?</h2>
+      <p class="mt-3 opacity-80 text-sm max-w-md mx-auto">Gabung bersama 50+ UMKM Banjarwaringin dan kembangkan bisnis Anda bersama M2A Co-Biz.</p>
+      <div class="flex flex-wrap justify-center gap-3 mt-6">
+        <button class="px-8 py-3 rounded-xl font-bold text-sm bg-white text-[var(--clay-primary)] shadow-[5px_5px_12px_rgba(0,0,0,0.12),-4px_-4px_10px_rgba(255,255,255,0.15)] border-none cursor-default">Daftar Gratis</button>
+        <button class="px-8 py-3 rounded-xl font-bold text-sm border-2 border-white/30 text-white shadow-[5px_5px_12px_rgba(0,0,0,0.08)] cursor-default">Hubungi Kami</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SCREEN 2: KATALOG PRODUK -->
+<!-- ============================================================ -->
+<div class="app-frame">
+  <div class="p-6 md:p-8" style="background:var(--clay-bg)">
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+      <div>
+        <h2 class="text-2xl font-extrabold" style="color:var(--clay-primary)">Katalog Produk</h2>
+        <p class="text-sm mt-1" style="color:var(--clay-on-surface-variant)">Temukan produk UMKM Banjarwaringin</p>
+      </div>
+      <div class="flex gap-2">
+        <button class="btn-clay-outline text-xs px-4 py-2">Filter</button>
+        <button class="btn-clay-outline text-xs px-4 py-2">Urutkan</button>
+      </div>
+    </div>
+
+    <!-- Search bar -->
+    <div class="clay-input flex items-center gap-3 px-4 py-3 mb-6" style="background:var(--clay-surface)">
+      <svg class="w-5 h-5 shrink-0" style="color:var(--clay-on-surface-variant)" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      <input type="text" placeholder="Cari produk atau jasa..." class="bg-transparent border-none outline-none w-full text-sm font-inter" style="color:var(--clay-on-surface)" />
+    </div>
+
+    <!-- Category chips -->
+    <div class="flex flex-wrap gap-2 mb-8">
+      <span class="chip-clay active">Semua</span>
+      <span class="chip-clay">Makanan</span>
+      <span class="chip-clay">Minuman</span>
+      <span class="chip-clay">Kerajinan</span>
+      <span class="chip-clay">Jasa</span>
+      <span class="chip-clay">Fashion</span>
+      <span class="chip-clay">Lainnya</span>
+    </div>
+
+    <!-- Product grid -->
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5">
+      <div class="prod-card">
+        <div class="aspect-square" style="background:var(--clay-surface-variant);border-radius:var(--clay-radius) var(--clay-radius) 0 0"></div>
+        <div class="p-3 md:p-4">
+          <span class="chip-clay text-[10px] px-2.5 py-1 mb-2 inline-block">Makanan</span>
+          <h3 class="font-bold text-sm md:text-base">Kue Lapis Legit</h3>
+          <div class="flex items-center gap-1 mt-1"><span class="text-yellow-500 text-xs">★★★★★</span><span class="text-xs font-inter" style="color:var(--clay-on-surface-variant)">(24)</span></div>
+          <p class="font-extrabold mt-2" style="color:var(--clay-primary)">Rp45.000</p>
+        </div>
+      </div>
+      <div class="prod-card">
+        <div class="aspect-square" style="background:var(--clay-surface-variant);border-radius:var(--clay-radius) var(--clay-radius) 0 0"></div>
+        <div class="p-3 md:p-4">
+          <span class="chip-clay text-[10px] px-2.5 py-1 mb-2 inline-block">Minuman</span>
+          <h3 class="font-bold text-sm md:text-base">Kopi Arabika Salopa</h3>
+          <div class="flex items-center gap-1 mt-1"><span class="text-yellow-500 text-xs">★★★★★</span><span class="text-xs font-inter" style="color:var(--clay-on-surface-variant)">(18)</span></div>
+          <p class="font-extrabold mt-2" style="color:var(--clay-primary)">Rp35.000</p>
+        </div>
+      </div>
+      <div class="prod-card">
+        <div class="aspect-square" style="background:var(--clay-surface-variant);border-radius:var(--clay-radius) var(--clay-radius) 0 0"></div>
+        <div class="p-3 md:p-4">
+          <span class="chip-clay text-[10px] px-2.5 py-1 mb-2 inline-block">Kerajinan</span>
+          <h3 class="font-bold text-sm md:text-base">Anyaman Bambu</h3>
+          <div class="flex items-center gap-1 mt-1"><span class="text-yellow-500 text-xs">★★★★☆</span><span class="text-xs font-inter" style="color:var(--clay-on-surface-variant)">(12)</span></div>
+          <p class="font-extrabold mt-2" style="color:var(--clay-primary)">Rp75.000</p>
+        </div>
+      </div>
+      <div class="prod-card">
+        <div class="aspect-square" style="background:var(--clay-surface-variant);border-radius:var(--clay-radius) var(--clay-radius) 0 0"></div>
+        <div class="p-3 md:p-4">
+          <span class="chip-clay text-[10px] px-2.5 py-1 mb-2 inline-block">Jasa</span>
+          <h3 class="font-bold text-sm md:text-base">Desain Grafis</h3>
+          <div class="flex items-center gap-1 mt-1"><span class="text-yellow-500 text-xs">★★★★★</span><span class="text-xs font-inter" style="color:var(--clay-on-surface-variant)">(9)</span></div>
+          <p class="font-extrabold mt-2" style="color:var(--clay-primary)">Rp150.000</p>
+        </div>
+      </div>
+      <div class="prod-card">
+        <div class="aspect-square" style="background:var(--clay-surface-variant);border-radius:var(--clay-radius) var(--clay-radius) 0 0"></div>
+        <div class="p-3 md:p-4">
+          <span class="chip-clay text-[10px] px-2.5 py-1 mb-2 inline-block">Fashion</span>
+          <h3 class="font-bold text-sm md:text-base">Batik Tulis Tasik</h3>
+          <div class="flex items-center gap-1 mt-1"><span class="text-yellow-500 text-xs">★★★★☆</span><span class="text-xs font-inter" style="color:var(--clay-on-surface-variant)">(31)</span></div>
+          <p class="font-extrabold mt-2" style="color:var(--clay-primary)">Rp250.000</p>
+        </div>
+      </div>
+      <div class="prod-card">
+        <div class="aspect-square" style="background:var(--clay-surface-variant);border-radius:var(--clay-radius) var(--clay-radius) 0 0"></div>
+        <div class="p-3 md:p-4">
+          <span class="chip-clay text-[10px] px-2.5 py-1 mb-2 inline-block">Makanan</span>
+          <h3 class="font-bold text-sm md:text-base">Abon Sapi Pedas</h3>
+          <div class="flex items-center gap-1 mt-1"><span class="text-yellow-500 text-xs">★★★★★</span><span class="text-xs font-inter" style="color:var(--clay-on-surface-variant)">(42)</span></div>
+          <p class="font-extrabold mt-2" style="color:var(--clay-primary)">Rp55.000</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pagination -->
+    <div class="flex items-center justify-center gap-2 mt-8">
+      <span class="w-10 h-10 rounded-[14px] flex items-center justify-center text-sm font-bold shadow-[3px_3px_6px_rgba(0,0,0,0.06),-3px_-3px_6px_rgba(255,255,255,0.5)]" style="background:var(--clay-primary);color:var(--clay-on-primary)">1</span>
+      <span class="w-10 h-10 rounded-[14px] flex items-center justify-center text-sm font-inter" style="color:var(--clay-on-surface-variant)">2</span>
+      <span class="w-10 h-10 rounded-[14px] flex items-center justify-center text-sm font-inter" style="color:var(--clay-on-surface-variant)">3</span>
+      <span class="w-10 h-10 rounded-[14px] flex items-center justify-center text-sm font-inter" style="color:var(--clay-on-surface-variant)">→</span>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SCREEN 3: DETAIL PRODUK -->
+<!-- ============================================================ -->
+<div class="app-frame">
+  <div class="p-6 md:p-8" style="background:var(--clay-bg)">
+    <button class="flex items-center gap-2 text-sm font-medium mb-5" style="color:var(--clay-on-surface-variant)">← Kembali</button>
+    <div class="grid md:grid-cols-2 gap-6 md:gap-10">
+      <!-- Gallery -->
+      <div>
+        <div class="aspect-square clay-lg overflow-hidden"></div>
+        <div class="flex gap-3 mt-4">
+          <div class="w-16 h-16 rounded-[14px] shadow-[3px_3px_6px_rgba(0,0,0,0.05),-3px_-3px_6px_rgba(255,255,255,0.4)]" style="background:var(--clay-surface-variant)"></div>
+          <div class="w-16 h-16 rounded-[14px] shadow-[3px_3px_6px_rgba(0,0,0,0.05),-3px_-3px_6px_rgba(255,255,255,0.4)]" style="background:var(--clay-surface-variant)"></div>
+          <div class="w-16 h-16 rounded-[14px] shadow-[3px_3px_6px_rgba(0,0,0,0.05),-3px_-3px_6px_rgba(255,255,255,0.4)]" style="background:var(--clay-surface-variant)"></div>
+        </div>
+      </div>
+      <!-- Info -->
+      <div>
+        <span class="chip-clay text-xs">Makanan</span>
+        <h1 class="text-2xl md:text-3xl font-extrabold mt-3" style="color:var(--clay-primary)">Kue Lapis Legit</h1>
+        <div class="flex items-center gap-2 mt-2"><span class="text-yellow-500">★★★★★</span><span class="text-sm font-inter" style="color:var(--clay-on-surface-variant)">4.9 (24 ulasan)</span></div>
+        <p class="text-3xl font-extrabold mt-4" style="color:var(--clay-accent)">Rp45.000</p>
+        <p class="text-xs font-inter mt-1" style="color:var(--clay-on-surface-variant)">Harga per toples 250gr</p>
+        <div class="w-full h-px my-5" style="background:var(--clay-outline);opacity:0.4"></div>
+        <p class="text-sm leading-relaxed" style="color:var(--clay-on-surface)">Kue lapis legit khas Banjarwaringin, dibuat dari bahan-bahan pilihan dengan resep turun-temurun. Tekstur lembut, rasa manis pas, cocok untuk cemilan keluarga atau oleh-oleh.</p>
+        <!-- Variant -->
+        <div class="mt-5"><p class="font-bold text-sm mb-2">Varian:</p><div class="flex gap-2"><span class="chip-clay gold">Original</span><span class="chip-clay">Coklat</span><span class="chip-clay">Keju</span></div></div>
+        <!-- Quantity -->
+        <div class="flex items-center gap-4 mt-5">
+          <div class="clay-pill flex items-center px-3 py-2 gap-4"><button class="w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold shadow-[2px_2px_4px_rgba(0,0,0,0.04),-2px_-2px_4px_rgba(255,255,255,0.4)]" style="background:var(--clay-surface-variant)">−</button><span class="font-bold text-sm">1</span><button class="w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold shadow-[2px_2px_4px_rgba(0,0,0,0.04),-2px_-2px_4px_rgba(255,255,255,0.4)]" style="background:var(--clay-surface-variant)">+</button></div>
+          <span class="text-sm font-inter" style="color:var(--clay-on-surface-variant)">Stok: 12 tersisa</span>
+        </div>
+        <!-- Shipping -->
+        <div class="mt-5"><p class="font-bold text-sm mb-2">Metode Pengiriman:</p>
+          <div class="flex flex-col gap-2">
+            <label class="flex items-center gap-3 clay-sm p-3 cursor-default"><input type="radio" name="ship" checked class="accent-[var(--clay-primary)]" /><span class="text-sm font-medium">Ambil di tempat (Gratis)</span></label>
+            <label class="flex items-center gap-3 clay-sm p-3 cursor-default"><input type="radio" name="ship" class="accent-[var(--clay-primary)]" /><span class="text-sm font-medium">Diantar — Rp5.000 (Lokasi Banjarwaringin)</span></label>
+          </div>
+        </div>
+        <button class="btn-clay w-full mt-6 py-3.5 text-base">Masukkan Keranjang</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SCREEN 4: CHECKOUT -->
+<!-- ============================================================ -->
+<div class="app-frame">
+  <div class="p-6 md:p-8" style="background:var(--clay-bg)">
+    <h2 class="text-2xl font-extrabold mb-6" style="color:var(--clay-primary)">Checkout</h2>
+    <div class="grid md:grid-cols-5 gap-6">
+      <!-- Form -->
+      <div class="md:col-span-3">
+        <div class="clay p-6">
+          <h3 class="font-bold mb-4">Data Pengiriman</h3>
+          <div class="grid md:grid-cols-2 gap-4">
+            <input type="text" placeholder="Nama lengkap" value="Asep Suryana" class="clay-input w-full px-4 py-3 text-sm font-inter" />
+            <input type="text" placeholder="No. Telepon" value="0812-3456-7890" class="clay-input w-full px-4 py-3 text-sm font-inter" />
+          </div>
+          <textarea rows="2" placeholder="Alamat lengkap" class="clay-input w-full px-4 py-3 text-sm font-inter mt-4">Kp. Cikadu RT 02/05, Desa Banjarwaringin, Kec. Salopa, Kab. Tasikmalaya</textarea>
+          <div class="grid md:grid-cols-2 gap-4 mt-4">
+            <input type="text" placeholder="Catatan untuk penjual" class="clay-input w-full px-4 py-3 text-sm font-inter" />
+          </div>
+          <!-- Payment -->
+          <h3 class="font-bold mt-6 mb-3">Metode Pembayaran</h3>
+          <div class="flex flex-col gap-2">
+            <label class="flex items-center gap-3 clay-sm p-3 cursor-default"><input type="radio" name="pay" checked class="accent-[var(--clay-primary)]" /><span class="text-sm font-medium">Transfer Bank (BRI/Syariah)</span></label>
+            <label class="flex items-center gap-3 clay-sm p-3 cursor-default"><input type="radio" name="pay" class="accent-[var(--clay-primary)]" /><span class="text-sm font-medium">QRIS</span></label>
+          </div>
+        </div>
+      </div>
+      <!-- Ringkasan -->
+      <div class="md:col-span-2">
+        <div class="clay p-6">
+          <h3 class="font-bold mb-4">Ringkasan Pesanan</h3>
+          <div class="flex items-start gap-3 pb-4 mb-4" style="border-bottom:1px solid var(--clay-outline)">
+            <div class="w-14 h-14 rounded-[12px] shrink-0 shadow-[2px_2px_5px_rgba(0,0,0,0.05),-2px_-2px_5px_rgba(255,255,255,0.4)]" style="background:var(--clay-surface-variant)"></div>
+            <div class="flex-1"><p class="font-bold text-sm">Kue Lapis Legit × 1</p><p class="text-xs font-inter mt-0.5" style="color:var(--clay-on-surface-variant)">Varian: Original</p></div>
+            <p class="font-bold text-sm">Rp45.000</p>
+          </div>
+          <div class="flex justify-between text-sm mb-2"><span style="color:var(--clay-on-surface-variant)">Subtotal</span><span>Rp45.000</span></div>
+          <div class="flex justify-between text-sm mb-2"><span style="color:var(--clay-on-surface-variant)">Ongkir</span><span>Rp5.000</span></div>
+          <div class="flex justify-between text-sm mb-2"><span style="color:var(--clay-on-surface-variant)">Biaya Layanan</span><span>Rp1.000</span></div>
+          <div class="w-full h-px my-3" style="background:var(--clay-outline);opacity:0.4"></div>
+          <div class="flex justify-between font-bold text-base"><span>Total</span><span style="color:var(--clay-primary))">Rp51.000</span></div>
+          <button class="btn-clay w-full mt-5 py-3.5 text-base">Konfirmasi Pesanan</button>
+          <p class="text-xs text-center mt-3 font-inter" style="color:var(--clay-on-surface-variant)">Dengan memesan, Anda menyetujui Ketentuan Layanan M2A Co-Biz</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SCREEN 5: LOGIN & REGISTER -->
+<!-- ============================================================ -->
+<div class="app-frame">
+  <div class="p-6 md:p-8 min-h-[600px] flex items-center justify-center" style="background:var(--clay-bg)">
+    <div class="w-full max-w-md">
+      <!-- Toggle -->
+      <div class="clay-pill p-1 flex mb-8 max-w-[280px] mx-auto">
+        <span class="tab-btn active flex-1 text-sm">Masuk</span>
+        <span class="tab-btn flex-1 text-sm">Daftar</span>
+      </div>
+      <!-- Login form -->
+      <div class="clay-lg p-6 md:p-8">
+        <h2 class="text-xl font-extrabold mb-1" style="color:var(--clay-primary)">Selamat Datang</h2>
+        <p class="text-sm mb-6" style="color:var(--clay-on-surface-variant)">Masuk ke akun M2A Co-Biz Anda</p>
+        <!-- Email -->
+        <label class="text-sm font-medium mb-1.5 block">Email</label>
+        <input type="email" placeholder="nama@email.com" value="asep@example.com" class="clay-input w-full px-4 py-3 text-sm font-inter mb-4" />
+        <!-- Password -->
+        <label class="text-sm font-medium mb-1.5 block">Kata Sandi</label>
+        <input type="password" value="••••••••" class="clay-input w-full px-4 py-3 text-sm font-inter mb-5" />
+        <!-- 2FA -->
+        <div class="clay-sm p-4 mb-5">
+          <div class="flex items-center gap-3 mb-3">
+            <svg class="w-5 h-5" style="color:var(--clay-primary)" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+            <p class="text-sm font-bold">Verifikasi 2FA</p>
+          </div>
+          <p class="text-xs mb-3 font-inter" style="color:var(--clay-on-surface-variant)">Masukkan kode 6 digit dari aplikasi Authenticator</p>
+          <div class="flex gap-2 justify-center">
+            <span class="w-10 h-12 rounded-[10px] flex items-center justify-center text-lg font-bold shadow-[inset_2px_2px_5px_rgba(0,0,0,0.05),inset_-2px_-2px_5px_rgba(255,255,255,0.4)]" style="background:var(--clay-surface-variant)">2</span>
+            <span class="w-10 h-12 rounded-[10px] flex items-center justify-center text-lg font-bold shadow-[inset_2px_2px_5px_rgba(0,0,0,0.05),inset_-2px_-2px_5px_rgba(255,255,255,0.4)]" style="background:var(--clay-surface-variant)">8</span>
+            <span class="w-10 h-12 rounded-[10px] flex items-center justify-center text-lg font-bold shadow-[inset_2px_2px_5px_rgba(0,0,0,0.05),inset_-2px_-2px_5px_rgba(255,255,255,0.4)]" style="background:var(--clay-surface-variant)">4</span>
+            <span class="w-10 h-12 rounded-[10px] flex items-center justify-center text-lg font-bold shadow-[inset_2px_2px_5px_rgba(0,0,0,0.05),inset_-2px_-2px_5px_rgba(255,255,255,0.4)]" style="background:var(--clay-surface-variant)">1</span>
+            <span class="w-10 h-12 rounded-[10px] flex items-center justify-center text-lg font-bold shadow-[inset_2px_2px_5px_rgba(0,0,0,0.05),inset_-2px_-2px_5px_rgba(255,255,255,0.4)]" style="background:var(--clay-surface-variant)">9</span>
+            <span class="w-10 h-12 rounded-[10px] flex items-center justify-center text-lg font-bold shadow-[inset_2px_2px_5px_rgba(0,0,0,0.05),inset_-2px_-2px_5px_rgba(255,255,255,0.4)]" style="background:var(--clay-surface-variant)">0</span>
+          </div>
+        </div>
+        <button class="btn-clay w-full py-3 text-base">Masuk</button>
+        <div class="relative my-5 text-center"><span class="px-3 text-xs font-inter" style="background:var(--clay-bg);color:var(--clay-on-surface-variant);position:relative;z-index:1">atau</span><div class="w-full h-px absolute top-1/2 left-0" style="background:var(--clay-outline);opacity:0.4"></div></div>
+        <button class="btn-clay-outline w-full py-3 text-sm flex items-center justify-center gap-2"><svg class="w-5 h-5" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>Lanjutkan dengan Google</button>
+        <!-- Register hint -->
+        <p class="text-center text-xs mt-5 font-inter" style="color:var(--clay-on-surface-variant)">Belum punya akun? <a style="color:var(--clay-primary);font-weight:700;cursor:default">Daftar Sekarang</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SCREEN 6: DASHBOARD ADMIN (subtle clay) -->
+<!-- ============================================================ -->
+<div class="app-frame">
+  <div class="flex min-h-[550px]" style="background:var(--clay-bg)">
+    <!-- Sidebar -->
+    <div class="w-56 shrink-0 p-4 hidden md:flex flex-col gap-1" style="background:var(--clay-bg);border-right:1px solid var(--clay-outline)">
+      <div class="flex items-center gap-2 px-3 py-3 mb-3">
+        <div class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shadow-[3px_3px_6px_rgba(0,0,0,0.06),-3px_-3px_6px_rgba(255,255,255,0.5)]" style="background:var(--clay-primary);color:var(--clay-on-primary)">M2</div>
+        <span class="font-bold text-sm">Admin Panel</span>
+      </div>
+      <div class="sidebar-item active"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>Dashboard</div>
+      <div class="sidebar-item"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Approval</div>
+      <div class="sidebar-item"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 7V4h16v3"/><path d="M9 20h6"/><path d="M12 4v16"/></svg>Kategori</div>
+      <div class="sidebar-item"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><path d="M16 8h-6a2 2 0 100 4h4a2 2 0 110 4H8"/></svg>Komisi</div>
+      <div class="sidebar-item"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>Pengguna</div>
+      <div class="sidebar-item"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21.21 15.89A10 10 0 118 2.83M22 12A10 10 0 0012 2v10z"/></svg>Laporan</div>
+    </div>
+    <!-- Main -->
+    <div class="flex-1 p-5 overflow-hidden">
+      <div class="flex items-center justify-between mb-5"><h2 class="text-xl font-extrabold" style="color:var(--clay-primary)">Dashboard</h2><div class="flex items-center gap-2"><span class="w-8 h-8 rounded-full shadow-[3px_3px_6px_rgba(0,0,0,0.06),-3px_-3px_6px_rgba(255,255,255,0.5)]" style="background:var(--clay-primary-container)"></span></div></div>
+      <!-- Stat cards (lite) -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+        <div class="stat-card clay-lite"><div class="number" style="color:var(--clay-primary)">48</div><div class="label">Seller Aktif</div></div>
+        <div class="stat-card clay-lite"><div class="number" style="color:var(--clay-accent)">12</div><div class="label">Pending</div></div>
+        <div class="stat-card clay-lite"><div class="number" style="color:var(--clay-primary)">Rp2,4JT</div><div class="label">Volume Bulan Ini</div></div>
+        <div class="stat-card clay-lite"><div class="number" style="color:var(--clay-accent)">5</div><div class="label">Kategori Baru</div></div>
+      </div>
+      <!-- Approval table -->
+      <h3 class="font-bold text-sm mb-3">Antrian Approval Seller</h3>
+      <div class="overflow-x-auto">
+        <table class="clay-table">
+          <tr><th>Nama</th><th>Usaha</th><th>Daftar</th><th>Status</th><th></th></tr>
+          <tr><td class="font-medium">Dede Mulyadi</td><td class="text-sm">Abon Gepuk Mang Dede</td><td class="text-sm font-inter">2 jam lalu</td><td><span class="badge-clay" style="color:var(--clay-accent)">Menunggu</span></td><td><span class="btn-clay-outline text-xs px-4 py-1.5">Tinjau</span></td></tr>
+          <tr><td class="font-medium">Yanti Sumiati</td><td class="text-sm">Kue Cubit Yanti</td><td class="text-sm font-inter">5 jam lalu</td><td><span class="badge-clay" style="color:var(--clay-accent)">Menunggu</span></td><td><span class="btn-clay-outline text-xs px-4 py-1.5">Tinjau</span></td></tr>
+          <tr><td class="font-medium">Ahmad Rojali</td><td class="text-sm">Ternak Lele Rojali</td><td class="text-sm font-inter">1 hari lalu</td><td><span class="badge-clay" style="color:var(--clay-accent)">Menunggu</span></td><td><span class="btn-clay-outline text-xs px-4 py-1.5">Tinjau</span></td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SCREEN 7: DASHBOARD BENDAHARA (subtle clay) -->
+<!-- ============================================================ -->
+<div class="app-frame">
+  <div class="flex min-h-[500px]" style="background:var(--clay-bg)">
+    <!-- Sidebar -->
+    <div class="w-56 shrink-0 p-4 hidden md:flex flex-col gap-1" style="background:var(--clay-bg);border-right:1px solid var(--clay-outline)">
+      <div class="flex items-center gap-2 px-3 py-3 mb-3"><div class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shadow-[3px_3px_6px_rgba(0,0,0,0.06),-3px_-3px_6px_rgba(255,255,255,0.5)]" style="background:var(--clay-primary);color:var(--clay-on-primary)">M2</div><span class="font-bold text-sm">Bendahara</span></div>
+      <div class="sidebar-item active"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>Dashboard</div>
+      <div class="sidebar-item"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 1v22"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>Pencairan</div>
+      <div class="sidebar-item"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M16 8h-6a2 2 0 100 4h4a2 2 0 110 4H8"/></svg>Komisi</div>
+      <div class="sidebar-item"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21.21 15.89A10 10 0 118 2.83M22 12A10 10 0 0012 2v10z"/></svg>Laporan</div>
+    </div>
+    <!-- Main -->
+    <div class="flex-1 p-5">
+      <div class="flex items-center justify-between mb-5"><h2 class="text-xl font-extrabold" style="color:var(--clay-primary)">Bendahara</h2><span class="font-inter text-xs px-3 py-1.5 rounded-full" style="background:var(--clay-primary-container);color:var(--clay-primary)">Saldo Kas: Rp8.450.000</span></div>
+      <!-- Ringkasan Komisi (lite) -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+        <div class="stat-card clay-lite"><div class="number" style="color:var(--clay-primary)">Rp340RB</div><div class="label">Komisi Bulan Ini</div></div>
+        <div class="stat-card clay-lite"><div class="number" style="color:var(--clay-accent)">Rp85RB</div><div class="label">Belum Cair</div></div>
+        <div class="stat-card clay-lite"><div class="number" style="color:var(--clay-primary)">12%</div><div class="label">Rata-rata Komisi</div></div>
+        <div class="stat-card clay-lite"><div class="number" style="color:var(--clay-accent)">6</div><div class="label">Payout Pending</div></div>
+      </div>
+      <!-- Payout table -->
+      <h3 class="font-bold text-sm mb-3">Pencairan Saldo (Pending)</h3>
+      <div class="overflow-x-auto">
+        <table class="clay-table">
+          <tr><th>Seller</th><th>Jumlah</th><th>Tanggal</th><th>Status</th><th></th></tr>
+          <tr><td class="font-medium">Dapur Haliza</td><td class="font-bold text-sm">Rp850.000</td><td class="text-sm font-inter">12 Jul 2026</td><td><span class="badge-clay" style="color:var(--clay-accent)">Pending</span></td><td><span class="btn-clay text-xs px-4 py-1.5">Konfirmasi</span></td></tr>
+          <tr><td class="font-medium">Kopi Salopa</td><td class="font-bold text-sm">Rp420.000</td><td class="text-sm font-inter">11 Jul 2026</td><td><span class="badge-clay" style="color:var(--clay-accent)">Pending</span></td><td><span class="btn-clay text-xs px-4 py-1.5">Konfirmasi</span></td></tr>
+          <tr><td class="font-medium">Anyaman Bambu</td><td class="font-bold text-sm">Rp1.200.000</td><td class="text-sm font-inter">10 Jul 2026</td><td><span class="badge-clay" style="color:var(--clay-accent)">Pending</span></td><td><span class="btn-clay text-xs px-4 py-1.5">Konfirmasi</span></td></tr>
+          <tr><td class="font-medium">Batik Tasik</td><td class="font-bold text-sm">Rp2.100.000</td><td class="text-sm font-inter">9 Jul 2026</td><td><span class="badge-clay" style="color:var(--clay-accent)">Pending</span></td><td><span class="btn-clay text-xs px-4 py-1.5">Konfirmasi</span></td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SCREEN 8: DASHBOARD SELLER -->
+<!-- ============================================================ -->
+<div class="app-frame">
+  <div class="flex min-h-[550px]" style="background:var(--clay-bg)">
+    <!-- Sidebar -->
+    <div class="w-56 shrink-0 p-4 hidden md:flex flex-col gap-1" style="background:var(--clay-bg);border-right:1px solid var(--clay-outline)">
+      <div class="flex items-center gap-2 px-3 py-3 mb-3"><div class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shadow-[3px_3px_6px_rgba(0,0,0,0.06),-3px_-3px_6px_rgba(255,255,255,0.5)]" style="background:var(--clay-primary);color:var(--clay-on-primary)">M2</div><span class="font-bold text-sm">Seller Panel</span></div>
+      <div class="sidebar-item"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>Dashboard</div>
+      <div class="sidebar-item active"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 3v12"/><path d="M18 8H6"/><path d="M20 21V5a2 2 0 00-2-2H6a2 2 0 00-2 2v16"/></svg>Produk Saya</div>
+      <div class="sidebar-item"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Pesanan</div>
+      <div class="sidebar-item"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 1v22"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>Pencairan</div>
+    </div>
+    <!-- Main -->
+    <div class="flex-1 p-5">
+      <div class="flex items-center justify-between mb-5"><h2 class="text-xl font-extrabold" style="color:var(--clay-primary)">Produk Saya</h2><button class="btn-clay text-sm px-5 py-2.5">+ Tambah Produk</button></div>
+      <!-- Form (collapsed) -->
+      <div class="clay p-5 mb-6">
+        <h3 class="font-bold text-sm mb-4">Tambah Produk Baru</h3>
+        <div class="grid md:grid-cols-2 gap-4">
+          <div><label class="text-xs font-medium mb-1 block font-inter">Nama Produk</label><input type="text" placeholder="Nama produk/jasa" class="clay-input w-full px-4 py-3 text-sm font-inter" /></div>
+          <div><label class="text-xs font-medium mb-1 block font-inter">Harga (Rp)</label><input type="text" placeholder="0" class="clay-input w-full px-4 py-3 text-sm font-inter" /></div>
+          <div><label class="text-xs font-medium mb-1 block font-inter">Kategori</label>
+            <div class="clay-input w-full px-4 py-3 text-sm font-inter flex items-center justify-between">
+              <span style="color:var(--clay-on-surface-variant)">Pilih kategori</span>
+              <svg class="w-4 h-4" style="color:var(--clay-on-surface-variant)" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+          </div>
+          <div><label class="text-xs font-medium mb-1 block font-inter">&nbsp;</label><div class="chip-clay inline-flex text-xs"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>Usul kategori baru</div></div>
+          <div class="md:col-span-2"><label class="text-xs font-medium mb-1 block font-inter">Deskripsi</label><textarea rows="2" placeholder="Deskripsi produk" class="clay-input w-full px-4 py-3 text-sm font-inter"></textarea></div>
+        </div>
+        <div class="flex justify-end mt-4"><button class="btn-clay text-sm px-6 py-2.5">Simpan Produk</button></div>
+      </div>
+      <!-- Product table -->
+      <div class="overflow-x-auto">
+        <table class="clay-table">
+          <tr><th>Produk</th><th>Kategori</th><th>Harga</th><th>Stok</th><th>Status</th><th></th></tr>
+          <tr><td class="font-medium">Kue Lapis Legit</td><td class="text-sm">Makanan</td><td class="font-bold text-sm">Rp45.000</td><td class="text-sm font-inter">12</td><td><span class="badge-clay" style="color:var(--clay-success)">Aktif</span></td><td><span class="btn-clay-outline text-xs px-3 py-1.5">Edit</span></td></tr>
+          <tr><td class="font-medium">Brownies Kukus</td><td class="text-sm">Makanan</td><td class="font-bold text-sm">Rp35.000</td><td class="text-sm font-inter">8</td><td><span class="badge-clay" style="color:var(--clay-success)">Aktif</span></td><td><span class="btn-clay-outline text-xs px-3 py-1.5">Edit</span></td></tr>
+          <tr><td class="font-medium">Stik Bawang</td><td class="text-sm">Makanan</td><td class="font-bold text-sm">Rp15.000</td><td class="text-sm font-inter">0</td><td><span class="badge-clay" style="color:var(--clay-error)">Habis</span></td><td><span class="btn-clay-outline text-xs px-3 py-1.5">Edit</span></td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SCREEN 9: BOTTOM NAVIGATION (mobile) -->
+<!-- ============================================================ -->
+<div class="app-frame">
+  <div class="relative min-h-[400px] flex items-end" style="background:var(--clay-bg)">
+    <!-- Simulated page content -->
+    <div class="absolute inset-0 flex items-center justify-center"><p class="text-sm font-inter" style="color:var(--clay-on-surface-variant)">↑ scroll ke bawah untuk bottom nav</p></div>
+    <!-- Bottom nav bar -->
+    <div class="w-full p-4" style="background:var(--clay-bg)">
+      <div class="clay-pill flex items-center justify-around px-3 py-2 max-w-lg mx-auto" style="box-shadow:var(--clay-shadow-md)">
+        <div class="bnav-item active">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+          <span>Beranda</span>
+        </div>
+        <div class="bnav-item">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          <span>Katalog</span>
+        </div>
+        <div class="bnav-item">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/></svg>
+          <span>Pesanan</span>
+        </div>
+        <div class="bnav-item">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/></svg>
+          <span>Akun</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="text-center py-8 text-xs font-inter" style="color:var(--clay-on-surface-variant)">
+  M2A Co-Biz — Claymorphic Design Mockup • 9 Screens • Juli 2026
+</div>
+
+</main>
+</body>
+</html>

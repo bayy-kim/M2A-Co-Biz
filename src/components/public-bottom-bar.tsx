@@ -64,10 +64,11 @@ export function PublicBottomBar({ isLoggedIn, role }: Props) {
 
   return (
     <nav
-      className="lg:hidden fixed bottom-0 w-full z-50 bg-surface border-t border-outline-variant/30 shadow-[0_-4px_20px_rgba(0,0,0,0.08)] pb-[env(safe-area-inset-bottom)]"
+      className="lg:hidden fixed bottom-0 w-full z-50 pb-[env(safe-area-inset-bottom)]"
+      style={{background:"var(--color-clay-bg)"}}
       aria-label="Navigasi Publik Mobile"
     >
-      <div className="flex items-center justify-around mx-auto max-w-lg overflow-x-auto no-scrollbar">
+      <div className="clay-pill flex items-center justify-around mx-4 -mt-5 mb-2 px-2 py-1.5 max-w-lg" style={{boxShadow:"var(--shadow-clay-md)"}}>
         {items.map((item) => {
           const Icon = item.icon
           const active = isItemActive(item.label)
@@ -75,19 +76,16 @@ export function PublicBottomBar({ isLoggedIn, role }: Props) {
             <Link
               key={item.label}
               href={item.href}
-              className={`flex flex-col items-center justify-center gap-1 min-w-0 flex-shrink-0 h-16 w-16 px-1 transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-primary active:scale-95 ${
-                active ? "text-primary font-bold" : "text-on-surface-variant hover:text-on-surface"
+              className={`flex flex-col items-center justify-center gap-0.5 min-w-0 flex-shrink-0 px-4 py-1.5 rounded-full transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-primary ${
+                active 
+                  ? "clay-sm shadow-[3px_3px_8px_rgba(0,0,0,0.05),-3px_-3px_8px_rgba(255,255,255,0.5)] font-bold" 
+                  : "text-on-surface-variant hover:text-on-surface"
               }`}
+              style={active ? {background: "var(--color-clay-surface)"} : {}}
               aria-current={active ? "page" : undefined}
             >
-              <div className={`relative flex items-center justify-center w-12 h-8 rounded-full transition-all duration-200 ${
-                active ? "bg-primary text-white shadow-xs" : "hover:bg-surface-container-high text-on-surface-variant"
-              }`}>
-                <Icon className="w-5 h-5" />
-              </div>
-              <span className={`text-[10px] leading-tight text-center max-w-full truncate ${
-                active ? "font-bold text-primary" : "text-on-surface-variant"
-              }`}>
+              <Icon className="w-5 h-5" />
+              <span className="text-[10px] leading-tight text-center max-w-full truncate">
                 {item.label}
               </span>
             </Link>

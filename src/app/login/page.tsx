@@ -121,7 +121,7 @@ function LoginContent() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-gutter bg-surface relative">
+    <div className="min-h-screen flex flex-col items-center justify-center p-gutter relative" style={{ background: 'var(--color-clay-bg)' }}>
       <div className="absolute top-6 left-6 z-10">
         <button
           onClick={() => router.back()}
@@ -138,7 +138,7 @@ function LoginContent() {
           <Logo size="lg" showSubtitle subtitleText="Pusat Komunitas Bisnis" />
         </div>
 
-        <div className="w-full bg-surface-container-lowest shadow-[0_10px_40px_-10px_rgba(15,92,92,0.1)] rounded-xl border border-outline-variant/30 p-xxl relative overflow-hidden">
+        <div className="w-full clay-lg p-xxl relative overflow-hidden">
           <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-bl-full -mr-16 -mt-16" />
 
           {step === 1 ? (
@@ -156,7 +156,7 @@ function LoginContent() {
                   <div className="relative group">
                     <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-outline group-focus-within:text-primary transition-colors" />
                     <input
-                      className="w-full pl-10 pr-4 py-3.5 rounded-lg border border-outline-variant bg-surface-bright focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-body-md"
+                      className="clay-input w-full pl-10"
                       id="email"
                       placeholder="name@business.com"
                       required
@@ -174,7 +174,7 @@ function LoginContent() {
                   <div className="relative group">
                     <Key className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-outline group-focus-within:text-primary transition-colors" />
                     <input
-                      className="w-full pl-10 pr-4 py-3.5 rounded-lg border border-outline-variant bg-surface-bright focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-body-md"
+                      className="clay-input w-full pl-10"
                       id="password"
                       placeholder="••••••••"
                       required
@@ -184,7 +184,7 @@ function LoginContent() {
                     />
                   </div>
                 </div>
-                <button className="w-full py-3.5 bg-primary-container text-on-primary-container rounded-lg text-headline-md shadow-md hover:shadow-lg active:scale-[0.98] transition-all flex items-center justify-center gap-sm disabled:opacity-50" disabled={pending} type="submit">
+                <button className="btn-clay w-full" disabled={pending} type="submit">
                   {pending ? <Loader2 className="w-5 h-5 animate-spin" /> : null}
                   {pending ? "Masuk..." : "Lanjutkan"}
                   {!pending && <ArrowRight className="w-5 h-5" />}
@@ -207,7 +207,7 @@ function LoginContent() {
                   signIn("google")
                 }}
                 disabled={pending}
-                className="w-full py-3 border border-outline-variant/50 hover:bg-surface-container-low rounded-lg text-label-md font-medium text-on-surface transition-all flex items-center justify-center gap-sm disabled:opacity-50"
+                className="btn-clay-outline w-full"
               >
                 <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
@@ -238,7 +238,7 @@ function LoginContent() {
                     <input
                       key={i}
                       ref={(el) => { inputRefs.current[i] = el }}
-                      className="w-10 h-12 sm:w-12 sm:h-14 text-center rounded-lg border border-outline-variant bg-surface-bright text-headline-lg sm:text-display-md focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all flex-1 min-w-0"
+                      className="clay-inset w-10 h-12 sm:w-12 sm:h-14 text-center text-headline-lg sm:text-display-md flex-1 min-w-0"
                       maxLength={1} required type="text" inputMode="numeric"
                       value={digit}
                       onChange={(e) => handleCodeChange(i, e.target.value)}
@@ -247,7 +247,7 @@ function LoginContent() {
                   ))}
                 </div>
                 <div className="flex flex-col gap-md">
-                  <button className="w-full py-3.5 bg-accent-gold text-on-primary-fixed text-headline-md rounded-lg shadow-md hover:shadow-lg active:scale-[0.98] transition-all flex items-center justify-center gap-sm disabled:opacity-50" disabled={pending} type="submit">
+                  <button className="btn-clay-gold w-full" disabled={pending} type="submit">
                     {pending ? <Loader2 className="w-5 h-5 animate-spin" /> : null}
                     {pending ? "Memverifikasi..." : "Verifikasi & Masuk"}
                     {!pending && <Verified className="w-5 h-5" />}
@@ -267,7 +267,7 @@ function LoginContent() {
           <Link className="text-label-sm text-on-surface-variant hover:text-primary transition-colors flex items-center gap-xs" href="/terms"><FileText className="w-[16px] h-[16px]" /> Ketentuan</Link>
         </div>
 
-        <div className="mt-xxl flex items-center gap-sm px-4 py-2 bg-on-primary-fixed-variant/5 rounded-full border border-outline-variant/20">
+        <div className="mt-xxl flex items-center gap-sm px-4 py-2 clay-pill">
           <Verified className="text-primary w-5 h-5" />
           <span className="text-label-sm text-on-surface-variant">Enkripsi Keamanan Enterprise</span>
         </div>

@@ -45,9 +45,9 @@ export function CheckoutForm({
   const [state, action, pending] = useActionState(checkout, null)
 
   return (
-    <form action={action} className="space-y-lg">
+    <form action={action} className="space-y-lg" style={{ background: 'var(--color-clay-bg)' }}>
       {defaultName && defaultPhone ? (
-        <div className="p-md bg-surface-container-low rounded-lg border border-outline-variant/30 flex items-start gap-3">
+        <div className="clay p-md flex items-start gap-3">
           <CheckCircle className="w-5 h-5 text-success flex-shrink-0 mt-0.5" />
           <div className="text-label-sm text-on-surface-variant">
             Pesanan atas nama <span className="font-bold text-on-surface">{defaultName}</span> ({defaultPhone}).
@@ -57,11 +57,12 @@ export function CheckoutForm({
         </div>
       ) : (
         <>
+          <div className="clay p-xxl space-y-lg">
           <div className="flex flex-col gap-xs">
             <label className="text-label-md text-on-surface" htmlFor="buyerName">Nama Lengkap</label>
             <div className="relative group">
               <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-outline group-focus-within:text-primary transition-colors" />
-              <input className="w-full pl-10 pr-4 py-3.5 rounded-lg border border-outline-variant bg-surface-bright focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-body-md" id="buyerName" name="buyerName" placeholder="Nama lengkap Anda" required type="text" />
+              <input className="clay-input w-full pl-10" id="buyerName" name="buyerName" placeholder="Nama lengkap Anda" required type="text" />
             </div>
           </div>
 
@@ -69,14 +70,15 @@ export function CheckoutForm({
             <label className="text-label-md text-on-surface" htmlFor="buyerPhone">Nomor Telepon</label>
             <div className="relative group">
               <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-outline group-focus-within:text-primary transition-colors" />
-              <input className="w-full pl-10 pr-4 py-3.5 rounded-lg border border-outline-variant bg-surface-bright focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-body-md" id="buyerPhone" name="buyerPhone" placeholder="+62 812 XXXX XXXX" required type="tel" />
+              <input className="clay-input w-full pl-10" id="buyerPhone" name="buyerPhone" placeholder="+62 812 XXXX XXXX" required type="tel" />
             </div>
           </div>
+        </div>
         </>
       )}
 
       {productVariants && productVariants.length > 0 && (
-        <div className="flex flex-col gap-xs">
+        <div className="clay p-xxl flex flex-col gap-xs">
           <label className="text-label-md text-on-surface font-bold">Pilih Varian</label>
           <div className="flex flex-wrap gap-2">
             {productVariants.map((variant) => (
@@ -84,10 +86,10 @@ export function CheckoutForm({
                 key={variant}
                 type="button"
                 onClick={() => setSelectedVariant(variant)}
-                className={`px-lg py-2.5 rounded-xl border text-label-sm font-bold transition-all cursor-pointer ${
+                className={`chip-clay text-label-sm font-bold transition-all cursor-pointer ${
                   selectedVariant === variant
-                    ? "bg-primary text-on-primary border-primary"
-                    : "bg-surface border-outline-variant/30 text-on-surface-variant hover:border-primary"
+                    ? "active bg-primary text-on-primary"
+                    : "text-on-surface-variant"
                 }`}
               >
                 {variant}
@@ -101,16 +103,16 @@ export function CheckoutForm({
         </div>
       )}
 
-      <div className="flex flex-col gap-xs">
+      <div className="clay p-xxl flex flex-col gap-xs">
         <label className="text-label-md text-on-surface">Metode Penerimaan</label>
         <div className="grid grid-cols-2 gap-md">
           <button
             type="button"
             onClick={() => setDeliveryMethod("DELIVERY")}
-            className={`p-lg rounded-xl border flex flex-col items-center gap-2 transition-all outline-none focus-visible:ring-2 focus-visible:ring-primary cursor-pointer ${
+            className={`clay-sm p-lg flex flex-col items-center gap-2 transition-all outline-none focus-visible:ring-2 focus-visible:ring-primary cursor-pointer ${
               deliveryMethod === "DELIVERY"
-                ? "border-primary bg-primary/5 text-primary font-bold shadow-xs"
-                : "border-outline-variant/40 bg-surface-bright text-on-surface-variant hover:bg-surface-container-low"
+                ? "!bg-primary text-on-primary font-bold"
+                : "text-on-surface-variant"
             }`}
           >
             <Truck className="w-6 h-6 shrink-0" />
@@ -120,10 +122,10 @@ export function CheckoutForm({
           <button
             type="button"
             onClick={() => setDeliveryMethod("PICKUP")}
-            className={`p-lg rounded-xl border flex flex-col items-center gap-2 transition-all outline-none focus-visible:ring-2 focus-visible:ring-primary cursor-pointer ${
+            className={`clay-sm p-lg flex flex-col items-center gap-2 transition-all outline-none focus-visible:ring-2 focus-visible:ring-primary cursor-pointer ${
               deliveryMethod === "PICKUP"
-                ? "border-primary bg-primary/5 text-primary font-bold shadow-xs"
-                : "border-outline-variant/40 bg-surface-bright text-on-surface-variant hover:bg-surface-container-low"
+                ? "!bg-primary text-on-primary font-bold"
+                : "text-on-surface-variant"
             }`}
           >
             <Store className="w-6 h-6 shrink-0" />
@@ -132,20 +134,20 @@ export function CheckoutForm({
         </div>
       </div>
 
-      <div className="flex flex-col gap-xs">
+      <div className="clay p-xxl flex flex-col gap-xs">
         <label className="text-label-md text-on-surface" htmlFor="qty">Jumlah / Qty</label>
         <div className="relative group">
           <Package className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-outline group-focus-within:text-primary transition-colors" />
-          <input className="w-full pl-10 pr-4 py-3.5 rounded-lg border border-outline-variant bg-surface-bright focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-body-md" defaultValue="1" id="qty" min="1" name="qty" required type="number" />
+          <input className="clay-input w-full pl-10 clay-pill" defaultValue="1" id="qty" min="1" name="qty" required type="number" />
         </div>
       </div>
 
-      <div className="flex flex-col gap-xs">
+      <div className="clay p-xxl flex flex-col gap-xs">
         <label className="text-label-md text-on-surface" htmlFor="serviceNotes">
           Catatan / Alamat Lokasi Pengerjaan <span className="text-on-surface-variant font-normal text-label-sm">(Opsional khusus Jasa)</span>
         </label>
         <textarea 
-          className="w-full px-4 py-3.5 rounded-lg border border-outline-variant bg-surface-bright focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-body-md" 
+          className="clay-input w-full" 
           id="serviceNotes" 
           name="serviceNotes" 
           placeholder="Contoh: Alamat rumah untuk pengerjaan servis AC/Motor, atau catatan spesifikasi pesanan..." 
@@ -153,17 +155,17 @@ export function CheckoutForm({
         />
       </div>
 
-      <div className="flex flex-col gap-xs">
+      <div className="clay p-xxl flex flex-col gap-xs">
         <label className="text-label-md text-on-surface">Metode Pembayaran</label>
         <input type="hidden" name="paymentMethod" value={paymentMethod} />
         <div className="grid grid-cols-2 gap-md">
           <button
             type="button"
             onClick={() => setPaymentMethod("TRANSFER")}
-            className={`p-lg rounded-xl border flex flex-col items-center gap-2 transition-all outline-none focus-visible:ring-2 focus-visible:ring-primary ${
+            className={`clay-sm p-lg flex flex-col items-center gap-2 transition-all outline-none focus-visible:ring-2 focus-visible:ring-primary ${
               paymentMethod === "TRANSFER"
-                ? "border-primary bg-primary/5 text-primary font-bold shadow-xs"
-                : "border-outline-variant/40 bg-surface-bright text-on-surface-variant hover:bg-surface-container-low"
+                ? "!bg-primary text-on-primary font-bold"
+                : "text-on-surface-variant"
             }`}
           >
             <CreditCard className="w-6 h-6 shrink-0" />
@@ -173,10 +175,10 @@ export function CheckoutForm({
           <button
             type="button"
             onClick={() => setPaymentMethod("COD")}
-            className={`p-lg rounded-xl border flex flex-col items-center gap-2 transition-all outline-none focus-visible:ring-2 focus-visible:ring-primary ${
+            className={`clay-sm p-lg flex flex-col items-center gap-2 transition-all outline-none focus-visible:ring-2 focus-visible:ring-primary ${
               paymentMethod === "COD"
-                ? "border-primary bg-primary/5 text-primary font-bold shadow-xs"
-                : "border-outline-variant/40 bg-surface-bright text-on-surface-variant hover:bg-surface-container-low"
+                ? "!bg-primary text-on-primary font-bold"
+                : "text-on-surface-variant"
             }`}
           >
             <Banknote className="w-6 h-6 shrink-0" />
@@ -185,7 +187,7 @@ export function CheckoutForm({
         </div>
       </div>
 
-      <div className="bg-surface-container-low border border-outline-variant/30 rounded-xl p-md text-label-sm text-on-surface flex items-start gap-3">
+      <div className="clay p-md text-label-sm text-on-surface flex items-start gap-3">
         {paymentMethod === "TRANSFER" ? (
           <>
             <CreditCard className="w-5 h-5 text-primary shrink-0 mt-0.5" />
@@ -205,7 +207,7 @@ export function CheckoutForm({
 
       <button 
         disabled={pending || (productVariants.length > 0 && !selectedVariant)} 
-        className="w-full py-3.5 bg-accent-gold text-white rounded-xl text-headline-md font-bold shadow-lg hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center gap-sm disabled:opacity-50" 
+        className="btn-clay-gold w-full" 
         type="submit"
       >
         {pending ? <Loader2 className="w-5 h-5 animate-spin" /> : <ArrowRight className="w-5 h-5" />}

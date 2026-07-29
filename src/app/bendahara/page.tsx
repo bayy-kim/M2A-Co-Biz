@@ -80,13 +80,12 @@ async function BendaharaDashboard({ searchParams }: { searchParams: Promise<{ ta
         <>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-lg">
             {/* Card 1 */}
-            <div className="p-[1px] rounded-[1.25rem] bg-gradient-to-b from-outline-variant/30 to-transparent">
-              <div className="rounded-[calc(1.25rem-1px)] bg-surface-container-lowest p-lg border border-outline-variant/10 shadow-xs space-y-md">
+            <div className="clay-lite p-lg space-y-md">
                 <div className="flex items-center justify-between">
                   <div className="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 flex items-center justify-center font-bold">
                     <TrendingUp className="w-5 h-5" />
                   </div>
-                  <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-700 bg-emerald-500/10 px-2.5 py-0.5 rounded-full">
+                  <span className="chip-clay text-[11px] !bg-emerald-500/10 !text-emerald-700">
                     +8.4% &uarr;
                   </span>
                 </div>
@@ -94,12 +93,10 @@ async function BendaharaDashboard({ searchParams }: { searchParams: Promise<{ ta
                   <p className="text-label-sm text-on-surface-variant font-medium">Total Pendapatan</p>
                   <p className="text-headline-lg font-bold text-on-surface mt-1">{formatRupiah(totalIn)}</p>
                 </div>
-              </div>
             </div>
 
             {/* Card 2 */}
-            <div className="p-[1px] rounded-[1.25rem] bg-gradient-to-b from-outline-variant/30 to-transparent">
-              <div className="rounded-[calc(1.25rem-1px)] bg-surface-container-lowest p-lg border border-outline-variant/10 shadow-xs space-y-md">
+            <div className="clay-lite p-lg space-y-md">
                 <div className="flex items-center justify-between">
                   <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-700 dark:text-amber-300 flex items-center justify-center font-bold">
                     <Percent className="w-5 h-5" />
@@ -110,12 +107,10 @@ async function BendaharaDashboard({ searchParams }: { searchParams: Promise<{ ta
                   <p className="text-label-sm text-on-surface-variant font-medium">Komisi Terkumpul</p>
                   <p className="text-headline-lg font-bold text-on-surface mt-1">{formatRupiah(totalOut)}</p>
                 </div>
-              </div>
             </div>
 
             {/* Card 3 */}
-            <div className="p-[1px] rounded-[1.25rem] bg-gradient-to-b from-outline-variant/30 to-transparent">
-              <div className="rounded-[calc(1.25rem-1px)] bg-surface-container-lowest p-lg border border-outline-variant/10 shadow-xs space-y-md">
+            <div className="clay-lite p-lg space-y-md">
                 <div className="flex items-center justify-between">
                   <div className="w-10 h-10 rounded-xl bg-teal-500/10 text-teal-700 dark:text-teal-300 flex items-center justify-center font-bold">
                     {profit >= 0 ? <TrendingUp className="w-5 h-5" /> : <TrendingDown className="w-5 h-5" />}
@@ -126,17 +121,15 @@ async function BendaharaDashboard({ searchParams }: { searchParams: Promise<{ ta
                   <p className="text-label-sm text-on-surface-variant font-medium">Keuntungan Bersih</p>
                   <p className="text-headline-lg font-bold text-on-surface mt-1">{formatRupiah(profit)}</p>
                 </div>
-              </div>
             </div>
 
             {/* Card 4 */}
-            <div className="p-[1px] rounded-[1.25rem] bg-gradient-to-b from-outline-variant/30 to-transparent">
-              <div className="rounded-[calc(1.25rem-1px)] bg-surface-container-lowest p-lg border border-outline-variant/10 shadow-xs space-y-md">
+            <div className="clay-lite p-lg space-y-md">
                 <div className="flex items-center justify-between">
                   <div className="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-700 dark:text-blue-300 flex items-center justify-center font-bold">
                     <Wallet className="w-5 h-5" />
                   </div>
-                  <span className="inline-flex items-center gap-1 text-[11px] font-bold text-amber-700 bg-amber-500/10 px-2.5 py-0.5 rounded-full">
+                  <span className="chip-clay text-[11px] !bg-amber-500/10 !text-amber-700">
                     {pendingPayouts._count} Pending
                   </span>
                 </div>
@@ -144,16 +137,15 @@ async function BendaharaDashboard({ searchParams }: { searchParams: Promise<{ ta
                   <p className="text-label-sm text-on-surface-variant font-medium">Pencairan Tertunda</p>
                   <p className="text-headline-lg font-bold text-on-surface mt-1">{formatRupiah(pendingPayouts._sum.amountRupiah || 0)}</p>
                 </div>
-              </div>
             </div>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-lg">
-            <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 p-lg">
+            <div className="clay-lite p-lg">
               <h3 className="text-headline-md text-on-surface font-bold mb-lg">Pendapatan vs Komisi</h3>
               <FinanceBarChart data={[{ label: "All Time", revenue: totalIn, commission: totalOut }]} />
             </div>
-            <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 p-lg">
+            <div className="clay-lite p-lg">
               <RevenuePieChart
                 data={commissionBySeller.map((c) => ({
                   name: sellerMap.get(c.sellerId) || c.sellerId.slice(0, 8),
@@ -165,7 +157,7 @@ async function BendaharaDashboard({ searchParams }: { searchParams: Promise<{ ta
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-lg">
-            <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 p-lg">
+            <div className="clay-lite p-lg">
               <h3 className="text-headline-md text-on-surface font-bold mb-lg">Pencairan Tertunda</h3>
               {pendingPayoutsList.length === 0 ? (
                 <p className="text-body-md text-on-surface-variant text-center py-lg">Tidak ada pencairan tertunda.</p>
@@ -183,7 +175,7 @@ async function BendaharaDashboard({ searchParams }: { searchParams: Promise<{ ta
                 </div>
               )}
             </div>
-            <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 p-lg">
+            <div className="clay-lite p-lg">
               <h3 className="text-headline-md text-on-surface font-bold mb-lg">Aturan Komisi Aktif</h3>
               <div className="space-y-md">
                 <div className="flex justify-between text-label-md">
@@ -202,7 +194,7 @@ async function BendaharaDashboard({ searchParams }: { searchParams: Promise<{ ta
             </div>
           </div>
 
-          <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 overflow-hidden">
+          <div className="clay-lite overflow-hidden">
             <div className="p-lg border-b border-outline-variant/30">
               <h3 className="text-headline-md text-on-surface font-bold">Buku Besar</h3>
             </div>
@@ -212,7 +204,7 @@ async function BendaharaDashboard({ searchParams }: { searchParams: Promise<{ ta
               <div className="overflow-x-auto">
                 <table className="w-full text-left">
                   <thead>
-                    <tr className="text-label-sm text-on-surface-variant border-b border-outline-variant/30">
+                    <tr className="text-label-sm text-on-surface-variant">
                       <th className="px-lg py-3 font-medium">Tipe</th>
                       <th className="px-lg py-3 font-medium">Jumlah</th>
                       <th className="px-lg py-3 font-medium">Tanggal</th>
@@ -220,9 +212,9 @@ async function BendaharaDashboard({ searchParams }: { searchParams: Promise<{ ta
                   </thead>
                   <tbody>
                     {ledgerEntries.slice(0, 10).map((entry) => (
-                      <tr key={entry.id} className="border-b border-outline-variant/20">
+                      <tr key={entry.id} className="clay-table-row">
                         <td className="px-lg py-3">
-                          <span className={`inline-flex px-md py-0.5 rounded-full text-label-sm font-bold ${entry.type === "IN" ? "bg-success/10 text-success" : "bg-error/10 text-error"}`}>
+                          <span className={`chip-clay text-label-sm font-bold ${entry.type === "IN" ? "!bg-success/10 !text-success" : "!bg-error/10 !text-error"}`}>
                             {entry.type === "IN" ? "Pemasukan" : "Pengeluaran"}
                           </span>
                         </td>
@@ -239,7 +231,7 @@ async function BendaharaDashboard({ searchParams }: { searchParams: Promise<{ ta
       )}
 
       {tab === "payments" && (
-        <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 overflow-hidden">
+        <div className="clay-lite overflow-hidden">
           <div className="p-lg border-b border-outline-variant/30">
             <h3 className="text-headline-md text-on-surface font-bold">Pembayaran Tertunda</h3>
             <p className="text-label-sm text-on-surface-variant mt-1">{pendingPaymentsList.length} pesanan menunggu konfirmasi</p>
@@ -249,20 +241,20 @@ async function BendaharaDashboard({ searchParams }: { searchParams: Promise<{ ta
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-left min-w-[800px]">
-                <thead>
-                  <tr className="text-label-sm text-on-surface-variant border-b border-outline-variant/30">
-                    <th className="px-lg py-3 font-medium">Pesanan</th>
-                    <th className="px-lg py-3 font-medium">Pembeli</th>
-                    <th className="px-lg py-3 font-medium">Item</th>
-                    <th className="px-lg py-3 font-medium">Total</th>
-                    <th className="px-lg py-3 font-medium">Bukti Bayar</th>
-                    <th className="px-lg py-3 font-medium">Tanggal</th>
-                    <th className="px-lg py-3 font-medium">Aksi</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {pendingPaymentsList.map((o) => (
-                    <tr key={o.id} className="border-b border-outline-variant/20 hover:bg-surface-container-low transition-colors">
+                  <thead>
+                    <tr className="text-label-sm text-on-surface-variant">
+                      <th className="px-lg py-3 font-medium">Pesanan</th>
+                      <th className="px-lg py-3 font-medium">Pembeli</th>
+                      <th className="px-lg py-3 font-medium">Item</th>
+                      <th className="px-lg py-3 font-medium">Total</th>
+                      <th className="px-lg py-3 font-medium">Bukti Bayar</th>
+                      <th className="px-lg py-3 font-medium">Tanggal</th>
+                      <th className="px-lg py-3 font-medium">Aksi</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {pendingPaymentsList.map((o) => (
+                      <tr key={o.id} className="clay-table-row">
                       <td className="px-lg py-3">
                         <span className="text-label-sm font-mono text-on-surface">#{o.id.slice(0, 8)}</span>
                       </td>
@@ -297,12 +289,12 @@ async function BendaharaDashboard({ searchParams }: { searchParams: Promise<{ ta
 
       {tab === "commissions" && (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-lg">
-          <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 p-lg">
+          <div className="clay-lite p-lg">
             <h3 className="text-headline-md text-on-surface font-bold mb-lg">Atur Aturan Komisi</h3>
             <CommissionRuleForm />
           </div>
           <div className="space-y-lg">
-            <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 p-lg">
+            <div className="clay-lite p-lg">
               <h3 className="text-headline-md text-on-surface font-bold mb-lg">Global</h3>
               {globalRule ? (
                 <div className="flex justify-between text-label-md">
@@ -313,7 +305,7 @@ async function BendaharaDashboard({ searchParams }: { searchParams: Promise<{ ta
                 <p className="text-label-sm text-on-surface-variant">Belum diset. Default 0%.</p>
               )}
             </div>
-            <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 p-lg">
+            <div className="clay-lite p-lg">
               <h3 className="text-headline-md text-on-surface font-bold mb-lg">Per Kategori</h3>
               {categoryRules.length === 0 ? (
                 <p className="text-label-sm text-on-surface-variant">Tidak ada override kategori.</p>
@@ -328,7 +320,7 @@ async function BendaharaDashboard({ searchParams }: { searchParams: Promise<{ ta
                 </div>
               )}
             </div>
-            <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 p-lg">
+            <div className="clay-lite p-lg">
               <h3 className="text-headline-md text-on-surface font-bold mb-lg">Per Penjual</h3>
               {sellerRules.length === 0 ? (
                 <p className="text-label-sm text-on-surface-variant">Tidak ada override penjual.</p>
@@ -348,7 +340,7 @@ async function BendaharaDashboard({ searchParams }: { searchParams: Promise<{ ta
       )}
 
       {tab === "payouts" && (
-        <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 overflow-hidden">
+        <div className="clay-lite overflow-hidden">
           <div className="p-lg border-b border-outline-variant/30 flex items-center justify-between">
             <div>
               <h3 className="text-headline-md text-on-surface font-bold">Pencairan Tertunda</h3>
@@ -360,17 +352,17 @@ async function BendaharaDashboard({ searchParams }: { searchParams: Promise<{ ta
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-left">
-                <thead>
-                  <tr className="text-label-sm text-on-surface-variant border-b border-outline-variant/30">
-                    <th className="px-lg py-3 font-medium">Penjual</th>
-                    <th className="px-lg py-3 font-medium">Periode</th>
-                    <th className="px-lg py-3 font-medium">Jumlah</th>
-                    <th className="px-lg py-3 font-medium">Aksi</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {pendingPayoutsList.map((p) => (
-                    <tr key={p.id} className="border-b border-outline-variant/20 hover:bg-surface-container-low transition-colors">
+                  <thead>
+                    <tr className="text-label-sm text-on-surface-variant">
+                      <th className="px-lg py-3 font-medium">Penjual</th>
+                      <th className="px-lg py-3 font-medium">Periode</th>
+                      <th className="px-lg py-3 font-medium">Jumlah</th>
+                      <th className="px-lg py-3 font-medium">Aksi</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {pendingPayoutsList.map((p) => (
+                      <tr key={p.id} className="clay-table-row">
                       <td className="px-lg py-3 text-label-md text-on-surface font-bold">{sellerMap.get(p.sellerId) || p.sellerId.slice(0, 8)}</td>
                       <td className="px-lg py-3 text-label-sm text-on-surface-variant">{p.periodStart.toLocaleDateString()} - {p.periodEnd.toLocaleDateString()}</td>
                       <td className="px-lg py-3 text-label-md text-primary font-bold">{formatRupiah(p.amountRupiah)}</td>
@@ -385,7 +377,7 @@ async function BendaharaDashboard({ searchParams }: { searchParams: Promise<{ ta
       )}
 
       {tab === "ledger" && (
-        <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 overflow-hidden">
+        <div className="clay-lite overflow-hidden">
           <div className="p-lg border-b border-outline-variant/30 flex items-center justify-between">
             <h3 className="text-headline-md text-on-surface font-bold">Buku Besar</h3>
             <span className="text-label-sm text-on-surface-variant">{ledgerTotal} entri</span>
@@ -395,19 +387,19 @@ async function BendaharaDashboard({ searchParams }: { searchParams: Promise<{ ta
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-left">
-                <thead>
-                  <tr className="text-label-sm text-on-surface-variant border-b border-outline-variant/30">
-                    <th className="px-lg py-3 font-medium">Tipe</th>
-                    <th className="px-lg py-3 font-medium">Jumlah</th>
-                    <th className="px-lg py-3 font-medium">Pesanan</th>
-                    <th className="px-lg py-3 font-medium">Tanggal</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {ledgerEntries.map((entry) => (
-                    <tr key={entry.id} className="border-b border-outline-variant/20">
-                      <td className="px-lg py-3">
-                        <span className={`inline-flex px-md py-0.5 rounded-full text-label-sm font-bold ${entry.type === "IN" ? "bg-success/10 text-success" : "bg-error/10 text-error"}`}>
+                  <thead>
+                    <tr className="text-label-sm text-on-surface-variant">
+                      <th className="px-lg py-3 font-medium">Tipe</th>
+                      <th className="px-lg py-3 font-medium">Jumlah</th>
+                      <th className="px-lg py-3 font-medium">Pesanan</th>
+                      <th className="px-lg py-3 font-medium">Tanggal</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {ledgerEntries.map((entry) => (
+                      <tr key={entry.id} className="clay-table-row">
+                        <td className="px-lg py-3">
+                          <span className={`chip-clay text-label-sm font-bold ${entry.type === "IN" ? "!bg-success/10 !text-success" : "!bg-error/10 !text-error"}`}>
                           {entry.type === "IN" ? "Revenue" : "Expense"}
                         </span>
                       </td>
@@ -425,10 +417,10 @@ async function BendaharaDashboard({ searchParams }: { searchParams: Promise<{ ta
               <span className="text-label-sm text-on-surface-variant">Halaman {ledgerPage} dari {ledgerTotalPages}</span>
               <div className="flex gap-2">
                 {ledgerPage > 1 && (
-                  <a href={`/bendahara?tab=ledger&ledgerPage=${ledgerPage - 1}`} className="px-md py-2 rounded-lg border border-outline-variant text-label-md text-on-surface hover:bg-surface-container transition-colors">Sebelumnya</a>
+                  <a href={`/bendahara?tab=ledger&ledgerPage=${ledgerPage - 1}`} className="btn-clay-outline">Sebelumnya</a>
                 )}
                 {ledgerPage < ledgerTotalPages && (
-                  <a href={`/bendahara?tab=ledger&ledgerPage=${ledgerPage + 1}`} className="px-md py-2 rounded-lg bg-primary text-on-primary text-label-md hover:opacity-90 transition-opacity">Selanjutnya</a>
+                  <a href={`/bendahara?tab=ledger&ledgerPage=${ledgerPage + 1}`} className="btn-clay">Selanjutnya</a>
                 )}
               </div>
             </div>
@@ -454,7 +446,7 @@ async function BendaharaDashboard({ searchParams }: { searchParams: Promise<{ ta
 
 function PanduanItemBendahara({ icon: Icon, title, desc }: { icon: any; title: string; desc: string }) {
   return (
-    <div className="flex items-start gap-3 p-md rounded-xl bg-surface-container-high/50 border border-outline-variant/20">
+    <div className="flex items-start gap-3 p-md clay-lite">
       <div className="p-2 rounded-lg bg-primary/10 shrink-0">
         <Icon className="w-4 h-4 text-primary" />
       </div>

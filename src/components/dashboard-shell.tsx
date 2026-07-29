@@ -99,7 +99,7 @@ export function DashboardShell({
   }
 
   return (
-    <div className="min-h-screen bg-background flex flex-col lg:flex-row">
+    <div className="min-h-screen flex flex-col lg:flex-row" style={{background:"var(--color-clay-bg)"}}>
       <aside 
         className="w-64 bg-gradient-to-b from-[#12263A] to-[#004343] text-white border-r border-white/10 hidden lg:flex flex-col shrink-0 py-xl shadow-lg z-50"
         aria-label="Navigasi Utama"
@@ -177,7 +177,7 @@ export function DashboardShell({
       </aside>
 
       <div className="flex-1 flex flex-col min-w-0 pb-20 lg:pb-0">
-        <header className="sticky top-0 z-40 bg-surface/90 backdrop-blur-md border-b border-outline-variant/30 flex items-center justify-between px-lg h-16">
+        <header className="sticky top-0 z-40 bg-clay-surface/90 backdrop-blur-md border-b border-outline-variant/30 flex items-center justify-between px-lg h-16">
           <div className="flex items-center gap-lg">
             <div className="hidden lg:flex items-center gap-2">
               <span className="text-label-sm text-on-surface-variant">{displayRole}</span>
@@ -194,11 +194,12 @@ export function DashboardShell({
             {/* Guide Button with Glass Effect Modal */}
             <button
               onClick={() => setShowGuide(true)}
-              className="w-9 h-9 rounded-xl bg-white/20 backdrop-blur-md border border-white/30 text-on-surface-variant hover:bg-white/30 hover:text-primary transition-all flex items-center justify-center shadow-xs outline-none focus-visible:ring-2 focus-visible:ring-primary"
+              className="w-9 h-9 rounded-[14px] clay-sm flex items-center justify-center transition-all outline-none focus-visible:ring-2 focus-visible:ring-primary"
+              style={{background:"var(--color-clay-surface)",boxShadow:"var(--shadow-clay-sm)"}}
               aria-label="Panduan Penggunaan"
               type="button"
             >
-              <HelpCircle className="w-5 h-5" />
+              <HelpCircle className="w-5 h-5 text-on-surface-variant" />
             </button>
 
             {userName && (
@@ -292,23 +293,24 @@ export function DashboardShell({
       )}
 
       <nav 
-        className="lg:hidden fixed bottom-0 w-full z-50 bg-surface border-t border-outline-variant/30 shadow-[0_-4px_20px_rgba(0,0,0,0.08)] pb-[env(safe-area-inset-bottom)]"
+        className="lg:hidden fixed bottom-0 w-full z-50 pb-[env(safe-area-inset-bottom)]"
+        style={{background:"var(--color-clay-bg)"}}
         aria-label="Navigasi Bawah Mobile"
       >
-        <div className="flex items-center justify-around mx-auto max-w-lg overflow-x-auto no-scrollbar">
+        <div className="clay-pill flex items-center justify-around mx-4 -mt-5 mb-2 px-1 py-1.5 max-w-lg" style={{boxShadow:"var(--shadow-clay-md)"}}>
           {mobileNavItems.map((item) => {
             if (item.label === "Keluar") {
               return (
                 <button
                   key={item.label}
                   onClick={handleLogout}
-                  className="flex flex-col items-center justify-center gap-1 min-w-0 flex-shrink-0 h-16 w-16 px-1 transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-primary text-on-surface-variant hover:text-error"
+                  className="flex flex-col items-center justify-center gap-0.5 min-w-0 flex-shrink-0 px-4 py-1.5 rounded-full transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-primary text-on-surface-variant hover:text-error"
                   aria-label="Keluar"
                 >
-                  <div className="relative flex items-center justify-center w-12 h-8 rounded-full transition-all duration-200 hover:bg-error/10 text-on-surface-variant hover:text-error">
+                  <div className="flex items-center justify-center w-6 h-6 text-current">
                     {renderIcon(item.icon)}
                   </div>
-                  <span className="text-[10px] leading-tight text-center max-w-full truncate text-on-surface-variant">
+                  <span className="text-[10px] leading-tight text-center max-w-full truncate">
                     {item.label}
                   </span>
                 </button>
@@ -321,22 +323,21 @@ export function DashboardShell({
               <Link
                 key={item.label}
                 href={item.href}
-                className={`flex flex-col items-center justify-center gap-1 min-w-0 flex-shrink-0 h-16 w-16 px-1 transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-primary ${
-                  active ? "text-primary font-bold" : "text-on-surface-variant hover:text-on-surface"
+                className={`flex flex-col items-center justify-center gap-0.5 min-w-0 flex-shrink-0 px-4 py-1.5 rounded-full transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-primary ${
+                  active 
+                    ? "clay-sm shadow-[3px_3px_8px_rgba(0,0,0,0.05),-3px_-3px_8px_rgba(255,255,255,0.5)] font-bold" 
+                    : "text-on-surface-variant hover:text-on-surface"
                 }`}
+                style={active ? {background: "var(--color-clay-surface)"} : {}}
                 aria-current={active ? "page" : undefined}
               >
-                <div className={`relative flex items-center justify-center w-12 h-8 rounded-full transition-all duration-200 ${
-                  active ? "bg-primary text-white shadow-xs" : "hover:bg-surface-container-high text-on-surface-variant"
-                }`}>
+                <div className="relative flex items-center justify-center w-6 h-6">
                   {renderIcon(item.icon)}
                   {isNotification && (
-                    <span className="absolute top-1 right-2.5 w-2.5 h-2.5 rounded-full bg-accent-gold border-2 border-primary animate-pulse" />
+                    <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-accent-gold border-2 border-clay-surface animate-pulse" />
                   )}
                 </div>
-                <span className={`text-[10px] leading-tight text-center max-w-full truncate ${
-                  active ? "font-bold text-primary" : "text-on-surface-variant"
-                }`}>
+                <span className="text-[10px] leading-tight text-center max-w-full truncate font-medium">
                   {item.label}
                 </span>
               </Link>

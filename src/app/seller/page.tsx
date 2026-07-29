@@ -69,10 +69,10 @@ async function SellerDashboard({ searchParams }: { searchParams: Promise<{ tab?:
   })
 
   const statusBadge = {
-    PENDING: { icon: Clock, class: "bg-warning/10 text-warning", label: "Ditinjau" },
-    APPROVED: { icon: CheckCircle2, class: "bg-success/10 text-success", label: "Aktif" },
-    REJECTED: { icon: XCircle, class: "bg-error/10 text-error", label: "Ditolak" },
-    SUSPENDED: { icon: XCircle, class: "bg-error/10 text-error", label: "Ditangguhkan" },
+    PENDING: { icon: Clock, class: "!bg-warning/10 !text-warning", label: "Ditinjau" },
+    APPROVED: { icon: CheckCircle2, class: "!bg-success/10 !text-success", label: "Aktif" },
+    REJECTED: { icon: XCircle, class: "!bg-error/10 !text-error", label: "Ditolak" },
+    SUSPENDED: { icon: XCircle, class: "!bg-error/10 !text-error", label: "Ditangguhkan" },
   }[seller.status]
 
   return (
@@ -84,7 +84,7 @@ async function SellerDashboard({ searchParams }: { searchParams: Promise<{ tab?:
       userName={session.user.name}
       extraHeader={
         <div className="flex items-center gap-md">
-          <span className={`inline-flex items-center gap-1 px-md py-1 rounded-full text-label-sm font-bold ${statusBadge.class}`}>
+          <span className={`chip-clay text-label-sm font-bold ${statusBadge.class}`}>
             <statusBadge.icon className="w-3 h-3" />
             {statusBadge.label}
           </span>
@@ -95,13 +95,12 @@ async function SellerDashboard({ searchParams }: { searchParams: Promise<{ tab?:
         <>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-lg">
             {/* Card 1 */}
-            <div className="p-[1px] rounded-[1.25rem] bg-gradient-to-b from-outline-variant/30 to-transparent">
-              <div className="rounded-[calc(1.25rem-1px)] bg-surface-container-lowest p-lg border border-outline-variant/10 shadow-xs space-y-md">
+            <div className="clay-lite p-lg space-y-md">
                 <div className="flex items-center justify-between">
                   <div className="w-10 h-10 rounded-xl bg-teal-500/10 text-teal-700 dark:text-teal-300 flex items-center justify-center font-bold">
                     <Store className="w-5 h-5" />
                   </div>
-                  <span className="text-label-sm font-bold text-primary bg-primary/10 px-2.5 py-0.5 rounded-full">
+                  <span className="chip-clay text-label-sm font-bold !bg-primary/10 !text-primary">
                     {seller.type}
                   </span>
                 </div>
@@ -109,12 +108,10 @@ async function SellerDashboard({ searchParams }: { searchParams: Promise<{ tab?:
                   <p className="text-label-sm text-on-surface-variant font-medium">Nama Usaha</p>
                   <p className="text-headline-md font-bold text-on-surface mt-1 truncate">{seller.businessName}</p>
                 </div>
-              </div>
             </div>
 
             {/* Card 2 */}
-            <div className="p-[1px] rounded-[1.25rem] bg-gradient-to-b from-outline-variant/30 to-transparent">
-              <div className="rounded-[calc(1.25rem-1px)] bg-surface-container-lowest p-lg border border-outline-variant/10 shadow-xs space-y-md">
+            <div className="clay-lite p-lg space-y-md">
                 <div className="flex items-center justify-between">
                   <div className="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-700 dark:text-blue-300 flex items-center justify-center font-bold">
                     <ShoppingBag className="w-5 h-5" />
@@ -124,12 +121,10 @@ async function SellerDashboard({ searchParams }: { searchParams: Promise<{ tab?:
                   <p className="text-label-sm text-on-surface-variant font-medium">Total Produk</p>
                   <p className="text-display-md font-bold text-on-surface mt-1">{seller.products.length}</p>
                 </div>
-              </div>
             </div>
 
             {/* Card 3 */}
-            <div className="p-[1px] rounded-[1.25rem] bg-gradient-to-b from-outline-variant/30 to-transparent">
-              <div className="rounded-[calc(1.25rem-1px)] bg-surface-container-lowest p-lg border border-outline-variant/10 shadow-xs space-y-md">
+            <div className="clay-lite p-lg space-y-md">
                 <div className="flex items-center justify-between">
                   <div className="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 flex items-center justify-center font-bold">
                     <TrendingUp className="w-5 h-5" />
@@ -139,12 +134,10 @@ async function SellerDashboard({ searchParams }: { searchParams: Promise<{ tab?:
                   <p className="text-label-sm text-on-surface-variant font-medium">Total Pendapatan</p>
                   <p className="text-headline-lg font-bold text-on-surface mt-1">{formatRupiah(totalSales._sum.sellerNetRupiah || 0)}</p>
                 </div>
-              </div>
             </div>
 
             {/* Card 4 */}
-            <div className="p-[1px] rounded-[1.25rem] bg-gradient-to-b from-outline-variant/30 to-transparent">
-              <div className="rounded-[calc(1.25rem-1px)] bg-surface-container-lowest p-lg border border-outline-variant/10 shadow-xs space-y-md">
+            <div className="clay-lite p-lg space-y-md">
                 <div className="flex items-center justify-between">
                   <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-700 dark:text-amber-300 flex items-center justify-center font-bold">
                     <Wallet className="w-5 h-5" />
@@ -154,7 +147,6 @@ async function SellerDashboard({ searchParams }: { searchParams: Promise<{ tab?:
                   <p className="text-label-sm text-on-surface-variant font-medium">Pencairan Tertunda</p>
                   <p className="text-headline-lg font-bold text-on-surface mt-1">{formatRupiah(pendingPayouts._sum.amountRupiah || 0)}</p>
                 </div>
-              </div>
             </div>
           </div>
 
@@ -169,13 +161,13 @@ async function SellerDashboard({ searchParams }: { searchParams: Promise<{ tab?:
           )}
 
           {seller.status === "APPROVED" && (
-            <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 p-lg">
+            <div className="clay-lite p-lg">
               <h3 className="text-headline-md text-on-surface font-bold mb-lg">Ikhtisar Pendapatan</h3>
               <TrendChart data={[{ label: "All Time", value: totalSales._sum.sellerNetRupiah || 0 }]} color="#22C55E" />
             </div>
           )}
 
-          <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 overflow-hidden">
+          <div className="clay-lite overflow-hidden">
             <div className="p-lg border-b border-outline-variant/30 flex items-center justify-between">
               <h3 className="text-headline-md text-on-surface font-bold">Produk Anda</h3>
               <Link href="/seller?tab=products" className="text-label-md text-primary hover:underline">Kelola</Link>
@@ -186,7 +178,7 @@ async function SellerDashboard({ searchParams }: { searchParams: Promise<{ tab?:
               <div className="overflow-x-auto">
                 <table className="w-full text-left">
                   <thead>
-                    <tr className="text-label-sm text-on-surface-variant border-b border-outline-variant/30">
+                    <tr className="text-label-sm text-on-surface-variant">
                       <th className="px-lg py-3 font-medium">Produk</th>
                       <th className="px-lg py-3 font-medium">Harga</th>
                       <th className="px-lg py-3 font-medium">Status</th>
@@ -194,11 +186,11 @@ async function SellerDashboard({ searchParams }: { searchParams: Promise<{ tab?:
                   </thead>
                   <tbody>
                     {seller.products.slice(0, 5).map((p) => (
-                      <tr key={p.id} className="border-b border-outline-variant/20 hover:bg-surface-container-low transition-colors">
+                      <tr key={p.id} className="clay-table-row">
                         <td className="px-lg py-3 text-label-md text-on-surface">{p.title}</td>
                         <td className="px-lg py-3 text-label-md text-on-surface">{formatRupiah(p.priceRupiah)}</td>
                         <td className="px-lg py-3">
-                          <span className={`inline-flex px-md py-0.5 rounded-full text-label-sm font-bold ${p.status === "ACTIVE" ? "bg-success/10 text-success" : "bg-surface-container-highest text-on-surface-variant"}`}>{p.status === "ACTIVE" ? "Aktif" : "Nonaktif"}</span>
+                          <span className={`chip-clay text-label-sm font-bold ${p.status === "ACTIVE" ? "!bg-success/10 !text-success" : "!bg-surface-container-highest !text-on-surface-variant"}`}>{p.status === "ACTIVE" ? "Aktif" : "Nonaktif"}</span>
                         </td>
                       </tr>
                     ))}
@@ -208,7 +200,7 @@ async function SellerDashboard({ searchParams }: { searchParams: Promise<{ tab?:
             )}
           </div>
 
-          <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 p-lg">
+          <div className="clay-lite p-lg">
             <h3 className="text-headline-md text-on-surface font-bold mb-lg">Rekening Bank</h3>
             {seller.bankAccountNo ? (
               <div className="space-y-2">
@@ -224,14 +216,14 @@ async function SellerDashboard({ searchParams }: { searchParams: Promise<{ tab?:
 
       {tab === "products" && (
         <div className="space-y-lg">
-          <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 p-lg">
+          <div className="clay-lite p-lg">
             <h3 className="text-headline-md text-on-surface font-bold mb-lg">
               {seller.type === "JASA" ? "Tambah Layanan Jasa Baru" : "Tambah Produk Baru"}
             </h3>
             <NewProductForm categories={sellerCategories} sellerType={seller.type} />
           </div>
 
-          <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 overflow-hidden">
+          <div className="clay-lite overflow-hidden">
             <div className="p-lg border-b border-outline-variant/30">
               <h3 className="text-headline-md text-on-surface font-bold">Semua Produk</h3>
             </div>
@@ -241,7 +233,7 @@ async function SellerDashboard({ searchParams }: { searchParams: Promise<{ tab?:
               <div className="overflow-x-auto">
                 <table className="w-full text-left min-w-[640px]">
                   <thead>
-                    <tr className="text-label-sm text-on-surface-variant border-b border-outline-variant/30">
+                    <tr className="text-label-sm text-on-surface-variant">
                       <th className="px-lg py-3 font-medium">Judul</th>
                       <th className="px-lg py-3 font-medium">Kategori</th>
                       <th className="px-lg py-3 font-medium">Harga</th>
@@ -250,12 +242,12 @@ async function SellerDashboard({ searchParams }: { searchParams: Promise<{ tab?:
                   </thead>
                   <tbody>
                     {seller.products.map((p) => (
-                      <tr key={p.id} className="border-b border-outline-variant/20 hover:bg-surface-container-low transition-colors">
+                      <tr key={p.id} className="clay-table-row">
                         <td className="px-lg py-3 text-label-md text-on-surface whitespace-nowrap">{p.title}</td>
                         <td className="px-lg py-3 text-label-sm text-on-surface-variant whitespace-nowrap">{p.category?.name || "-"}</td>
                         <td className="px-lg py-3 text-label-md text-on-surface whitespace-nowrap">{formatRupiah(p.priceRupiah)}</td>
                         <td className="px-lg py-3">
-                          <span className={`inline-flex px-md py-0.5 rounded-full text-label-sm font-bold ${p.status === "ACTIVE" ? "bg-success/10 text-success" : "bg-surface-container-highest text-on-surface-variant"}`}>{p.status === "ACTIVE" ? "Aktif" : "Nonaktif"}</span>
+                          <span className={`chip-clay text-label-sm font-bold ${p.status === "ACTIVE" ? "!bg-success/10 !text-success" : "!bg-surface-container-highest !text-on-surface-variant"}`}>{p.status === "ACTIVE" ? "Aktif" : "Nonaktif"}</span>
                         </td>
                       </tr>
                     ))}
@@ -270,20 +262,20 @@ async function SellerDashboard({ searchParams }: { searchParams: Promise<{ tab?:
       {tab === "sales" && (
         <div className="space-y-lg">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-lg">
-            <div className="bg-surface-container-lowest rounded-xl p-lg border border-outline-variant/30">
+            <div className="clay-lite p-lg">
               <p className="text-label-sm text-on-surface-variant">Total Penjualan</p>
               <p className="text-display-md font-bold text-on-surface">{salesItems.reduce((s, i) => s + i.priceRupiah * i.qty, 0).toLocaleString("id-ID")}</p>
             </div>
-            <div className="bg-surface-container-lowest rounded-xl p-lg border border-outline-variant/30">
+            <div className="clay-lite p-lg">
               <p className="text-label-sm text-on-surface-variant">Total Komisi</p>
               <p className="text-display-md font-bold text-on-surface">{salesItems.reduce((s, i) => s + i.commissionRupiah, 0).toLocaleString("id-ID")}</p>
             </div>
-            <div className="bg-surface-container-lowest rounded-xl p-lg border border-outline-variant/30">
+            <div className="clay-lite p-lg">
               <p className="text-label-sm text-on-surface-variant">Pendapatan Bersih</p>
               <p className="text-display-md font-bold text-on-surface">{formatRupiah(salesItems.reduce((s, i) => s + i.sellerNetRupiah, 0))}</p>
             </div>
           </div>
-          <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 overflow-hidden">
+          <div className="clay-lite overflow-hidden">
             <div className="p-lg border-b border-outline-variant/30"><h3 className="text-headline-md text-on-surface font-bold">Riwayat Penjualan</h3></div>
             {salesItems.length === 0 ? (
               <div className="p-lg text-center text-on-surface-variant text-body-md py-xl">Belum ada penjualan.</div>
@@ -291,7 +283,7 @@ async function SellerDashboard({ searchParams }: { searchParams: Promise<{ tab?:
               <div className="overflow-x-auto">
                 <table className="w-full text-left min-w-[800px]">
                   <thead>
-                    <tr className="text-label-sm text-on-surface-variant border-b border-outline-variant/30">
+                    <tr className="text-label-sm text-on-surface-variant">
                       <th className="px-lg py-3 font-medium">Pembeli</th>
                       <th className="px-lg py-3 font-medium">Metode</th>
                       <th className="px-lg py-3 font-medium">Total</th>
@@ -302,7 +294,7 @@ async function SellerDashboard({ searchParams }: { searchParams: Promise<{ tab?:
                   </thead>
                   <tbody>
                     {salesItems.map((item) => (
-                      <tr key={item.id} className="border-b border-outline-variant/20 hover:bg-surface-container-low transition-colors">
+                      <tr key={item.id} className="clay-table-row">
                         <td className="px-lg py-3">
                           <p className="text-label-md font-bold text-on-surface whitespace-nowrap">{item.order.buyerName}</p>
                           <p className="text-label-sm text-on-surface-variant whitespace-nowrap">{item.order.buyerPhone}</p>
@@ -311,8 +303,8 @@ async function SellerDashboard({ searchParams }: { searchParams: Promise<{ tab?:
                           )}
                         </td>
                         <td className="px-lg py-3">
-                          <span className={`inline-flex px-md py-0.5 rounded-full text-[11px] font-bold ${
-                            item.order.paymentMethod === "COD" ? "bg-success/10 text-success" : "bg-primary/10 text-primary"
+                          <span className={`chip-clay text-[11px] font-bold ${
+                            item.order.paymentMethod === "COD" ? "!bg-success/10 !text-success" : "!bg-primary/10 !text-primary"
                           } whitespace-nowrap`}>
                             {item.order.paymentMethod}
                           </span>
@@ -325,7 +317,7 @@ async function SellerDashboard({ searchParams }: { searchParams: Promise<{ tab?:
                         <td className="px-lg py-3 text-right">
                           <Link
                             href={`/seller/print/${item.order.id}`}
-                            className="inline-flex items-center gap-1 px-3 py-1.5 bg-surface-container border border-outline-variant/30 text-primary hover:bg-primary hover:text-white rounded-lg text-label-xs font-bold transition-all min-h-[36px]"
+                            className="btn-clay-outline text-label-xs min-h-[36px]"
                           >
                             Cetak
                           </Link>
@@ -341,11 +333,11 @@ async function SellerDashboard({ searchParams }: { searchParams: Promise<{ tab?:
       )}
       {tab === "payouts" && (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-lg">
-          <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 p-lg">
+          <div className="clay-lite p-lg">
             <h3 className="text-headline-md text-on-surface font-bold mb-lg">Ajukan Pencairan</h3>
             <RequestPayoutForm availableBalance={availableBalance} />
           </div>
-          <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 overflow-hidden">
+          <div className="clay-lite overflow-hidden">
             <div className="p-lg border-b border-outline-variant/30">
               <h3 className="text-headline-md text-on-surface font-bold">Riwayat Pencairan</h3>
               <p className="text-label-sm text-on-surface-variant mt-1">{allPayouts.length} total pencairan</p>
@@ -356,7 +348,7 @@ async function SellerDashboard({ searchParams }: { searchParams: Promise<{ tab?:
               <div className="overflow-x-auto">
                 <table className="w-full text-left">
                   <thead>
-                    <tr className="text-label-sm text-on-surface-variant border-b border-outline-variant/30">
+                    <tr className="text-label-sm text-on-surface-variant">
                       <th className="px-lg py-3 font-medium">Jumlah</th>
                       <th className="px-lg py-3 font-medium">Status</th>
                       <th className="px-lg py-3 font-medium">Tanggal</th>
@@ -364,14 +356,14 @@ async function SellerDashboard({ searchParams }: { searchParams: Promise<{ tab?:
                   </thead>
                   <tbody>
                     {allPayouts.map((p) => (
-                      <tr key={p.id} className="border-b border-outline-variant/20 hover:bg-surface-container-low transition-colors">
+                      <tr key={p.id} className="clay-table-row">
                         <td className="px-lg py-3 text-label-md text-on-surface font-bold">{formatRupiah(p.amountRupiah)}</td>
                         <td className="px-lg py-3">
-                          <span className={`inline-flex px-md py-0.5 rounded-full text-label-sm font-bold ${
-                            p.status === "PAID" ? "bg-success/10 text-success" :
-                            p.status === "PROCESSING" ? "bg-warning/10 text-warning" :
-                            p.status === "FAILED" ? "bg-error/10 text-error" :
-                            "bg-surface-container-highest text-on-surface-variant"
+                          <span className={`chip-clay text-label-sm font-bold ${
+                            p.status === "PAID" ? "!bg-success/10 !text-success" :
+                            p.status === "PROCESSING" ? "!bg-warning/10 !text-warning" :
+                            p.status === "FAILED" ? "!bg-error/10 !text-error" :
+                            "!bg-surface-container-highest !text-on-surface-variant"
                           }`}>{p.status === "PAID" ? "Dibayar" : p.status === "PROCESSING" ? "Diproses" : p.status === "FAILED" ? "Gagal" : "Tertunda"}</span>
                         </td>
                         <td className="px-lg py-3 text-label-sm text-on-surface-variant">{p.createdAt.toLocaleDateString()}</td>
@@ -402,7 +394,7 @@ async function SellerDashboard({ searchParams }: { searchParams: Promise<{ tab?:
 
 function PanduanItemSeller({ icon: Icon, title, desc }: { icon: any; title: string; desc: string }) {
   return (
-    <div className="flex items-start gap-3 p-md rounded-xl bg-surface-container-high/50 border border-outline-variant/20">
+    <div className="flex items-start gap-3 p-md clay-lite">
       <div className="p-2 rounded-lg bg-primary/10 shrink-0">
         <Icon className="w-4 h-4 text-primary" />
       </div>

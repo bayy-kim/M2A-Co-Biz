@@ -36,7 +36,7 @@ async function ProductDetailPage({ params }: { params: Promise<{ id: string }> }
     : null
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen" style={{background:"var(--color-clay-bg)"}}>
       <PublicHeader session={session} />
       <main className="px-gutter pt-20 py-lg max-w-6xl mx-auto pb-32 lg:pb-16">
         <nav className="flex items-center gap-2 text-label-sm text-on-surface-variant mb-lg overflow-x-auto no-scrollbar py-1">
@@ -56,7 +56,7 @@ async function ProductDetailPage({ params }: { params: Promise<{ id: string }> }
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-xl lg:gap-xxl">
           {/* Images Section */}
           <div className="lg:col-span-7 space-y-md">
-            <div className="bg-surface-container-high rounded-3xl aspect-[4/3] sm:aspect-video lg:aspect-square flex items-center justify-center overflow-hidden border border-outline-variant/20 shadow-xs relative group">
+            <div className="clay-lg aspect-[4/3] sm:aspect-video lg:aspect-square flex items-center justify-center overflow-hidden relative group">
               {product.images.length > 0 ? (
                 <img 
                   alt={product.title} 
@@ -82,7 +82,7 @@ async function ProductDetailPage({ params }: { params: Promise<{ id: string }> }
                 {product.images.map((img, idx) => (
                   <div 
                     key={idx}
-                    className={`rounded-xl overflow-hidden border-2 ${idx === 0 ? "border-primary" : "border-outline-variant/30"} aspect-square bg-surface-container-high`}
+                    className={`clay-sm overflow-hidden ${idx === 0 ? "ring-2 ring-primary" : ""} aspect-square`}
                   >
                     <img src={img} alt={`${product.title} foto ${idx + 1}`} className="w-full h-full object-cover" />
                   </div>
@@ -102,7 +102,7 @@ async function ProductDetailPage({ params }: { params: Promise<{ id: string }> }
                   <ShieldCheck className="w-4 h-4" /> Binaan Al-Mubarok II
                 </span>
                 {avgRating && (
-                  <span className="inline-flex items-center gap-1 text-label-sm font-bold text-on-surface bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/20">
+                  <span className="chip-clay gold inline-flex items-center gap-1 text-label-sm font-bold">
                     <Star className="w-4 h-4 text-accent-gold fill-accent-gold" />
                     {avgRating} &middot; {totalReviews} Ulasan
                   </span>
@@ -110,8 +110,7 @@ async function ProductDetailPage({ params }: { params: Promise<{ id: string }> }
               </div>
             </div>
 
-            <div className="p-[1px] rounded-[1.25rem] bg-gradient-to-b from-outline-variant/30 to-transparent">
-              <div className="rounded-[calc(1.25rem-1px)] bg-surface-container-lowest p-xl border border-outline-variant/10 shadow-xs space-y-md">
+            <div className="clay-lg p-xl space-y-md">
                 <p className="text-label-sm text-on-surface-variant font-medium uppercase tracking-wider">Harga Terbaik</p>
                 <div className="flex items-baseline gap-2">
                   <p className="text-display-md sm:text-display-lg text-primary font-bold">{formatRupiah(product.priceRupiah)}</p>
@@ -123,7 +122,7 @@ async function ProductDetailPage({ params }: { params: Promise<{ id: string }> }
                     <p className="text-label-sm text-on-surface font-bold mb-2">Varian Tersedia:</p>
                     <div className="flex flex-wrap gap-2">
                       {product.variants.map((v) => (
-                        <span key={v.name} className="px-lg py-1.5 bg-surface-container text-on-surface rounded-full text-label-sm font-semibold border border-outline-variant/20">
+                        <span key={v.name} className="chip-clay font-semibold">
                           {v.name} {v.stock <= 3 && v.stock > 0 ? <span className="text-amber-600 font-bold">(Sisa {v.stock})</span> : v.stock === 0 ? <span className="text-error font-bold">(Habis)</span> : ""}
                         </span>
                       ))}
@@ -131,11 +130,9 @@ async function ProductDetailPage({ params }: { params: Promise<{ id: string }> }
                   </div>
                 )}
               </div>
-            </div>
 
             {/* Seller profile card */}
-            <div className="p-[1px] rounded-[1.25rem] bg-gradient-to-b from-outline-variant/30 to-transparent">
-              <div className="rounded-[calc(1.25rem-1px)] bg-surface-container-low p-xl border border-outline-variant/10 shadow-xs flex items-center justify-between">
+            <div className="clay-lg p-xl flex items-center justify-between">
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center shadow-[inset_0_1px_1px_rgba(255,255,255,0.3)]">
                     <Store className="w-6 h-6 text-primary" />
@@ -152,12 +149,11 @@ async function ProductDetailPage({ params }: { params: Promise<{ id: string }> }
                   Lihat Toko
                 </Link>
               </div>
-            </div>
 
             {/* Description */}
             <div className="space-y-sm">
               <h3 className="text-headline-md text-on-surface font-bold">Deskripsi Produk</h3>
-              <p className="text-body-md text-on-surface-variant leading-relaxed whitespace-pre-line bg-surface-container-lowest p-lg rounded-2xl border border-outline-variant/10">
+              <p className="text-body-md text-on-surface-variant leading-relaxed whitespace-pre-line clay-sm p-lg">
                 {product.description}
               </p>
             </div>
@@ -175,7 +171,7 @@ async function ProductDetailPage({ params }: { params: Promise<{ id: string }> }
                       ? `${rev.buyer.name.split(" ")[0]} ${rev.buyer.name.split(" ")[1]?.slice(0, 1) || ""}.` 
                       : "Pembeli Asli"
                     return (
-                      <div key={rev.id} className="p-md rounded-2xl bg-surface-container-low border border-outline-variant/10 space-y-2">
+                      <div key={rev.id} className="clay-sm p-md space-y-2">
                         <div className="flex justify-between items-center">
                           <span className="text-label-md font-bold text-on-surface">{maskedName}</span>
                           <div className="flex items-center gap-0.5">
@@ -206,7 +202,7 @@ async function ProductDetailPage({ params }: { params: Promise<{ id: string }> }
             <div className="pt-4 flex gap-md">
               <Link
                 href={`/checkout?productId=${product.id}`}
-                className="flex-1 py-4 bg-accent-gold text-white rounded-2xl text-headline-md font-bold shadow-lg shadow-accent-gold/20 hover:brightness-110 active:scale-[0.98] transition-all duration-200 text-center flex items-center justify-center gap-sm outline-none focus-visible:ring-2 focus-visible:ring-accent-gold"
+                className="btn-clay-gold flex-1 py-4 text-headline-md font-bold hover:brightness-110 active:scale-[0.98] transition-all duration-200 text-center flex items-center justify-center gap-sm outline-none focus-visible:ring-2 focus-visible:ring-accent-gold"
               >
                 <Sparkles className="w-5 h-5" />
                 Beli Sekarang

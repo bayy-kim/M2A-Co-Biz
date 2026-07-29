@@ -105,7 +105,7 @@ function RegisterContent() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <div className="min-h-screen flex flex-col" style={{ background: 'var(--color-clay-bg)' }}>
       <header className="fixed top-0 w-full z-50 bg-surface shadow-sm h-16 flex items-center px-lg md:px-xl justify-between">
         <div className="flex items-center gap-md">
           <button
@@ -155,7 +155,7 @@ function RegisterContent() {
           ) : (
             <>
 
-              <div className="flex items-center justify-center gap-2 mb-xl bg-surface-container rounded-xl p-1.5 max-w-xs mx-auto">
+              <div className="flex items-center justify-center gap-2 mb-xl clay-pill p-1.5 max-w-xs mx-auto">
                 <button
                   onClick={() => { setRole("buyer"); setStep(1) }}
                   className={`flex items-center gap-2 px-5 py-2.5 rounded-lg text-label-md font-bold transition-all ${role === "buyer" ? "bg-primary text-on-primary shadow-sm" : "text-on-surface-variant hover:text-on-surface"}`}
@@ -186,7 +186,7 @@ function RegisterContent() {
                 </div>
               )}
 
-              <form key={role} ref={formRef} onSubmit={handleSubmit} className="bg-surface/80 backdrop-blur-md rounded-xl p-lg md:p-xxl shadow-lg border border-white/30">
+              <form key={role} ref={formRef} onSubmit={handleSubmit} className="clay-lg">
                 {role === "buyer" ? (
                   <>
                     <div className="mb-xl">
@@ -196,36 +196,38 @@ function RegisterContent() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-lg">
                       <div className="flex flex-col gap-xs">
                         <label className="text-label-md text-on-surface" htmlFor="fullName">Nama Lengkap</label>
-                        <input className="rounded-lg border-outline-variant focus:ring-2 focus-visible:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" id="fullName" name="fullName" placeholder="Nama lengkap" type="text" value={fullName} onChange={(e) => setFullName(e.target.value)} required />
+                        <input className="clay-input" id="fullName" name="fullName" placeholder="Nama lengkap" type="text" value={fullName} onChange={(e) => setFullName(e.target.value)} required />
                         {state.errors?.fullName && <span className="text-error text-label-sm">{state.errors.fullName[0]}</span>}
                       </div>
                       <div className="flex flex-col gap-xs">
                         <label className="text-label-md text-on-surface" htmlFor="email">Email</label>
-                        <input className="rounded-lg border-outline-variant focus:ring-2 focus-visible:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" id="email" name="email" placeholder="nama@email.com" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                        <input className="clay-input" id="email" name="email" placeholder="nama@email.com" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
                         {state.errors?.email && <span className="text-error text-label-sm">{state.errors.email[0]}</span>}
                       </div>
                       <div className="flex flex-col gap-xs">
                         <label className="text-label-md text-on-surface" htmlFor="phone">No. Telepon</label>
-                        <input className="rounded-lg border-outline-variant focus:ring-2 focus-visible:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" id="phone" name="phone" placeholder="+62 812 XXXX XXXX" type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} required />
+                        <input className="clay-input" id="phone" name="phone" placeholder="+62 812 XXXX XXXX" type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} required />
                         {state.errors?.phone && <span className="text-error text-label-sm">{state.errors.phone[0]}</span>}
                       </div>
                       <div className="flex flex-col gap-xs">
                         <label className="text-label-md text-on-surface" htmlFor="password">Password</label>
-                        <input className="rounded-lg border-outline-variant focus:ring-2 focus-visible:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" id="password" name="password" placeholder="Min. 8 karakter" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+                        <input className="clay-input" id="password" name="password" placeholder="Min. 8 karakter" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
                         {state.errors?.password && <span className="text-error text-label-sm">{state.errors.password[0]}</span>}
                       </div>
                     </div>
-                    <div className="flex items-start gap-md pt-lg mt-lg border-t border-outline-variant">
-                      <div className="flex h-6 items-center">
-                        <input className="h-5 w-5 rounded border-outline text-primary focus:ring-primary cursor-pointer transition-all" id="consent" name="consent" type="checkbox" />
-                      </div>
-                      <div className="text-body-md">
-                        <label className="font-medium text-on-surface" htmlFor="consent">Saya menyetujui{" "}<a className="text-primary underline" href="/terms">Ketentuan Layanan</a>{" "}dan{" "}<a className="text-primary underline" href="/privacy">Kebijakan Privasi</a>.</label>
+                    <div className="clay-sm p-lg">
+                      <div className="flex items-start gap-md">
+                        <div className="flex h-6 items-center">
+                          <input className="h-5 w-5 rounded border-outline text-primary focus:ring-primary cursor-pointer transition-all" id="consent" name="consent" type="checkbox" />
+                        </div>
+                        <div className="text-body-md">
+                          <label className="font-medium text-on-surface" htmlFor="consent">Saya menyetujui{" "}<a className="text-primary underline" href="/terms">Ketentuan Layanan</a>{" "}dan{" "}<a className="text-primary underline" href="/privacy">Kebijakan Privasi</a>.</label>
+                        </div>
                       </div>
                     </div>
                     {state.errors?.consent && <span className="text-error text-label-sm">{state.errors.consent[0]}</span>}
                     <div className="mt-xl">
-                      <button className="w-full py-3.5 bg-accent-gold text-white rounded-xl text-headline-md font-bold shadow-lg hover:brightness-110 active:scale-[0.97] transition-all flex items-center justify-center gap-2 disabled:opacity-50" disabled={pending} type="submit">
+                      <button className="btn-clay-gold w-full" disabled={pending} type="submit">
                         {pending ? <Loader2 className="w-5 h-5 animate-spin" /> : null}
                         {pending ? "Mendaftarkan..." : "Daftar & Mulai Belanja"}
                       </button>
@@ -245,7 +247,7 @@ function RegisterContent() {
                       onClick={() => {
                         signIn("google")
                       }}
-                      className="w-full py-3.5 border border-outline-variant/50 hover:bg-surface-container-low rounded-xl text-label-md font-bold text-on-surface transition-all flex items-center justify-center gap-sm disabled:opacity-50"
+                      className="btn-clay-outline w-full"
                     >
                       <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
@@ -260,7 +262,7 @@ function RegisterContent() {
                   <>
                     {role === "seller" && (
                       <div className="mb-xxl">
-                        <div className="flex justify-between items-center mb-4 px-2">
+                        <div className="clay-sm px-4 py-2 flex justify-between items-center mb-4">
                           {[1, 2, 3].map((s) => (
                             <div key={s} className="flex items-center flex-1">
                               <div className="flex flex-col items-center gap-2">
@@ -292,22 +294,22 @@ function RegisterContent() {
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-lg">
                         <div className="flex flex-col gap-xs">
                           <label className="text-label-md text-on-surface" htmlFor="fullName">Nama Lengkap</label>
-                          <input className="rounded-lg border-outline-variant focus:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" id="fullName" name="fullName" placeholder="Nama sesuai KTP" type="text" value={fullName} onChange={(e) => setFullName(e.target.value)} required />
+                          <input className="clay-input" id="fullName" name="fullName" placeholder="Nama sesuai KTP" type="text" value={fullName} onChange={(e) => setFullName(e.target.value)} required />
                           {state.errors?.fullName && <span className="text-error text-label-sm">{state.errors.fullName[0]}</span>}
                         </div>
                         <div className="flex flex-col gap-xs">
                           <label className="text-label-md text-on-surface" htmlFor="email">Email</label>
-                          <input className="rounded-lg border-outline-variant focus:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" id="email" name="email" placeholder="name@business.com" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                          <input className="clay-input" id="email" name="email" placeholder="name@business.com" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
                           {state.errors?.email && <span className="text-error text-label-sm">{state.errors.email[0]}</span>}
                         </div>
                         <div className="flex flex-col gap-xs">
                           <label className="text-label-md text-on-surface" htmlFor="phone">No. Telepon</label>
-                          <input className="rounded-lg border-outline-variant focus:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" id="phone" name="phone" placeholder="+62 812 XXXX XXXX" type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} required />
+                          <input className="clay-input" id="phone" name="phone" placeholder="+62 812 XXXX XXXX" type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} required />
                           {state.errors?.phone && <span className="text-error text-label-sm">{state.errors.phone[0]}</span>}
                         </div>
                         <div className="flex flex-col gap-xs">
                           <label className="text-label-md text-on-surface" htmlFor="businessType">Jenis Usaha</label>
-                          <select className="rounded-lg border-outline-variant focus:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" id="businessType" name="businessType" value={businessType} onChange={(e) => setBusinessType(e.target.value as "UMKM" | "JASA")} required>
+                          <select className="clay-input" id="businessType" name="businessType" value={businessType} onChange={(e) => setBusinessType(e.target.value as "UMKM" | "JASA")} required>
                             <option value="UMKM">UMKM (Product)</option>
                             <option value="JASA">Jasa (Service)</option>
                           </select>
@@ -315,12 +317,12 @@ function RegisterContent() {
                         </div>
                         <div className="flex flex-col gap-xs md:col-span-2">
                           <label className="text-label-md text-on-surface" htmlFor="businessName">Nama Toko / Usaha</label>
-                          <input className="rounded-lg border-outline-variant focus:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" id="businessName" name="businessName" placeholder="Nama brand usaha Anda" type="text" value={businessName} onChange={(e) => setBusinessName(e.target.value)} required />
+                          <input className="clay-input" id="businessName" name="businessName" placeholder="Nama brand usaha Anda" type="text" value={businessName} onChange={(e) => setBusinessName(e.target.value)} required />
                           {state.errors?.businessName && <span className="text-error text-label-sm">{state.errors.businessName[0]}</span>}
                         </div>
                         <div className="flex flex-col gap-xs md:col-span-2">
                         <label className="text-label-md text-on-surface" htmlFor="password">Kata Sandi</label>
-                          <input className="rounded-lg border-outline-variant focus:ring-primary focus:border-primary px-lg py-md bg-surface text-on-surface transition-all" id="password" name="password" placeholder="Min. 8 karakter" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+                          <input className="clay-input" id="password" name="password" placeholder="Min. 8 karakter" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
                           {state.errors?.password && <span className="text-error text-label-sm">{state.errors.password[0]}</span>}
                         </div>
                       </div>
@@ -332,7 +334,7 @@ function RegisterContent() {
                         <p className="text-on-surface-variant text-body-md">Unggah dokumen resmi Anda secara aman untuk verifikasi. Format: JPG, PNG, atau PDF (Maks 5MB).</p>
                       </div>
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-lg">
-                        <div className={`flex flex-col items-center justify-center p-xl border-2 ${files.ktp ? "border-primary bg-primary/5" : "border-dashed border-outline-variant"} rounded-xl hover:border-primary hover:bg-primary/5 transition-all group cursor-pointer relative overflow-hidden`}>
+                        <div className={`flex flex-col items-center justify-center p-xl clay-lg border-2 ${files.ktp ? "border-primary bg-primary/5" : "border-dashed border-outline-variant"} transition-all group cursor-pointer relative overflow-hidden`}>
                           <input aria-label="Upload KTP" className="absolute inset-0 opacity-0 cursor-pointer" name="ktp" type="file" accept=".jpg,.jpeg,.png,.pdf" onChange={(e) => setFiles((prev) => ({ ...prev, ktp: e.target.files?.[0] ? { name: e.target.files[0].name } : null }))} />
                           {files.ktp ? (
                             <div className="flex flex-col items-center gap-2 pointer-events-none">
@@ -347,7 +349,7 @@ function RegisterContent() {
                             </>
                           )}
                         </div>
-                        <div className={`flex flex-col items-center justify-center p-xl border-2 ${files.kartuKeluarga ? "border-primary bg-primary/5" : "border-dashed border-outline-variant"} rounded-xl hover:border-primary hover:bg-primary/5 transition-all group cursor-pointer relative overflow-hidden`}>
+                        <div className={`flex flex-col items-center justify-center p-xl clay-lg border-2 ${files.kartuKeluarga ? "border-primary bg-primary/5" : "border-dashed border-outline-variant"} transition-all group cursor-pointer relative overflow-hidden`}>
                           <input aria-label="Upload Kartu Keluarga" className="absolute inset-0 opacity-0 cursor-pointer" name="kartuKeluarga" type="file" accept=".jpg,.jpeg,.png,.pdf" onChange={(e) => setFiles((prev) => ({ ...prev, kartuKeluarga: e.target.files?.[0] ? { name: e.target.files[0].name } : null }))} />
                           {files.kartuKeluarga ? (
                             <div className="flex flex-col items-center gap-2 pointer-events-none">
@@ -362,7 +364,7 @@ function RegisterContent() {
                             </>
                           )}
                         </div>
-                        <div className={`flex flex-col items-center justify-center p-xl border-2 ${files.izinUsaha ? "border-primary bg-primary/5" : "border-dashed border-outline-variant"} rounded-xl hover:border-primary hover:bg-primary/5 transition-all group cursor-pointer relative overflow-hidden`}>
+                        <div className={`flex flex-col items-center justify-center p-xl clay-lg border-2 ${files.izinUsaha ? "border-primary bg-primary/5" : "border-dashed border-outline-variant"} transition-all group cursor-pointer relative overflow-hidden`}>
                           <input aria-label="Upload Izin Usaha" className="absolute inset-0 opacity-0 cursor-pointer" name="izinUsaha" type="file" accept=".jpg,.jpeg,.png,.pdf" onChange={(e) => setFiles((prev) => ({ ...prev, izinUsaha: e.target.files?.[0] ? { name: e.target.files[0].name } : null }))} />
                           {files.izinUsaha ? (
                             <div className="flex flex-col items-center gap-2 pointer-events-none">
@@ -378,7 +380,7 @@ function RegisterContent() {
                           )}
                         </div>
                       </div>
-                      <div className="mt-xl p-lg bg-surface-container-low rounded-lg border border-outline-variant flex items-center gap-lg">
+                      <div className="mt-xl clay-sm p-lg flex items-center gap-lg">
                         <div className="w-16 h-16 rounded bg-surface-container-highest overflow-hidden flex items-center justify-center">
                           <ShieldCheck className="w-8 h-8 text-primary" />
                         </div>
@@ -395,7 +397,7 @@ function RegisterContent() {
                         <p className="text-on-surface-variant text-body-md">Tinjau ketentuan kami dan berikan persetujuan untuk menyelesaikan pendaftaran penjual.</p>
                       </div>
                       <div className="space-y-lg">
-                        <div className="p-lg bg-surface-container rounded-xl">
+                        <div className="clay-sm p-lg">
                           <h3 className="text-headline-md text-on-surface mb-lg">Perjanjian Privasi Data</h3>
                           <div className="max-h-48 overflow-y-auto text-label-md text-on-surface-variant pr-lg">
                             <p className="mb-4">M2A Co-Biz berkomitmen melindungi data pribadi Anda. Dengan melanjutkan, Anda menyetujui bahwa kami dapat mengumpulkan, menyimpan, dan memproses informasi bisnis Anda semata-mata untuk tujuan mengelola hub penjual dan menyediakan layanan komunitas keuangan.</p>
@@ -403,25 +405,27 @@ function RegisterContent() {
                             <p>Informasi toko Anda akan terlihat oleh anggota komunitas dalam ekosistem M2A untuk memfasilitasi transaksi dan jaringan bisnis.</p>
                           </div>
                         </div>
-                        <div className="flex items-start gap-md pt-4">
-                          <div className="flex h-6 items-center">
-                            <input className="h-5 w-5 rounded border-outline text-primary focus:ring-primary cursor-pointer transition-all" id="consent" name="consent" type="checkbox" />
-                          </div>
-                          <div className="text-body-md">
-                            <label className="font-medium text-on-surface" htmlFor="consent">Dengan ini saya menyatakan bahwa semua informasi yang diberikan adalah benar dan saya menyetujui{" "}<a className="text-primary underline" href="/terms">Ketentuan Layanan</a>{" "}dan{" "}<a className="text-primary underline" href="/privacy">Kebijakan Privasi</a>.</label>
+                        <div className="clay-sm p-lg">
+                          <div className="flex items-start gap-md">
+                            <div className="flex h-6 items-center">
+                              <input className="h-5 w-5 rounded border-outline text-primary focus:ring-primary cursor-pointer transition-all" id="consent" name="consent" type="checkbox" />
+                            </div>
+                            <div className="text-body-md">
+                              <label className="font-medium text-on-surface" htmlFor="consent">Dengan ini saya menyatakan bahwa semua informasi yang diberikan adalah benar dan saya menyetujui{" "}<a className="text-primary underline" href="/terms">Ketentuan Layanan</a>{" "}dan{" "}<a className="text-primary underline" href="/privacy">Kebijakan Privasi</a>.</label>
+                            </div>
                           </div>
                         </div>
                         {state.errors?.consent && <span className="text-error text-label-sm ml-xl">{state.errors.consent[0]}</span>}
                       </div>
                       <div className="mt-xxl grid grid-cols-1 md:grid-cols-2 gap-lg">
-                        <div className="flex items-center gap-md p-lg bg-secondary-container/30 rounded-xl">
+                        <div className="flex items-center gap-md clay-sm p-lg">
                           <ShieldCheck className="w-6 h-6 text-secondary" />
                           <div>
                             <p className="text-label-md font-bold text-on-secondary-container">Terpercaya</p>
                             <p className="text-label-sm text-on-secondary-container/80">Diamankan dengan enkripsi tingkat enterprise.</p>
                           </div>
                         </div>
-                        <div className="flex items-center gap-md p-lg bg-tertiary-container/10 rounded-xl">
+                        <div className="flex items-center gap-md clay-sm p-lg">
                           <LifeBuoy className="w-6 h-6 text-tertiary" />
                           <div>
                             <p className="text-label-md font-bold text-on-tertiary-fixed-variant">Tinjauan Tim</p>
@@ -437,11 +441,11 @@ function RegisterContent() {
                       </button>
                       <div className="flex-grow" />
                       {step < totalSteps ? (
-                        <button className="px-xl py-lg bg-primary text-on-primary rounded-lg text-label-md shadow-sm hover:bg-primary-container active:scale-[0.97] transition-all flex items-center gap-2" onClick={nextStep} type="button">
+                        <button className="btn-clay px-xl py-lg" onClick={nextStep} type="button">
                           Langkah Berikutnya <ArrowRight className="w-[20px] h-[20px]" />
                         </button>
                         ) : (
-                          <button className="px-xl py-lg bg-accent-gold text-white rounded-lg text-label-md shadow-lg hover:brightness-110 active:scale-[0.97] transition-all flex items-center gap-2" disabled={pending} type="submit">
+                          <button className="btn-clay-gold px-xl py-lg" disabled={pending} type="submit">
                             {pending ? <Loader2 className="w-5 h-5 animate-spin" /> : null}
                             {pending ? "Mengirim..." : "Kirim Pendaftaran"}
                             {!pending && <ArrowRight className="w-[20px] h-[20px]" />}
@@ -465,7 +469,7 @@ function RegisterContent() {
                             onClick={() => {
                               signIn("google")
                             }}
-                            className="w-full py-3.5 border border-outline-variant/50 hover:bg-surface-container-low rounded-xl text-label-md font-bold text-on-surface transition-all flex items-center justify-center gap-sm disabled:opacity-50"
+                            className="btn-clay-outline w-full"
                           >
                             <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
                               <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
