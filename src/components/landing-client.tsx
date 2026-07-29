@@ -46,12 +46,7 @@ export function LandingClient({ session, company, featuredProducts = [] }: Landi
     return "/catalog"
   }
 
-  const taglines = [
-    { line: "Bangun & Kembangkan", highlight: "Bisnis Lokal Anda" },
-    { line: "Pusat Bisnis & UMKM", highlight: "Al-Mubarok II" },
-    { line: "Tumbuh & Berinovasi", highlight: "Bersama Komunitas" },
-    { line: "Wadah Wirausaha", highlight: "Banjarwaringin" },
-  ]
+  const taglines = ["Al-Mubarok II", "Banjarwaringin", "Indonesia"]
   const [tagIndex, setTagIndex] = useState(0)
 
   useEffect(() => {
@@ -76,7 +71,8 @@ export function LandingClient({ session, company, featuredProducts = [] }: Landi
                 <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
                 Ekonomi Komunitas
               </div>
-              <h1 className="text-display-md-mobile sm:text-display-lg lg:text-[3.25rem] text-primary tracking-tight leading-[1.12] min-h-[4rem] sm:min-h-[5rem]">
+              <h1 className="text-display-md-mobile sm:text-display-lg lg:text-[3.25rem] text-primary tracking-tight leading-[1.12]">
+                Pusat Bisnis & UMKM{" "}
                 <AnimatePresence mode="wait">
                   <motion.span
                     key={tagIndex}
@@ -84,10 +80,9 @@ export function LandingClient({ session, company, featuredProducts = [] }: Landi
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -20 }}
                     transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                    className="block"
+                    className="text-accent-gold"
                   >
-                    {taglines[tagIndex].line}&nbsp;
-                    <span className="text-accent-gold">{taglines[tagIndex].highlight}</span>
+                    {taglines[tagIndex]}
                   </motion.span>
                 </AnimatePresence>
               </h1>
