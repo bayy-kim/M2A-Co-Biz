@@ -22,8 +22,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   adapter: PrismaAdapter(prisma) as any,
   session: { strategy: "jwt", maxAge: 24 * 60 * 60, updateAge: 60 * 60 },
+  secret: process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET, // Explicitly set secret to prevent NextAuth v5 Configuration errors
   pages: {
     signIn: "/login",
+    error: "/login", // Redirect all NextAuth errors back to custom login page
   },
   providers: [
     Google({

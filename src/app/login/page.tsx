@@ -31,8 +31,12 @@ function LoginContent() {
   useEffect(() => {
     if (urlError === "OAuthAccountNotLinked") {
       setError("Akun email ini sudah terdaftar. Silakan masuk menggunakan Email dan Kata Sandi.")
+    } else if (urlError === "AccessDenied") {
+      setError("Akses ditolak. Staf Admin dan Bendahara wajib masuk menggunakan Email, Kata Sandi, dan kode keamanan 2FA.")
+    } else if (urlError === "Configuration") {
+      setError("Terjadi kesalahan konfigurasi server login. Silakan hubungi admin.")
     } else if (urlError) {
-      setError("Terjadi kesalahan saat masuk dengan Google.")
+      setError("Terjadi kesalahan sistem saat mencoba masuk dengan Google. Silakan coba kembali.")
     }
   }, [urlError])
 
