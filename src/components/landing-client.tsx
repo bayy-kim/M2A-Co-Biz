@@ -2,12 +2,13 @@
 
 import { TrendingUp, ShieldCheck, Zap, Users, BarChart3, MapPin, Phone, Mail, ArrowRight, ShoppingBag, Store } from "lucide-react"
 import Link from "next/link"
-import { motion } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 import { AnimateSection, AnimateStagger, AnimateItem, AnimateTap, AnimateFloat, AnimateCard } from "@/components/animate-section"
 import Image from "next/image"
 import { Logo } from "@/components/logo"
 import { PublicHeader } from "@/components/public-header"
 import { formatRupiah } from "@/lib/utils"
+import { useState, useEffect } from "react"
 
 interface FeaturedProduct {
   id: string
@@ -45,6 +46,19 @@ export function LandingClient({ session, company, featuredProducts = [] }: Landi
     return "/catalog"
   }
 
+  const taglines = [
+    { line: "Bangun & Kembangkan", highlight: "Bisnis Lokal Anda" },
+    { line: "Pusat Bisnis & UMKM", highlight: "Al-Mubarok II" },
+    { line: "Tumbuh & Berinovasi", highlight: "Bersama Komunitas" },
+    { line: "Wadah Wirausaha", highlight: "Banjarwaringin" },
+  ]
+  const [tagIndex, setTagIndex] = useState(0)
+
+  useEffect(() => {
+    const timer = setInterval(() => setTagIndex(i => (i + 1) % taglines.length), 4000)
+    return () => clearInterval(timer)
+  }, [])
+
   return (
     <>
       <PublicHeader session={session} />
@@ -62,8 +76,20 @@ export function LandingClient({ session, company, featuredProducts = [] }: Landi
                 <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
                 Ekonomi Komunitas
               </div>
-              <h1 className="text-display-md-mobile sm:text-display-lg lg:text-[3.25rem] text-primary tracking-tight leading-[1.12]">
-                Pusat Bisnis & UMKM <span className="block sm:inline text-accent-gold">Al-Mubarok II</span>
+              <h1 className="text-display-md-mobile sm:text-display-lg lg:text-[3.25rem] text-primary tracking-tight leading-[1.12] min-h-[4rem] sm:min-h-[5rem]">
+                <AnimatePresence mode="wait">
+                  <motion.span
+                    key={tagIndex}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                    className="block"
+                  >
+                    {taglines[tagIndex].line}&nbsp;
+                    <span className="text-accent-gold">{taglines[tagIndex].highlight}</span>
+                  </motion.span>
+                </AnimatePresence>
               </h1>
               <p className="text-body-lg text-on-surface-variant leading-relaxed max-w-xl">
                 Memberdayakan potensi ekonomi lokal melalui ekosistem bisnis digital yang terintegrasi. Wadah bagi wirausaha muda untuk bertumbuh dan berinovasi di Banjarwaringin.
