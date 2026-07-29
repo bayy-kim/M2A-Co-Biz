@@ -91,6 +91,7 @@ export async function completeBuyerProfile(prevState: ProfileUpdateState, formDa
         name: filterXSS(result.data.fullName),
         phone: result.data.phone,
         role: isStaff ? undefined : "BUYER", // Staff keep their current role
+        isProfileComplete: true, // Mark profile as completed
       },
     })
     return { success: true, message: "Profil berhasil diperbarui!" }
@@ -188,6 +189,7 @@ export async function completeSellerProfile(prevState: ProfileUpdateState, formD
           role: "SELLER",
           name: filterXSS(result.data.fullName),
           phone: result.data.phone,
+          isProfileComplete: true, // Mark profile as completed
         },
       })
       await tx.sellerProfile.create({
@@ -210,5 +212,26 @@ export async function completeSellerProfile(prevState: ProfileUpdateState, formD
       try { await del(url) } catch {}
     }
     return { message: e instanceof Error ? e.message : "Gagal mengunggah dokumen" }
+  }
+}
+
+export async function skipProfileCompletion(): Promise<ProfileUpdateState> {
+  const session = await auth()
+  if (!session?.user) return { message: "Unauthorized" }
+
+  const rl = await checkRateLimit(`skip-profile:${session.user.id}`)
+  if (!rl.allowed) return { message: "Terlalu banyak permintaan." }
+
+  try {
+    await prisma.user.update({
+      where: { id: session.user.id },
+      data: {
+        isProfileComplete: true, // Mark as completed (skipped) so they bypass middleware
+      },
+    })
+    return { success: true, message: "Pengisian profil dilewati!" }
+  } catch (e) {
+    console.error("skipProfileCompletion Error:", e)
+    return { message: "Gagal melewati pengisian profil" }
   }
 }

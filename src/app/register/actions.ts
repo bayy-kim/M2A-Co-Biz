@@ -117,6 +117,7 @@ export async function register(prevState: RegisterState, formData: FormData): Pr
           passwordHash: hashed,
           name: data.fullName,
           phone: data.phone,
+          isProfileComplete: true, // Manual registration is complete by default
           sellerProfile: {
             create: {
               businessName: data.businessName,
@@ -186,6 +187,7 @@ export async function registerBuyer(
         passwordHash: hashed,
         name: data.fullName,
         phone: data.phone,
+        isProfileComplete: true, // Manual registration is complete by default
       },
     })
   } catch (e) {

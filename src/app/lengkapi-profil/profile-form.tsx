@@ -5,7 +5,7 @@ import { Badge, Group, FileText, ArrowRight, ShieldCheck, ShoppingBag, Store, Up
 import { useRouter, useSearchParams } from "next/navigation"
 import { useSession } from "next-auth/react"
 import { Logo } from "@/components/logo"
-import { completeBuyerProfile, completeSellerProfile, type ProfileUpdateState } from "./actions"
+import { completeBuyerProfile, completeSellerProfile, skipProfileCompletion, type ProfileUpdateState } from "./actions"
 
 export function ProfileForm({ user, defaultRole }: { user: any; defaultRole: "buyer" | "seller" }) {
   const router = useRouter()
@@ -66,6 +66,18 @@ export function ProfileForm({ user, defaultRole }: { user: any; defaultRole: "bu
       router.push(role === "seller" ? "/seller" : "/catalog")
     }
     router.refresh()
+  }
+
+  const handleSkip = async () => {
+    setStepError("")
+    const res = await skipProfileCompletion()
+    if (res.success) {
+      await update({ isProfileComplete: true })
+      router.push(role === "seller" ? "/seller" : "/catalog")
+      router.refresh()
+    } else {
+      setStepError(res.message || "Gagal melewati pengisian profil.")
+    }
   }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -287,6 +299,10 @@ export function ProfileForm({ user, defaultRole }: { user: any; defaultRole: "bu
                 {role === "seller" && step > 1 ? (
                   <button type="button" onClick={prevStep} className="px-6 py-3 rounded-xl text-label-md font-bold text-on-surface-variant hover:bg-surface-container transition-all">
                     Kembali
+                  </button>
+                ) : !isStaff && step >= totalSteps ? (
+                  <button type="button" onClick={handleSkip} className="border border-outline-variant hover:bg-surface-container text-on-surface-variant font-bold px-6 py-3 rounded-xl min-h-[44px] transition-all">
+                    Isi Nanti
                   </button>
                 ) : <div />}
 

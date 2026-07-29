@@ -90,6 +90,8 @@ model User {
   passwordHash    String?
   name            String
   phone           String?
+  image           String?   // Added for NextAuth Google OAuth profile image support
+  isProfileComplete Boolean @default(false) // Added to track if user completed/skipped onboarding
   emailVerified   DateTime?
   isActive        Boolean   @default(true)
   twoFactorSecret String?
