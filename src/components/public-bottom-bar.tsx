@@ -21,7 +21,7 @@ export function PublicBottomBar({ isLoggedIn, role }: Props) {
     if (role === "BENDAHARA") return "/bendahara"
     if (role === "KETUA") return "/ketua"
     if (role === "SELLER") return "/seller"
-    return "/pesanan-saya?tab=account"
+    return "/dashboard-buyer"
   }
 
   const items = [
@@ -56,9 +56,9 @@ export function PublicBottomBar({ isLoggedIn, role }: Props) {
       if (role === "ADMIN") return pathname.startsWith("/admin")
       if (role === "BENDAHARA") return pathname.startsWith("/bendahara")
       if (role === "KETUA") return pathname.startsWith("/ketua")
-      if (role === "SELLER") return pathname.startsWith("/seller")
-      return pathname === "/pesanan-saya" && currentTab === "account"
-    }
+    if (role === "SELLER") return pathname.startsWith("/seller")
+    return pathname.startsWith("/dashboard-buyer")
+  }
     return false
   }
 

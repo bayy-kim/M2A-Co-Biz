@@ -18,7 +18,7 @@ export default async function LengkapiProfilPage({
   // @ts-expect-error custom session prop
   if (session.user.isProfileComplete && session.user.role !== "ADMIN" && session.user.role !== "BENDAHARA" && session.user.role !== "KETUA") {
     if (session.user.role === "SELLER") redirect("/seller")
-    redirect("/catalog")
+    redirect("/dashboard-buyer")
   }
 
   const params = await searchParams

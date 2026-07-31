@@ -7,6 +7,7 @@ const roleRoutes: Record<string, string[]> = {
   "/ketua": ["KETUA"],
   "/bendahara": ["BENDAHARA", "ADMIN"],
   "/seller": ["SELLER", "ADMIN", "BENDAHARA"], // Allow Admin/Bendahara to print seller receipts too
+  "/dashboard-buyer": ["BUYER", "SELLER", "ADMIN", "KETUA", "BENDAHARA"],
   "/pesanan-saya": ["BUYER", "SELLER", "ADMIN", "KETUA", "BENDAHARA"],
   "/login": [],
   "/register": [],

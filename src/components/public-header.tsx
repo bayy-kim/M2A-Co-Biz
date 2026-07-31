@@ -27,7 +27,7 @@ export function PublicHeader({ session, showSearch = false, searchQuery = "" }: 
     if (role === "BENDAHARA") return "/bendahara"
     if (role === "KETUA") return "/ketua"
     if (role === "SELLER") return "/seller"
-    if (role === "BUYER") return "/pesanan-saya"
+    if (role === "BUYER") return "/dashboard-buyer"
     return "/catalog"
   }
 

@@ -63,7 +63,7 @@ export function ProfileForm({ user, defaultRole }: { user: any; defaultRole: "bu
       else if (user.role === "KETUA") router.push("/ketua")
       else router.push("/")
     } else {
-      router.push(role === "seller" ? "/seller" : "/catalog")
+      router.push(role === "seller" ? "/seller" : "/dashboard-buyer")
     }
     router.refresh()
   }
@@ -73,7 +73,7 @@ export function ProfileForm({ user, defaultRole }: { user: any; defaultRole: "bu
     const res = await skipProfileCompletion()
     if (res.success) {
       await update({ isProfileComplete: true })
-      router.push(role === "seller" ? "/seller" : "/catalog")
+      router.push(role === "seller" ? "/seller" : "/dashboard-buyer")
       router.refresh()
     } else {
       setStepError(res.message || "Gagal melewati pengisian profil.")

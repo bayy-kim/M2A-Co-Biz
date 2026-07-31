@@ -216,3 +216,6 @@ body {
 .clay-table-row > :first-child { border-radius: 14px 0 0 14px; }
 .clay-table-row > :last-child { border-radius: 0 14px 14px 0; }
 .clay-table-row { box-shadow: var(--shadow-clay-lite); border-radius: 14px; display: block; margin-bottom: 6px; }
+
+/* Product card */
+.prod-card { border-radius: var(--radius-clay); background: var(--color-clay-surface); box-shadow: var(--shadow-clay-md); overflow: hidden; }
