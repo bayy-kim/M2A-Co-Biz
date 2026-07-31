@@ -4,6 +4,7 @@
 
 import { readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
+import { tool } from '@opencode-ai/plugin';
 
 const ROOT = join(import.meta.dirname, '../..');
 
@@ -11,53 +12,54 @@ function loadGraph() {
   const gPath = join(ROOT, 'graphify-out/graph.json');
   const rPath = join(ROOT, 'graphify-out/GRAPH_REPORT.md');
   if (!existsSync(gPath)) return null;
+  const data = JSON.parse(readFileSync(gPath, 'utf-8'));
   return {
-    data: JSON.parse(readFileSync(gPath, 'utf-8')),
+    data,
+    // graphify-out menyimpan relasi di field `links`
+    edges: Array.isArray(data.edges) ? data.edges : data.links ?? [],
     report: existsSync(rPath) ? readFileSync(rPath, 'utf-8') : '',
   };
 }
 
 function searchNodes(query, nodes, edges) {
   const q = query.toLowerCase();
-  const hits = nodes.filter(n =>
-    [n.label, n.norm_label, n.community_name, n.file_type, n.source_file]
-      .some(f => f && f.toLowerCase().includes(q))
+  const hits = nodes.filter((n) =>
+    [n.label, n.norm_label, n.community_name, n.file_type, n.source_file].some((f) => f && f.toLowerCase().includes(q)),
   );
-  const ids = new Set(hits.map(n => n.id));
+  const ids = new Set(hits.map((n) => n.id));
   return {
     nodes: hits,
-    edges: edges.filter(e => ids.has(e.source) || ids.has(e.target)),
+    edges: edges.filter((e) => ids.has(e.source) || ids.has(e.target)),
   };
 }
 
-/** @type {import('@opencode-ai/plugin').Plugin} */
 const server = async () => ({
-  tools: {
-    graphify_query: {
-      description: 'Cari informasi arsitektur, relasi kode, dan struktur project M2A Co-Biz dari knowledge graph. Gunakan ini untuk menjawab pertanyaan tentang bagaimana suatu fitur bekerja atau bagaimana relasi antar modul.',
-      parameters: {
-        type: 'object',
-        properties: {
-          query: {
-            type: 'string',
-            description: 'Kata kunci pencarian — nama modul, file, fitur, atau kata kunci arsitektur. Contoh: "auth", "checkout", "database", "seller", "Gemini", "security", "file: dashboard"',
-          },
-        },
-        required: ['query'],
+  tool: {
+    graphify_query: tool({
+      description:
+        'Cari informasi arsitektur, relasi kode, dan struktur project M2A Co-Biz dari knowledge graph. Gunakan ini untuk menjawab pertanyaan tentang bagaimana suatu fitur bekerja atau bagaimana relasi antar modul.',
+      args: {
+        query: tool.schema
+          .string()
+          .describe(
+            'Kata kunci pencarian — nama modul, file, fitur, atau kata kunci arsitektur. Contoh: "auth", "checkout", "database", "seller", "Gemini", "security", "file: dashboard"',
+          ),
       },
-      execute: async ({ query }) => {
+      async execute({ query }) {
         const graph = loadGraph();
         if (!graph) return 'Knowledge graph belum digenerate. Jalankan graphify dulu.';
+        const nodes = graph.data.nodes ?? [];
+        const edges = graph.edges;
 
         if (query === '--summary') {
-          const communities = [...new Set(graph.data.nodes.map(n => n.community_name).filter(Boolean))];
+          const communities = [...new Set(nodes.map((n) => n.community_name).filter(Boolean))];
           return [
             `## Ringkasan Knowledge Graph`,
             ``,
-            `**Total Node:** ${graph.data.nodes.length}`,
-            `**Total Relasi:** ${graph.data.edges.length}`,
+            `**Total Node:** ${nodes.length}`,
+            `**Total Relasi:** ${edges.length}`,
             `**Komunitas (${communities.length}):**`,
-            ...communities.map(c => `- ${c}`),
+            ...communities.map((c) => `- ${c}`),
             ``,
             `---`,
             `**Laporan Proyek:**`,
@@ -65,8 +67,9 @@ const server = async () => ({
           ].join('\n');
         }
 
-        const result = searchNodes(query, graph.data.nodes, graph.data.edges);
-        if (!result.nodes.length) return `Tidak ada hasil untuk "${query}". Coba: auth, catalog, checkout, seller, database, admin, bendahara, AI, file: namafile`;
+        const result = searchNodes(query, nodes, edges);
+        if (!result.nodes.length)
+          return `Tidak ada hasil untuk "${query}". Coba: auth, catalog, checkout, seller, database, admin, bendahara, AI, file: namafile`;
 
         const groups = {};
         for (const n of result.nodes) {
@@ -89,15 +92,15 @@ const server = async () => ({
         if (result.edges.length) {
           out += `### Relasi (${result.edges.length})\n`;
           for (const e of result.edges) {
-            const s = result.nodes.find(n => n.id === e.source)?.label || e.source;
-            const t = result.nodes.find(n => n.id === e.target)?.label || e.target;
+            const s = result.nodes.find((n) => n.id === e.source)?.label || e.source;
+            const t = result.nodes.find((n) => n.id === e.target)?.label || e.target;
             out += `- ${s} → ${t}\n`;
           }
         }
 
         return out;
       },
-    },
+    }),
   },
 });
 

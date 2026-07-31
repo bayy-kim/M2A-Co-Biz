@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/db"
+import filterXSS from "xss"
 
 export async function submitReview(formData: FormData) {
   const session = await auth()
@@ -42,14 +43,14 @@ export async function submitReview(formData: FormData) {
       },
       update: {
         rating,
-        comment,
+        comment: filterXSS(comment),
       },
       create: {
         orderId,
         productId,
         buyerId: session.user.id,
         rating,
-        comment,
+        comment: filterXSS(comment),
       },
     })
 

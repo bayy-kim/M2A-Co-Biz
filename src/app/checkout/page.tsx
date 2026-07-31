@@ -4,7 +4,9 @@ import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/db"
 import { formatRupiah } from "@/lib/utils"
 import { ShoppingBag, ArrowLeft, ChevronRight, QrCode, Banknote, Truck, CheckCircle } from "lucide-react"
+import Image from "next/image"
 import { CheckoutForm } from "@/components/dynamic-checkout-form"
+import { uploadPaymentProof } from "./upload-proof-action"
 
 async function CheckoutPage({
   searchParams,
@@ -22,6 +24,11 @@ async function CheckoutPage({
       prisma.companyProfile.findFirst(),
     ])
     if (!order) redirect("/catalog")
+
+    // Require login and verify ownership — only the buyer (or staff) may view order & upload proof
+    if (!session?.user?.id) redirect("/login?callbackUrl=/checkout?orderId=" + params.orderId)
+    const isStaff = session.user.role === "ADMIN" || session.user.role === "BENDAHARA" || session.user.role === "KETUA"
+    if (!isStaff && order.buyerId !== session.user.id) redirect("/pesanan-saya")
 
     return (
       <div className="min-h-screen bg-surface flex items-center justify-center p-gutter">
@@ -66,9 +73,11 @@ async function CheckoutPage({
                   Petunjuk Pembayaran
                 </h3>
                 <div className="bg-surface-container-lowest rounded-lg p-md mb-md flex items-center justify-center border border-outline-variant/20">
-                  <img
+                  <Image
                     src={company?.qrisImageUrl || "/images/qris-placeholder.svg"}
                     alt="QRIS Payment"
+                    width={192}
+                    height={192}
                     className="w-48 h-48 object-contain"
                   />
                 </div>
@@ -103,27 +112,7 @@ async function CheckoutPage({
                       <span>Bukti transfer berhasil diunggah. Menunggu konfirmasi dari Bendahara.</span>
                     </div>
                   ) : (
-                    <form action={async (fd) => {
-                      "use server"
-                      const file = fd.get("proof") as File
-                      if (file && file.size > 0) {
-                        try {
-                          const { put } = await import("@vercel/blob")
-                          const uniqueName = `proof-${order.id}-${Date.now()}`
-                          const blob = await put(uniqueName, file, { access: "public" })
-                          
-                          await prisma.order.update({
-                            where: { id: order.id },
-                            data: { paymentProofUrl: blob.url }
-                          })
-                          
-                          const { revalidatePath } = await import("next/cache")
-                          revalidatePath("/checkout")
-                        } catch (err) {
-                          console.error("Proof upload error:", err)
-                        }
-                      }
-                    }} className="flex flex-col gap-2">
+                    <form action={async (fd) => { await uploadPaymentProof(order.id, null, fd) }} className="flex flex-col gap-2">
                       <div className="flex items-center gap-2">
                         <input name="proof" type="file" accept="image/jpeg,image/png" required className="text-label-sm w-full border border-outline-variant/50 p-2 rounded-lg bg-surface" />
                         <button type="submit" className="px-lg py-2 bg-primary text-on-primary rounded-lg text-label-sm font-bold shadow-xs hover:opacity-90 active:scale-95 transition-all cursor-pointer whitespace-nowrap min-h-[44px]">

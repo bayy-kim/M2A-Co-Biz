@@ -8,8 +8,7 @@ import { Package, ShoppingBag, Store, LogOut, HelpCircle, X, ChevronRight, Clock
 import { signOut } from "next-auth/react"
 import { Logo } from "@/components/logo"
 import { requestBecomeSeller, cancelSellerRequest, type BecomeSellerState } from "./actions"
-
-function formatRupiah(n: number) { return "Rp" + n.toLocaleString("id-ID") }
+import { formatRupiah } from "@/lib/utils"
 
 const paymentLabel: Record<string, string> = {
   PENDING: "Menunggu Pembayaran", PAID: "Lunas", FAILED: "Gagal", EXPIRED: "Kedaluwarsa",
