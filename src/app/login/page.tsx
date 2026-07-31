@@ -156,7 +156,7 @@ function LoginContent() {
                   <div className="relative group">
                     <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-outline group-focus-within:text-primary transition-colors" />
                     <input
-                      className="clay-input w-full pl-10"
+                      className="clay-input w-full pl-10 pr-4 py-3"
                       id="email"
                       placeholder="name@business.com"
                       required
@@ -174,7 +174,7 @@ function LoginContent() {
                   <div className="relative group">
                     <Key className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-outline group-focus-within:text-primary transition-colors" />
                     <input
-                      className="clay-input w-full pl-10"
+                      className="clay-input w-full pl-10 pr-4 py-3"
                       id="password"
                       placeholder="••••••••"
                       required
@@ -204,7 +204,7 @@ function LoginContent() {
                 type="button"
                 onClick={() => {
                   setPending(true)
-                  signIn("google")
+                  signIn("google", { callbackUrl: "/catalog" })
                 }}
                 disabled={pending}
                 className="btn-clay-outline w-full"

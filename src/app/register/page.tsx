@@ -196,22 +196,22 @@ function RegisterContent() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-lg">
                       <div className="flex flex-col gap-xs">
                         <label className="text-label-md text-on-surface" htmlFor="fullName">Nama Lengkap</label>
-                        <input className="clay-input" id="fullName" name="fullName" placeholder="Nama lengkap" type="text" value={fullName} onChange={(e) => setFullName(e.target.value)} required />
+                        <input className="clay-input w-full px-4 py-3 text-sm font-inter" id="fullName" name="fullName" placeholder="Nama lengkap" type="text" value={fullName} onChange={(e) => setFullName(e.target.value)} required />
                         {state.errors?.fullName && <span className="text-error text-label-sm">{state.errors.fullName[0]}</span>}
                       </div>
                       <div className="flex flex-col gap-xs">
                         <label className="text-label-md text-on-surface" htmlFor="email">Email</label>
-                        <input className="clay-input" id="email" name="email" placeholder="nama@email.com" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                        <input className="clay-input w-full px-4 py-3 text-sm font-inter" id="email" name="email" placeholder="nama@email.com" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
                         {state.errors?.email && <span className="text-error text-label-sm">{state.errors.email[0]}</span>}
                       </div>
                       <div className="flex flex-col gap-xs">
                         <label className="text-label-md text-on-surface" htmlFor="phone">No. Telepon</label>
-                        <input className="clay-input" id="phone" name="phone" placeholder="+62 812 XXXX XXXX" type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} required />
+                        <input className="clay-input w-full px-4 py-3 text-sm font-inter" id="phone" name="phone" placeholder="+62 812 XXXX XXXX" type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} required />
                         {state.errors?.phone && <span className="text-error text-label-sm">{state.errors.phone[0]}</span>}
                       </div>
                       <div className="flex flex-col gap-xs">
                         <label className="text-label-md text-on-surface" htmlFor="password">Password</label>
-                        <input className="clay-input" id="password" name="password" placeholder="Min. 8 karakter" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+                        <input className="clay-input w-full px-4 py-3 text-sm font-inter" id="password" name="password" placeholder="Min. 8 karakter" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
                         {state.errors?.password && <span className="text-error text-label-sm">{state.errors.password[0]}</span>}
                       </div>
                     </div>
@@ -245,7 +245,7 @@ function RegisterContent() {
                     <button
                       type="button"
                       onClick={() => {
-                        signIn("google")
+                        signIn("google", { callbackUrl: "/lengkapi-profil" })
                       }}
                       className="btn-clay-outline w-full"
                     >
@@ -257,6 +257,10 @@ function RegisterContent() {
                       </svg>
                       Daftar dengan Google
                     </button>
+                    <p className="text-label-sm text-on-surface-variant text-center mt-3">
+                      Akun baru dibuat otomatis saat pertama kali mendaftar dengan Google.
+                      Jika ingin menjadi Penjual, lengkapi profil lalu gunakan fitur <span className="font-bold text-primary">"Ingin Jualan?"</span> di dashboard Anda.
+                    </p>
                   </>
                 ) : (
                   <>
@@ -294,22 +298,22 @@ function RegisterContent() {
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-lg">
                         <div className="flex flex-col gap-xs">
                           <label className="text-label-md text-on-surface" htmlFor="fullName">Nama Lengkap</label>
-                          <input className="clay-input" id="fullName" name="fullName" placeholder="Nama sesuai KTP" type="text" value={fullName} onChange={(e) => setFullName(e.target.value)} required />
+                          <input className="clay-input w-full px-4 py-3 text-sm font-inter" id="fullName" name="fullName" placeholder="Nama sesuai KTP" type="text" value={fullName} onChange={(e) => setFullName(e.target.value)} required />
                           {state.errors?.fullName && <span className="text-error text-label-sm">{state.errors.fullName[0]}</span>}
                         </div>
                         <div className="flex flex-col gap-xs">
                           <label className="text-label-md text-on-surface" htmlFor="email">Email</label>
-                          <input className="clay-input" id="email" name="email" placeholder="name@business.com" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                          <input className="clay-input w-full px-4 py-3 text-sm font-inter" id="email" name="email" placeholder="name@business.com" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
                           {state.errors?.email && <span className="text-error text-label-sm">{state.errors.email[0]}</span>}
                         </div>
                         <div className="flex flex-col gap-xs">
                           <label className="text-label-md text-on-surface" htmlFor="phone">No. Telepon</label>
-                          <input className="clay-input" id="phone" name="phone" placeholder="+62 812 XXXX XXXX" type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} required />
+<input className="clay-input w-full px-4 py-3 text-sm font-inter" id="phone" name="phone" placeholder="+62 812 XXXX XXXX" type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} required />
                           {state.errors?.phone && <span className="text-error text-label-sm">{state.errors.phone[0]}</span>}
                         </div>
                         <div className="flex flex-col gap-xs">
                           <label className="text-label-md text-on-surface" htmlFor="businessType">Jenis Usaha</label>
-                          <select className="clay-input" id="businessType" name="businessType" value={businessType} onChange={(e) => setBusinessType(e.target.value as "UMKM" | "JASA")} required>
+                          <select className="clay-input w-full px-4 py-3 text-sm font-inter" id="businessType" name="businessType" value={businessType} onChange={(e) => setBusinessType(e.target.value as "UMKM" | "JASA")} required>
                             <option value="UMKM">UMKM (Product)</option>
                             <option value="JASA">Jasa (Service)</option>
                           </select>
@@ -317,12 +321,12 @@ function RegisterContent() {
                         </div>
                         <div className="flex flex-col gap-xs md:col-span-2">
                           <label className="text-label-md text-on-surface" htmlFor="businessName">Nama Toko / Usaha</label>
-                          <input className="clay-input" id="businessName" name="businessName" placeholder="Nama brand usaha Anda" type="text" value={businessName} onChange={(e) => setBusinessName(e.target.value)} required />
+                          <input className="clay-input w-full px-4 py-3 text-sm font-inter" id="businessName" name="businessName" placeholder="Nama brand usaha Anda" type="text" value={businessName} onChange={(e) => setBusinessName(e.target.value)} required />
                           {state.errors?.businessName && <span className="text-error text-label-sm">{state.errors.businessName[0]}</span>}
                         </div>
                         <div className="flex flex-col gap-xs md:col-span-2">
                         <label className="text-label-md text-on-surface" htmlFor="password">Kata Sandi</label>
-                          <input className="clay-input" id="password" name="password" placeholder="Min. 8 karakter" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+<input className="clay-input w-full px-4 py-3 text-sm font-inter" id="password" name="password" placeholder="Min. 8 karakter" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
                           {state.errors?.password && <span className="text-error text-label-sm">{state.errors.password[0]}</span>}
                         </div>
                       </div>

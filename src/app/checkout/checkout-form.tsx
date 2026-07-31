@@ -62,7 +62,7 @@ export function CheckoutForm({
             <label className="text-label-md text-on-surface" htmlFor="buyerName">Nama Lengkap</label>
             <div className="relative group">
               <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-outline group-focus-within:text-primary transition-colors" />
-              <input className="clay-input w-full pl-10" id="buyerName" name="buyerName" placeholder="Nama lengkap Anda" required type="text" />
+              <input className="clay-input w-full pl-10 pr-4 py-3" id="buyerName" name="buyerName" placeholder="Nama lengkap Anda" required type="text" />
             </div>
           </div>
 
@@ -70,7 +70,7 @@ export function CheckoutForm({
             <label className="text-label-md text-on-surface" htmlFor="buyerPhone">Nomor Telepon</label>
             <div className="relative group">
               <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-outline group-focus-within:text-primary transition-colors" />
-              <input className="clay-input w-full pl-10" id="buyerPhone" name="buyerPhone" placeholder="+62 812 XXXX XXXX" required type="tel" />
+              <input className="clay-input w-full pl-10 pr-4 py-3" id="buyerPhone" name="buyerPhone" placeholder="+62 812 XXXX XXXX" required type="tel" />
             </div>
           </div>
         </div>
@@ -138,7 +138,7 @@ export function CheckoutForm({
         <label className="text-label-md text-on-surface" htmlFor="qty">Jumlah / Qty</label>
         <div className="relative group">
           <Package className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-outline group-focus-within:text-primary transition-colors" />
-          <input className="clay-input w-full pl-10 clay-pill" defaultValue="1" id="qty" min="1" name="qty" required type="number" />
+          <input className="clay-input w-full pl-10 pr-4 py-3 clay-pill" defaultValue="1" id="qty" min="1" name="qty" required type="number" />
         </div>
       </div>
 
@@ -147,7 +147,7 @@ export function CheckoutForm({
           Catatan / Alamat Lokasi Pengerjaan <span className="text-on-surface-variant font-normal text-label-sm">(Opsional khusus Jasa)</span>
         </label>
         <textarea 
-          className="clay-input w-full" 
+          className="clay-input w-full px-4 py-3" 
           id="serviceNotes" 
           name="serviceNotes" 
           placeholder="Contoh: Alamat rumah untuk pengerjaan servis AC/Motor, atau catatan spesifikasi pesanan..." 
