@@ -16,7 +16,7 @@ const roleRoutes: Record<string, string[]> = {
   "/aichat-bendahara": ["BENDAHARA", "ADMIN"],
 }
 
-const authRequiredPrefixes = ["/checkout", "/aichat", "/aichat-bendahara"]
+const authRequiredPrefixes = ["/checkout", "/aichat", "/aichat-bendahara", "/api/chat", "/api/chat-bendahara"]
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default auth((req: any) => {

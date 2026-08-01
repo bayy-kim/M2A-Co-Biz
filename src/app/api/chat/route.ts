@@ -2,6 +2,8 @@ import { streamText, tool } from "ai"
 import { createGoogleGenerativeAI } from "@ai-sdk/google"
 import { z } from "zod"
 import { prisma } from "@/lib/db"
+import { auth } from "@/lib/auth"
+import { checkIpRateLimit } from "@/lib/rate-limit"
 import { formatRupiah } from "@/lib/utils"
 
 export const maxDuration = 30
@@ -13,6 +15,19 @@ const getApiKeys = (): string[] => {
 }
 
 export async function POST(req: Request) {
+  // Require authentication — this API is called by logged-in users only
+  const session = await auth()
+  if (!session?.user) {
+    return new Response("Unauthorized", { status: 401 })
+  }
+
+  // Rate limit by IP (after auth)
+  const ip = req.headers.get("x-forwarded-for")?.split(",")[0] ?? "unknown"
+  const allowed = await checkIpRateLimit(ip)
+  if (!allowed) {
+    return new Response("Too Many Requests", { status: 429 })
+  }
+
   try {
     const { messages } = await req.json()
     const keys = getApiKeys()
