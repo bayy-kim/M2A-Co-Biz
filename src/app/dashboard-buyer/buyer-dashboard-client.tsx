@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useActionState } from "react"
+import { useState, useActionState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { useSession } from "next-auth/react"
 import Link from "next/link"
@@ -78,6 +78,15 @@ export function BuyerDashboardClient({ user, stats, recentOrders, recommendedPro
       router.refresh()
     }
   }
+
+  // Refresh data when restored from browser back/forward cache (bfcache) to avoid stale personal data
+  useEffect(() => {
+    const onPageShow = (e: PageTransitionEvent) => {
+      if (e.persisted) router.refresh()
+    }
+    window.addEventListener("pageshow", onPageShow)
+    return () => window.removeEventListener("pageshow", onPageShow)
+  }, [router])
 
   const quickActions = [
     { label: "Belanja", href: "/catalog", icon: ShoppingBag, desc: "Jelajahi produk" },

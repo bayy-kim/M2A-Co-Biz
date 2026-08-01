@@ -14,6 +14,9 @@ const ContentSecurityPolicy = `
 `.replace(/\s+/g, " ").trim()
 
 const nextConfig: NextConfig = {
+  experimental: {
+    optimizePackageImports: ["lucide-react", "recharts", "framer-motion"],
+  },
   images: {
     remotePatterns: [
       {
@@ -32,6 +35,25 @@ const nextConfig: NextConfig = {
   },
   async headers() {
     return [
+      // Private routes: allow browser back/forward cache (bfcache) while keeping data out of shared caches
+      ...[
+        "/dashboard-buyer/:path*",
+        "/profil",
+        "/profil/:path*",
+        "/pesanan-saya/:path*",
+        "/seller/:path*",
+        "/admin/:path*",
+        "/bendahara/:path*",
+        "/ketua/:path*",
+      ].map((source) => ({
+        source,
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "private, no-cache, max-age=0, must-revalidate",
+          },
+        ],
+      })),
       {
         source: "/(.*)",
         headers: [

@@ -1,4 +1,6 @@
 import Link from "next/link"
+import Image from "next/image"
+import logoImg from "@/assets/logo.png"
 
 interface LogoProps {
   href?: string
@@ -19,8 +21,8 @@ export function Logo({
 
   const content = (
     <div className={`flex items-center gap-3 ${className}`}>
-      <img
-        src="/images/logo.png"
+      <Image
+        src={logoImg}
         alt="Logo M2A Co-Biz"
         className={`${imgHeight} w-auto object-contain shrink-0`}
       />
