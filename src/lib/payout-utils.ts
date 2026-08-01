@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/db"
+import { createNotification } from "@/lib/notify"
 
 export async function processPayoutById(payoutId: string, actorId: string) {
   const sellerIdData = await prisma.payout.findUnique({
@@ -50,6 +51,15 @@ export async function processPayoutById(payoutId: string, actorId: string) {
           metadata: { status: "PAID" },
         },
       })
+    })
+
+    // Notify seller that their payout was processed
+    await createNotification({
+      userId: seller.userId,
+      type: "PAYOUT",
+      title: "Pencairan Diproses",
+      message: `Pencairan Rp${sellerIdData.amountRupiah.toLocaleString("id-ID")} telah diproses.`,
+      link: "/seller?tab=payouts",
     })
 
     return { success: true }

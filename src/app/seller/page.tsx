@@ -2,12 +2,14 @@ import { redirect } from "next/navigation"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/db"
 import { formatRupiah } from "@/lib/utils"
-import { Store, ShoppingBag, Wallet, TrendingUp, Clock, CheckCircle2, XCircle,
+import { Store, ShoppingBag, Wallet, TrendingUp, Clock, CheckCircle2, XCircle, Edit,
 LayoutDashboard, Package, ShoppingCart, HelpCircle, type LucideIcon } from "lucide-react"
-import { TrendChart } from "@/components/dynamic-charts-client"
+import { TrendChart } from "@/components/line-chart"
 import Link from "next/link"
 import { DashboardShell } from "@/components/dashboard-shell"
 import { NewProductForm } from "@/components/dynamic-new-product-form"
+import { EditProductForm } from "./edit-product-form"
+import { ProductDeleteButton } from "./product-delete-button"
 import { RequestPayoutForm } from "./request-payout-form"
 import { FulfillmentStatusAction } from "./fulfillment-action"
 
@@ -19,7 +21,7 @@ const SIDEBAR: { label: string; href: string; icon: string }[] = [
   { label: "Panduan", href: "/seller?tab=guide", icon: "HelpCircle" },
 ]
 
-async function SellerDashboard({ searchParams }: { searchParams: Promise<{ tab?: string }> }) {
+async function SellerDashboard({ searchParams }: { searchParams: Promise<{ tab?: string; edit?: string }> }) {
   const session = await auth()
   if (!session?.user) redirect("/login")
 
@@ -31,6 +33,12 @@ async function SellerDashboard({ searchParams }: { searchParams: Promise<{ tab?:
 
   const params = await searchParams
   const tab = params.tab || "overview"
+  const editProductId = params.edit || null
+
+  // Resolve product being edited (only if owned by this seller)
+  const editingProduct = editProductId
+    ? seller.products.find((p) => p.id === editProductId) || null
+    : null
 
   const sellerCategories = await prisma.category.findMany({ where: { status: "APPROVED" }, orderBy: { name: "asc" } })
 
@@ -216,6 +224,17 @@ async function SellerDashboard({ searchParams }: { searchParams: Promise<{ tab?:
 
       {tab === "products" && (
         <div className="space-y-lg">
+          {editingProduct && (
+            <EditProductForm
+              productId={editingProduct.id}
+              title={editingProduct.title}
+              description={editingProduct.description}
+              priceRupiah={editingProduct.priceRupiah}
+              categoryId={editingProduct.categoryId}
+              categories={sellerCategories}
+            />
+          )}
+
           <div className="clay-lite p-lg">
             <h3 className="text-headline-md text-on-surface font-bold mb-lg">
               {seller.type === "JASA" ? "Tambah Layanan Jasa Baru" : "Tambah Produk Baru"}
@@ -231,13 +250,14 @@ async function SellerDashboard({ searchParams }: { searchParams: Promise<{ tab?:
               <div className="p-lg text-center text-on-surface-variant text-body-md py-xl">Belum ada produk.</div>
             ) : (
               <div className="overflow-x-auto">
-                <table className="w-full text-left min-w-[640px]">
+                <table className="w-full text-left min-w-[720px]">
                   <thead>
                     <tr className="text-label-sm text-on-surface-variant">
                       <th className="px-lg py-3 font-medium">Judul</th>
                       <th className="px-lg py-3 font-medium">Kategori</th>
                       <th className="px-lg py-3 font-medium">Harga</th>
                       <th className="px-lg py-3 font-medium">Status</th>
+                      <th className="px-lg py-3 font-medium">Aksi</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -248,6 +268,18 @@ async function SellerDashboard({ searchParams }: { searchParams: Promise<{ tab?:
                         <td className="px-lg py-3 text-label-md text-on-surface whitespace-nowrap">{formatRupiah(p.priceRupiah)}</td>
                         <td className="px-lg py-3">
                           <span className={`chip-clay text-label-sm font-bold ${p.status === "ACTIVE" ? "!bg-success/10 !text-success" : "!bg-surface-container-highest !text-on-surface-variant"}`}>{p.status === "ACTIVE" ? "Aktif" : "Nonaktif"}</span>
+                        </td>
+                        <td className="px-lg py-3">
+                          <div className="flex items-center gap-2">
+                            <Link
+                              href={`/seller?tab=products&edit=${p.id}`}
+                              className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all"
+                              style={{ color: "var(--color-primary)", background: "var(--color-primary)/10" }}
+                            >
+                              <Edit className="w-3.5 h-3.5" /> Edit
+                            </Link>
+                            <ProductDeleteButton productId={p.id} productTitle={p.title} />
+                          </div>
                         </td>
                       </tr>
                     ))}

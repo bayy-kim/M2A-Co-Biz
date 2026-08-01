@@ -100,6 +100,11 @@ model User {
   orders          Order[]
   accounts        Account[]
   reviews         Review[]
+  passwordResetTokens PasswordResetToken[]
+  notifications       Notification[]
+  wishlist            WishlistItem[]
+  addresses           Address[]
+  cartItems           CartItem[]
 }
 
 model Account {
@@ -176,6 +181,8 @@ model Product {
   createdAt   DateTime @default(now())
   reviews     Review[]
   variants    ProductVariant[]
+  wishlist    WishlistItem[]
+  cartItems   CartItem[]
 
   @@index([status])
   @@index([sellerId])
@@ -312,4 +319,71 @@ model CompanyProfile {
   bankAccountNo   String?
   qrisImageUrl    String?
   whatsappNumber  String?
+}
+
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash String
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      String
+  title     String
+  message   String
+  link      String?
+  readAt    DateTime?
+  createdAt DateTime @default(now())
+
+  @@index([userId, readAt])
+  @@index([userId, createdAt])
+}
+
+model WishlistItem {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([userId, productId])
+  @@index([userId])
+}
+
+model Address {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  label     String
+  name      String
+  phone     String
+  address   String
+  isDefault Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
+
+model CartItem {
+  id          String  @id @default(cuid())
+  userId      String
+  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  productId   String
+  product     Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  variantName String?
+  qty         Int     @default(1)
+  createdAt   DateTime @default(now())
+
+  @@unique([userId, productId, variantName])
+  @@index([userId])
 }

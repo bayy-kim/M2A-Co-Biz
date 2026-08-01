@@ -13,6 +13,7 @@ import {
 import { signOut } from "next-auth/react"
 import { Logo } from "@/components/logo"
 import { PublicBottomBar } from "@/components/public-bottom-bar"
+import { NotificationBell } from "@/components/notification-bell"
 import { requestBecomeSeller, cancelSellerRequest, type BecomeSellerState } from "./actions"
 import { formatRupiah } from "@/lib/utils"
 
@@ -104,6 +105,7 @@ export function BuyerDashboardClient({ user, stats, recentOrders, recommendedPro
         </div>
         <div className="flex items-center gap-2">
           <Link href="/catalog" className="btn-clay-outline !px-4 !py-1.5 text-xs">Belanja</Link>
+          <NotificationBell />
           <button
             onClick={() => signOut({ callbackUrl: "/login" })}
             className="flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full hover:bg-surface-container transition-all"

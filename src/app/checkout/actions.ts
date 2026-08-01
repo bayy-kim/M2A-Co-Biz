@@ -5,6 +5,8 @@ import { auth } from "@/lib/auth"
 import { z } from "zod"
 import { resolveCommission } from "@/lib/commission-engine"
 import { checkRateLimit } from "@/lib/rate-limit"
+import { createNotification } from "@/lib/notify"
+import { formatRupiah } from "@/lib/utils"
 
 const checkoutSchema = z.object({
   productId: z.string().min(1),
@@ -119,6 +121,25 @@ export async function createCheckout(formData: FormData) {
           },
         },
       })
+    })
+
+    // Fire notifications (best-effort, non-blocking)
+    const total = formatRupiah(order.totalRupiah)
+    if (buyerId) {
+      await createNotification({
+        userId: buyerId,
+        type: "ORDER",
+        title: "Pesanan Dibuat",
+        message: `Pesanan #${order.id.slice(0, 8)} senilai ${total} berhasil dibuat.`,
+        link: "/dashboard-buyer/pesanan-saya",
+      })
+    }
+    await createNotification({
+      userId: product.seller.userId,
+      type: "ORDER",
+      title: "Pesanan Baru Masuk",
+      message: `Ada pesanan baru #${order.id.slice(0, 8)} senilai ${total}.`,
+      link: "/seller?tab=sales",
     })
 
     return {

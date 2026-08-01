@@ -169,7 +169,7 @@ function LoginContent() {
                 <div className="space-y-xs">
                   <div className="flex justify-between items-center px-1">
                     <label className="text-label-md text-on-surface-variant" htmlFor="password">Kata Sandi</label>
-                    <a className="text-label-sm text-primary hover:underline" href="https://wa.me/6281234567890?text=Halo%20Admin%20M2A%20Co-Biz,%20saya%20butuh%20bantuan%20reset%20kata%20sandi" target="_blank" rel="noopener noreferrer">Lupa kata sandi?</a>
+                    <a className="text-label-sm text-primary hover:underline" href="/forgot-password">Lupa kata sandi?</a>
                   </div>
                   <div className="relative group">
                     <Key className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-outline group-focus-within:text-primary transition-colors" />

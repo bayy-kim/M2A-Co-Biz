@@ -7,6 +7,7 @@ import { ShoppingBag, Package, Clock, CheckCircle, XCircle, Banknote, CreditCard
 import { PublicBottomBar } from "@/components/public-bottom-bar"
 import { ReviewTrigger } from "@/app/pesanan-saya/review-trigger"
 import { CancelOrderButton } from "@/app/pesanan-saya/cancel-order-button"
+import { ConfirmReceiptButton } from "@/app/pesanan-saya/confirm-receipt-button"
 
 const paymentIcon: Record<string, any> = {
   PENDING: Clock,
@@ -282,6 +283,9 @@ export async function BuyerOrders({ tab, baseHref }: BuyerOrdersProps) {
                       )}
                       {order.paymentStatus === "PENDING" && (
                         <CancelOrderButton orderId={order.id} />
+                      )}
+                      {order.paymentStatus === "PAID" && (order.fulfillmentStatus === "IN_TRANSIT" || order.fulfillmentStatus === "PROCESSING") && (
+                        <ConfirmReceiptButton orderId={order.id} />
                       )}
                     </div>
                   </div>

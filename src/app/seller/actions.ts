@@ -10,6 +10,7 @@ import { put, del } from "@vercel/blob"
 import sharp from "sharp"
 import filterXSS from "xss"
 import { restoreVariantStock } from "@/lib/order-utils"
+import { createNotification } from "@/lib/notify"
 
 const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp"]
 const MAX_FILE_SIZE = 5 * 1024 * 1024
@@ -260,6 +261,88 @@ export async function updateProductStatus(productId: string, status: ProductStat
   }
 }
 
+export async function updateProduct(productId: string, prevState: ProductState, formData: FormData): Promise<ProductState> {
+  const session = await auth()
+  if (!session?.user) return { error: "Sesi tidak valid" }
+
+  try {
+    const seller = await prisma.sellerProfile.findUnique({ where: { userId: session.user.id } })
+    if (!seller || seller.status !== "APPROVED") return { error: "Akun penjual belum disetujui" }
+
+    const product = await prisma.product.findUnique({
+      where: { id: productId },
+      include: { seller: true },
+    })
+    if (!product || product.seller.userId !== session.user.id) return { error: "Produk tidak ditemukan" }
+
+    const raw = {
+      title: formData.get("title") as string,
+      description: formData.get("description") as string,
+      priceRupiah: formData.get("priceRupiah") as string,
+      categoryId: formData.get("categoryId") as string || null,
+      variants: formData.get("variants") as string || null,
+      stock: formData.get("stock") as string || "10",
+    }
+    const result = productSchema.safeParse(raw)
+    if (!result.success) return { error: "Harap perbaiki kesalahan form" }
+
+    // Append any newly uploaded images
+    const imageFiles = formData.getAll("images") as File[]
+    let imageUrls = product.images
+    for (const file of imageFiles) {
+      if (file && file.size > 0) {
+        if (!ACCEPTED_IMAGE_TYPES.includes(file.type) || file.size > MAX_FILE_SIZE) continue
+        const url = await uploadImage(file, seller.id)
+        imageUrls = [...imageUrls, url]
+      }
+    }
+
+    await prisma.product.update({
+      where: { id: productId },
+      data: {
+        title: filterXSS(result.data.title),
+        description: filterXSS(result.data.description),
+        priceRupiah: result.data.priceRupiah,
+        categoryId: result.data.categoryId || undefined,
+        images: imageUrls,
+      },
+    })
+
+    revalidatePath("/seller")
+    revalidatePath("/catalog")
+    return { success: true }
+  } catch (e) {
+    console.error("updateProduct Error:", e)
+    return { error: "Gagal memperbarui produk. Silakan coba lagi." }
+  }
+}
+
+export async function deleteProduct(productId: string): Promise<{ error?: string; success?: boolean }> {
+  const session = await auth()
+  if (!session?.user) return { error: "Sesi tidak valid" }
+
+  try {
+    const product = await prisma.product.findUnique({
+      where: { id: productId },
+      include: { seller: true },
+    })
+    if (!product || product.seller.userId !== session.user.id) return { error: "Produk tidak ditemukan" }
+
+    // Delete images from Vercel Blob (best-effort)
+    for (const url of product.images) {
+      try { await del(url) } catch {}
+    }
+
+    await prisma.product.delete({ where: { id: productId } })
+
+    revalidatePath("/seller")
+    revalidatePath("/catalog")
+    return { success: true }
+  } catch (e) {
+    return { error: e instanceof Error ? e.message : "Gagal menghapus produk" }
+  }
+}
+
 export async function updateFulfillmentStatus(orderId: string, fulfillmentStatus: FulfillmentStatus) {
   const session = await auth()
   if (!session?.user) return { error: "Sesi tidak valid" }
@@ -305,6 +388,17 @@ export async function updateFulfillmentStatus(orderId: string, fulfillmentStatus
 
     revalidatePath("/seller")
     revalidatePath("/pesanan-saya")
+
+    if (order.buyerId && fulfillmentStatus !== "CANCELLED") {
+      await createNotification({
+        userId: order.buyerId,
+        type: "FULFILLMENT",
+        title: "Pesanan Diperbarui",
+        message: `Status pesanan #${orderId.slice(0, 8)} menjadi ${fulfillmentStatus}.`,
+        link: "/dashboard-buyer/pesanan-saya",
+      })
+    }
+
     return { success: true }
   } catch (e) {
     return { error: e instanceof Error ? e.message : "Gagal mengupdate status pengerjaan" }

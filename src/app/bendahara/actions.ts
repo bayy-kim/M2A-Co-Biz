@@ -5,6 +5,7 @@ import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/db"
 import { processPayoutById } from "@/lib/payout-utils"
 import { restoreVariantStock } from "@/lib/order-utils"
+import { createNotification } from "@/lib/notify"
 import type { CommissionScope } from "@prisma/client"
 import { z } from "zod"
 
@@ -113,6 +114,15 @@ export async function confirmPayment(orderId: string): Promise<ConfirmState> {
     ])
 
     revalidatePath("/bendahara")
+    if (order.buyerId) {
+      await createNotification({
+        userId: order.buyerId,
+        type: "PAYMENT",
+        title: "Pembayaran Dikonfirmasi",
+        message: `Pembayaran pesanan #${orderId.slice(0, 8)} telah dikonfirmasi Bendahara.`,
+        link: "/dashboard-buyer/pesanan-saya",
+      })
+    }
     return { success: true }
   } catch (e) {
     return { error: e instanceof Error ? e.message : "Gagal konfirmasi pembayaran" }
@@ -126,14 +136,19 @@ export async function rejectPayment(orderId: string): Promise<ConfirmState> {
   }
 
   try {
-    const result = await prisma.$transaction(async (tx) => {
-      const order = await tx.order.findUnique({
+    const order = await prisma.order.findUnique({
+      where: { id: orderId },
+      select: { buyerId: true },
+    })
+
+    await prisma.$transaction(async (tx) => {
+      const txOrder = await tx.order.findUnique({
         where: { id: orderId },
         include: { items: true },
       })
-      if (!order || order.paymentStatus !== "PENDING") throw new Error("Pesanan tidak valid")
+      if (!txOrder || txOrder.paymentStatus !== "PENDING") throw new Error("Pesanan tidak valid")
 
-      await restoreVariantStock(tx, order)
+      await restoreVariantStock(tx, txOrder)
 
       await tx.order.update({
         where: { id: orderId },
@@ -152,6 +167,15 @@ export async function rejectPayment(orderId: string): Promise<ConfirmState> {
 
     revalidatePath("/bendahara")
     revalidatePath("/pesanan-saya")
+    if (order?.buyerId) {
+      await createNotification({
+        userId: order.buyerId,
+        type: "PAYMENT",
+        title: "Pembayaran Ditolak",
+        message: `Pembayaran pesanan #${orderId.slice(0, 8)} tidak dapat diverifikasi dan ditolak.`,
+        link: "/dashboard-buyer/pesanan-saya",
+      })
+    }
     return { success: true }
   } catch (e) {
     return { error: e instanceof Error ? e.message : "Gagal menolak pembayaran" }

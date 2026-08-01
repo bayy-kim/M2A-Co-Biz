@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/db"
+import { createNotification } from "@/lib/notify"
 import type { Prisma, SellerStatus } from "@prisma/client"
 import { z } from "zod"
 
@@ -35,6 +36,26 @@ export async function updateSellerStatus(sellerId: string, status: SellerStatus)
     })
 
     revalidatePath("/admin")
+
+    // Notify seller about approval/rejection
+    if (status === "APPROVED") {
+      await createNotification({
+        userId: seller.user.id,
+        type: "SELLER",
+        title: "Akun Penjual Disetujui",
+        message: `Selamat! Akun penjual "${seller.businessName}" telah disetujui.`,
+        link: "/seller",
+      })
+    } else if (status === "REJECTED") {
+      await createNotification({
+        userId: seller.user.id,
+        type: "SELLER",
+        title: "Permohonan Penjual Ditolak",
+        message: `Permohonan penjual "${seller.businessName}" ditolak. Silakan perbaiki data/dokumen dan ajukan ulang.`,
+        link: "/dashboard-buyer",
+      })
+    }
+
     return { success: true }
   } catch (e) {
     return { error: e instanceof Error ? e.message : "Gagal mengupdate status seller" }

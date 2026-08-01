@@ -3,8 +3,9 @@
 import Link from "next/link"
 import { ChevronRight, Store, LayoutDashboard, Clock, Tag, Users, Building2, List, Activity, CreditCard, Percent, Wallet, BookOpen, Package, ShoppingCart, LogOut, HelpCircle, X, type LucideIcon } from "lucide-react"
 import { signOut } from "next-auth/react"
-import { useState } from "react"
+import { ComponentType, useState } from "react"
 import { Logo } from "@/components/logo"
+import { NotificationBell } from "@/components/notification-bell"
 
 interface SidebarItem {
   label: string
@@ -166,6 +167,8 @@ export function DashboardShell({
           </div>
           <div className="flex items-center gap-lg">
             {extraHeader}
+
+            <NotificationBell />
 
             {/* Guide Button with Glass Effect Modal */}
             <button
