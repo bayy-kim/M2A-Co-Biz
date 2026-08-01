@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { usePathname, useSearchParams } from "next/navigation"
+import { usePathname } from "next/navigation"
 import { ShoppingBag, Package, User } from "lucide-react"
 
 interface Props {
@@ -12,8 +12,6 @@ interface Props {
 
 export function PublicBottomBar({ isLoggedIn, role }: Props) {
   const pathname = usePathname()
-  const searchParams = useSearchParams()
-  const currentTab = searchParams.get("tab")
 
   const getDashboardHref = () => {
     if (!isLoggedIn) return "/login"
@@ -32,7 +30,7 @@ export function PublicBottomBar({ isLoggedIn, role }: Props) {
     },
     {
       label: "Pesanan",
-      href: isLoggedIn ? "/pesanan-saya" : "/login",
+      href: isLoggedIn ? (role === "BUYER" ? "/dashboard-buyer/pesanan-saya" : "/pesanan-saya") : "/login",
       icon: Package,
     },
     {
@@ -45,7 +43,7 @@ export function PublicBottomBar({ isLoggedIn, role }: Props) {
   const isItemActive = (label: string) => {
     // "Katalog" aktif di halaman utama maupun katalog
     if (label === "Katalog") return pathname === "/" || pathname.startsWith("/catalog")
-    if (label === "Pesanan") return pathname === "/pesanan-saya" && currentTab !== "account"
+    if (label === "Pesanan") return pathname === "/pesanan-saya" || pathname.startsWith("/dashboard-buyer/pesanan-saya")
     if (label === "Saya") {
       if (!isLoggedIn) return pathname === "/login"
       if (role === "ADMIN") return pathname.startsWith("/admin")

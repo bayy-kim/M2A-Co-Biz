@@ -8,6 +8,7 @@ import Image from "next/image"
 import {
   Package, ShoppingBag, Store, LogOut, HelpCircle, X, ChevronRight, Clock, CheckCircle,
   XCircle, ArrowUpRight, Loader2, Sparkles, RefreshCw, Truck, Check, Wallet, Star, Home, ShoppingCart,
+  User as UserIcon,
 } from "lucide-react"
 import { signOut } from "next-auth/react"
 import { Logo } from "@/components/logo"
@@ -79,8 +80,8 @@ export function BuyerDashboardClient({ user, stats, recentOrders, recommendedPro
 
   const quickActions = [
     { label: "Belanja", href: "/catalog", icon: ShoppingBag, desc: "Jelajahi produk" },
-    { label: "Pesanan", href: "/pesanan-saya", icon: Package, desc: "Lihat pesanan" },
-    { label: "AI Chat", href: "/aichat", icon: HelpCircle, desc: "Konsultasi bisnis" },
+    { label: "Pesanan", href: "/dashboard-buyer/pesanan-saya", icon: Package, desc: "Lihat pesanan" },
+    { label: "AI Chat", href: "/dashboard-buyer/ai-chat", icon: HelpCircle, desc: "Konsultasi bisnis" },
   ]
 
   return (
@@ -120,9 +121,15 @@ export function BuyerDashboardClient({ user, stats, recentOrders, recommendedPro
                 Selamat datang di akun M2A Co-Biz Anda. Kelola pesanan & kegiatan belanja di sini.
               </p>
             </div>
-            <div className="w-14 h-14 md:w-16 md:h-16 rounded-[20px] flex items-center justify-center text-xl md:text-2xl font-extrabold shrink-0"
-              style={{ background: "var(--color-primary)", color: "var(--color-on-primary)", boxShadow: "var(--shadow-clay-md)" }}>
-              {initial}
+            <div className="flex flex-col items-center gap-2 shrink-0">
+              <div className="w-14 h-14 md:w-16 md:h-16 rounded-[20px] flex items-center justify-center text-xl md:text-2xl font-extrabold"
+                style={{ background: "var(--color-primary)", color: "var(--color-on-primary)", boxShadow: "var(--shadow-clay-md)" }}>
+                {initial}
+              </div>
+              <Link href="/dashboard-buyer/profil" className="text-[11px] font-bold inline-flex items-center gap-1 px-3 py-1 rounded-full hover:underline"
+                style={{ color: "var(--color-primary)", background: "var(--color-primary-container)" }}>
+                <UserIcon className="w-3 h-3" /> Edit Profil
+              </Link>
             </div>
           </div>
         </section>
@@ -294,7 +301,7 @@ export function BuyerDashboardClient({ user, stats, recentOrders, recommendedPro
               <h3 className="text-lg font-extrabold" style={{ color: "var(--color-primary)" }}>Pesanan Terbaru</h3>
               <p className="text-xs mt-0.5" style={{ color: "var(--color-on-surface-variant)" }}>Pantau status pesanan Anda</p>
             </div>
-            <Link href="/pesanan-saya" className="text-sm font-bold inline-flex items-center gap-1 hover:underline" style={{ color: "var(--color-primary)" }}>
+            <Link href="/dashboard-buyer/pesanan-saya" className="text-sm font-bold inline-flex items-center gap-1 hover:underline" style={{ color: "var(--color-primary)" }}>
               Lihat Semua <ChevronRight className="w-4 h-4" />
             </Link>
           </div>
@@ -316,7 +323,7 @@ export function BuyerDashboardClient({ user, stats, recentOrders, recommendedPro
                 const stepIdx = stepperIndex(order.fulfillmentStatus)
                 const firstItem = order.items[0]
                 return (
-                  <Link key={order.id} href="/pesanan-saya" className="block clay-sm p-4 hover:shadow-clay-md transition-all">
+                  <Link key={order.id} href="/dashboard-buyer/pesanan-saya" className="block clay-sm p-4 hover:shadow-clay-md transition-all">
                     <div className="flex items-center gap-3">
                       <div className="w-12 h-12 rounded-[12px] overflow-hidden shrink-0" style={{ background: "var(--color-clay-surface-variant)" }}>
                         {firstItem?.image ? (
@@ -418,10 +425,10 @@ export function BuyerDashboardClient({ user, stats, recentOrders, recommendedPro
           <Link href="/catalog" className="flex flex-col items-center gap-0.5 px-4 py-1.5 rounded-full transition-all hover:bg-surface-container" style={{ color: "var(--color-on-surface-variant)" }}>
             <ShoppingBag className="w-5 h-5" /><span className="text-[10px]">Katalog</span>
           </Link>
-          <Link href="/pesanan-saya" className="flex flex-col items-center gap-0.5 px-4 py-1.5 rounded-full transition-all hover:bg-surface-container" style={{ color: "var(--color-on-surface-variant)" }}>
+          <Link href="/dashboard-buyer/pesanan-saya" className="flex flex-col items-center gap-0.5 px-4 py-1.5 rounded-full transition-all hover:bg-surface-container" style={{ color: "var(--color-on-surface-variant)" }}>
             <Package className="w-5 h-5" /><span className="text-[10px]">Pesanan</span>
           </Link>
-          <Link href="/aichat" className="flex flex-col items-center gap-0.5 px-4 py-1.5 rounded-full transition-all hover:bg-surface-container" style={{ color: "var(--color-on-surface-variant)" }}>
+          <Link href="/dashboard-buyer/ai-chat" className="flex flex-col items-center gap-0.5 px-4 py-1.5 rounded-full transition-all hover:bg-surface-container" style={{ color: "var(--color-on-surface-variant)" }}>
             <HelpCircle className="w-5 h-5" /><span className="text-[10px]">AI Chat</span>
           </Link>
         </div>

@@ -8,6 +8,7 @@ const roleRoutes: Record<string, string[]> = {
   "/bendahara": ["BENDAHARA", "ADMIN"],
   "/seller": ["SELLER", "ADMIN", "BENDAHARA"], // Allow Admin/Bendahara to print seller receipts too
   "/dashboard-buyer": ["BUYER", "SELLER", "ADMIN", "KETUA", "BENDAHARA"],
+  "/profil": ["BUYER", "SELLER", "ADMIN", "KETUA", "BENDAHARA"],
   "/pesanan-saya": ["BUYER", "SELLER", "ADMIN", "KETUA", "BENDAHARA"],
   "/login": [],
   "/register": [],
@@ -51,6 +52,20 @@ export default auth((req: any) => {
       const completionUrl = new URL("/lengkapi-profil", req.url)
       completionUrl.searchParams.set("callbackUrl", pathname)
       return NextResponse.redirect(completionUrl)
+    }
+  }
+
+  // Buyer consolidation: redirect buyers from old top-level routes into /dashboard-buyer
+  if (session?.user?.role === "BUYER") {
+    if (pathname === "/pesanan-saya" || pathname.startsWith("/pesanan-saya/")) {
+      const url = new URL("/dashboard-buyer/pesanan-saya", req.url)
+      url.search = req.nextUrl.search
+      return NextResponse.redirect(url)
+    }
+    if (pathname === "/aichat" || pathname.startsWith("/aichat/")) {
+      const url = new URL("/dashboard-buyer/ai-chat", req.url)
+      url.search = req.nextUrl.search
+      return NextResponse.redirect(url)
     }
   }
 

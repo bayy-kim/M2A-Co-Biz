@@ -97,7 +97,7 @@ export function DashboardShell({
                     {roleLabel}
                   </span>
                   <Link
-                    href="/lengkapi-profil"
+                    href="/profil"
                     className="block text-[10px] text-white/60 hover:text-accent-gold transition-colors mt-0.5"
                   >
                     Edit Profil
