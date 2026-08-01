@@ -35,7 +35,7 @@ export default async function DashboardBuyerPage() {
   const paidOrders = orders.filter(o => o.paymentStatus === "PAID")
   const totalSpent = paidOrders.reduce((sum, o) => sum + o.totalRupiah, 0)
   const activeOrders = orders.filter(
-    o => o.paymentStatus === "PENDING" || (o.paymentStatus === "PAID" && o.fulfillmentStatus !== "COMPLETED"),
+    o => o.fulfillmentStatus !== "CANCELLED" && (o.paymentStatus === "PENDING" || (o.paymentStatus === "PAID" && o.fulfillmentStatus !== "COMPLETED")),
   )
   const pendingPayments = orders.filter(o => o.paymentStatus === "PENDING").length
 

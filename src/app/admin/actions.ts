@@ -13,9 +13,14 @@ export async function updateSellerStatus(sellerId: string, status: SellerStatus)
   try {
     const seller = await prisma.sellerProfile.findUnique({
       where: { id: sellerId },
-      include: { user: true },
+      include: { user: true, documents: { select: { id: true } } },
     })
     if (!seller) return { error: "Seller tidak ditemukan" }
+
+    // Identity verification guard: cannot approve without supporting documents
+    if (status === "APPROVED" && seller.documents.length === 0) {
+      return { error: "Tidak dapat menyetujui: seller belum mengunggah dokumen identitas (KTP/KK)." }
+    }
 
     await prisma.sellerProfile.update({ where: { id: sellerId }, data: { status } })
 

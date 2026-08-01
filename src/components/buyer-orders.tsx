@@ -6,6 +6,7 @@ import { formatRupiah } from "@/lib/utils"
 import { ShoppingBag, Package, Clock, CheckCircle, XCircle, Banknote, CreditCard, Truck, PackageCheck, Upload, RefreshCw, Check } from "lucide-react"
 import { PublicBottomBar } from "@/components/public-bottom-bar"
 import { ReviewTrigger } from "@/app/pesanan-saya/review-trigger"
+import { CancelOrderButton } from "@/app/pesanan-saya/cancel-order-button"
 
 const paymentIcon: Record<string, any> = {
   PENDING: Clock,
@@ -101,11 +102,11 @@ export async function BuyerOrders({ tab, baseHref }: BuyerOrdersProps) {
     orderBy: { createdAt: "desc" },
   })
 
-  // Active: payment PENDING, OR paid but not fully completed
-  // History: completed orders OR failed/expired
+  // Active: PENDING payment (not cancelled), OR paid but not yet completed
+  // History: everything else (completed, cancelled, failed/expired)
   const orders = currentTab === "active"
-    ? allOrders.filter(o => o.paymentStatus === "PENDING" || (o.paymentStatus === "PAID" && o.fulfillmentStatus !== "COMPLETED"))
-    : allOrders.filter(o => o.paymentStatus !== "PENDING" && !(o.paymentStatus === "PAID" && o.fulfillmentStatus !== "COMPLETED"))
+    ? allOrders.filter(o => o.fulfillmentStatus !== "CANCELLED" && (o.paymentStatus === "PENDING" || (o.paymentStatus === "PAID" && o.fulfillmentStatus !== "COMPLETED")))
+    : allOrders.filter(o => o.fulfillmentStatus === "CANCELLED" || (o.paymentStatus !== "PENDING" && !(o.paymentStatus === "PAID" && o.fulfillmentStatus !== "COMPLETED")))
 
   const productIds = allOrders.flatMap(o => o.items.map(i => i.productId))
   const products = await prisma.product.findMany({
@@ -278,6 +279,9 @@ export async function BuyerOrders({ tab, baseHref }: BuyerOrdersProps) {
                           <Upload className="w-3.5 h-3.5" />
                           Upload Bukti
                         </Link>
+                      )}
+                      {order.paymentStatus === "PENDING" && (
+                        <CancelOrderButton orderId={order.id} />
                       )}
                     </div>
                   </div>

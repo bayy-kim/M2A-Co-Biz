@@ -158,6 +158,8 @@ model Category {
   rejectionReason          String?
   createdAt                DateTime       @default(now())
   products                 Product[]
+
+  @@index([status])
 }
 
 model Product {
@@ -187,6 +189,8 @@ model CommissionRule {
   percent   Decimal  @db.Decimal(5,2)
   updatedBy String
   createdAt DateTime @default(now())
+
+  @@index([scope, refId])
 }
 
 model Order {
@@ -217,6 +221,8 @@ model ProductVariant {
   product     Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
   name        String   // e.g., "Pedas", "M", "L"
   stock       Int      @default(0)
+
+  @@index([productId])
 }
 
 model Review {
@@ -232,6 +238,9 @@ model Review {
   createdAt    DateTime @default(now())
 
   @@unique([orderId, productId])
+
+  @@index([productId])
+  @@index([buyerId])
 }
 
 model OrderItem {
@@ -259,6 +268,9 @@ model Payout {
   periodStart DateTime
   periodEnd            DateTime
   createdAt            DateTime    @default(now())
+
+  @@index([sellerId])
+  @@index([status])
 }
 
 model LedgerEntry {
@@ -268,6 +280,10 @@ model LedgerEntry {
   relatedOrderId  String?
   relatedPayoutId String?
   createdAt       DateTime  @default(now())
+
+  @@index([type])
+  @@index([relatedOrderId])
+  @@index([relatedPayoutId])
 }
 
 model ActivityLog {
@@ -278,6 +294,10 @@ model ActivityLog {
   targetId   String
   metadata   Json?
   createdAt  DateTime @default(now())
+
+  @@index([actorId])
+  @@index([createdAt])
+  @@index([targetType])
 }
 
 model CompanyProfile {

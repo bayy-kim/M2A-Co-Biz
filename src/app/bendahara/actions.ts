@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/db"
 import { processPayoutById } from "@/lib/payout-utils"
+import { restoreVariantStock } from "@/lib/order-utils"
 import type { CommissionScope } from "@prisma/client"
 import { z } from "zod"
 
@@ -118,8 +119,46 @@ export async function confirmPayment(orderId: string): Promise<ConfirmState> {
   }
 }
 
-export async function processPayout(payoutId: string, _prevState: PayoutState, _formData?: FormData): Promise<PayoutState> {
+export async function rejectPayment(orderId: string): Promise<ConfirmState> {
   const session = await auth()
+  if (!session?.user || (session.user.role !== "BENDAHARA" && session.user.role !== "ADMIN")) {
+    return { error: "Sesi tidak memiliki akses bendahara" }
+  }
+
+  try {
+    const result = await prisma.$transaction(async (tx) => {
+      const order = await tx.order.findUnique({
+        where: { id: orderId },
+        include: { items: true },
+      })
+      if (!order || order.paymentStatus !== "PENDING") throw new Error("Pesanan tidak valid")
+
+      await restoreVariantStock(tx, order)
+
+      await tx.order.update({
+        where: { id: orderId },
+        data: { paymentStatus: "FAILED" },
+      })
+
+      await tx.activityLog.create({
+        data: {
+          actorId: session.user.id,
+          action: `Rejected payment for order #${orderId.slice(0, 8)}`,
+          targetType: "Order",
+          targetId: orderId,
+        },
+      })
+    })
+
+    revalidatePath("/bendahara")
+    revalidatePath("/pesanan-saya")
+    return { success: true }
+  } catch (e) {
+    return { error: e instanceof Error ? e.message : "Gagal menolak pembayaran" }
+  }
+}
+
+export async function processPayout(payoutId: string, _prevState: PayoutState, _formData?: FormData): Promise<PayoutState> {  const session = await auth()
   if (!session?.user || (session.user.role !== "BENDAHARA" && session.user.role !== "ADMIN")) {
     return { error: "Sesi tidak memiliki akses bendahara" }
   }

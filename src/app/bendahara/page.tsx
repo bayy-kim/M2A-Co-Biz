@@ -9,6 +9,7 @@ import { DashboardShell } from "@/components/dashboard-shell"
 import { CommissionRuleForm } from "./commission-form"
 import { PayoutAction } from "./payout-action"
 import { ConfirmPaymentButton } from "./confirm-payment-button"
+import { RejectPaymentButton } from "./reject-payment-button"
 
 const SIDEBAR: { label: string; href: string; icon: string }[] = [
   { label: "Ringkasan", href: "/bendahara", icon: "LayoutDashboard" },
@@ -276,7 +277,12 @@ async function BendaharaDashboard({ searchParams }: { searchParams: Promise<{ ta
                         )}
                       </td>
                       <td className="px-lg py-3 text-label-sm text-on-surface-variant">{o.createdAt.toLocaleDateString()}</td>
-                      <td className="px-lg py-3"><ConfirmPaymentButton orderId={o.id} /></td>
+                      <td className="px-lg py-3">
+                        <div className="flex flex-wrap items-center gap-2">
+                          <ConfirmPaymentButton orderId={o.id} />
+                          <RejectPaymentButton orderId={o.id} />
+                        </div>
+                      </td>
                     </tr>
                   ))}
                 </tbody>

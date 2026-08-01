@@ -9,6 +9,7 @@ import { z } from "zod"
 import { put, del } from "@vercel/blob"
 import sharp from "sharp"
 import filterXSS from "xss"
+import { restoreVariantStock } from "@/lib/order-utils"
 
 const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp"]
 const MAX_FILE_SIZE = 5 * 1024 * 1024
@@ -185,41 +186,47 @@ export async function requestPayout(prevState: PayoutRequestState, formData: For
     const amountRupiah = parseInt(formData.get("amountRupiah") as string)
     if (isNaN(amountRupiah) || amountRupiah <= 0) return { error: "Jumlah tidak valid" }
 
-    const paidItems = await prisma.orderItem.findMany({
-      where: { sellerId: seller.id, order: { paymentStatus: "PAID" } },
-    })
-    const totalEarnings = paidItems.reduce((sum, i) => sum + i.sellerNetRupiah, 0)
+    // Atomic balance check + payout creation (row lock prevents concurrent overshoot)
+    await prisma.$transaction(async (tx) => {
+      // Lock the seller row so concurrent payout requests serialize
+      await tx.$queryRaw`SELECT id FROM "SellerProfile" WHERE id = ${seller.id} FOR UPDATE`
 
-    const paidPayouts = await prisma.payout.findMany({
-      where: { sellerId: seller.id, status: { in: ["PROCESSING", "PAID"] } },
-    })
-    const totalPaid = paidPayouts.reduce((sum, p) => sum + p.amountRupiah, 0)
+      const paidItems = await tx.orderItem.findMany({
+        where: { sellerId: seller.id, order: { paymentStatus: "PAID" } },
+      })
+      const totalEarnings = paidItems.reduce((sum, i) => sum + i.sellerNetRupiah, 0)
 
-    const availableBalance = totalEarnings - totalPaid
-    if (amountRupiah > availableBalance) {
-      return { error: `Saldo tidak cukup. Tersedia: Rp${availableBalance.toLocaleString("id-ID")}` }
-    }
+      const paidPayouts = await tx.payout.findMany({
+        where: { sellerId: seller.id, status: { in: ["PROCESSING", "PAID"] } },
+      })
+      const totalPaid = paidPayouts.reduce((sum, p) => sum + p.amountRupiah, 0)
 
-    const periodStart = seller.createdAt
-    const periodEnd = new Date()
+      const availableBalance = totalEarnings - totalPaid
+      if (amountRupiah > availableBalance) {
+        throw new Error(`Saldo tidak cukup. Tersedia: Rp${availableBalance.toLocaleString("id-ID")}`)
+      }
 
-    await prisma.payout.create({
-      data: {
-        sellerId: seller.id,
-        amountRupiah,
-        periodStart,
-        periodEnd,
-        status: "PENDING",
-      },
-    })
+      const periodStart = seller.createdAt
+      const periodEnd = new Date()
 
-    await prisma.activityLog.create({
-      data: {
-        actorId: session.user.id,
-        action: `Requested payout of Rp${amountRupiah.toLocaleString("id-ID")}`,
-        targetType: "Payout",
-        targetId: seller.id,
-      },
+      await tx.payout.create({
+        data: {
+          sellerId: seller.id,
+          amountRupiah,
+          periodStart,
+          periodEnd,
+          status: "PENDING",
+        },
+      })
+
+      await tx.activityLog.create({
+        data: {
+          actorId: session.user.id,
+          action: `Requested payout of Rp${amountRupiah.toLocaleString("id-ID")}`,
+          targetType: "Payout",
+          targetId: seller.id,
+        },
+      })
     })
 
     revalidatePath("/seller")
@@ -272,9 +279,28 @@ export async function updateFulfillmentStatus(orderId: string, fulfillmentStatus
     const hasSellerItem = order.items.some((item) => item.sellerId === seller.id)
     if (!hasSellerItem) return { error: "Akses ditolak" }
 
-    await prisma.order.update({
-      where: { id: orderId },
-      data: { fulfillmentStatus },
+    // Restore variant stock when an order is cancelled/failed so stock isn't lost permanently
+    const isCancelOrFail = fulfillmentStatus === "CANCELLED"
+
+    await prisma.$transaction(async (tx) => {
+      const current = await tx.order.findUnique({
+        where: { id: orderId },
+        include: { items: true },
+      })
+      if (!current) throw new Error("Pesanan tidak ditemukan")
+      if (current.fulfillmentStatus === "CANCELLED" || current.fulfillmentStatus === "COMPLETED") {
+        // Already finalized — do not mutate again
+        return
+      }
+
+      if (isCancelOrFail) {
+        await restoreVariantStock(tx, current)
+      }
+
+      await tx.order.update({
+        where: { id: orderId },
+        data: { fulfillmentStatus },
+      })
     })
 
     revalidatePath("/seller")

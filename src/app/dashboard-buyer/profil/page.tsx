@@ -23,12 +23,15 @@ export default async function DashboardBuyerProfilPage() {
       }
     : null
 
+  const requires2fa = (user.role === "ADMIN" || user.role === "BENDAHARA") && !user.twoFactorSecret
+
   return (
     <ProfileSettings
-      user={{ name: user.name, phone: user.phone }}
+      user={{ name: user.name, phone: user.phone, email: user.email }}
       seller={seller}
       backHref="/dashboard-buyer"
       backLabel="Kembali ke dashboard buyer"
+      requires2fa={requires2fa}
     />
   )
 }

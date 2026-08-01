@@ -63,6 +63,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         if (!user || !user.passwordHash) return null
 
+        // Block suspended/deactivated accounts
+        if (!user.isActive) return null
+
         const isValid = await bcrypt.compare(
           credentials.password as string,
           user.passwordHash
@@ -127,6 +130,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         if (dbUser && (dbUser.role === "ADMIN" || dbUser.role === "BENDAHARA")) {
           return false
         }
+        // Block suspended/deactivated accounts
+        if (dbUser && !dbUser.isActive) {
+          return false
+        }
         // Save the Google profile picture as image if needed, or just let it pass
       }
       return true
@@ -141,6 +148,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         if (dbUser) {
           token.phone = dbUser.phone
           token.role = dbUser.role
+          token.isActive = dbUser.isActive
+
+          // 2FA is mandatory for privileged roles (ADMIN/BENDAHARA); flag those missing setup
+          const isPrivileged = dbUser.role === "ADMIN" || dbUser.role === "BENDAHARA"
+          token.requires2fa = isPrivileged && !dbUser.twoFactorSecret
           
           if (dbUser.role === "ADMIN" || dbUser.role === "BENDAHARA" || dbUser.role === "KETUA") {
             token.isProfileComplete = true
@@ -150,11 +162,24 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         }
       }
       
-      // Allow session updates to trigger token updates
+      // Allow session updates to trigger token updates (re-sync state from DB)
       if (trigger === "update" && session) {
         if (session.phone) token.phone = session.phone
         if (session.role) token.role = session.role
         if (session.isProfileComplete !== undefined) token.isProfileComplete = session.isProfileComplete
+
+        // Re-sync flags from DB so e.g. enabling 2FA clears the forced-setup redirect
+        const dbUser = await prisma.user.findUnique({
+          where: { id: token.id as string },
+          select: { role: true, isActive: true, twoFactorSecret: true, isProfileComplete: true },
+        })
+        if (dbUser) {
+          token.role = dbUser.role
+          token.isActive = dbUser.isActive
+          token.isProfileComplete = dbUser.isProfileComplete
+          const isPrivileged = dbUser.role === "ADMIN" || dbUser.role === "BENDAHARA"
+          token.requires2fa = isPrivileged && !dbUser.twoFactorSecret
+        }
       }
       
       return token
@@ -166,6 +191,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         // Add custom fields to session.user
         ;(session.user as any).phone = token.phone
         ;(session.user as any).isProfileComplete = token.isProfileComplete
+        ;(session.user as any).isActive = token.isActive
+        ;(session.user as any).requires2fa = token.requires2fa
       }
       return session
     },

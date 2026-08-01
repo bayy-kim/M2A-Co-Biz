@@ -29,12 +29,15 @@ export default async function ProfilPage() {
     user.role === "BENDAHARA" ? "/bendahara" :
     user.role === "KETUA" ? "/ketua" : "/dashboard-buyer"
 
+  const requires2fa = (user.role === "ADMIN" || user.role === "BENDAHARA") && !user.twoFactorSecret
+
   return (
     <ProfileSettings
-      user={{ name: user.name, phone: user.phone }}
+      user={{ name: user.name, phone: user.phone, email: user.email }}
       seller={seller}
       backHref={backHref}
       backLabel="Kembali ke dashboard"
+      requires2fa={requires2fa}
     />
   )
 }

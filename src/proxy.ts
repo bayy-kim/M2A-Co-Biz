@@ -69,6 +69,13 @@ export default auth((req: any) => {
     }
   }
 
+  // Force privileged roles (ADMIN/BENDAHARA) to set up 2FA before accessing dashboards
+  if ((session?.user as any)?.requires2fa && !pathname.startsWith("/profil") && !pathname.startsWith("/api/auth") && !pathname.startsWith("/login") && !pathname.startsWith("/register")) {
+    const setupUrl = new URL("/profil", req.url)
+    setupUrl.searchParams.set("setup2fa", "1")
+    return NextResponse.redirect(setupUrl)
+  }
+
   if (matchedRoute) {
     const allowedRoles = matchedRoute[1]
 

@@ -7,7 +7,7 @@ import Link from "next/link"
 import Image from "next/image"
 import {
   Package, ShoppingBag, Store, LogOut, HelpCircle, X, ChevronRight, Clock, CheckCircle,
-  XCircle, ArrowUpRight, Loader2, Sparkles, RefreshCw, Truck, Check, Wallet, Star, ShoppingCart,
+  XCircle, ArrowUpRight, Loader2, Sparkles, RefreshCw, Truck, Check, Wallet, Star, ShoppingCart, Upload,
   User as UserIcon,
 } from "lucide-react"
 import { signOut } from "next-auth/react"
@@ -267,6 +267,23 @@ export function BuyerDashboardClient({ user, stats, recentOrders, recommendedPro
                   </label>
                 </div>
                 {becomeState.errors?.businessType && <p className="text-error text-xs mt-1 font-inter">{becomeState.errors.businessType[0]}</p>}
+              </div>
+              <div>
+                <label className="text-sm font-medium mb-1.5 block" style={{ color: "var(--color-on-surface)" }}>
+                  Dokumen Identitas <span className="text-xs" style={{ color: "var(--color-on-surface-variant)" }}>(wajib, JPG/PNG/PDF maks 5MB)</span>
+                </label>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <label className="clay-sm p-3 cursor-pointer block">
+                    <span className="flex items-center gap-2 text-sm font-medium mb-1"><Upload className="w-4 h-4" style={{ color: "var(--color-primary)" }} /> KTP</span>
+                    <input name="ktp" type="file" accept="image/jpeg,image/png,application/pdf" required className="text-xs w-full" />
+                  </label>
+                  <label className="clay-sm p-3 cursor-pointer block">
+                    <span className="flex items-center gap-2 text-sm font-medium mb-1"><Upload className="w-4 h-4" style={{ color: "var(--color-primary)" }} /> Kartu Keluarga</span>
+                    <input name="kartuKeluarga" type="file" accept="image/jpeg,image/png,application/pdf" required className="text-xs w-full" />
+                  </label>
+                </div>
+                {becomeState.errors?.ktp && <p className="text-error text-xs mt-1 font-inter">{becomeState.errors.ktp[0]}</p>}
+                {becomeState.errors?.kartuKeluarga && <p className="text-error text-xs mt-1 font-inter">{becomeState.errors.kartuKeluarga[0]}</p>}
               </div>
               <label className="flex items-center gap-3 clay-sm p-4 cursor-pointer">
                 <input type="checkbox" name="consent" required className="w-5 h-5 rounded accent-[var(--color-primary)]" />

@@ -1,10 +1,12 @@
 "use client"
 
-import { useActionState } from "react"
+import { useState, useActionState, useEffect } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { Loader2, CheckCircle, ArrowLeft, User as UserIcon, Phone, Store, Landmark } from "lucide-react"
-import { updateProfile, type ProfileSettingsState } from "@/app/profil/actions"
+import { useSession } from "next-auth/react"
+import QRCode from "qrcode"
+import { Loader2, CheckCircle, ArrowLeft, User as UserIcon, Phone, Store, Landmark, ShieldCheck } from "lucide-react"
+import { updateProfile, generate2faSecret, verifyAndEnable2fa, type ProfileSettingsState, type TwoFactorState } from "@/app/profil/actions"
 
 interface SellerData {
   businessName: string | null
@@ -15,15 +17,48 @@ interface SellerData {
 }
 
 interface ProfileSettingsProps {
-  user: { name: string | null; phone: string | null }
+  user: { name: string | null; phone: string | null; email?: string | null }
   seller: SellerData | null
   backHref: string
   backLabel: string
+  requires2fa?: boolean
 }
 
-export function ProfileSettings({ user, seller, backHref, backLabel }: ProfileSettingsProps) {
+export function ProfileSettings({ user, seller, backHref, backLabel, requires2fa = false }: ProfileSettingsProps) {
   const router = useRouter()
+  const { update: updateSession } = useSession()
   const [state, formAction, pending] = useActionState<ProfileSettingsState, FormData>(updateProfile, {})
+
+  // 2FA setup state
+  const [twoFa, setTwoFa] = useState<{ secret: string; qrUrl: string } | null>(null)
+  const [twoFaError, setTwoFaError] = useState("")
+  const [twoFaGenerating, setTwoFaGenerating] = useState(false)
+  const [twoFaState, twoFaAction, twoFaPending] = useActionState<TwoFactorState, FormData>(verifyAndEnable2fa, {})
+
+  // After 2FA enabled, refresh the session token so the forced-setup redirect clears
+  useEffect(() => {
+    if (twoFaState?.success) {
+      updateSession()
+    }
+  }, [twoFaState?.success, updateSession])
+
+  const start2faSetup = async () => {
+    setTwoFaError("")
+    setTwoFaGenerating(true)
+    try {
+      const res = await generate2faSecret()
+      if ("error" in res) {
+        setTwoFaError(res.error)
+      } else {
+        const qrUrl = await QRCode.toDataURL(res.otpauthUrl, { width: 220, margin: 1 })
+        setTwoFa({ secret: res.secret, qrUrl })
+      }
+    } catch {
+      setTwoFaError("Gagal membuat kode 2FA.")
+    } finally {
+      setTwoFaGenerating(false)
+    }
+  }
 
   return (
     <div className="min-h-screen" style={{ background: "var(--color-clay-bg)" }}>
@@ -38,6 +73,63 @@ export function ProfileSettings({ user, seller, backHref, backLabel }: ProfileSe
       </header>
 
       <main className="max-w-2xl mx-auto px-4 py-6 pb-32">
+        {/* Mandatory 2FA setup banner for privileged roles */}
+        {requires2fa && !twoFa && !twoFaState?.success && (
+          <div className="clay-lg p-5 mb-6" style={{ border: "2px solid var(--color-accent-gold)" }}>
+            <div className="flex items-start gap-3">
+              <div className="w-11 h-11 rounded-[14px] flex items-center justify-center shrink-0" style={{ background: "var(--color-accent-gold)", color: "#1A150E" }}>
+                <ShieldCheck className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="font-extrabold" style={{ color: "var(--color-primary)" }}>Aktifkan 2FA — Diwajibkan</h3>
+                <p className="text-sm mt-1" style={{ color: "var(--color-on-surface-variant)" }}>
+                  Akun Anda (Admin/Bendahara) wajib menggunakan verifikasi dua langkah (2FA) untuk keamanan keuangan & dokumen.
+                </p>
+                {!twoFa && (
+                  <button onClick={start2faSetup} disabled={twoFaGenerating} className="btn-clay text-sm mt-3">
+                    {twoFaGenerating ? <Loader2 className="w-4 h-4 animate-spin" /> : <ShieldCheck className="w-4 h-4" />}
+                    {twoFaGenerating ? "Menyiapkan..." : "Aktifkan Sekarang"}
+                  </button>
+                )}
+                {twoFaError && <p className="text-error text-xs mt-2 font-inter">{twoFaError}</p>}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* 2FA setup form */}
+        {twoFa && !twoFaState?.success && (
+          <div className="clay-lg p-5 mb-6">
+            <h3 className="font-extrabold mb-1" style={{ color: "var(--color-primary)" }}>Scan Kode QR</h3>
+            <p className="text-sm mb-4" style={{ color: "var(--color-on-surface-variant)" }}>
+              Buka aplikasi Authenticator (Google Authenticator / Aegis) lalu pindai QR ini.
+            </p>
+            <div className="flex justify-center mb-4">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={twoFa.qrUrl} alt="QR 2FA" width={220} height={220} className="rounded-xl" />
+            </div>
+            <form action={twoFaAction} className="space-y-3">
+              <input type="hidden" name="secret" value={twoFa.secret} />
+              <div>
+                <label className="text-sm font-medium mb-1.5 block">Kode 6 digit</label>
+                <input name="code" inputMode="numeric" pattern="[0-9]{6}" maxLength={6} placeholder="123456" className="clay-input w-full px-4 py-3 text-center text-lg tracking-widest font-inter" required />
+              </div>
+              {twoFaState.message && !twoFaState.success && <p className="text-error text-sm font-inter">{twoFaState.message}</p>}
+              <button type="submit" disabled={twoFaPending} className="btn-clay w-full justify-center">
+                {twoFaPending ? <Loader2 className="w-5 h-5 animate-spin" /> : null}
+                {twoFaPending ? "Memverifikasi..." : "Verifikasi & Aktifkan"}
+              </button>
+            </form>
+          </div>
+        )}
+
+        {twoFaState?.success && (
+          <div className="clay-sm p-4 mb-6 flex items-center gap-3" style={{ border: "1px solid var(--color-success)" }}>
+            <CheckCircle className="w-5 h-5 text-success shrink-0" />
+            <p className="text-sm text-success font-semibold">{twoFaState.message}</p>
+          </div>
+        )}
+
         <form action={formAction} className="clay-lg p-6 md:p-8 space-y-6">
           {state.success && (
             <div className="clay-sm p-4 flex items-center gap-3" style={{ border: "1px solid var(--color-success)" }}>

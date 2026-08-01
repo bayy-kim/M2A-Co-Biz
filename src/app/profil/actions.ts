@@ -6,6 +6,7 @@ import { z } from "zod"
 import { prisma } from "@/lib/db"
 import { auth } from "@/lib/auth"
 import { checkRateLimit } from "@/lib/rate-limit"
+import { authenticator } from "otplib"
 import type { SellerType } from "@prisma/client"
 import filterXSS from "xss"
 
@@ -25,6 +26,51 @@ export type ProfileSettingsState = {
   errors?: Record<string, string[]>
   message?: string
   success?: boolean
+}
+
+export type TwoFactorState = { message?: string; success?: boolean }
+
+export async function generate2faSecret(): Promise<{ secret: string; otpauthUrl: string } | { error: string }> {
+  const session = await auth()
+  if (!session?.user?.id) return { error: "Silakan login terlebih dahulu." }
+
+  const user = await prisma.user.findUnique({
+    where: { id: session.user.id },
+    select: { email: true, twoFactorSecret: true },
+  })
+  if (!user) return { error: "User tidak ditemukan." }
+  if (user.twoFactorSecret) return { error: "2FA sudah aktif." }
+
+  const secret = authenticator.generateSecret()
+  const otpauthUrl = authenticator.keyuri(user.email, "M2A Co-Biz", secret)
+  return { secret, otpauthUrl }
+}
+
+export async function verifyAndEnable2fa(_prevState: TwoFactorState, formData: FormData): Promise<TwoFactorState> {
+  const session = await auth()
+  if (!session?.user?.id) return { message: "Silakan login terlebih dahulu." }
+
+  const secret = (formData.get("secret") as string) || ""
+  const code = (formData.get("code") as string) || ""
+
+  const rl = await checkRateLimit(`enable-2fa:${session.user.id}`)
+  if (!rl.allowed) return { message: "Terlalu banyak permintaan." }
+
+  if (!secret || !code || code.length !== 6) return { message: "Masukkan kode 6 digit dari aplikasi Authenticator." }
+
+  try {
+    const valid = authenticator.verify({ token: code, secret })
+    if (!valid) return { message: "Kode tidak valid. Periksa kembali waktu perangkat Anda." }
+
+    await prisma.user.update({
+      where: { id: session.user.id },
+      data: { twoFactorSecret: secret },
+    })
+    revalidatePath("/profil")
+    return { success: true, message: "2FA berhasil diaktifkan!" }
+  } catch {
+    return { message: "Gagal mengaktifkan 2FA." }
+  }
 }
 
 export async function updateProfile(prevState: ProfileSettingsState, formData: FormData): Promise<ProfileSettingsState> {
