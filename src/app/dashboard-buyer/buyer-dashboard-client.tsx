@@ -7,11 +7,12 @@ import Link from "next/link"
 import Image from "next/image"
 import {
   Package, ShoppingBag, Store, LogOut, HelpCircle, X, ChevronRight, Clock, CheckCircle,
-  XCircle, ArrowUpRight, Loader2, Sparkles, RefreshCw, Truck, Check, Wallet, Star, Home, ShoppingCart,
+  XCircle, ArrowUpRight, Loader2, Sparkles, RefreshCw, Truck, Check, Wallet, Star, ShoppingCart,
   User as UserIcon,
 } from "lucide-react"
 import { signOut } from "next-auth/react"
 import { Logo } from "@/components/logo"
+import { PublicBottomBar } from "@/components/public-bottom-bar"
 import { requestBecomeSeller, cancelSellerRequest, type BecomeSellerState } from "./actions"
 import { formatRupiah } from "@/lib/utils"
 
@@ -417,22 +418,7 @@ export function BuyerDashboardClient({ user, stats, recentOrders, recommendedPro
       </main>
 
       {/* Bottom nav */}
-      <nav className="lg:hidden fixed bottom-0 w-full z-50 pb-[env(safe-area-inset-bottom)]" style={{ background: "var(--color-clay-bg)" }}>
-        <div className="clay-pill flex items-center justify-around mx-4 -mt-5 mb-2 px-2 py-1.5 max-w-lg" style={{ boxShadow: "var(--shadow-clay-md)" }}>
-          <Link href="/dashboard-buyer" className="flex flex-col items-center gap-0.5 px-4 py-1.5 rounded-full clay-sm font-bold" style={{ background: "var(--color-clay-surface)", boxShadow: "var(--shadow-clay-sm)" }}>
-            <Home className="w-5 h-5" /><span className="text-[10px]">Beranda</span>
-          </Link>
-          <Link href="/catalog" className="flex flex-col items-center gap-0.5 px-4 py-1.5 rounded-full transition-all hover:bg-surface-container" style={{ color: "var(--color-on-surface-variant)" }}>
-            <ShoppingBag className="w-5 h-5" /><span className="text-[10px]">Katalog</span>
-          </Link>
-          <Link href="/dashboard-buyer/pesanan-saya" className="flex flex-col items-center gap-0.5 px-4 py-1.5 rounded-full transition-all hover:bg-surface-container" style={{ color: "var(--color-on-surface-variant)" }}>
-            <Package className="w-5 h-5" /><span className="text-[10px]">Pesanan</span>
-          </Link>
-          <Link href="/dashboard-buyer/ai-chat" className="flex flex-col items-center gap-0.5 px-4 py-1.5 rounded-full transition-all hover:bg-surface-container" style={{ color: "var(--color-on-surface-variant)" }}>
-            <HelpCircle className="w-5 h-5" /><span className="text-[10px]">AI Chat</span>
-          </Link>
-        </div>
-      </nav>
+      <PublicBottomBar isLoggedIn role={user.role} />
     </div>
   )
 }

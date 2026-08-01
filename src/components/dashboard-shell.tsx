@@ -273,7 +273,7 @@ export function DashboardShell({
         style={{background:"var(--color-clay-bg)"}}
         aria-label="Navigasi Bawah Mobile"
       >
-        <div className="clay-pill flex items-center justify-around mx-4 -mt-5 mb-2 px-1 py-1.5 max-w-lg" style={{boxShadow:"var(--shadow-clay-md)"}}>
+        <div className="clay-pill flex items-center justify-start gap-1 overflow-x-auto no-scrollbar mx-4 -mt-5 mb-2 px-2 py-1.5 max-w-lg" style={{boxShadow:"var(--shadow-clay-md)"}}>
           {mobileNavItems.map((item) => {
             if (item.label === "Keluar") {
               return (

@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { ShoppingBag, Package, User } from "lucide-react"
+import { ShoppingBag, Package, User, HelpCircle } from "lucide-react"
 
 interface Props {
   isLoggedIn?: boolean
@@ -33,6 +33,11 @@ export function PublicBottomBar({ isLoggedIn, role }: Props) {
       href: isLoggedIn ? (role === "BUYER" ? "/dashboard-buyer/pesanan-saya" : "/pesanan-saya") : "/login",
       icon: Package,
     },
+    ...(role === "BUYER" ? [{
+      label: "AI Chat",
+      href: "/dashboard-buyer/ai-chat",
+      icon: HelpCircle,
+    }] : []),
     {
       label: "Saya",
       href: getDashboardHref(),
@@ -44,6 +49,7 @@ export function PublicBottomBar({ isLoggedIn, role }: Props) {
     // "Katalog" aktif di halaman utama maupun katalog
     if (label === "Katalog") return pathname === "/" || pathname.startsWith("/catalog")
     if (label === "Pesanan") return pathname === "/pesanan-saya" || pathname.startsWith("/dashboard-buyer/pesanan-saya")
+    if (label === "AI Chat") return pathname.startsWith("/dashboard-buyer/ai-chat") || pathname === "/aichat"
     if (label === "Saya") {
       if (!isLoggedIn) return pathname === "/login"
       if (role === "ADMIN") return pathname.startsWith("/admin")
