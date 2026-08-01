@@ -231,16 +231,18 @@ const admin = await prisma.user.upsert({
     },
   })
 
-  // Seller 1 — NO CATEGORY (untuk test fallback komisi)
+  // Seller 1 — produk tanpa kategori (fallback komisi diuji secara internal)
   await prisma.product.upsert({
     where: { id: "seed-prod-3" },
-    update: {},
+    update: {
+      description: "Lukisan kaligrafi khas pesantren, dibingkai rapi dengan bahan kayu jati. Cocok untuk dekorasi rumah, kantor, maupun hadiah.",
+    },
     create: {
       id: "seed-prod-3",
       sellerId: seller1.id,
       categoryId: null,
       title: "Lukisan Kaligrafi",
-      description: "Lukisan kaligrafi tanpa kategori — test fallback komisi.",
+      description: "Lukisan kaligrafi khas pesantren, dibingkai rapi dengan bahan kayu jati. Cocok untuk dekorasi rumah, kantor, maupun hadiah.",
       priceRupiah: 200000,
       images: [],
       status: "ACTIVE",

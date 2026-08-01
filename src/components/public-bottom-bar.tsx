@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { usePathname, useSearchParams } from "next/navigation"
-import { Home, ShoppingBag, Package, User } from "lucide-react"
+import { ShoppingBag, Package, User } from "lucide-react"
 
 interface Props {
   isLoggedIn?: boolean
@@ -26,11 +26,6 @@ export function PublicBottomBar({ isLoggedIn, role }: Props) {
 
   const items = [
     {
-      label: "Beranda",
-      href: "/",
-      icon: Home,
-    },
-    {
       label: "Katalog",
       href: "/catalog",
       icon: ShoppingBag,
@@ -48,17 +43,17 @@ export function PublicBottomBar({ isLoggedIn, role }: Props) {
   ]
 
   const isItemActive = (label: string) => {
-    if (label === "Beranda") return pathname === "/"
-    if (label === "Katalog") return pathname.startsWith("/catalog")
+    // "Katalog" aktif di halaman utama maupun katalog
+    if (label === "Katalog") return pathname === "/" || pathname.startsWith("/catalog")
     if (label === "Pesanan") return pathname === "/pesanan-saya" && currentTab !== "account"
     if (label === "Saya") {
       if (!isLoggedIn) return pathname === "/login"
       if (role === "ADMIN") return pathname.startsWith("/admin")
       if (role === "BENDAHARA") return pathname.startsWith("/bendahara")
       if (role === "KETUA") return pathname.startsWith("/ketua")
-    if (role === "SELLER") return pathname.startsWith("/seller")
-    return pathname.startsWith("/dashboard-buyer")
-  }
+      if (role === "SELLER") return pathname.startsWith("/seller")
+      return pathname.startsWith("/dashboard-buyer")
+    }
     return false
   }
 
