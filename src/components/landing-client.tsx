@@ -4,6 +4,7 @@ import { TrendingUp, ShieldCheck, Zap, Users, BarChart3, MapPin, Phone, Mail, Ar
 import Link from "next/link"
 import { motion, AnimatePresence } from "framer-motion"
 import { AnimateSection, AnimateStagger, AnimateItem, AnimateTap, AnimateFloat, AnimateCard } from "@/components/animate-section"
+import { FaqSection } from "@/components/faq-accordion"
 import Image from "next/image"
 import { Logo } from "@/components/logo"
 import { PublicHeader } from "@/components/public-header"
@@ -367,6 +368,8 @@ export function LandingClient({ session, company, featuredProducts = [] }: Landi
           </section>
         </AnimateSection>
       </main>
+
+      <FaqSection />
 
       <footer className="border-t border-outline-variant/30 py-xxl" style={{background:"var(--color-clay-bg)"}}>
         <div className="container mx-auto px-margin">
